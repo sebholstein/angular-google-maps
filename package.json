@@ -20,6 +20,14 @@
   "homepage": "https://github.com/SebastianM/angular2-google-maps#readme",
   "devDependencies": {
     "angular2": "2.0.0-alpha.45",
+    "conventional-github-releaser": "0.5.0",
+    "gulp": "3.9.0",
+    "gulp-bump": "^1.0.0",
+    "gulp-conventional-changelog": "^0.7.0",
+    "gulp-git": "^1.6.0",
+    "gulp-load-plugins": "1.0.0",
+    "gulp-tslint": "3.5.0",
+    "require-dir": "0.3.0",
     "tslint": "2.5.1"
   }
 }
