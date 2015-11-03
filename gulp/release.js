@@ -7,6 +7,10 @@ const config = require('./config');
 const conventionalGithubReleaser = require('conventional-github-releaser');
 const fs = require('fs');
 
+gulp.task('copy-release-assets', function() {
+  return gulp.src(config.PATHS.releaseAssets)
+    .pipe(gulp.dest(config.PATHS.dist.base));
+})
 
 gulp.task('changelog', function () {
   return gulp.src('../CHANGELOG.md', {
