@@ -4,12 +4,13 @@
         "target": "es5",
         "noImplicitAny": true,
         "experimentalDecorators": true,
-        "outDir": "built",
+        "outDir": "dist/",
         "rootDir": ".",
         "sourceMap": true,
         "removeComments": false
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "dist"
     ]
 }

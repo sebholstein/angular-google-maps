@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/SebastianM/angular2-google-maps#readme",
   "devDependencies": {
+    "angular2": "2.0.0-alpha.45",
     "tslint": "2.5.1"
   }
 }
