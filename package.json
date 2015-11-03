@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/SebastianM/angular2-google-maps/issues"
   },
-  "homepage": "https://github.com/SebastianM/angular2-google-maps#readme"
+  "homepage": "https://github.com/SebastianM/angular2-google-maps#readme",
+  "devDependencies": {
+    "tslint": "2.5.1"
+  }
 }
