@@ -1,0 +1,17 @@
+language: node_js
+sudo: false
+node_js:
+- '5.0.0'
+
+cache:
+  directories:
+    - node_modules
+
+addons:
+  firefox: '38.0'
+
+install:
+  - npm install
+
+script:
+- node_modules/.bin/gulp
