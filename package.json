@@ -1,0 +1,21 @@
+{
+  "name": "angular2-google-maps",
+  "version": "0.1.0",
+  "description": "Angular2 components for Google Maps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebastianM/angular2-google-maps.git"
+  },
+  "keywords": [
+    "angular2",
+    "google-maps",
+    "ng2",
+    "maps"
+  ],
+  "author": "Sebastian Müller <info@sebastian-mueller.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular2-google-maps/issues"
+  },
+  "homepage": "https://github.com/SebastianM/angular2-google-maps#readme"
+}
