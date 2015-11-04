@@ -36,5 +36,8 @@
     "run-sequence": "1.1.4",
     "tslint": "2.5.1",
     "typescript": "1.6.2"
+  },
+  "typescript": {
+    "definition": "typings/angular2-google-maps.d.ts"
   }
 }
