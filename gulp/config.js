@@ -5,6 +5,7 @@ module.exports.PATHS = {
   srcDir: 'src',
   tsSrcFiles: 'src/**/*.ts',
   releaseAssets: ['assets/release/**/*', 'package.json', 'LICENSE'],
+  jsFiles: ['gulpfile.js', 'gulp/*.js'],
   tsConfig: path.join(__dirname, '../tsconfig.json'),
   dist: {
     base: 'dist',
@@ -12,10 +13,10 @@ module.exports.PATHS = {
     es6: 'dist/es6',
     ts: 'dist/ts',
     typings: 'dist/typings',
-    bundles: 'dist/bundles'
+    bundles: 'dist/bundles',
   },
   tmp: {
     base: 'tmp',
-    typings: 'tmp/typings'
-  }
+    typings: 'tmp/typings',
+  },
 };
