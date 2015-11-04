@@ -1,7 +1,10 @@
 {
 	"rules": {
 		"class-name": true,
-    "comment-format": "check-space",
+    "comment-format": [
+      true,
+      "check-space" 
+    ],
     "curly": true,
     "eofline": true,
     "indent": "spaces",
@@ -16,7 +19,6 @@
     "no-debugger": true,
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
-    "no-empty": true,
     "no-eval": true,
     "no-internal-module": true,
     "no-switch-case-fall-through": true,
