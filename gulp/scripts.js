@@ -21,19 +21,22 @@ gulp.task('scripts:es6', function scriptsEs6() {
   return tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.es6));
 });
 
-gulp.task('scripts:es5', function scriptsEs5() {
-  const taskConfig = $.typescript.createProject(config.PATHS.tsConfig, {
-    target: 'ES5',
-    declaration: true,
-  });
+// we create the the tsConfig outside the task for fast incremential compilations during a watch.
+const taskConfigCjs = $.typescript.createProject(config.PATHS.tsConfig, {
+  target: 'ES5',
+  'module': 'commonjs',
+  declaration: true,
+});
+
+gulp.task('scripts:cjs', function scriptsEs5() {
   const tsResult = gulp.src(config.PATHS.tsSrcFiles)
                   .pipe(sourcemaps.init())
-                  .pipe($.typescript(taskConfig));
+                  .pipe($.typescript(taskConfigCjs));
 
   return merge([
-    tsResult.dts.pipe(gulp.dest(config.PATHS.dist.es5)),
-    tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.es5)),
+    tsResult.dts.pipe(gulp.dest(config.PATHS.dist.cjs.moduleDir)),
+    tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.cjs.moduleDir)),
   ]);
 });
 
-gulp.task('scripts', ['scripts:es5', 'scripts:es6', 'scripts:ts']);
+gulp.task('scripts', ['scripts:cjs', 'scripts:es6', 'scripts:ts']);
