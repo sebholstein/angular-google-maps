@@ -11,6 +11,7 @@ const bundleConfig = {
   paths: {
     'angular2/*': path.join(__dirname, '../node_modules/angular2/*'),
     '@reactivex/*': path.join(__dirname, '../node_modules/angular2/node_modules/@reactivex/*'),
+    'rx': path.join(__dirname, '../node_modules/rx/dist/rx.all.js'),
   },
 };
 
