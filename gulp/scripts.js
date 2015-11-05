@@ -12,6 +12,8 @@ gulp.task('scripts:ts', function scriptsTs() {
 gulp.task('scripts:es6', function scriptsEs6() {
   const taskConfig = $.typescript.createProject(config.PATHS.tsConfig, {
     target: 'ES6',
+    emitDecoratorMetadata: true,
+    experimentalDecorators: true,
   });
   // todo: this emit errors right now because of duplicate ES6 declarations.
   // should be fixed when https://github.com/angular/angular/issues/4882 is included a new Angular2 version.
@@ -26,6 +28,8 @@ const taskConfigCjs = $.typescript.createProject(config.PATHS.tsConfig, {
   target: 'ES5',
   'module': 'commonjs',
   declaration: true,
+  emitDecoratorMetadata: true,
+  experimentalDecorators: true,
 });
 
 gulp.task('scripts:cjs', function scriptsEs5() {
