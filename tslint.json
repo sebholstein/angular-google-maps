@@ -20,7 +20,6 @@
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-eval": true,
-    "no-internal-module": true,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,
@@ -44,7 +43,6 @@
     "triple-equals": true,
     "typedef": [
       true,
-      "call-signature",
       "parameter",
       "property-declaration",
       "variable-delcaration",
@@ -62,6 +60,7 @@
     ],
     "variable-name": [
       true,
+      "allow-leading-underscore",
       "check-format",
       "ban-keywords"
     ],
