@@ -1,79 +1,79 @@
-import {Component, Directive, Input, ContentChild, ViewEncapsulation, ElementRef, ViewChild, SimpleChange, NgZone} from 'angular2/angular2';
-import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
+import {Component, Directive, Input, Output, ContentChild, ElementRef, ViewChild, SimpleChange, NgZone, Provider, EventEmitter} from 'angular2/angular2';
+import {GoogleMapsAPIWrapper, GoogleMapsAPIWrapperFactory} from '../services/google_maps_api_wrapper';
 
-/**
- * Container directive to create the Google Maps instance on a child element.
- */
-@Directive({
-  selector: '[sebm-google-map-container]',
-})
-class SebmGoogleMapContainer {
-  constructor(private _el: ElementRef) {}
-
-  getNativeElement(): HTMLElement {
-    return this._el.nativeElement;
-  }
-}
 /**
  * Todo: add docs
  */
 @Component({
   selector: 'sebm-google-map',
-  directives: [SebmGoogleMapContainer],
-  providers: [GoogleMapsAPIWrapper],
+  providers: [GoogleMapsAPIWrapperFactory],
   styles: [`
-    sebm-google-map-container {
+    .sebm-google-map-container {
       width: 100%;
       display: block;
     }
   `],
   template: `
-    <div sebm-google-map-container class="sebm-google-map-container"></div>
+    <div class="sebm-google-map-container"></div>
     <ng-content></ng-content>
   `
 })
 export class SebmGoogleMap {
-  @ViewChild(SebmGoogleMapContainer) private _container: SebmGoogleMapContainer;
-  @Input() longitude: number = 0;
-  @Input() latitude: number = 0;
-  @Input() zoom: number = 8;
+  private _longitude: number = 0;
+  private _latitude: number = 0;
+  private _zoom: number = 8;
+  private _mapsWrapper: GoogleMapsAPIWrapper;
 
-  constructor(private _zone: NgZone, private _mapsWrapper: GoogleMapsAPIWrapper) {}
-
-  afterViewInit() {
-    this._initMapInstance(this._container.getNativeElement());
+  constructor(private elem: ElementRef, private _zone: NgZone, mapsFactory: GoogleMapsAPIWrapperFactory) {
+    this._initMapInstance(elem.nativeElement.querySelector('.sebm-google-map-container'), mapsFactory);
   }
 
-  onChanges(changes: {[key:string]: SimpleChange}) {
-    if (!this._mapsWrapper.isInitialized()) {
-      return;
-    }
-    this._updateLatLng(changes);
-  }
-
-  private _updateLatLng(changes: {[key:string]: SimpleChange}) {
-    if (changes['latitude'] || changes['longitude']) {
-      this._mapsWrapper.panTo({
-        lat: this.latitude,
-        lng: this.longitude,
-      });
-    }
-  }
-
-  private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.initialize(el, this.latitude, this.longitude, this.zoom);
+  private _initMapInstance(el: HTMLElement, mapsFactory: GoogleMapsAPIWrapperFactory) {
+    this._mapsWrapper = mapsFactory.create(el, this._latitude, this._longitude);
     this._handleMapsCenterChanged();
     this._handleZoomChanged();
   }
 
+  @Input()
+  set zoom(value: number|string) {
+    this._zoom = this._convertToDecimal(value);
+    this._mapsWrapper.setZoom(this._zoom);
+  }
+
+  @Input()
+  set longitude(value: number|string) {
+    this._longitude = this._convertToDecimal(value);
+    this._updateCenter();
+  }
+
+  @Input()
+  set latitude(value: number|string) {
+    this._latitude = this._convertToDecimal(value);
+    this._updateCenter();
+  }
+
+  private _convertToDecimal(value: string|number): number {
+    if (typeof value === 'string') {
+      return parseFloat(value);
+    }
+    return <number> value;
+  }
+
+  private _updateCenter() {
+    this._mapsWrapper.setCenter({
+      lat: this._latitude,
+      lng: this._longitude,
+    });
+  }
+
   private _handleMapsCenterChanged() {
-    this._mapsWrapper.getCenterChangeObservable().subscribe((latLng: google.maps.LatLngOptions) => {
-      this.latitude = latLng.lat;
-      this.longitude = latLng.lng;
+    this._mapsWrapper.getCenterChangeObservable().subscribe((latLng: google.maps.LatLngLiteral) => {
+      this._latitude = latLng.lat;
+      this._longitude = latLng.lng;
     });
   }
 
   private _handleZoomChanged() {
-    this._mapsWrapper.getZoomChangeObserable().subscribe((zoom: number) => this.zoom = zoom);
+    this._mapsWrapper.getZoomChangeObserable().subscribe((zoom: number) => this._zoom = zoom);
   }
 }

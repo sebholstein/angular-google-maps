@@ -1,10 +1,11 @@
 declare module google.maps {
   export class Map {
     constructor (el: HTMLElement, opts?: MapOptions);
-    panTo(latLng: LatLng|LatLngOptions): void;
+    panTo(latLng: LatLng|LatLngLiteral): void;
     setZoom(zoom: number): void;
     addListener(eventName: string, fn: Function): void;
     getCenter(): LatLng;
+    setCenter(latLng: LatLng|LatLngLiteral): void;
     getZoom(): number;
   }
 
@@ -14,13 +15,13 @@ declare module google.maps {
     lng(): number;
   }
 
-  export interface LatLngOptions {
+  export interface LatLngLiteral {
     lat: number;
     lng: number;
   }
 
   export interface MapOptions {
-    center: LatLng|LatLngOptions;
-    zoom: number;
+    center?: LatLng|LatLngLiteral;
+    zoom?: number;
   }
 }
