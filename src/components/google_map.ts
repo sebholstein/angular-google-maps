@@ -48,16 +48,14 @@ export class SebmGoogleMap {
   private _mapsWrapper: GoogleMapsAPIWrapper;
 
   constructor(
-      private elem: ElementRef, private _zone: NgZone,
-      mapsFactory: GoogleMapsAPIWrapperFactory, renderer: Renderer) {
+      private elem: ElementRef, private _zone: NgZone, mapsFactory: GoogleMapsAPIWrapperFactory,
+      renderer: Renderer) {
     renderer.setElementClass(elem, 'sebm-google-map-container', true);
     this._initMapInstance(
-        elem.nativeElement.querySelector('.sebm-google-map-container-inner'),
-        mapsFactory);
+        elem.nativeElement.querySelector('.sebm-google-map-container-inner'), mapsFactory);
   }
 
-  private _initMapInstance(
-      el: HTMLElement, mapsFactory: GoogleMapsAPIWrapperFactory) {
+  private _initMapInstance(el: HTMLElement, mapsFactory: GoogleMapsAPIWrapperFactory) {
     this._mapsWrapper = mapsFactory.create(el, this._latitude, this._longitude);
     this._handleMapsCenterChanged();
     this._handleZoomChanged();
@@ -93,8 +91,7 @@ export class SebmGoogleMap {
   }
 
   private _updateCenter() {
-    if (typeof this._latitude !== 'number' ||
-        typeof this._longitude !== 'number') {
+    if (typeof this._latitude !== 'number' || typeof this._longitude !== 'number') {
       return;
     }
     this._mapsWrapper.setCenter({
@@ -104,15 +101,13 @@ export class SebmGoogleMap {
   }
 
   private _handleMapsCenterChanged() {
-    this._mapsWrapper.getCenterChangeObservable().subscribe(
-        (latLng: google.maps.LatLngLiteral) => {
-          this._latitude = latLng.lat;
-          this._longitude = latLng.lng;
-        });
+    this._mapsWrapper.getCenterChangeObservable().subscribe((latLng: google.maps.LatLngLiteral) => {
+      this._latitude = latLng.lat;
+      this._longitude = latLng.lng;
+    });
   }
 
   private _handleZoomChanged() {
-    this._mapsWrapper.getZoomChangeObserable().subscribe(
-        (zoom: number) => this._zoom = zoom);
+    this._mapsWrapper.getZoomChangeObserable().subscribe((zoom: number) => this._zoom = zoom);
   }
 }

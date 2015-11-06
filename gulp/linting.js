@@ -22,12 +22,12 @@ gulp.task('eslint', () => {
 
 gulp.task('clang:check', () => {
   return gulp.src(config.PATHS.tsSrcFiles)
-     .pipe($.clangFormat.checkFormat('Google', undefined, {verbose: true, fail: true}));
+     .pipe($.clangFormat.checkFormat('file', undefined, {verbose: true, fail: true}));
 });
 
 gulp.task('clang:format', () => {
   return gulp.src(config.PATHS.tsSrcFiles)
-     .pipe($.clangFormat.format('Google'))
+     .pipe($.clangFormat.format('file'))
      .pipe(gulp.dest(config.PATHS.srcDir));
 });
 

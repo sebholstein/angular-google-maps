@@ -1,12 +1,4 @@
-import {
-  Directive,
-  Input,
-  provide,
-  Host,
-  Inject,
-  SkipSelf,
-  SimpleChange
-} from 'angular2/angular2';
+import {Directive, Input, provide, Host, Inject, SkipSelf, SimpleChange} from 'angular2/angular2';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {MarkerManager} from '../services/marker_manager';
 import {SebmGoogleMap} from './google_map';
@@ -23,8 +15,7 @@ export class SebmGoogleMapMarker {
   private _id: string;
 
   constructor(
-      @Host() @SkipSelf() private _map: SebmGoogleMap,
-      private _markerManager: MarkerManager) {
+      @Host() @SkipSelf() private _map: SebmGoogleMap, private _markerManager: MarkerManager) {
     this._id = (markerId++).toString();
   }
 
