@@ -15,6 +15,19 @@ declare module google.maps {
     lng(): number;
   }
 
+  export class Marker {
+    constructor(options?: MarkerOptions)
+    setMap(map:Map): void
+    setPosition(latLng: LatLng|LatLngLiteral): void
+    setTitle(title: string): void;
+  }
+
+  export interface MarkerOptions {
+    position: LatLng|LatLngLiteral;
+    title?: string;
+    map?: Map;
+  }
+
   export interface LatLngLiteral {
     lat: number;
     lng: number;

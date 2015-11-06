@@ -1,20 +1,24 @@
-import {Component, Directive, Input, Output, ContentChild, ElementRef, ViewChild, SimpleChange, NgZone, Provider, EventEmitter} from 'angular2/angular2';
+import {Component, Directive, Provider, Input, Output, Renderer, ContentChildren, ElementRef, SimpleChange, NgZone, EventEmitter, QueryList, provide} from 'angular2/angular2';
 import {GoogleMapsAPIWrapper, GoogleMapsAPIWrapperFactory} from '../services/google_maps_api_wrapper';
+import {SebmGoogleMapMarker} from './google_map_marker';
+import {MarkerManager} from '../services/marker_manager';
 
 /**
  * Todo: add docs
  */
 @Component({
   selector: 'sebm-google-map',
-  providers: [GoogleMapsAPIWrapperFactory],
+  providers: [GoogleMapsAPIWrapperFactory, MarkerManager],
+  viewProviders: [MarkerManager],
   styles: [`
-    .sebm-google-map-container {
-      width: 100%;
+    .sebm-google-map-container-inner {
+      width: inherit;
+      height: inherit;
       display: block;
     }
   `],
   template: `
-    <div class="sebm-google-map-container"></div>
+    <div class="sebm-google-map-container-inner"></div>
     <ng-content></ng-content>
   `
 })
@@ -24,8 +28,9 @@ export class SebmGoogleMap {
   private _zoom: number = 8;
   private _mapsWrapper: GoogleMapsAPIWrapper;
 
-  constructor(private elem: ElementRef, private _zone: NgZone, mapsFactory: GoogleMapsAPIWrapperFactory) {
-    this._initMapInstance(elem.nativeElement.querySelector('.sebm-google-map-container'), mapsFactory);
+  constructor(private elem: ElementRef, private _zone: NgZone, mapsFactory: GoogleMapsAPIWrapperFactory, renderer: Renderer) {
+    renderer.setElementClass(elem, 'sebm-google-map-container', true);
+    this._initMapInstance(elem.nativeElement.querySelector('.sebm-google-map-container-inner'), mapsFactory);
   }
 
   private _initMapInstance(el: HTMLElement, mapsFactory: GoogleMapsAPIWrapperFactory) {
@@ -36,8 +41,10 @@ export class SebmGoogleMap {
 
   @Input()
   set zoom(value: number|string) {
-    this._zoom = this._convertToDecimal(value);
-    this._mapsWrapper.setZoom(this._zoom);
+    this._zoom  = this._convertToDecimal(value);
+    if (typeof this._zoom === 'number') {
+      this._mapsWrapper.setZoom(this._zoom);
+    }
   }
 
   @Input()
@@ -55,11 +62,16 @@ export class SebmGoogleMap {
   private _convertToDecimal(value: string|number): number {
     if (typeof value === 'string') {
       return parseFloat(value);
+    } else if (typeof value === 'number') {
+      return <number> value;
     }
-    return <number> value;
+    return null;
   }
 
   private _updateCenter() {
+    if (typeof this._latitude !== 'number' || typeof this._longitude !== 'number') {
+      return;
+    }
     this._mapsWrapper.setCenter({
       lat: this._latitude,
       lng: this._longitude,

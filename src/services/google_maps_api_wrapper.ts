@@ -8,13 +8,11 @@ import {Observable} from 'rx';
 export class GoogleMapsAPIWrapper {
   private _el: HTMLElement;
   private _map: google.maps.Map;
-  private _isInitialized: boolean;
 
   private _centerChangeObservable: Observable<google.maps.LatLngLiteral>;
   private _zoomChangeObservable: Observable<number>;
 
   constructor(_el: HTMLElement, latitude: number, longitude: number, private _zone: NgZone) {
-    this._isInitialized = true;
     this._el = _el;
     this._map = new google.maps.Map(this._el, {
       center: {
@@ -28,9 +26,7 @@ export class GoogleMapsAPIWrapper {
   createEventObservable<E>(eventName: string, callback: (observer: Rx.Observer<E>) => void): Observable<E> {
       return Observable.create((observer: Rx.Observer<E>) => {
         this._map.addListener(eventName, () => {
-          this._zone.run(() => {
-            callback(observer);
-          });
+          callback(observer);
         });
     });
   }
@@ -46,6 +42,14 @@ export class GoogleMapsAPIWrapper {
     this._zoomChangeObservable = this.createEventObservable<number>('zoom_changed', (observer: Rx.Observer<number>) => {
       observer.onNext(this._map.getZoom());
     });
+  }
+
+  /**
+   * Creates a google map marker with the map context
+   */
+  createMarker(options: google.maps.MarkerOptions = <google.maps.MarkerOptions> {}): google.maps.Marker {
+    options.map = this._map;
+    return new google.maps.Marker(options);
   }
 
   getZoomChangeObserable(): Observable<number> {
@@ -65,21 +69,27 @@ export class GoogleMapsAPIWrapper {
   }
 
   getCenter(): google.maps.LatLng {
-    if (!this._isInitialized) {
-      return;
-    }
     return this._map.getCenter();
-  }
-
-  isInitialized(): boolean {
-    return this._isInitialized;
   }
 }
 
+// todo: change name, because it's not a real factory.
+// We have to create the instance with the component element and I don't see
+// any chances to modify the viewproviders for <sebm-google-map> after the component instance is created.
 @Injectable()
 export class GoogleMapsAPIWrapperFactory {
+  private _instance: GoogleMapsAPIWrapper;
+
   constructor(private _zone: NgZone) {}
+
   create(el: HTMLElement, latitude: number, longitude: number): GoogleMapsAPIWrapper {
-    return new GoogleMapsAPIWrapper(el, latitude, latitude, this._zone);
+    if (this._instance) {
+      throw new Error('instance already created');
+    }
+    return this._instance = new GoogleMapsAPIWrapper(el, latitude, latitude, this._zone);
+  }
+
+  getInstance(): GoogleMapsAPIWrapper {
+    return this._instance;
   }
 }
