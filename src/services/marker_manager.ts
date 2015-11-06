@@ -1,10 +1,14 @@
 import {Injectable} from 'angular2/angular2';
 import {SebmGoogleMapMarker} from '../components/google_map_marker';
-import {GoogleMapsAPIWrapperFactory, GoogleMapsAPIWrapper} from './google_maps_api_wrapper';
+import {
+  GoogleMapsAPIWrapperFactory,
+  GoogleMapsAPIWrapper
+} from './google_maps_api_wrapper';
 
 @Injectable()
 export class MarkerManager {
-  private _markers: Map<SebmGoogleMapMarker, google.maps.Marker> = new Map<SebmGoogleMapMarker, google.maps.Marker>();
+  private _markers: Map<SebmGoogleMapMarker, google.maps.Marker> =
+      new Map<SebmGoogleMapMarker, google.maps.Marker>();
   private _mapsAPI: GoogleMapsAPIWrapper;
 
   constructor(f: GoogleMapsAPIWrapperFactory) {
@@ -18,10 +22,8 @@ export class MarkerManager {
   }
 
   updateMarkerPosition(marker: SebmGoogleMapMarker) {
-    this._markers.get(marker).setPosition({
-      lat: marker.latitude,
-      lng: marker.longitude
-    });
+    this._markers.get(marker)
+        .setPosition({lat: marker.latitude, lng: marker.longitude});
   }
 
   updateTitle(marker: SebmGoogleMapMarker) {
@@ -29,11 +31,8 @@ export class MarkerManager {
   }
 
   addMarker(marker: SebmGoogleMapMarker) {
-    this._markers.set(marker, this._mapsAPI.createMarker({
-      position: {
-        lat: marker.latitude,
-        lng: marker.longitude
-      }
-    }));
+    let newMarker: google.maps.Marker = this._mapsAPI.createMarker(
+        {position: {lat: marker.latitude, lng: marker.longitude}});
+    this._markers.set(marker, newMarker);
   }
 }

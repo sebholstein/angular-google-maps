@@ -29,6 +29,7 @@
     "eslint-plugin-react": "3.6.3",
     "gulp": "3.9.0",
     "gulp-bump": "1.0.0",
+    "gulp-clang-format": "1.0.23",
     "gulp-connect": "2.2.0",
     "gulp-conventional-changelog": "0.7.0",
     "gulp-eslint": "1.0.0",

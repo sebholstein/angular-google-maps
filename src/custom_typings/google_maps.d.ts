@@ -1,11 +1,11 @@
 declare module google.maps {
   export class Map {
-    constructor (el: HTMLElement, opts?: MapOptions);
-    panTo(latLng: LatLng|LatLngLiteral): void;
+    constructor(el: HTMLElement, opts?: MapOptions);
+    panTo(latLng: LatLng | LatLngLiteral): void;
     setZoom(zoom: number): void;
     addListener(eventName: string, fn: Function): void;
     getCenter(): LatLng;
-    setCenter(latLng: LatLng|LatLngLiteral): void;
+    setCenter(latLng: LatLng | LatLngLiteral): void;
     getZoom(): number;
   }
 
@@ -16,14 +16,14 @@ declare module google.maps {
   }
 
   export class Marker {
-    constructor(options?: MarkerOptions)
-    setMap(map:Map): void
-    setPosition(latLng: LatLng|LatLngLiteral): void
+    constructor(options?: MarkerOptions);
+    setMap(map: Map): void;
+    setPosition(latLng: LatLng | LatLngLiteral): void;
     setTitle(title: string): void;
   }
 
   export interface MarkerOptions {
-    position: LatLng|LatLngLiteral;
+    position: LatLng | LatLngLiteral;
     title?: string;
     map?: Map;
   }
@@ -34,7 +34,7 @@ declare module google.maps {
   }
 
   export interface MapOptions {
-    center?: LatLng|LatLngLiteral;
+    center?: LatLng | LatLngLiteral;
     zoom?: number;
   }
 }

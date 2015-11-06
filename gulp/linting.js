@@ -20,4 +20,15 @@ gulp.task('eslint', () => {
     .pipe($.eslint.failAfterError());
 });
 
-gulp.task('lint', ['tslint', 'eslint']);
+gulp.task('clang:check', () => {
+  return gulp.src(config.PATHS.tsSrcFiles)
+     .pipe($.clangFormat.checkFormat('Google', undefined, {verbose: true, fail: true}));
+});
+
+gulp.task('clang:format', () => {
+  return gulp.src(config.PATHS.tsSrcFiles)
+     .pipe($.clangFormat.format('Google'))
+     .pipe(gulp.dest(config.PATHS.srcDir));
+});
+
+gulp.task('lint', ['clang:check', 'tslint', 'eslint']);

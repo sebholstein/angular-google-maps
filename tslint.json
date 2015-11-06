@@ -31,8 +31,7 @@
       true,
       "check-catch",
       "check-else",
-      "check-open-brace",
-      "check-whitespace"
+      "check-open-brace"
     ],
     "qoutemark": [
       true,
@@ -71,8 +70,7 @@
       "check-operator",
       "check-module",
       "check-separator",
-      "check type",
-      "check-typecast"
+      "check type"
     ]
 	}
 }
