@@ -43,7 +43,7 @@ gulp.task('create-tag', function createTag(cb) {
   }
 
   const version = getPackageJsonVersion();
-  $.git.tag(version, 'Created Tag for version: ' + version, function createGitTag(error) {
+  $.git.tag(version, 'chore(version): ' + version, function createGitTag(error) {
     if (error) {
       return cb(error);
     }
