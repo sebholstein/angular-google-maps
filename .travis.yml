@@ -14,4 +14,4 @@ install:
   - npm install
 
 script:
-- node_modules/.bin/gulp
+- node_modules/.bin/gulp build
