@@ -13,13 +13,13 @@ gulp.task('copy-release-assets', function copyReleaseAssets() {
 });
 
 gulp.task('changelog', function changelog() {
-  return gulp.src('../CHANGELOG.md', {
+  return gulp.src('CHANGELOG.md', {
     buffer: false,
   })
     .pipe($.conventionalChangelog({
       preset: 'angular',
     }))
-    .pipe(gulp.dest('../'));
+    .pipe(gulp.dest('.'));
 });
 
 gulp.task('github-release', (done) => {
