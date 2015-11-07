@@ -2,8 +2,9 @@
 <html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
   <head>
       <meta charset="utf-8">
-      <title>{{ .Site.Title }}</title>
+      <title>{{ .Title }}</title>
       <base href="{{ .Site.BaseURL }}">
+      <meta name="description" content="{{ .Description }}">
       <link rel="canonical" href="{{ .Permalink }}">
       <link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
   
