@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+  <head>
+      <meta charset="utf-8">
+      <title>{{ .Site.Title }}</title>
+      <base href="{{ .Site.BaseURL }}">
+      <link rel="canonical" href="{{ .Permalink }}">
+      <link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+  
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+      <link rel="stylesheet" href="{{ .Site.BaseURL }}css/main.css">
+  </head>
+  <body lang="en">
+  
+<nav>
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper blue-grey darken-3">
+        <a href="#" class="brand-logo" style="padding-left: 20px">angular2-google-maps</a>
+        <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="{{.Site.BaseURL}}">Home</a></li>
+          <li><a href="{{.Site.BaseURL}}getting-started/">Getting Started</a></li>
+          <li><a href="{{.Site.BaseURL}}api/">API Docs</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-nav">
+          <li><a href="{{.Site.BaseURL}}">Home</a></li>
+          <li><a href="{{.Site.BaseURL}}getting-started/">Getting Started</a></li>
+          <li><a href="{{.Site.BaseURL}}api/">API Docs</a></li>
+      </ul>
+      </div>
+    </nav>
+  </div>
+</nav>
