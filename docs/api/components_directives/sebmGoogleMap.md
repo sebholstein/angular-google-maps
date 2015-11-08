@@ -2,8 +2,13 @@
 title: SebmGoogleMap
 description: SebMGoogleMap renders a Google Map.
 type: apidetails
-selector: sebm-google-map
 ---
+
+## CSS Selector
+
+```css
+sebm-google-map
+```
 
 ## Usage
 

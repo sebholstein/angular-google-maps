@@ -1,4 +1,7 @@
-# Getting started
+---
+title: Getting started
+description: Getting started with angular2-google-maps
+---
 
 ## Playing with angular2-google-maps
 
