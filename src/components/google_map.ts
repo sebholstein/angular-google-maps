@@ -13,26 +13,22 @@ import {
   QueryList,
   provide
 } from 'angular2/angular2';
-import {
-  GoogleMapsAPIWrapper,
-  GoogleMapsAPIWrapperFactory
-} from '../services/google_maps_api_wrapper';
+import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {SebmGoogleMapMarker} from './google_map_marker';
 import {MarkerManager} from '../services/marker_manager';
+import {MapsAPILoader} from '../services/maps_api_loader/maps_api_loader';
 
 /**
  * Todo: add docs
  */
 @Component({
   selector: 'sebm-google-map',
-  providers: [GoogleMapsAPIWrapperFactory, MarkerManager],
-  viewProviders: [MarkerManager],
+  providers: [GoogleMapsAPIWrapper, MarkerManager],
   styles: [
     `
     .sebm-google-map-container-inner {
       width: inherit;
       height: inherit;
-      display: block;
     }
   `
   ],
@@ -46,17 +42,19 @@ export class SebmGoogleMap {
   private _latitude: number = 0;
   private _zoom: number = 8;
   private _mapsWrapper: GoogleMapsAPIWrapper;
+  private _zone: NgZone;
 
   constructor(
-      private elem: ElementRef, private _zone: NgZone, mapsFactory: GoogleMapsAPIWrapperFactory,
-      renderer: Renderer) {
+      elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, _zone: NgZone, renderer: Renderer) {
+    this._mapsWrapper = _mapsWrapper;
+    this._zone = _zone;
     renderer.setElementClass(elem, 'sebm-google-map-container', true);
-    this._initMapInstance(
-        elem.nativeElement.querySelector('.sebm-google-map-container-inner'), mapsFactory);
+    const container = elem.nativeElement.querySelector('.sebm-google-map-container-inner');
+    this._initMapInstance(container);
   }
 
-  private _initMapInstance(el: HTMLElement, mapsFactory: GoogleMapsAPIWrapperFactory) {
-    this._mapsWrapper = mapsFactory.create(el, this._latitude, this._longitude);
+  private _initMapInstance(el: HTMLElement) {
+    this._mapsWrapper.createMap(el, this._latitude, this._longitude);
     this._handleMapsCenterChanged();
     this._handleZoomChanged();
   }
