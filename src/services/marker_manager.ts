@@ -24,9 +24,17 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: google.maps.Marker) => m.setTitle(marker.title));
   }
 
+  updateLabel(marker: SebmGoogleMapMarker): Promise<void> {
+    return this._markers.get(marker).then((m: google.maps.Marker) => {
+      const label = m.getLabel();
+      label.text = marker.label;
+      m.setLabel(label);
+    });
+  }
+
   addMarker(marker: SebmGoogleMapMarker) {
-    const markerPromise =
-        this._mapsWrapper.createMarker({position: {lat: marker.latitude, lng: marker.longitude}});
+    const markerPromise = this._mapsWrapper.createMarker(
+        {position: {lat: marker.latitude, lng: marker.longitude}, label: marker.label});
     this._markers.set(marker, markerPromise);
   }
 }

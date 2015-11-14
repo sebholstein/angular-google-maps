@@ -21,12 +21,14 @@ declare module google.maps {
     setPosition(latLng: LatLng | LatLngLiteral): void;
     setTitle(title: string): void;
     setLabel(label: string | MarkerLabel): void;
+    getLabel(): MarkerLabel;
   }
 
   export interface MarkerOptions {
     position: LatLng | LatLngLiteral;
     title?: string;
     map?: Map;
+    label?: string | MarkerLabel;
   }
 
   export interface MarkerLabel {

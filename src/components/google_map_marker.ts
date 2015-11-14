@@ -9,6 +9,7 @@ export class SebmGoogleMapMarker {
   @Input() latitude: number;
   @Input() longitude: number;
   @Input() title: string;
+  @Input() label: string;
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -26,6 +27,9 @@ export class SebmGoogleMapMarker {
     }
     if (changes['title']) {
       this._markerManager.updateTitle(this);
+    }
+    if (changes['label']) {
+      this._markerManager.updateLabel(this);
     }
   }
 
