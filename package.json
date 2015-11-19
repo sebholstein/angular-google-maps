@@ -48,6 +48,12 @@
     "tslint": "2.5.1",
     "typescript": "1.6.2"
   },
+  "jspm": {
+    "jspmNodeConversion": false,
+    "dependencies": {
+      "angular2": "2.0.0-alpha.46"
+    }
+  },
   "typescript": {
     "definition": "typings/angular2-google-maps.d.ts"
   }
