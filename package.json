@@ -27,7 +27,7 @@
     "dts-bundle": "https://github.com/SebastianM/dts-bundle/tarball/master",
     "eslint": "1.9.0",
     "eslint-config-airbnb": "1.0.0",
-    "eslint-plugin-react": "3.8.0",
+    "eslint-plugin-react": "3.10.0",
     "gulp": "3.9.0",
     "gulp-bump": "1.0.0",
     "gulp-clang-format": "1.0.23",
