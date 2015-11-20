@@ -42,7 +42,7 @@
     "merge2": "0.3.6",
     "replace": "0.3.0",
     "require-dir": "0.3.0",
-    "run-sequence": "1.1.4",
+    "run-sequence": "1.1.5",
     "rx": "4.0.7",
     "systemjs-builder": "0.14.11",
     "tslint": "2.5.1",
