@@ -7,7 +7,7 @@ This project is currently in alpha state. Please do not use this in production.
 
 -----
 
-[![Build Status](https://travis-ci.org/SebastianM/angular2-google-maps.svg)](https://travis-ci.org/SebastianM/angular2-google-maps) [![Join the chat at https://gitter.im/SebastianM/angular2-google-maps](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SebastianM/angular2-google-maps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![npm version](https://badge.fury.io/js/angular2-google-maps.svg)](http://badge.fury.io/js/angular2-google-maps)
+[![Build Status](https://travis-ci.org/SebastianM/angular2-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular2-google-maps) [![Join the chat at https://gitter.im/SebastianM/angular2-google-maps](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SebastianM/angular2-google-maps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![npm version](https://badge.fury.io/js/angular2-google-maps.svg)](http://badge.fury.io/js/angular2-google-maps)
 [![Downloads](http://img.shields.io/npm/dm/angular2-google-maps.svg)](https://npmjs.org/package/angular2-google-maps)
 
 ## Playing with angular2-google-maps
@@ -18,8 +18,8 @@ If you just want to play with `angular2-google-maps` and don't want to set up a 
 
 ## Installation
 
-angular2-google-maps gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed. 
-  
+angular2-google-maps gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.
+
   You can install the package with the following command:
 
 ```shell
