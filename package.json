@@ -25,7 +25,7 @@
     "conventional-github-releaser": "0.5.0",
     "del": "2.1.0",
     "dts-bundle": "https://github.com/SebastianM/dts-bundle/tarball/master",
-    "eslint": "1.9.0",
+    "eslint": "1.10.1",
     "eslint-config-airbnb": "1.0.0",
     "eslint-plugin-react": "3.10.0",
     "gulp": "3.9.0",
