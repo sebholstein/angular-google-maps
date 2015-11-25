@@ -3,7 +3,7 @@
 		"class-name": true,
     "comment-format": [
       true,
-      "check-space" 
+      "check-space"
     ],
     "curly": true,
     "eofline": true,
@@ -24,6 +24,10 @@
     "no-trailing-whitespace": true,
     "no-unreachable": true,
     "no-unused-expression": true,
+		"no-unused-variable": [
+			true,
+			"check-parameters"
+		],
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": true,

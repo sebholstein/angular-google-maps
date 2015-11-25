@@ -1,4 +1,4 @@
-import {Injectable, Inject, NgZone, ElementRef} from 'angular2/angular2';
+import {Injectable} from 'angular2/angular2';
 import {Observable} from 'rx';
 
 import {MapsAPILoader} from './maps_api_loader/maps_api_loader';
@@ -9,7 +9,6 @@ import {MapsAPILoader} from './maps_api_loader/maps_api_loader';
  */
 @Injectable()
 export class GoogleMapsAPIWrapper {
-  private _el: HTMLElement;
   private _map: Promise<google.maps.Map>;
 
   private _centerChangeObservable: Observable<google.maps.LatLngLiteral>;
@@ -17,7 +16,7 @@ export class GoogleMapsAPIWrapper {
 
   private _mapResolver: (value?: google.maps.Map) => void;
 
-  constructor(private _zone: NgZone, private _loader: MapsAPILoader) {
+  constructor(private _loader: MapsAPILoader) {
     this._createObservables();
     this._map =
         new Promise<google.maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });

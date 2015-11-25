@@ -1,22 +1,6 @@
-import {
-  Component,
-  Directive,
-  Provider,
-  Input,
-  Output,
-  Renderer,
-  ContentChildren,
-  ElementRef,
-  SimpleChange,
-  NgZone,
-  EventEmitter,
-  QueryList,
-  provide
-} from 'angular2/angular2';
+import {Component, Input, Renderer, ElementRef, NgZone} from 'angular2/angular2';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
-import {SebmGoogleMapMarker} from './google_map_marker';
 import {MarkerManager} from '../services/marker_manager';
-import {MapsAPILoader} from '../services/maps_api_loader/maps_api_loader';
 
 /**
  * Todo: add docs

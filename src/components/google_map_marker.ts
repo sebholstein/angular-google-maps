@@ -1,5 +1,4 @@
 import {Directive, Input, SimpleChange, OnDestroy, OnChanges} from 'angular2/angular2';
-import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {MarkerManager} from '../services/marker_manager';
 
 let markerId = 0;

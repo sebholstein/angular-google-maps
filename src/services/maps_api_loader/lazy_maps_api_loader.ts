@@ -1,4 +1,4 @@
-import {Injectable, forwardRef, Optional} from 'angular2/angular2';
+import {Injectable, Optional} from 'angular2/angular2';
 import {MapsAPILoader} from './maps_api_loader';
 
 export enum GoogleMapsScriptProtocol {

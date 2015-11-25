@@ -1,3 +1,4 @@
+/* tslint:disable:no-unused-variable */
 declare module google.maps {
   export class Map {
     constructor(el: HTMLElement, opts?: MapOptions);
