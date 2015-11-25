@@ -1,11 +1,11 @@
-import {Directive, Input, SimpleChange} from 'angular2/angular2';
+import {Directive, Input, SimpleChange, OnDestroy, OnChanges} from 'angular2/angular2';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {MarkerManager} from '../services/marker_manager';
 
 let markerId = 0;
 
 @Directive({selector: 'sebm-google-map-marker'})
-export class SebmGoogleMapMarker {
+export class SebmGoogleMapMarker implements OnDestroy, OnChanges {
   @Input() latitude: number;
   @Input() longitude: number;
   @Input() title: string;
