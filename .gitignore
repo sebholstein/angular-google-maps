@@ -1,3 +1,5 @@
 node_modules/
 dist
 docs_generated
+src/**/*.js
+src/**/*.map
