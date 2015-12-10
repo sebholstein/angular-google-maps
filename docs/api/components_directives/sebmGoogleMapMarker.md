@@ -5,13 +5,13 @@ type: apidetails
 categories: components_directives
 ---
 
-## CSS Selector
+### CSS Selector
 
 ```css
 sebm-google-map-marker
 ```
 
-## Usage
+### Usage
 
 ```typescript
 import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2_google_maps/angular2_google_maps';
@@ -23,7 +23,7 @@ import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2_google_maps/angular2_
 </sebm-google-map>
 ```
 
-## Bindings
+### Bindings
 
 | Attribute | Type   | Required | Default | Description                                                                                                                                                             |
 |-----------|--------|----------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -32,6 +32,6 @@ import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2_google_maps/angular2_
 | title     | string | no       |         | The title of the marker (similar to the HTML title attribute). Shows the title when the user hovers over the marker.                                                    |
 | label     | string | no       |         | Show a single character instead of a dot in the marker graphic. See [this example](https://developers.google.com/maps/documentation/javascript/examples/marker-labels). |
 
-## Events
+### Events
 
 None

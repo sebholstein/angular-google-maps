@@ -2,15 +2,16 @@
 title: SebmGoogleMap
 description: SebMGoogleMap renders a Google Map.
 type: apidetails
+categories: components_directives
 ---
 
-## CSS Selector
+### CSS Selector
 
 ```css
 sebm-google-map
 ```
 
-## Usage
+### Usage
 
 ```typescript
 import {SebmGoogleMap} from 'angular2_google_maps/angular2_google_maps'};
@@ -21,7 +22,7 @@ import {SebmGoogleMap} from 'angular2_google_maps/angular2_google_maps'};
 </sebm-google-map>
 ```
 
-## Bindings
+### Bindings
 
 | HTML Attribute Name | Type   | Required | Default | Description                             |
 |---------------------|--------|----------|---------|-----------------------------------------|
@@ -29,6 +30,6 @@ import {SebmGoogleMap} from 'angular2_google_maps/angular2_google_maps'};
 | longitude           | number | yes      | 0       | The longitude for the center of the map |
 | zoom                | number | no       | 8       | The initial zoom level of the map       |
 
-## Events
+### Events
 
 None
