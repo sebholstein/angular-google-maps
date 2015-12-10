@@ -1,5 +1,5 @@
-import {Injectable} from 'angular2/angular2';
-import {Observable} from 'rx';
+import {Injectable, Observable} from 'angular2/angular2';
+import {Observer} from 'rxjs/Observer';
 
 import {MapsAPILoader} from './maps_api_loader/maps_api_loader';
 
@@ -30,9 +30,9 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  createEventObservable<E>(eventName: string, callback: (observer: Rx.Observer<E>) => void):
+  createEventObservable<E>(eventName: string, callback: (observer: Observer<E>) => void):
       Observable<E> {
-    return Observable.create((observer: Rx.Observer<E>) => {
+    return Observable.create((observer: Observer<E>) => {
       this._map.then(
           (m: google.maps.Map) => m.addListener(eventName, () => { callback(observer); }));
     });
@@ -40,15 +40,15 @@ export class GoogleMapsAPIWrapper {
 
   private _createObservables() {
     this._centerChangeObservable = this.createEventObservable<google.maps.LatLngLiteral>(
-        'center_changed', (observer: Rx.Observer<google.maps.LatLngLiteral>) => {
+        'center_changed', (observer: Observer<google.maps.LatLngLiteral>) => {
           this._map.then((map: google.maps.Map) => {
             const center = map.getCenter();
-            observer.onNext({lat: center.lat(), lng: center.lng()});
+            observer.next({lat: center.lat(), lng: center.lng()});
           });
         });
     this._zoomChangeObservable =
-        this.createEventObservable<number>('zoom_changed', (observer: Rx.Observer<number>) => {
-          this._map.then((map: google.maps.Map) => { observer.onNext(map.getZoom()); });
+        this.createEventObservable<number>('zoom_changed', (observer: Observer<number>) => {
+          this._map.then((map: google.maps.Map) => { observer.next(map.getZoom()); });
         });
   }
 

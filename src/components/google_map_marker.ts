@@ -15,7 +15,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges {
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
-  onChanges(changes: {[key: string]: SimpleChange}) {
+  ngOnChanges(changes: {[key: string]: SimpleChange}) {
     if (!this._markerAddedToManger && this.latitude && this.longitude) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
@@ -36,5 +36,5 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges {
 
   toString(): string { return 'SebmGoogleMapMarker-' + this._id.toString(); }
 
-  onDestroy() { this._markerManager.deleteMarker(this); }
+  ngOnDestroy() { this._markerManager.deleteMarker(this); }
 }
