@@ -1,3 +1,13 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/SebastianM/angular2-google-maps/compare/0.2.0...v0.3.0) (2015-12-10)
+
+
+### Features
+
+* **angular2:** add angular2.0.0-alpha.52 support ([8a1d813](https://github.com/SebastianM/angular2-google-maps/commit/8a1d813))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/SebastianM/angular2-google-maps/compare/0.1.0...v0.2.0) (2015-11-19)
 
