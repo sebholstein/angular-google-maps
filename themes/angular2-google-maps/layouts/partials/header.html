@@ -2,17 +2,20 @@
 <html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
   <head>
       <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>{{ .Title }} - angular2-google-maps</title>
       <base href="{{ .Site.BaseURL }}">
       <meta name="description" content="{{ .Description }}">
       <link rel="canonical" href="{{ .Permalink }}">
       <link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
-  
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link rel="stylesheet" href="{{ .Site.BaseURL }}css/prism.css">
 
-      <link rel="stylesheet" href="{{ .Site.BaseURL }}css/main.css">
+      <!-- Page styles -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+      <link rel="stylesheet" href="{{.Site.BaseURL}}css/main.css">
+      <link rel="stylesheet" href="{{.Site.BaseURL}}css/prism.css">
       
       <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -25,24 +28,33 @@
       </script>
   </head>
   <body lang="en">
-  
-<nav>
-  <div class="navbar-fixed">
-    <nav>
-      <div class="nav-wrapper blue-grey darken-3">
-        <a href="#" class="brand-logo" style="padding-left: 20px">angular2-google-maps</a>
-        <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="{{.Site.BaseURL}}">Home</a></li>
-          <li><a href="{{.Site.BaseURL}}getting-started/">Getting Started</a></li>
-          <li><a href="{{.Site.BaseURL}}api/">API Docs</a></li>
-        </ul>
-        <ul class="side-nav" id="mobile-nav">
-          <li><a href="{{.Site.BaseURL}}">Home</a></li>
-          <li><a href="{{.Site.BaseURL}}getting-started/">Getting Started</a></li>
-          <li><a href="{{.Site.BaseURL}}api/">API Docs</a></li>
-      </ul>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+      <div class="angular2-google-maps-header mdl-layout__header mdl-layout__header--waterfall">
+        <div class="mdl-layout__header-row">
+          <span class="angular2-google-maps-title mdl-layout-title">
+            <a href="{{.Site.BaseURL}}"><img class="angular2-google-maps-logo-image" src="{{.Site.BaseURL}}img/angular2-google-maps-logo.png"></a>
+          </span>
+          <!-- Add spacer, to align navigation to the right in desktop -->
+          <div class="angular2-google-maps-header-spacer mdl-layout-spacer"></div>
+          <!-- Navigation -->
+          <div class="angular2-google-maps-navigation-container">
+            <nav class="angular2-google-maps-navigation mdl-navigation">
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{{.Site.BaseURL}}">Home</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{{.Site.BaseURL}}getting-started/">Getting Started</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{{.Site.BaseURL}}api/">API Docs</a>
+            </nav>
+          </div>
+          <span class="angular2-google-maps-mobile-title mdl-layout-title">
+            <a href="{{.Site.BaseURL}}"><img class="angular2-google-maps-logo-image" src="{{.Site.BaseURL}}img/angular2-google-maps-logo.png"></a>
+          </span>
+          <button class="angular2-google-maps-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+            <li class="mdl-menu__item"><a href="https://github.com/SebastianM/angular2-google-maps">Source on Github</a></li>
+            <li class="mdl-menu__item"><a href="https://groups.google.com/forum/#!forum/angular2-google-maps">Forum</a></li>
+            <li class="mdl-menu__item"><a href="https://gitter.im/SebastianM/angular2-google-maps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">Chat</a></li>
+          </ul>
+        </div>
       </div>
-    </nav>
-  </div>
-</nav>

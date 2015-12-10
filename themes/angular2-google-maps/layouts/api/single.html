@@ -1,4 +1,8 @@
+
+
 {{ partial "header.html" . }}
+
+{{ $permalink := .Permalink }}
 <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100 is-upgraded" data-upgraded=",MaterialLayout">
 <div class="ribbon"></div>
 
@@ -8,6 +12,23 @@
           <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
             <h1>{{ .Title }}</h1>
             {{ .Content }}
+            
+            <h2>Directives/Components</h2>
+            <ul>
+              {{ range  .Site.Taxonomies.categories.components_directives.Pages }}<li>
+                <a href="{{ $permalink }}#{{ .Title }}">{{ .Title }}</a>
+              </li>{{ end }}
+            </ul>
+
+            <hr>
+            
+
+            {{ range  .Site.Taxonomies.categories.components_directives.Pages }}
+                <h2 id="{{.Title}}">{{ .Title }}</h2>
+                {{ .Content }}
+                <hr />
+            {{ end }}
+            
           </div>
         </div>
       </main>
