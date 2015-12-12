@@ -14,7 +14,7 @@ sebm-google-map
 ### Usage
 
 ```typescript
-import {SebmGoogleMap} from 'angular2_google_maps/angular2_google_maps'};
+import {SebmGoogleMap} from 'angular2_google_maps/angular2_google_maps';
 ```
 
 ```html
