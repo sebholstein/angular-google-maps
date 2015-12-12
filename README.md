@@ -1,3 +1,5 @@
+[![angular2-google-maps](assets/images/angular2-google-maps-logo.png)](https://travis-ci.org/SebastianM/angular2-google-maps) 
+
 # angular2-google-maps
 
 Angular2 components for Google Maps.
