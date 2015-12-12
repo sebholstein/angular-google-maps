@@ -19,7 +19,12 @@ import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2_google_maps/angular2_
 
 ```html
 <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-  <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [title]="title" [label]="label"></sebm-google-map-marker>
+  <sebm-google-map-marker 
+    [latitude]="lat"
+    [longitude]="lng"
+    [title]="title"
+    [label]="label"
+    (markerClick)="clicked()"></sebm-google-map-marker>
 </sebm-google-map>
 ```
 
