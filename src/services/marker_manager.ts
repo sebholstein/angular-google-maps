@@ -1,4 +1,5 @@
-import {Injectable} from 'angular2/angular2';
+import {Injectable, Observable} from 'angular2/angular2';
+import {Observer} from 'rxjs/Observer';
 import {SebmGoogleMapMarker} from '../components/google_map_marker';
 import {GoogleMapsAPIWrapper} from './google_maps_api_wrapper';
 
@@ -36,5 +37,12 @@ export class MarkerManager {
     const markerPromise = this._mapsWrapper.createMarker(
         {position: {lat: marker.latitude, lng: marker.longitude}, label: marker.label});
     this._markers.set(marker, markerPromise);
+  }
+
+  createClickObserable(marker: SebmGoogleMapMarker): Observable<void> {
+    return Observable.create((observer: Observer<void>) => {
+      this._markers.get(marker).then(
+          (m: google.maps.Marker) => { m.addListener('click', () => { observer.next(null); }); });
+    });
   }
 }

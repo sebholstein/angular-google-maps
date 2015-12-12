@@ -1,4 +1,12 @@
-import {Directive, Input, SimpleChange, OnDestroy, OnChanges} from 'angular2/angular2';
+import {
+  Directive,
+  Input,
+  SimpleChange,
+  OnDestroy,
+  OnChanges,
+  EventEmitter,
+  Output
+} from 'angular2/angular2';
 import {MarkerManager} from '../services/marker_manager';
 
 let markerId = 0;
@@ -9,6 +17,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges {
   @Input() longitude: number;
   @Input() title: string;
   @Input() label: string;
+  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -19,6 +28,8 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges {
     if (!this._markerAddedToManger && this.latitude && this.longitude) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
+      this._markerManager.createClickObserable(this)
+          .subscribe(() => { this.markerClick.next(null); });
       return;
     }
     if (changes['latitude'] || changes['logitude']) {

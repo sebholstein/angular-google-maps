@@ -23,6 +23,7 @@ declare module google.maps {
     setTitle(title: string): void;
     setLabel(label: string | MarkerLabel): void;
     getLabel(): MarkerLabel;
+    addListener(eventType: string, fn: Function): void;
   }
 
   export interface MarkerOptions {
