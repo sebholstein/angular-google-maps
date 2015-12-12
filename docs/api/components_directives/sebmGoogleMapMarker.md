@@ -34,4 +34,6 @@ import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2_google_maps/angular2_
 
 ### Events
 
-None
+| Event name  | Description                                               |
+|-------------|-----------------------------------------------------------|
+| markerClick | Gets triggered when the user clicks the marker on the map |
