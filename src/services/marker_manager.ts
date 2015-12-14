@@ -1,6 +1,6 @@
 import {Injectable, Observable} from 'angular2/angular2';
 import {Observer} from 'rxjs/Observer';
-import {SebmGoogleMapMarker} from '../components/google_map_marker';
+import {SebmGoogleMapMarker} from '../directives/google_map_marker';
 import {GoogleMapsAPIWrapper} from './google_maps_api_wrapper';
 
 @Injectable()
