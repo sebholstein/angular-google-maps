@@ -51,7 +51,7 @@
     "require-dir": "0.3.0",
     "run-sequence": "1.1.5",
     "rx": "4.0.7",
-    "systemjs-builder": "0.14.11",
+    "systemjs-builder": "0.14.13",
     "tslint": "3.2.0",
     "typescript": "1.7.3"
   },
