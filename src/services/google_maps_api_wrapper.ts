@@ -1,5 +1,6 @@
-import {Injectable, Observable} from 'angular2/angular2';
+import {Injectable} from 'angular2/core';
 import {Observer} from 'rxjs/Observer';
+import {Observable} from 'rxjs/Observable';
 
 import {MapsAPILoader} from './maps_api_loader/maps_api_loader';
 

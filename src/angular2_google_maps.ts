@@ -1,4 +1,4 @@
-import {Provider} from 'angular2/angular2';
+import {Provider} from 'angular2/core';
 
 import {MapsAPILoader} from './services/maps_api_loader/maps_api_loader';
 import {LazyMapsAPILoader} from './services/maps_api_loader/lazy_maps_api_loader';
