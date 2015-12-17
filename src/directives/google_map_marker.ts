@@ -6,7 +6,7 @@ import {
   OnChanges,
   EventEmitter,
   Output
-} from 'angular2/angular2';
+} from 'angular2/core';
 import {MarkerManager} from '../services/marker_manager';
 
 let markerId = 0;

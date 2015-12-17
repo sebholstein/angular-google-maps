@@ -1,4 +1,4 @@
-import {Component, Input, Renderer, ElementRef, NgZone} from 'angular2/angular2';
+import {Component, Input, Renderer, ElementRef, NgZone} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {MarkerManager} from '../services/marker_manager';
 
