@@ -1,3 +1,21 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/SebastianM/angular2-google-maps/compare/0.3.0...v0.4.0) (2015-12-17)
+
+
+### Features
+
+* export ANGULAR2_GOOGLE_MAPS_DIRECTIVES ([83bcd9f](https://github.com/SebastianM/angular2-google-maps/commit/83bcd9f))
+* **angular2:** support 2.0.0-beta.0 ([0bae421](https://github.com/SebastianM/angular2-google-maps/commit/0bae421)), closes [#51](https://github.com/SebastianM/angular2-google-maps/issues/51)
+* **SebmGoogleMapMarker:** support click event ([2926de7](https://github.com/SebastianM/angular2-google-maps/commit/2926de7))
+
+
+### BREAKING CHANGES
+
+* angular2_google_maps/components module renamed
+to angular2_google_maps/directives
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/SebastianM/angular2-google-maps/compare/0.2.0...v0.3.0) (2015-12-10)
 
