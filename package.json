@@ -29,7 +29,6 @@
   "devDependencies": {
     "@reactivex/rxjs": "5.0.0-alpha.10",
     "babel-eslint": "4.1.6",
-    "conventional-github-releaser": "0.5.0",
     "del": "2.2.0",
     "dts-bundle": "https://github.com/SebastianM/dts-bundle/tarball/master",
     "eslint": "1.10.1",

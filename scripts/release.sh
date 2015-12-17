@@ -11,5 +11,4 @@ git commit -m "chore(release): add changelog and version"
 git push origin master
 ./node_modules/.bin/gulp create-tag
 git push origin master --tags
-./node_modules/.bin/gulp github-release
 echo "--- DONE RELEASING --- Please publish to NPM now (run npm publish dist)"
