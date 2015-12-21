@@ -7,7 +7,7 @@ import {
   EventEmitter,
   Output
 } from 'angular2/core';
-import {MarkerManager} from '../services/marker_manager';
+import {MarkerManager} from '../services/marker-manager';
 
 let markerId = 0;
 

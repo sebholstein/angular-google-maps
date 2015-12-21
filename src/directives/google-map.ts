@@ -1,6 +1,6 @@
 import {Component, Input, Renderer, ElementRef, NgZone} from 'angular2/core';
-import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
-import {MarkerManager} from '../services/marker_manager';
+import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
+import {MarkerManager} from '../services/marker-manager';
 
 /**
  * Todo: add docs

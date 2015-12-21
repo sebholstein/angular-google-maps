@@ -1,8 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
-import {SebmGoogleMapMarker} from '../directives/google_map_marker';
-import {GoogleMapsAPIWrapper} from './google_maps_api_wrapper';
+import {SebmGoogleMapMarker} from '../directives/google-map-marker';
+import {GoogleMapsAPIWrapper} from './google-maps-api-wrapper';
 
 @Injectable()
 export class MarkerManager {

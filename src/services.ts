@@ -1,7 +1,7 @@
-export {MapsAPILoader} from './services/maps_api_loader/maps_api_loader';
-export {NoOpMapsAPILoader} from './services/maps_api_loader/noop_maps_api_loader';
+export {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
+export {NoOpMapsAPILoader} from './services/maps-api-loader/noop-maps-api-loader';
 export {
   LazyMapsAPILoader,
   LazyMapsAPILoaderConfig,
   GoogleMapsScriptProtocol
-} from './services/maps_api_loader/lazy_maps_api_loader';
+} from './services/maps-api-loader/lazy-maps-api-loader';

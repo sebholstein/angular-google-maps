@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 
-import {MapsAPILoader} from './maps_api_loader/maps_api_loader';
+import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
