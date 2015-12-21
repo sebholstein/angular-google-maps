@@ -14,7 +14,7 @@ sebm-google-map-marker
 ### Usage
 
 ```typescript
-import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2_google_maps/angular2_google_maps';
+import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2-google-maps/core';
 ```
 
 ```html
