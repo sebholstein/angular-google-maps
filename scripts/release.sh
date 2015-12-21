@@ -7,7 +7,7 @@ set -e
 #  - Create Git tag
 ./node_modules/.bin/gulp changelog
 git add CHANGELOG.md package.json
-git commit -m "chore(release): add changelog and version"
+git commit -m "chore(release): add changelog and bump version"
 git push origin master
 ./node_modules/.bin/gulp create-tag
 git push origin master --tags
