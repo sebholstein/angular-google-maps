@@ -11,6 +11,7 @@ gulp.task('scripts:ts', function scriptsTs() {
 
 gulp.task('scripts:es6', function scriptsEs6() {
   const taskConfig = $.typescript.createProject(config.PATHS.tsConfig, {
+    module: 'ES6',
     target: 'ES6',
     emitDecoratorMetadata: true,
     experimentalDecorators: true,
@@ -38,8 +39,8 @@ gulp.task('scripts:cjs', function scriptsEs5() {
                   .pipe($.typescript(taskConfigCjs));
 
   return merge([
-    tsResult.dts.pipe(gulp.dest(config.PATHS.dist.cjs.moduleDir)),
-    tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.cjs.moduleDir)),
+    tsResult.dts.pipe(gulp.dest(config.PATHS.dist.cjs)),
+    tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.cjs)),
   ]);
 });
 

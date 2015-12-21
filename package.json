@@ -30,7 +30,6 @@
     "@reactivex/rxjs": "5.0.0-alpha.10",
     "babel-eslint": "4.1.6",
     "del": "2.2.0",
-    "dts-bundle": "https://github.com/SebastianM/dts-bundle/tarball/master",
     "eslint": "1.10.1",
     "eslint-config-airbnb": "1.0.0",
     "eslint-plugin-react": "3.11.3",
