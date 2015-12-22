@@ -1,6 +1,7 @@
 import {Component, Input, Renderer, ElementRef, NgZone} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
+import {LatLngLiteral} from '../services/google-maps-types';
 
 /**
  * Todo: add docs
@@ -83,7 +84,7 @@ export class SebmGoogleMap {
   }
 
   private _handleMapsCenterChanged() {
-    this._mapsWrapper.getCenterChangeObservable().subscribe((latLng: google.maps.LatLngLiteral) => {
+    this._mapsWrapper.getCenterChangeObservable().subscribe((latLng: LatLngLiteral) => {
       this._latitude = latLng.lat;
       this._longitude = latLng.lng;
     });

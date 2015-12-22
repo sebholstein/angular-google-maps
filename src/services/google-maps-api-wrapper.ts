@@ -3,6 +3,10 @@ import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import * as mapTypes from './google-maps-types';
+
+// todo: add types for this
+declare var google: any;
 
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
@@ -10,23 +14,23 @@ import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
  */
 @Injectable()
 export class GoogleMapsAPIWrapper {
-  private _map: Promise<google.maps.Map>;
+  private _map: Promise<mapTypes.GoogleMap>;
 
-  private _centerChangeObservable: Observable<google.maps.LatLngLiteral>;
+  private _centerChangeObservable: Observable<mapTypes.LatLngLiteral>;
   private _zoomChangeObservable: Observable<number>;
 
-  private _mapResolver: (value?: google.maps.Map) => void;
+  private _mapResolver: (value?: mapTypes.GoogleMap) => void;
 
   constructor(private _loader: MapsAPILoader) {
     this._createObservables();
     this._map =
-        new Promise<google.maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });
+        new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
   }
 
   createMap(el: HTMLElement, latitude: number, longitude: number): Promise<void> {
     return this._loader.load().then(() => {
       const map = new google.maps.Map(el, {center: {lat: latitude, lng: longitude}});
-      this._mapResolver(map);
+      this._mapResolver(<mapTypes.GoogleMap>map);
       return;
     });
   }
@@ -35,30 +39,30 @@ export class GoogleMapsAPIWrapper {
       Observable<E> {
     return Observable.create((observer: Observer<E>) => {
       this._map.then(
-          (m: google.maps.Map) => m.addListener(eventName, () => { callback(observer); }));
+          (m: mapTypes.GoogleMap) => m.addListener(eventName, () => { callback(observer); }));
     });
   }
 
   private _createObservables() {
-    this._centerChangeObservable = this.createEventObservable<google.maps.LatLngLiteral>(
-        'center_changed', (observer: Observer<google.maps.LatLngLiteral>) => {
-          this._map.then((map: google.maps.Map) => {
+    this._centerChangeObservable = this.createEventObservable<mapTypes.LatLngLiteral>(
+        'center_changed', (observer: Observer<mapTypes.LatLngLiteral>) => {
+          this._map.then((map: mapTypes.GoogleMap) => {
             const center = map.getCenter();
             observer.next({lat: center.lat(), lng: center.lng()});
           });
         });
     this._zoomChangeObservable =
         this.createEventObservable<number>('zoom_changed', (observer: Observer<number>) => {
-          this._map.then((map: google.maps.Map) => { observer.next(map.getZoom()); });
+          this._map.then((map: mapTypes.GoogleMap) => { observer.next(map.getZoom()); });
         });
   }
 
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: google.maps.MarkerOptions = <google.maps.MarkerOptions>{}):
-      Promise<google.maps.Marker> {
-    return this._map.then((map: google.maps.Map) => {
+  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
+      Promise<mapTypes.Marker> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
       return new google.maps.Marker(options);
     });
@@ -66,19 +70,19 @@ export class GoogleMapsAPIWrapper {
 
   getZoomChangeObserable(): Observable<number> { return this._zoomChangeObservable; }
 
-  getCenterChangeObservable(): Observable<google.maps.LatLngLiteral> {
+  getCenterChangeObservable(): Observable<mapTypes.LatLngLiteral> {
     return this._centerChangeObservable;
   }
 
-  setCenter(latLng: google.maps.LatLngLiteral): Promise<void> {
-    return this._map.then((map: google.maps.Map) => map.setCenter(latLng));
+  setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
+    return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng));
   }
 
   setZoom(zoom: number): Promise<void> {
-    return this._map.then((map: google.maps.Map) => map.setZoom(zoom));
+    return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
   }
 
-  getCenter(): Promise<google.maps.LatLng> {
-    return this._map.then((map: google.maps.Map) => map.getCenter());
+  getCenter(): Promise<mapTypes.LatLng> {
+    return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
 }
