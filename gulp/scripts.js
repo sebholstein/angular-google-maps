@@ -4,8 +4,18 @@ const config = require('./config');
 const merge = require('merge2');
 const sourcemaps = require('gulp-sourcemaps');
 
+const banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
+
+
 gulp.task('scripts:ts', function scriptsTs() {
   return gulp.src(config.PATHS.tsSrcFiles)
+    .pipe($.header(banner, { pkg: config.pkg } ))
     .pipe(gulp.dest(config.PATHS.dist.ts));
 });
 
@@ -21,7 +31,9 @@ gulp.task('scripts:es6', function scriptsEs6() {
   const tsResult = gulp.src(config.PATHS.tsSrcFiles)
                   .pipe(sourcemaps.init())
                   .pipe($.typescript(taskConfig, undefined, $.typescript.reporter.nullReporter()));
-  return tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.es6));
+  return tsResult.js.pipe(sourcemaps.write('.'))
+    .pipe($.header(banner, { pkg: config.pkg } ))
+    .pipe(gulp.dest(config.PATHS.dist.es6));
 });
 
 // we create the the tsConfig outside the task for fast incremential compilations during a watch.
@@ -39,8 +51,8 @@ gulp.task('scripts:cjs', function scriptsEs5() {
                   .pipe($.typescript(taskConfigCjs));
 
   return merge([
-    tsResult.dts.pipe(gulp.dest(config.PATHS.dist.cjs)),
-    tsResult.js.pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.cjs)),
+    tsResult.dts.pipe($.header(banner, { pkg: config.pkg } )).pipe(gulp.dest(config.PATHS.dist.cjs)),
+    tsResult.js.pipe($.header(banner, { pkg: config.pkg } )).pipe(sourcemaps.write('.')).pipe(gulp.dest(config.PATHS.dist.cjs)),
   ]);
 });
 
