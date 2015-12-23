@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, NgZone} from 'angular2/core';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 
@@ -15,14 +15,9 @@ declare var google: any;
 @Injectable()
 export class GoogleMapsAPIWrapper {
   private _map: Promise<mapTypes.GoogleMap>;
-
-  private _centerChangeObservable: Observable<mapTypes.LatLngLiteral>;
-  private _zoomChangeObservable: Observable<number>;
-
   private _mapResolver: (value?: mapTypes.GoogleMap) => void;
 
-  constructor(private _loader: MapsAPILoader) {
-    this._createObservables();
+  constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
         new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
   }
@@ -33,28 +28,6 @@ export class GoogleMapsAPIWrapper {
       this._mapResolver(<mapTypes.GoogleMap>map);
       return;
     });
-  }
-
-  createEventObservable<E>(eventName: string, callback: (observer: Observer<E>) => void):
-      Observable<E> {
-    return Observable.create((observer: Observer<E>) => {
-      this._map.then(
-          (m: mapTypes.GoogleMap) => m.addListener(eventName, () => { callback(observer); }));
-    });
-  }
-
-  private _createObservables() {
-    this._centerChangeObservable = this.createEventObservable<mapTypes.LatLngLiteral>(
-        'center_changed', (observer: Observer<mapTypes.LatLngLiteral>) => {
-          this._map.then((map: mapTypes.GoogleMap) => {
-            const center = map.getCenter();
-            observer.next({lat: center.lat(), lng: center.lng()});
-          });
-        });
-    this._zoomChangeObservable =
-        this.createEventObservable<number>('zoom_changed', (observer: Observer<number>) => {
-          this._map.then((map: mapTypes.GoogleMap) => { observer.next(map.getZoom()); });
-        });
   }
 
   /**
@@ -68,15 +41,19 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  getZoomChangeObserable(): Observable<number> { return this._zoomChangeObservable; }
-
-  getCenterChangeObservable(): Observable<mapTypes.LatLngLiteral> {
-    return this._centerChangeObservable;
+  subscribeToMapEvent<E>(eventName: string): Observable<E> {
+    return Observable.create((observer: Observer<E>) => {
+      this._map.then((m: mapTypes.GoogleMap) => {
+        m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); });
+      });
+    });
   }
 
   setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
     return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng));
   }
+
+  getZoom(): Promise<number> { return this._map.then((map: mapTypes.GoogleMap) => map.getZoom()); }
 
   setZoom(zoom: number): Promise<void> {
     return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));

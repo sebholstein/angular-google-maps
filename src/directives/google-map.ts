@@ -1,7 +1,7 @@
-import {Component, Input, Renderer, ElementRef, NgZone} from 'angular2/core';
+import {Component, Input, Renderer, ElementRef} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
-import {LatLngLiteral} from '../services/google-maps-types';
+import {LatLng} from '../services/google-maps-types';
 
 /**
  * Todo: add docs
@@ -37,8 +37,8 @@ export class SebmGoogleMap {
 
   private _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, this._latitude, this._longitude);
-    this._handleMapsCenterChanged();
-    this._handleZoomChanged();
+    this._handleMapCenterChange();
+    this._handleMapZoomChange();
   }
 
   @Input()
@@ -80,14 +80,17 @@ export class SebmGoogleMap {
     });
   }
 
-  private _handleMapsCenterChanged() {
-    this._mapsWrapper.getCenterChangeObservable().subscribe((latLng: LatLngLiteral) => {
-      this._latitude = latLng.lat;
-      this._longitude = latLng.lng;
+  private _handleMapCenterChange() {
+    this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
+      this._mapsWrapper.getCenter().then((center: LatLng) => {
+        this._latitude = center.lat();
+        this._longitude = center.lng();
+      });
     });
   }
 
-  private _handleZoomChanged() {
-    this._mapsWrapper.getZoomChangeObserable().subscribe((zoom: number) => this._zoom = zoom);
+  private _handleMapZoomChange() {
+    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed')
+        .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
   }
 }
