@@ -27,12 +27,9 @@ export class SebmGoogleMap {
   private _latitude: number = 0;
   private _zoom: number = 8;
   private _mapsWrapper: GoogleMapsAPIWrapper;
-  private _zone: NgZone;
 
-  constructor(
-      elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, _zone: NgZone, renderer: Renderer) {
+  constructor(elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, renderer: Renderer) {
     this._mapsWrapper = _mapsWrapper;
-    this._zone = _zone;
     renderer.setElementClass(elem, 'sebm-google-map-container', true);
     const container = elem.nativeElement.querySelector('.sebm-google-map-container-inner');
     this._initMapInstance(container);
