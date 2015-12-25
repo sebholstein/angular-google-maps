@@ -18,7 +18,7 @@ import {SebmGoogleMap} from 'angular2-google-maps/core';
 ```
 
 ```html
-<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapClicked($event)">
 </sebm-google-map>
 ```
 
@@ -32,4 +32,15 @@ import {SebmGoogleMap} from 'angular2-google-maps/core';
 
 ### Events
 
-None
+| Event name | Arguments                       | Description                                  |
+|------------|---------------------------------|----------------------------------------------|
+| mapClick   | [MapMouseEvent](#MapMouseEvent) | Gets emitted when the user clicks on the map |
+
+### Event Interfaces
+
+#### MapMouseEvent <a name="mapClickEvent"></a>
+```typescript
+interface MapMouseEvent {
+  coords: LatLngLiteral // { lat: number, lng: number }
+}; 
+```

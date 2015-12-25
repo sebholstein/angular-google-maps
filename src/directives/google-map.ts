@@ -1,7 +1,7 @@
-import {Component, Input, Renderer, ElementRef} from 'angular2/core';
+import {Component, Input, Output, Renderer, ElementRef, EventEmitter} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
-import {LatLng} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral} from '../services/google-maps-types';
 
 /**
  * Todo: add docs
@@ -28,6 +28,8 @@ export class SebmGoogleMap {
   private _zoom: number = 8;
   private _mapsWrapper: GoogleMapsAPIWrapper;
 
+  @Output() mapClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+
   constructor(elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, renderer: Renderer) {
     this._mapsWrapper = _mapsWrapper;
     renderer.setElementClass(elem, 'sebm-google-map-container', true);
@@ -39,6 +41,7 @@ export class SebmGoogleMap {
     this._mapsWrapper.createMap(el, this._latitude, this._longitude);
     this._handleMapCenterChange();
     this._handleMapZoomChange();
+    this._handleMapClick();
   }
 
   @Input()
@@ -93,4 +96,17 @@ export class SebmGoogleMap {
     this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed')
         .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
   }
+
+  private _handleMapClick() {
+    this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>('click')
+        .subscribe((event: {latLng: LatLng}) => {
+          this.mapClick.emit(
+              <MapMouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}});
+        });
+  }
 }
+
+/**
+ * MapMouseEvent gets emitted when the user triggers mouse events on the map.
+ */
+export interface MapMouseEvent { coords: LatLngLiteral; }
