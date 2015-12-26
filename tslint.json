@@ -29,13 +29,11 @@
 			"check-parameters"
 		],
     "no-use-before-declare": true,
-    "no-var-keyword": true,
     "no-var-requires": true,
     "one-line": [
       true,
       "check-catch",
-      "check-else",
-      "check-open-brace"
+      "check-else"
     ],
     "qoutemark": [
       true,
