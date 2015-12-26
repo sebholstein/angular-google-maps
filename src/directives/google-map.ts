@@ -29,6 +29,7 @@ export class SebmGoogleMap {
   private _mapsWrapper: GoogleMapsAPIWrapper;
 
   @Output() mapClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  @Output() mapRightClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
 
   constructor(elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, renderer: Renderer) {
     this._mapsWrapper = _mapsWrapper;
@@ -41,7 +42,7 @@ export class SebmGoogleMap {
     this._mapsWrapper.createMap(el, this._latitude, this._longitude);
     this._handleMapCenterChange();
     this._handleMapZoomChange();
-    this._handleMapClick();
+    this._handleMapMouseEvents();
   }
 
   @Input()
@@ -97,12 +98,25 @@ export class SebmGoogleMap {
         .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
   }
 
-  private _handleMapClick() {
-    this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>('click')
-        .subscribe((event: {latLng: LatLng}) => {
-          this.mapClick.emit(
-              <MapMouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}});
-        });
+  private _handleMapMouseEvents() {
+    interface Emitter {
+      emit(value: any): void;
+    }
+    type Event = {name: string, emitter: Emitter};
+
+    const events: Event[] = [
+      {name: 'click', emitter: this.mapClick},
+      {name: 'rightclick', emitter: this.mapRightClick}
+    ];
+
+    events.forEach((e: Event) => {
+      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name)
+          .subscribe((event: {latLng: LatLng}) => {
+            const value =
+                <MapMouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+            e.emitter.emit(value);
+          });
+    });
   }
 }
 
