@@ -65,7 +65,6 @@ export class SebmGoogleMap implements OnChanges {
   }
 
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-    console.log(changes);
     if (SebmGoogleMap._containsMapOptionsChange(Object.keys(changes))) {
       this._setMapOptions();
     }
