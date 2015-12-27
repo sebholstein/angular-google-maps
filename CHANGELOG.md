@@ -1,3 +1,51 @@
+<a name="0.5.0"></a>
+# [0.5.0 eager-electron](https://github.com/SebastianM/angular2-google-maps/compare/0.4.0...v0.5.0) (2015-12-27)
+
+
+### Bug Fixes
+
+* **package:** align peer & JSPM dependencies with ng2 beta.0 ([4fcd9af](https://github.com/SebastianM/angular2-google-maps/commit/4fcd9af))
+
+### Features
+
+* change file naming convention ([5a1ac76](https://github.com/SebastianM/angular2-google-maps/commit/5a1ac76))
+* **packaging:** change package structure ([77d634e](https://github.com/SebastianM/angular2-google-maps/commit/77d634e))
+* **SebmGoogleMap:**  support map click event ([c18640c](https://github.com/SebastianM/angular2-google-maps/commit/c18640c))
+* **SebmGoogleMap:** support disableDoubleClickZoom mapOption ([fff0a29](https://github.com/SebastianM/angular2-google-maps/commit/fff0a29))
+* **SebmGoogleMap:** support double-click event ([5f1ae68](https://github.com/SebastianM/angular2-google-maps/commit/5f1ae68))
+* **SebmGoogleMap:** support right click event ([eab715e](https://github.com/SebastianM/angular2-google-maps/commit/eab715e))
+
+
+### BREAKING CHANGES
+
+* When you import a directive directly, you have to change the
+import path:
+
+Old:
+```
+import {SebmGoogleMap} from 'angular2-google-maps/directives/google_map';
+```
+
+New:
+```
+import {SebmGoogleMap} from 'angular2-google-maps/directives/google-map';
+```
+
+* The module name has changed. So you have to change your import path.  
+  old: `angular2_google_maps/angular2_google_maps`  
+  new: `angular2-google-maps/core`
+* ES5 files that can be consumed using CommonJS are now in the root directory (old path was `/cjs/angular2_google_maps`)
+* The ES6 files directory has changed:
+  Old dir: `/es6/angular2_google_maps`  
+  New dir: `/es6`
+* The TypeScript files directory has changed:  
+  Old dir: `/ts/angular2_google_maps`  
+  New dir: `/ts`
+* The `/typings` directory with bundled typings was deleted.  
+  (Typings are now in the root directory seperated by file)
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/SebastianM/angular2-google-maps/compare/0.3.0...v0.4.0) (2015-12-17)
 
