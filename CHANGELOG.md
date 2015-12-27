@@ -1,5 +1,5 @@
 <a name="0.5.0"></a>
-# [0.5.0 eager-electron](https://github.com/SebastianM/angular2-google-maps/compare/0.4.0...v0.5.0) (2015-12-27)
+# [0.5.0 eager-electron](https://github.com/SebastianM/angular2-google-maps/compare/0.4.0...0.5.0) (2015-12-27)
 
 
 ### Bug Fixes
@@ -47,7 +47,7 @@ import {SebmGoogleMap} from 'angular2-google-maps/directives/google-map';
 
 
 <a name="0.4.0"></a>
-# [0.4.0](https://github.com/SebastianM/angular2-google-maps/compare/0.3.0...v0.4.0) (2015-12-17)
+# [0.4.0](https://github.com/SebastianM/angular2-google-maps/compare/0.3.0...0.4.0) (2015-12-17)
 
 
 ### Features
@@ -65,7 +65,7 @@ to angular2_google_maps/directives
 
 
 <a name="0.3.0"></a>
-# [0.3.0](https://github.com/SebastianM/angular2-google-maps/compare/0.2.0...v0.3.0) (2015-12-10)
+# [0.3.0](https://github.com/SebastianM/angular2-google-maps/compare/0.2.0...0.3.0) (2015-12-10)
 
 
 ### Features
@@ -75,7 +75,7 @@ to angular2_google_maps/directives
 
 
 <a name="0.2.0"></a>
-# [0.2.0](https://github.com/SebastianM/angular2-google-maps/compare/0.1.0...v0.2.0) (2015-11-19)
+# [0.2.0](https://github.com/SebastianM/angular2-google-maps/compare/0.1.0...0.2.0) (2015-11-19)
 
 
 ### Features
