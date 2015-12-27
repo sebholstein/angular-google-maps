@@ -1,4 +1,13 @@
-import {Component, Input, Output, Renderer, ElementRef, EventEmitter} from 'angular2/core';
+import {
+  Component,
+  Input,
+  Output,
+  Renderer,
+  ElementRef,
+  EventEmitter,
+  OnChanges,
+  SimpleChange
+} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
@@ -22,15 +31,19 @@ import {LatLng, LatLngLiteral} from '../services/google-maps-types';
     <ng-content></ng-content>
   `
 })
-export class SebmGoogleMap {
+export class SebmGoogleMap implements OnChanges {
   private _longitude: number = 0;
   private _latitude: number = 0;
   private _zoom: number = 8;
-  private _mapsWrapper: GoogleMapsAPIWrapper;
+  @Input() disableDoubleClickZoom: boolean = false;
+
+  private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
 
   @Output() mapClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
   @Output() mapRightClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
   @Output() mapDblClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+
+  private _mapsWrapper: GoogleMapsAPIWrapper;
 
   constructor(elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, renderer: Renderer) {
     this._mapsWrapper = _mapsWrapper;
@@ -40,10 +53,26 @@ export class SebmGoogleMap {
   }
 
   private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(el, this._latitude, this._longitude);
+    this._mapsWrapper.createMap(el, {center: {lat: this._latitude, lng: this._longitude}});
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
+  }
+
+  private static _containsMapOptionsChange(changesKeys: string[]): boolean {
+    return changesKeys.every(
+        (key: string) => { return SebmGoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
+  }
+
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+    console.log(changes);
+    if (SebmGoogleMap._containsMapOptionsChange(Object.keys(changes))) {
+      this._setMapOptions();
+    }
+  }
+
+  _setMapOptions() {
+    this._mapsWrapper.setMapOptions({disableDoubleClickZoom: this.disableDoubleClickZoom});
   }
 
   @Input()

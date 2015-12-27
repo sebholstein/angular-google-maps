@@ -8,6 +8,7 @@ export interface GoogleMap {
   getCenter(): LatLng;
   setCenter(latLng: LatLng | LatLngLiteral): void;
   getZoom(): number;
+  setOptions(options: MapOptions): void;
 }
 
 export interface LatLng {
@@ -49,4 +50,5 @@ export interface LatLngLiteral {
 export interface MapOptions {
   center?: LatLng | LatLngLiteral;
   zoom?: number;
+  disableDoubleClickZoom?: boolean;
 }

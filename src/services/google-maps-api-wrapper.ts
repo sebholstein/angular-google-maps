@@ -22,12 +22,16 @@ export class GoogleMapsAPIWrapper {
         new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
   }
 
-  createMap(el: HTMLElement, latitude: number, longitude: number): Promise<void> {
+  createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
     return this._loader.load().then(() => {
-      const map = new google.maps.Map(el, {center: {lat: latitude, lng: longitude}});
+      const map = new google.maps.Map(el, mapOptions);
       this._mapResolver(<mapTypes.GoogleMap>map);
       return;
     });
+  }
+
+  setMapOptions(options: mapTypes.MapOptions) {
+    this._map.then((m: mapTypes.GoogleMap) => { m.setOptions(options); });
   }
 
   /**
