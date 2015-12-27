@@ -30,6 +30,7 @@ export class SebmGoogleMap {
 
   @Output() mapClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
   @Output() mapRightClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  @Output() mapDblClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
 
   constructor(elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, renderer: Renderer) {
     this._mapsWrapper = _mapsWrapper;
@@ -106,7 +107,8 @@ export class SebmGoogleMap {
 
     const events: Event[] = [
       {name: 'click', emitter: this.mapClick},
-      {name: 'rightclick', emitter: this.mapRightClick}
+      {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'dblclick', emitter: this.mapDblClick}
     ];
 
     events.forEach((e: Event) => {

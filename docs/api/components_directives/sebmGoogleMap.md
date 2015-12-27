@@ -32,10 +32,11 @@ import {SebmGoogleMap} from 'angular2-google-maps/core';
 
 ### Events
 
-| Event name    | Arguments                       | Description                                              |
-|---------------|---------------------------------|----------------------------------------------------------|
-| mapClick      | [MapMouseEvent](#MapMouseEvent) | Gets emitted when the user clicks on the map             |
-| mapRightClick | [MapMouseEvent](#MapMouseEvent) | Get emitted when the user uses a right click on the map. |
+| Event name    | Arguments                       | Description                                                                                                                         |
+|---------------|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| mapClick      | [MapMouseEvent](#MapMouseEvent) | Gets emitted when the user clicks on the map                                                                                        |
+| mapRightClick | [MapMouseEvent](#MapMouseEvent) | Gets emitted when the user uses a right click on the map.                                                                           |
+| mapDblClick   | [MapMouseEvent](#MapMouseEvent) | Gets emitted when the user double-clicks on the map.  Note that the `mapClick` event emitter will also fire, right before this one. |
 
 ### Event Interfaces
 
