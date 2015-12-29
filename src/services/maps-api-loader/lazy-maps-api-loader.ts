@@ -9,6 +9,7 @@ export enum GoogleMapsScriptProtocol {
 
 export class LazyMapsAPILoaderConfig {
   apiKey: string = null;
+  apiVersion: string = '3';
   hostAndPath: string = 'maps.googleapis.com/maps/api/js';
   protocol: GoogleMapsScriptProtocol = GoogleMapsScriptProtocol.HTTPS;
 }
@@ -19,8 +20,11 @@ const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
 export class LazyMapsAPILoader extends MapsAPILoader {
   private _scriptLoadingPromise: Promise<void>;
 
-  constructor(@Optional() private _config: LazyMapsAPILoaderConfig = DEFAULT_CONFIGURATION) {
+  constructor(@Optional() private _config: LazyMapsAPILoaderConfig) {
     super();
+    if (this._config === null || this._config === undefined) {
+      this._config = DEFAULT_CONFIGURATION;
+    }
   }
 
   load(): Promise<void> {
@@ -62,20 +66,21 @@ export class LazyMapsAPILoader extends MapsAPILoader {
         break;
     }
 
-    const hostAndPath: string =
-        (this._config && this._config.hostAndPath) || DEFAULT_CONFIGURATION.hostAndPath;
-    const apiKey: string = (this._config && this._config.apiKey) || DEFAULT_CONFIGURATION.apiKey;
-    const queryParams: {[key: string]: string} = {};
+    const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
+    const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
+    const queryParams: {[key: string]: string} = {
+      v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiKey,
+      callback: callbackName
+    };
     if (apiKey) {
       queryParams['key'] = apiKey;
     }
-    queryParams['callback'] = callbackName;
-    const queryParamsString: string =
-        Object.keys(queryParams)
-            .map(
-                (key: string, index: number) =>
-                    index === 0 ? `?${key}=${queryParams[key]}` : `&${key}=${queryParams[key]}`)
-            .join('');
-    return `${protocol}//${hostAndPath}${queryParamsString}`;
+    const params: string = Object.keys(queryParams)
+                               .map((k: string, i: number) => {
+                                 let param = (i === 0) ? '?' : '&';
+                                 return param += `${k}=${queryParams[k]}`;
+                               })
+                               .join('');
+    return `${protocol}//${hostAndPath}${params}`;
   }
 }
