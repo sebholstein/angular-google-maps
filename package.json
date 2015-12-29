@@ -38,7 +38,7 @@
     "gulp-connect": "2.3.1",
     "gulp-conventional-changelog": "0.7.0",
     "gulp-eslint": "1.1.1",
-    "gulp-git": "1.6.0",
+    "gulp-git": "1.6.1",
     "gulp-header": "^1.7.1",
     "gulp-load-plugins": "1.1.0",
     "gulp-sourcemaps": "1.6.0",
