@@ -9,8 +9,8 @@ const bundleConfig = {
   defaultJSExtensions: true,
   paths: {
     'angular2-google-maps/*': '*',
-    'angular2/*': path.join(__dirname, '../node_modules/angular2/*'),
-    'rxjs/*': path.join(__dirname, '../node_modules/rxjs/*'),
+    'angular2/*': './node_modules/angular2/*',
+    'rxjs/*': './node_modules/rxjs/*',
   },
 };
 
