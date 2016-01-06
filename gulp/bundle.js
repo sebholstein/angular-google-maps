@@ -28,10 +28,11 @@ function bundle(moduleName, moduleBundleName, minify, done) {
     bundlePromise.then(() => {
       gulp.src(outputFile)
       .pipe($.connect.reload());
-      done();
     });
   }
-  return bundlePromise;
+  return bundlePromise.then(() => {
+    done();
+  });
 }
 
 gulp.task('bundle:cjs', ['scripts:cjs'], function bundleCjs(done) {

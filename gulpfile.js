@@ -8,4 +8,10 @@ gulp.task('build', function build(done) {
   runSequence('clean:dist', 'lint', ['copy-release-assets', 'scripts', 'bundle'], done);
 });
 
-gulp.task('serve', ['connect', 'watch']);
+gulp.task('serve', ['connect', 'watch:srcFiles']);
+
+gulp.task('test', function testTask(done) {
+  runSequence('clean:test', 'scripts:test', 'karma', done);
+});
+
+gulp.task('test:watch', ['scripts:test', 'watch:testfiles', 'watch:srcFiles', 'karma:watch']);
