@@ -1,0 +1,22 @@
+import {Component} from 'angular2/core';
+import {bootstrap} from 'angular2/platform/browser';
+
+import {
+ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+ANGULAR2_GOOGLE_MAPS_PROVIDERS
+} from 'angular2-google-maps/core';
+
+@Component({
+	selector: 'app-component',
+	directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES]
+	template: `
+		&lt;sebm-google-map [latitude]=&quot;lat&quot; [longitude]=&quot;lng&quot;&gt;
+		&lt;/sebm-google-map&gt;
+	`
+})
+class AppComponent {
+	lat: number = 44.3;
+	lng: number = 33.2;
+}
+
+bootstrap(AppComponent, [ANGULAR2_GOOGLE_MAPS_PROVIDERS]);
