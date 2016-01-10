@@ -1,11 +1,11 @@
-[![angular2-google-maps](assets/images/angular2-google-maps-logo.png)](http://sebastianm.github.io/angular2-google-maps/) 
+[![angular2-google-maps](assets/images/angular2-google-maps-logo.png)](http://sebastianm.github.io/angular2-google-maps/)
 
 # angular2-google-maps
 
 Angular2 components for Google Maps.
 This project is currently in alpha state. Please do not use this in production.
 
-[Website](http://sebastianm.github.io/angular2-google-maps/) | [Demo](http://plnkr.co/edit/YX7W20?p=preview) | [Forum](https://groups.google.com/forum/#!forum/angular2-google-maps) | [Chat](https://gitter.im/SebastianM/angular2-google-maps) | [API Documentation](http://sebastianm.github.io/angular2-google-maps/docs) | [Twitter](https://twitter.com/Sebamueller)
+[Website](https://angular-maps.com/) | [Demo](http://plnkr.co/edit/YX7W20?p=preview) | [Forum](https://groups.google.com/forum/#!forum/angular2-google-maps) | [Chat](https://gitter.im/SebastianM/angular2-google-maps) | [API Documentation](http://sebastianm.github.io/angular2-google-maps/docs) | [Twitter](https://twitter.com/Sebamueller)
 
 -----
 
