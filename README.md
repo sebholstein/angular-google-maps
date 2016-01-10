@@ -1,4 +1,4 @@
-[![angular2-google-maps](assets/images/angular2-google-maps-logo.png)](http://sebastianm.github.io/angular2-google-maps/)
+[![angular2-google-maps](assets/images/angular2-google-maps-logo.png)](https://angular-maps.com/)
 
 # angular2-google-maps
 
