@@ -1,3 +1,17 @@
+<a name="0.6.0"></a>
+# [0.6.0 supersonic-scorpion](https://github.com/SebastianM/angular2-google-maps/compare/0.5.0...0.6.0) (2016-01-12)
+
+
+### Bug Fixes
+
+* **SebmGoogleMap:** use ngOnInit to support angular 2.0.0-beta.1 ([1c25cb9](https://github.com/SebastianM/angular2-google-maps/commit/1c25cb9)), closes [#79](https://github.com/SebastianM/angular2-google-maps/issues/79) [#76](https://github.com/SebastianM/angular2-google-maps/issues/76)
+
+### Features
+
+* **LazyMapsAPILoader:** make Google Maps API version configurable ([728960d](https://github.com/SebastianM/angular2-google-maps/commit/728960d))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0 eager-electron](https://github.com/SebastianM/angular2-google-maps/compare/0.4.0...0.5.0) (2015-12-27)
 
