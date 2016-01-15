@@ -96,7 +96,8 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(el, {center: {lat: this._latitude, lng: this._longitude}});
+    this._mapsWrapper.createMap(
+        el, {center: {lat: this._latitude, lng: this._longitude}, zoom: this._zoom});
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
@@ -118,7 +119,7 @@ export class SebmGoogleMap implements OnChanges,
    * Sets the zoom level of the map. The default value is `8`.
    */
   set zoom(value: number | string) {
-    this._zoom = this._convertToDecimal(value);
+    this._zoom = this._convertToDecimal(value, 8);
     if (typeof this._zoom === 'number') {
       this._mapsWrapper.setZoom(this._zoom);
     }
@@ -140,13 +141,13 @@ export class SebmGoogleMap implements OnChanges,
     this._updateCenter();
   }
 
-  private _convertToDecimal(value: string | number): number {
+  private _convertToDecimal(value: string | number, defaultValue: number = null): number {
     if (typeof value === 'string') {
       return parseFloat(value);
     } else if (typeof value === 'number') {
       return <number>value;
     }
-    return null;
+    return defaultValue;
   }
 
   private _updateCenter() {
