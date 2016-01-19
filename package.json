@@ -48,7 +48,7 @@
     "replace": "0.3.0",
     "require-dir": "0.3.0",
     "run-sequence": "1.1.5",
-    "systemjs-builder": "0.14.11",
+    "systemjs-builder": "0.15.4",
     "tslint": "3.2.1",
     "typescript": "1.7.5"
   },
