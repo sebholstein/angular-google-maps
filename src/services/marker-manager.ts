@@ -19,8 +19,8 @@ export class MarkerManager {
   }
 
   updateMarkerPosition(marker: SebmGoogleMapMarker): Promise<void> {
-    return this._markers.get(marker).then(
-        (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
+    return this._markers.get(marker)
+        .then((m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
   }
 
   updateTitle(marker: SebmGoogleMapMarker): Promise<void> {
@@ -43,8 +43,8 @@ export class MarkerManager {
 
   createClickObserable(marker: SebmGoogleMapMarker): Observable<void> {
     return Observable.create((observer: Observer<void>) => {
-      this._markers.get(marker).then(
-          (m: Marker) => { m.addListener('click', () => { observer.next(null); }); });
+      this._markers.get(marker)
+          .then((m: Marker) => { m.addListener('click', () => { observer.next(null); }); });
     });
   }
 }

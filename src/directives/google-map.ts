@@ -39,12 +39,14 @@ import {LatLng, LatLngLiteral, MapOptions} from '../services/google-maps-types';
 @Component({
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
-  styles: [`
+  styles: [
+    `
     .sebm-google-map-container-inner {
       width: inherit;
       height: inherit;
     }
-  `],
+    `
+  ],
   inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'mapOptions'],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   template: `
@@ -176,9 +178,8 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
-    });
+    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed')
+        .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
   }
 
   private _handleMapMouseEvents() {
@@ -188,13 +189,14 @@ export class SebmGoogleMap implements OnChanges,
     type Event = {name: string, emitter: Emitter};
 
     const events: Event[] = [
-      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'click', emitter: this.mapClick},
+      {name: 'rightclick', emitter: this.mapRightClick},
       {name: 'dblclick', emitter: this.mapDblClick}
     ];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
-          (event: {latLng: LatLng}) => {
+      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name)
+          .subscribe((event: {latLng: LatLng}) => {
             const value =
                 <MapMouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
             e.emitter.emit(value);
