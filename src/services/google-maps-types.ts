@@ -47,13 +47,6 @@ export interface LatLngLiteral {
   lng: number;
 }
 
-export enum MapType {
-  HYBRID,
-  ROADMAP,
-  SATELLITE,
-  TERRAIN
-}
-
 export interface MapOptions {
   center?: LatLng | LatLngLiteral;
   zoom?: number;
@@ -68,7 +61,7 @@ export interface MapOptions {
   mapMaker?: boolean;
   mapTypeControl?: boolean;
   mapTypeControlOptions?: Object;
-  mapTypeId?: MapType;
+  mapTypeId?: string;
   maxZoom?: number;
   minZoom?: number;
   noClear?: boolean;
