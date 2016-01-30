@@ -9,7 +9,7 @@ import {
 } from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, MapOptions} from '../services/google-maps-types';
 
 /**
  * SebMGoogleMap renders a Google Map.
@@ -45,9 +45,9 @@ import {LatLng, LatLngLiteral} from '../services/google-maps-types';
       width: inherit;
       height: inherit;
     }
-  `
+    `
   ],
-  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom'],
+  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'mapOptions'],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   template: `
     <div class="sebm-google-map-container-inner"></div>
@@ -65,6 +65,12 @@ export class SebmGoogleMap implements OnChanges,
   disableDoubleClickZoom: boolean = false;
 
   private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
+
+  /**
+   * Add some options for the map (see
+   * https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions)
+   */
+  mapOptions: MapOptions = {};
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -96,8 +102,10 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(
-        el, {center: {lat: this._latitude, lng: this._longitude}, zoom: this._zoom});
+    let options = this.mapOptions;
+    options.center = {lat: this._latitude, lng: this._longitude};
+    options.zoom = this._zoom;
+    this._mapsWrapper.createMap(el, options);
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
