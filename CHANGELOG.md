@@ -1,3 +1,19 @@
+<a name="0.6.1"></a>
+## [0.6.1 shiny-neutron](https://github.com/SebastianM/angular2-google-maps/compare/0.6.0...0.6.1) (2016-01-30)
+
+
+### Bug Fixes
+
+* **SebmGoogleMap:** show map when zoom is not set ([b975c76](https://github.com/SebastianM/angular2-google-maps/commit/b975c76)), closes [#81](https://github.com/SebastianM/angular2-google-maps/issues/81)
+* **SebmGoogleMapMarker:** run click event in zone ([2a3e390](https://github.com/SebastianM/angular2-google-maps/commit/2a3e390))
+* **SebMGoogleMapMarker:** 0 value for lat/lng ([e65568e](https://github.com/SebastianM/angular2-google-maps/commit/e65568e)), closes [#82](https://github.com/SebastianM/angular2-google-maps/issues/82) [#101](https://github.com/SebastianM/angular2-google-maps/issues/101)
+
+### Features
+
+* **angular2:** support angular2-beta.2 ([592648c](https://github.com/SebastianM/angular2-google-maps/commit/592648c))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0 supersonic-scorpion](https://github.com/SebastianM/angular2-google-maps/compare/0.5.0...0.6.0) (2016-01-12)
 
