@@ -67,7 +67,10 @@ export class SebmGoogleMapMarker implements OnDestroy,
 
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
-    if (!this._markerAddedToManger && this.latitude && this.longitude) {
+    if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
+      return;
+    }
+    if (!this._markerAddedToManger) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
       this._markerManager.createClickObserable(this)
