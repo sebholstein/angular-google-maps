@@ -36,11 +36,7 @@ export class MarkerManager {
   }
 
   updateLabel(marker: SebmGoogleMapMarker): Promise<void> {
-    return this._markers.get(marker).then((m: Marker) => {
-      const label = m.getLabel();
-      label.text = marker.label;
-      m.setLabel(label);
-    });
+    return this._markers.get(marker).then((m: Marker) => { m.setLabel(marker.label); });
   }
 
   addMarker(marker: SebmGoogleMapMarker) {
