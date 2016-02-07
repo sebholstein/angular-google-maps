@@ -8,10 +8,31 @@ export enum GoogleMapsScriptProtocol {
 }
 
 export class LazyMapsAPILoaderConfig {
+  /**
+   * The Google Maps API Key (see:
+   * https://developers.google.com/maps/documentation/javascript/get-api-key)
+   */
   apiKey: string = null;
+
+  /**
+   * Google Maps API version.
+   */
   apiVersion: string = '3';
+
+  /**
+   * Host and Path used for the `<script>` tag.
+   */
   hostAndPath: string = 'maps.googleapis.com/maps/api/js';
+
+  /**
+   * Protocol used for the `<script>` tag.
+   */
   protocol: GoogleMapsScriptProtocol = GoogleMapsScriptProtocol.HTTPS;
+
+  /**
+   * Defines which Google Maps libraries should get loaded.
+   */
+  libraries: string[] = [];
 }
 
 const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
@@ -68,12 +89,16 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
     const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
     const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
+    const libraries: string[] = this._config.libraries || DEFAULT_CONFIGURATION.libraries;
     const queryParams: {[key: string]: string} = {
       v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiKey,
       callback: callbackName
     };
     if (apiKey) {
       queryParams['key'] = apiKey;
+    }
+    if (libraries != null && libraries.length > 0) {
+      queryParams['libraries'] = libraries.join(',');
     }
     const params: string = Object.keys(queryParams)
                                .map((k: string, i: number) => {
