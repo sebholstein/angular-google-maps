@@ -51,4 +51,5 @@ export interface MapOptions {
   center?: LatLng | LatLngLiteral;
   zoom?: number;
   disableDoubleClickZoom?: boolean;
+  disableDefaultUI?: boolean;
 }

@@ -47,7 +47,7 @@ import {LatLng, LatLngLiteral} from '../services/google-maps-types';
     }
   `
   ],
-  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom'],
+  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   template: `
     <div class="sebm-google-map-container-inner"></div>
@@ -64,6 +64,15 @@ export class SebmGoogleMap implements OnChanges,
    */
   disableDoubleClickZoom: boolean = false;
 
+  /**
+   * Enables/disables all default UI of the Google map. Please note: When the map is created, this
+   * value cannot get updated.
+   */
+  disableDefaultUI: boolean = false;
+
+  /**
+   * Map option attributes that can change over time
+   */
   private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
 
   /**
@@ -96,8 +105,11 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(
-        el, {center: {lat: this._latitude, lng: this._longitude}, zoom: this._zoom});
+    this._mapsWrapper.createMap(el, {
+      center: {lat: this._latitude, lng: this._longitude},
+      zoom: this._zoom,
+      disableDefaultUI: this.disableDefaultUI
+    });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
