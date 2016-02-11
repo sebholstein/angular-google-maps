@@ -27,3 +27,5 @@ angular2-google-maps gets shipped via the Node Package Manager. So make sure tha
 ```shell
 npm install angular2-google-maps
 ```
+
+You should also checkout the [Getting started](https://angular-maps.com/docs/getting-started.html#package-installation) guide for further information.
