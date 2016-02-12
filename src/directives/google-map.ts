@@ -1,12 +1,4 @@
-import {
-  Component,
-  Renderer,
-  ElementRef,
-  EventEmitter,
-  OnChanges,
-  OnInit,
-  SimpleChange
-} from 'angular2/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
@@ -39,18 +31,10 @@ import {LatLng, LatLngLiteral} from '../services/google-maps-types';
 @Component({
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
-  styles: [
-    `
-    .sebm-google-map-container-inner {
-      width: inherit;
-      height: inherit;
-    }
-  `
-  ],
   inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   template: `
-    <div class="sebm-google-map-container-inner"></div>
+    <div class="sebm-google-map-container"></div>
     <ng-content></ng-content>
   `
 })
@@ -93,14 +77,11 @@ export class SebmGoogleMap implements OnChanges,
    */
   mapDblClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
 
-  constructor(
-      private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper,
-      private _renderer: Renderer) {}
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
   ngOnInit() {
-    this._renderer.setElementClass(this._elem.nativeElement, 'sebm-google-map-container', true);
-    const container = this._elem.nativeElement.querySelector('.sebm-google-map-container-inner');
+    const container = this._elem.nativeElement.querySelector('.sebm-google-map-container');
     this._initMapInstance(container);
   }
 
