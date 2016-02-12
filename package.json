@@ -46,7 +46,7 @@
     "gulp-tslint": "4.3.1",
     "gulp-typescript": "2.11.0",
     "jasmine-core": "2.4.1",
-    "karma": "0.13.19",
+    "karma": "0.13.20",
     "karma-chrome-launcher": "0.2.2",
     "karma-jasmine": "0.3.6",
     "merge2": "1.0.0",
