@@ -33,6 +33,22 @@ export class LazyMapsAPILoaderConfig {
    * Defines which Google Maps libraries should get loaded.
    */
   libraries: string[] = [];
+
+  /**
+   * The default bias for the map behavior is US.
+   * If you wish to alter your application to serve different map tiles or bias the
+   * application, you can overwrite the default behavior (US) by defining a `region`.
+   * See https://developers.google.com/maps/documentation/javascript/basics#Region
+   */
+  region: string = null;
+
+  /**
+   * The Google Maps API uses the browser's preferred language when displaying
+   * textual information. If you wish to overwrite this behavior and force the API
+   * to use a given language, you can use this setting.
+   * See https://developers.google.com/maps/documentation/javascript/basics#Language
+   */
+  language: string = null;
 }
 
 const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
@@ -90,6 +106,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
     const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
     const libraries: string[] = this._config.libraries || DEFAULT_CONFIGURATION.libraries;
+    const region: string = this._config.region || DEFAULT_CONFIGURATION.region;
+    const language: string = this._config.language || DEFAULT_CONFIGURATION.language;
     const queryParams: {[key: string]: string} = {
       v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiKey,
       callback: callbackName
@@ -99,6 +117,12 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     }
     if (libraries != null && libraries.length > 0) {
       queryParams['libraries'] = libraries.join(',');
+    }
+    if (region != null && region.length > 0) {
+      queryParams['region'] = region;
+    }
+    if (language != null && language.length > 0) {
+      queryParams['language'] = language;
     }
     const params: string = Object.keys(queryParams)
                                .map((k: string, i: number) => {
