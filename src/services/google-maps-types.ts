@@ -21,6 +21,7 @@ export interface Marker {
   constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
   setPosition(latLng: LatLng | LatLngLiteral): void;
+  getPosition(): LatLng;
   setTitle(title: string): void;
   setLabel(label: string | MarkerLabel): void;
   getLabel(): MarkerLabel;
@@ -31,6 +32,7 @@ export interface MarkerOptions {
   position: LatLng | LatLngLiteral;
   title?: string;
   map?: GoogleMap;
+  draggable?: boolean;
   label?: string | MarkerLabel;
 }
 

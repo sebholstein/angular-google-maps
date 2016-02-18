@@ -41,15 +41,22 @@ export class MarkerManager {
 
   addMarker(marker: SebmGoogleMapMarker) {
     const markerPromise = this._mapsWrapper.createMarker(
-        {position: {lat: marker.latitude, lng: marker.longitude}, label: marker.label});
+        {position: {lat: marker.latitude, lng: marker.longitude}, draggable: marker.isDraggable, label: marker.label});
     this._markers.set(marker, markerPromise);
   }
-
+  
   createClickObserable(marker: SebmGoogleMapMarker): Observable<void> {
     return Observable.create((observer: Observer<void>) => {
       this._markers.get(marker).then((m: Marker) => {
         m.addListener('click', () => this._zone.run(() => observer.next(null)));
       });
+    });
+  }
+  
+  createMoveObserable(marker: SebmGoogleMapMarker): Observable<void> {
+    return Observable.create((observer: Observer<any>) => {
+      this._markers.get(marker)
+          .then((m: Marker) => { m.addListener('dragend', () => { observer.next({'lng': m.getPosition().lng(), 'lat': m.getPosition().lat()}); }); });
     });
   }
 }

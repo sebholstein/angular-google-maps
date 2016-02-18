@@ -21,7 +21,7 @@ let markerId = 0;
  * `],
  *  template: `
  *    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
+ *      <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [label]="'M' [isDraggable]="draggable">
  *      </sebm-google-map-marker>
  *    </sebm-google-map>
  *  `
@@ -30,8 +30,8 @@ let markerId = 0;
  */
 @Directive({
   selector: 'sebm-google-map-marker',
-  inputs: ['latitude', 'longitude', 'title', 'label'],
-  outputs: ['markerClick']
+  inputs: ['latitude', 'longitude', 'title', 'label', 'isDraggable'],
+  outputs: ['markerClick', 'markerMoved'],
 })
 export class SebmGoogleMapMarker implements OnDestroy,
     OnChanges {
@@ -54,11 +54,21 @@ export class SebmGoogleMapMarker implements OnDestroy,
    * The label (a single uppercase character) for the marker.
    */
   label: string;
+  
+  /**
+   * Is draggable allow for the marker.
+   */
+  isDraggable: boolean;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   markerClick: EventEmitter<void> = new EventEmitter<void>();
+  
+  /**
+   * This event emitter gets emitted when the user move the marker.
+   */
+  markerMoved: EventEmitter<any> = new EventEmitter<any>();
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -75,6 +85,8 @@ export class SebmGoogleMapMarker implements OnDestroy,
       this._markerAddedToManger = true;
       this._markerManager.createClickObserable(this)
           .subscribe(() => { this.markerClick.next(null); });
+      this._markerManager.createMoveObserable(this)
+          .subscribe((latLng) => { this.markerMoved.emit(latLng); });
       return;
     }
     if (changes['latitude'] || changes['logitude']) {
@@ -84,6 +96,9 @@ export class SebmGoogleMapMarker implements OnDestroy,
       this._markerManager.updateTitle(this);
     }
     if (changes['label']) {
+      this._markerManager.updateLabel(this);
+    }
+    if (changes['draggable']) {
       this._markerManager.updateLabel(this);
     }
   }
