@@ -31,6 +31,7 @@ before_install:
 
 install:
   - npm install
+  - ./node_modules/.bin/typings install
 
 script:
   - node_modules/.bin/gulp build
