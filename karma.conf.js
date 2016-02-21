@@ -42,7 +42,8 @@ module.exports = function(config) {
     proxies: {
       // required for component assests fetched by Angular's compiler
       '/dist/': '/base/dist/',
-      '/base/src/': '/base/dist/'
+      '/base/src/': '/base/dist/',
+      '/base/test-built/src': '/base/dist'  
     },
 
     reporters: ['progress'],

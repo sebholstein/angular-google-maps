@@ -47,7 +47,7 @@ const taskConfigCjs = $.typescript.createProject(config.PATHS.tsConfig, {
 });
 
 gulp.task('scripts:cjs', function scriptsEs5() {
-  const tsResult = gulp.src(config.PATHS.tsSrcFiles)
+  const tsResult = gulp.src([config.PATHS.tsSrcFiles, 'typings/main.d.ts'])
                   .pipe(sourcemaps.init())
                   .pipe($.typescript(taskConfigCjs));
 

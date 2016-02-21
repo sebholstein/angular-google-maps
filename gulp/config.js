@@ -9,7 +9,7 @@ module.exports.PATHS = {
   tsSrcFiles: 'src/**/*.ts',
   tsTestFiles: [
     'test/**/*.ts',
-    'node_modules/angular2/typings/jasmine/jasmine.d.ts',
+    'typings/main.d.ts',
   ],
   releaseAssets: ['assets/release/**/*', 'package.json', 'LICENSE'],
   exampleFiles: 'examples/**/*',
