@@ -1,7 +1,8 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {LatLng} from '../services/google-maps-types';
+import {MouseEvent} from '../events';
 
 /**
  * SebMGoogleMap renders a Google Map.
@@ -63,19 +64,19 @@ export class SebmGoogleMap implements OnChanges,
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
-  mapClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user right-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapRightClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user double-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapDblClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
@@ -182,15 +183,9 @@ export class SebmGoogleMap implements OnChanges,
     events.forEach((e: Event) => {
       this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
           (event: {latLng: LatLng}) => {
-            const value =
-                <MapMouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
             e.emitter.emit(value);
           });
     });
   }
 }
-
-/**
- * MapMouseEvent gets emitted when the user triggers mouse events on the map.
- */
-export interface MapMouseEvent { coords: LatLngLiteral; }
