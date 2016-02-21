@@ -1,3 +1,39 @@
+<a name="0.7.0"></a>
+# [0.7.0 clean-phantom](https://github.com/SebastianM/angular2-google-maps/compare/0.6.1...0.7.0) (2016-02-21)
+
+
+### Bug Fixes
+
+* **SebmGogleMapMarker:** label updates ([e2b9923](https://github.com/SebastianM/angular2-google-maps/commit/e2b9923))
+
+### Features
+
+* rename MapMouseEvent to MouseEvent ([978e881](https://github.com/SebastianM/angular2-google-maps/commit/978e881)), closes [#148](https://github.com/SebastianM/angular2-google-maps/issues/148)
+* support angular beta.7 ([66ccfe7](https://github.com/SebastianM/angular2-google-maps/commit/66ccfe7)), closes [#144](https://github.com/SebastianM/angular2-google-maps/issues/144)
+* **LazyMapsAPILoader:** support libraries query param ([a94662f](https://github.com/SebastianM/angular2-google-maps/commit/a94662f)), closes [#114](https://github.com/SebastianM/angular2-google-maps/issues/114)
+* **LazyMapsAPILoader:** support region & language ([a127a79](https://github.com/SebastianM/angular2-google-maps/commit/a127a79)), closes [#102](https://github.com/SebastianM/angular2-google-maps/issues/102) [#125](https://github.com/SebastianM/angular2-google-maps/issues/125)
+* **SebmGoogleMap:** support disableDefaultUI MapOption ([a5c9002](https://github.com/SebastianM/angular2-google-maps/commit/a5c9002)), closes [#103](https://github.com/SebastianM/angular2-google-maps/issues/103) [#113](https://github.com/SebastianM/angular2-google-maps/issues/113)
+* **SebmGoogleMapMarker:** add draggable option ([a8ba736](https://github.com/SebastianM/angular2-google-maps/commit/a8ba736)), closes [#70](https://github.com/SebastianM/angular2-google-maps/issues/70) [#147](https://github.com/SebastianM/angular2-google-maps/issues/147)
+* **SebmGoogleMapMarker:** support dragend event ([8f60c54](https://github.com/SebastianM/angular2-google-maps/commit/8f60c54)), closes [#71](https://github.com/SebastianM/angular2-google-maps/issues/71) [#149](https://github.com/SebastianM/angular2-google-maps/issues/149)
+
+
+### BREAKING CHANGES
+
+* `MapMouseEvent` is now called `MouseEvent`. Please update your
+imports:
+
+before:
+```
+import {MapMouseEvent} from 'angular2-google-maps/core';
+```
+
+after:
+```
+import {MouseEvent} from 'angular2-google-maps/core';
+```
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1 shiny-neutron](https://github.com/SebastianM/angular2-google-maps/compare/0.6.0...0.6.1) (2016-01-30)
 
