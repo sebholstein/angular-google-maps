@@ -1,5 +1,5 @@
-<a name="0.7.0"></a>
-# [0.7.0 clean-phantom](https://github.com/SebastianM/angular2-google-maps/compare/0.6.1...0.7.0) (2016-02-21)
+<a name="0.8.0"></a>
+# [0.8.0 clean-phantom](https://github.com/SebastianM/angular2-google-maps/compare/0.6.1...0.8.0) (2016-02-21)
 
 
 ### Bug Fixes
@@ -33,6 +33,9 @@ import {MouseEvent} from 'angular2-google-maps/core';
 ```
 
 
+<a name="0.7.0"></a>
+# [0.7.0](2016-02-21)
+This release was incorrect; replaced with 0.8.0
 
 <a name="0.6.1"></a>
 ## [0.6.1 shiny-neutron](https://github.com/SebastianM/angular2-google-maps/compare/0.6.0...0.6.1) (2016-01-30)
