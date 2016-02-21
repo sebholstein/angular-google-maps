@@ -1,5 +1,7 @@
 import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter} from 'angular2/core';
 import {MarkerManager} from '../services/marker-manager';
+import {MouseEvent} from '../events';
+import * as mapTypes from '../services/google-maps-types';
 
 let markerId = 0;
 
@@ -31,7 +33,7 @@ let markerId = 0;
 @Directive({
   selector: 'sebm-google-map-marker',
   inputs: ['latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable'],
-  outputs: ['markerClick']
+  outputs: ['markerClick', 'dragEnd']
 })
 export class SebmGoogleMapMarker implements OnDestroy,
     OnChanges {
@@ -65,6 +67,11 @@ export class SebmGoogleMapMarker implements OnDestroy,
    */
   markerClick: EventEmitter<void> = new EventEmitter<void>();
 
+  /**
+   * This event is fired when the user stops dragging the marker.
+   */
+  dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
   private _markerAddedToManger: boolean = false;
   private _id: string;
 
@@ -78,8 +85,7 @@ export class SebmGoogleMapMarker implements OnDestroy,
     if (!this._markerAddedToManger) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
-      this._markerManager.createClickObserable(this).subscribe(
-          () => { this.markerClick.next(null); });
+      this._addEventListeners();
       return;
     }
     if (changes['latitude'] || changes['logitude']) {
@@ -94,6 +100,16 @@ export class SebmGoogleMapMarker implements OnDestroy,
     if (changes['draggable']) {
       this._markerManager.updateDraggable(this);
     }
+  }
+
+  private _addEventListeners() {
+    this._markerManager.createEventObservable('click', this).subscribe(() => {
+      this.markerClick.next(null);
+    });
+    this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+        .subscribe((e: mapTypes.MouseEvent) => {
+          this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+        });
   }
 
   /** @internal */

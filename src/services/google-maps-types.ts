@@ -49,6 +49,8 @@ export interface LatLngLiteral {
   lng: number;
 }
 
+export interface MouseEvent { latLng: LatLng; }
+
 export interface MapOptions {
   center?: LatLng | LatLngLiteral;
   zoom?: number;
