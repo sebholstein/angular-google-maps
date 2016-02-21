@@ -52,10 +52,10 @@ export class MarkerManager {
     this._markers.set(marker, markerPromise);
   }
 
-  createClickObserable(marker: SebmGoogleMapMarker): Observable<void> {
-    return Observable.create((observer: Observer<void>) => {
+  createEventObservable<T>(eventName: string, marker: SebmGoogleMapMarker): Observable<T> {
+    return Observable.create((observer: Observer<T>) => {
       this._markers.get(marker).then((m: Marker) => {
-        m.addListener('click', () => this._zone.run(() => observer.next(null)));
+        m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
   }
