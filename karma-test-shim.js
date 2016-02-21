@@ -11,6 +11,9 @@ System.config({
   packages: {
     'base/src': {
       defaultJSExtensions: true
+    },
+    'base/test-built/src': {
+      defaultJSExtensions: true
     }
   }
 });
