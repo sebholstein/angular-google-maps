@@ -73,8 +73,8 @@ export class SebmGoogleMapMarker implements OnDestroy,
     if (!this._markerAddedToManger) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
-      this._markerManager.createClickObserable(this)
-          .subscribe(() => { this.markerClick.next(null); });
+      this._markerManager.createClickObserable(this).subscribe(
+          () => { this.markerClick.next(null); });
       return;
     }
     if (changes['latitude'] || changes['logitude']) {
