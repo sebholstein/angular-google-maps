@@ -30,7 +30,7 @@ let markerId = 0;
  */
 @Directive({
   selector: 'sebm-google-map-marker',
-  inputs: ['latitude', 'longitude', 'title', 'label'],
+  inputs: ['latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable'],
   outputs: ['markerClick']
 })
 export class SebmGoogleMapMarker implements OnDestroy,
@@ -54,6 +54,11 @@ export class SebmGoogleMapMarker implements OnDestroy,
    * The label (a single uppercase character) for the marker.
    */
   label: string;
+
+  /**
+   * If true, the marker can be dragged. Default value is false.
+   */
+  draggable: boolean = false;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -85,6 +90,9 @@ export class SebmGoogleMapMarker implements OnDestroy,
     }
     if (changes['label']) {
       this._markerManager.updateLabel(this);
+    }
+    if (changes['draggable']) {
+      this._markerManager.updateDraggable(this);
     }
   }
 

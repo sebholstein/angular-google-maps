@@ -23,6 +23,7 @@ export interface Marker {
   setPosition(latLng: LatLng | LatLngLiteral): void;
   setTitle(title: string): void;
   setLabel(label: string | MarkerLabel): void;
+  setDraggable(draggable: boolean): void;
   getLabel(): MarkerLabel;
   addListener(eventType: string, fn: Function): void;
 }
@@ -32,6 +33,7 @@ export interface MarkerOptions {
   title?: string;
   map?: GoogleMap;
   label?: string | MarkerLabel;
+  draggable?: boolean;
 }
 
 export interface MarkerLabel {

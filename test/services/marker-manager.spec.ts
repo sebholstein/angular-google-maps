@@ -28,7 +28,7 @@ export function main() {
                markerManager.addMarker(newMarker);
 
                expect(apiWrapper.createMarker)
-                   .toHaveBeenCalledWith({position: {lat: 34.4, lng: 22.3}, label: 'A'});
+                   .toHaveBeenCalledWith({position: {lat: 34.4, lng: 22.3}, label: 'A', draggable: false});
              }));
     });
 
