@@ -56,7 +56,7 @@
     "systemjs": "0.19.22",
     "systemjs-builder": "0.14.11",
     "tslint": "3.3.0",
-    "typescript": "1.7.5",
+    "typescript": "1.8.2",
     "typings": "0.6.8"
   },
   "jspm": {
