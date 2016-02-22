@@ -35,7 +35,7 @@
       "check-catch",
       "check-else"
     ],
-    "qoutemark": [
+    "quotemark": [
       true,
       "single"
     ],
@@ -68,7 +68,7 @@
       "check-format",
       "ban-keywords"
     ],
-    "white-space": [
+    "whitespace": [
       true,
       "check-branch",
       "check-decl",
