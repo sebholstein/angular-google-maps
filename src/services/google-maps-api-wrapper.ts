@@ -67,7 +67,5 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
 
-  getMap(): Promise<mapTypes.GoogleMap> {
-    return this._map;
-  }
+  getMap(): Promise<mapTypes.GoogleMap> { return this._map; }
 }
