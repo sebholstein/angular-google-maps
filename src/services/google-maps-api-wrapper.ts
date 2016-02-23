@@ -66,4 +66,8 @@ export class GoogleMapsAPIWrapper {
   getCenter(): Promise<mapTypes.LatLng> {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
+
+  getMap(): Promise<mapTypes.GoogleMap> {
+    return this._map;
+  }
 }
