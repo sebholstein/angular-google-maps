@@ -55,7 +55,7 @@
     "run-sequence": "1.1.5",
     "systemjs": "0.19.22",
     "systemjs-builder": "0.14.11",
-    "tslint": "3.3.0",
+    "tslint": "3.5.0",
     "typescript": "1.8.2",
     "typings": "0.6.8"
   },
