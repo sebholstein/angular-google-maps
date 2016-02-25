@@ -88,7 +88,7 @@ export class SebmGoogleMapMarker implements OnDestroy,
       this._addEventListeners();
       return;
     }
-    if (changes['latitude'] || changes['logitude']) {
+    if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
     }
     if (changes['title']) {
