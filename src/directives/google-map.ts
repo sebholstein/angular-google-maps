@@ -34,8 +34,15 @@ import {MouseEvent} from '../events';
   providers: [GoogleMapsAPIWrapper, MarkerManager],
   inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
+  host: {'[class.sebm-google-map-container]': 'true'},
+  styles: [`
+    .sebm-google-map-container-inner {
+      width: inherit;
+      height: inherit;
+    }
+  `],
   template: `
-    <div class="sebm-google-map-container"></div>
+    <div class="sebm-google-map-container-inner"></div>
     <ng-content></ng-content>
   `
 })
@@ -82,7 +89,7 @@ export class SebmGoogleMap implements OnChanges,
 
   /** @internal */
   ngOnInit() {
-    const container = this._elem.nativeElement.querySelector('.sebm-google-map-container');
+    const container = this._elem.nativeElement.querySelector('.sebm-google-map-container-inner');
     this._initMapInstance(container);
   }
 
