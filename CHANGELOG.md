@@ -1,3 +1,14 @@
+<a name="0.8.1"></a>
+## [0.8.1](https://github.com/SebastianM/angular2-google-maps/compare/0.8.0...v0.8.1) (2016-02-28)
+
+
+### Bug Fixes
+
+* **SebmGoogleMap:** allow styling via comp styles ([509b610](https://github.com/SebastianM/angular2-google-maps/commit/509b610)), closes [#162](https://github.com/SebastianM/angular2-google-maps/issues/162) [#169](https://github.com/SebastianM/angular2-google-maps/issues/169)
+* **SebmGoogleMapMarker:** longitude changes ([e4ca50b](https://github.com/SebastianM/angular2-google-maps/commit/e4ca50b)), closes [#163](https://github.com/SebastianM/angular2-google-maps/issues/163) [#167](https://github.com/SebastianM/angular2-google-maps/issues/167)
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0 clean-phantom](https://github.com/SebastianM/angular2-google-maps/compare/0.6.1...0.8.0) (2016-02-21)
 
