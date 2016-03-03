@@ -44,7 +44,7 @@
     "gulp-rename": "1.2.2",
     "gulp-sourcemaps": "1.6.0",
     "gulp-tslint": "4.3.3",
-    "gulp-typescript": "2.12.0",
+    "gulp-typescript": "2.12.1",
     "jasmine-core": "2.4.1",
     "karma": "0.13.21",
     "karma-chrome-launcher": "0.2.2",
