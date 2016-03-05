@@ -117,6 +117,20 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   /**
+   * Triggers a resize event on the google map instance.
+   * Returns a promise that gets resolved after the event was triggered.
+   */
+  triggerResize(): Promise<void> {
+    // Note: When we would trigger the resize event and show the map in the same turn (which is a
+    // common case for triggering a resize event), then the resize event would not
+    // work (to show the map), so we trigger the event in a timeout.
+    return new Promise<void>((resolve) => {
+      setTimeout(
+          () => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); });
+    });
+  }
+
+  /**
    * Sets the zoom level of the map. The default value is `8`.
    */
   set zoom(value: number | string) {
