@@ -68,4 +68,11 @@ export class GoogleMapsAPIWrapper {
   }
 
   getMap(): Promise<mapTypes.GoogleMap> { return this._map; }
+
+  /**
+   * Triggers the given event name on the map instance.
+   */
+  triggerMapEvent(eventName: string): Promise<void> {
+    return this._map.then((m) => google.maps.event.trigger(m, eventName));
+  }
 }
