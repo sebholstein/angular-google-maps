@@ -118,7 +118,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const region: string = this._config.region || DEFAULT_CONFIGURATION.region;
     const language: string = this._config.language || DEFAULT_CONFIGURATION.language;
     const queryParams: {[key: string]: string} = {
-      v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiKey,
+      v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiVersion,
       callback: callbackName
     };
     if (apiKey) {
