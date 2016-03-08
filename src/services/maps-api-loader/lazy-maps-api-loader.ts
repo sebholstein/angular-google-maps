@@ -15,6 +15,14 @@ export class LazyMapsAPILoaderConfig {
   apiKey: string = null;
 
   /**
+   * The Google Maps client ID (for premium plans).
+   * When you have a Google Maps APIs Premium Plan license, you must authenticate
+   * your application with either an API key or a client ID.
+   * The Google Maps API will fail to load if both a client ID and an API key are included.
+   */
+  clientId: string = null;
+
+  /**
    * Google Maps API version.
    */
   apiVersion: string = '3';
@@ -73,7 +81,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    const callbackName: string = `angular2googlemaps${new Date().getMilliseconds()}`;
+    const callbackName: string = `angular2googlemaps${new Date().getMilliseconds() }`;
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
@@ -105,6 +113,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
     const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
     const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
+    const clientId: string = this._config.clientId || DEFAULT_CONFIGURATION.clientId;
     const libraries: string[] = this._config.libraries || DEFAULT_CONFIGURATION.libraries;
     const region: string = this._config.region || DEFAULT_CONFIGURATION.region;
     const language: string = this._config.language || DEFAULT_CONFIGURATION.language;
@@ -114,6 +123,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     };
     if (apiKey) {
       queryParams['key'] = apiKey;
+    }
+    if (clientId) {
+      queryParams['client'] = clientId;
     }
     if (libraries != null && libraries.length > 0) {
       queryParams['libraries'] = libraries.join(',');
