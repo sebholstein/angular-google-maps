@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
-import {LatLng} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral} from '../services/google-maps-types';
 import {MouseEvent} from '../events';
 
 /**
@@ -33,7 +33,7 @@ import {MouseEvent} from '../events';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
   inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
+  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
   styles: [`
     .sebm-google-map-container-inner {
@@ -84,6 +84,11 @@ export class SebmGoogleMap implements OnChanges,
    * on a marker or infoWindow).
    */
   mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event emitter is fired when the map center changes.
+   */
+  centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
@@ -180,6 +185,7 @@ export class SebmGoogleMap implements OnChanges,
       this._mapsWrapper.getCenter().then((center: LatLng) => {
         this._latitude = center.lat();
         this._longitude = center.lng();
+        this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
       });
     });
   }
