@@ -65,7 +65,6 @@ export class SebmGoogleMap implements OnChanges,
    */
   disableDefaultUI: boolean = false;
 
-
   /**
    * Map option attributes that can change over time
    */

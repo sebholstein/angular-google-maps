@@ -1,6 +1,7 @@
 export var google: any;
 
 export interface GoogleMap {
+  scrollwheel?: boolean;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng | LatLngLiteral): void;
   setZoom(zoom: number): void;
@@ -9,7 +10,6 @@ export interface GoogleMap {
   setCenter(latLng: LatLng | LatLngLiteral): void;
   getZoom(): number;
   setOptions(options: MapOptions): void;
-  scrollwheel?: boolean;
 }
 
 export interface LatLng {
