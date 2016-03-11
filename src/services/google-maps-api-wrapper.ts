@@ -63,6 +63,10 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
   }
 
+  scrollwheel(scrollwheel: boolean): Promise<void> {
+    return this._map.then((map: mapTypes.GoogleMap) => { map.scrollwheel = scrollwheel; });
+  }
+
   getCenter(): Promise<mapTypes.LatLng> {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
