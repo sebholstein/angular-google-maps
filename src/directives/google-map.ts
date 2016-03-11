@@ -32,7 +32,9 @@ import {MouseEvent} from '../events';
 @Component({
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
-  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
+  inputs: [
+    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel'
+  ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   host: {'[class.sebm-google-map-container]': 'true'},
   styles: [`
@@ -51,6 +53,7 @@ export class SebmGoogleMap implements OnChanges,
   private _longitude: number = 0;
   private _latitude: number = 0;
   private _zoom: number = 8;
+  private _scrollwheel: boolean = true;
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
    */
@@ -61,6 +64,7 @@ export class SebmGoogleMap implements OnChanges,
    * value cannot get updated.
    */
   disableDefaultUI: boolean = false;
+
 
   /**
    * Map option attributes that can change over time
@@ -97,7 +101,8 @@ export class SebmGoogleMap implements OnChanges,
     this._mapsWrapper.createMap(el, {
       center: {lat: this._latitude, lng: this._longitude},
       zoom: this._zoom,
-      disableDefaultUI: this.disableDefaultUI
+      disableDefaultUI: this.disableDefaultUI,
+      scrollwheel: this._scrollwheel
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
@@ -139,6 +144,11 @@ export class SebmGoogleMap implements OnChanges,
       this._mapsWrapper.setZoom(this._zoom);
     }
   }
+
+  /**
+   * Sets the scrollwheel enables/disables on map. The default value is true
+   */
+  set scrollwheel(value: boolean) { this._mapsWrapper.scrollwheel(value); }
 
   /**
    * The longitude that sets the center of the map.
