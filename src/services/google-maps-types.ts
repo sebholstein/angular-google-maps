@@ -1,6 +1,7 @@
 export var google: any;
 
 export interface GoogleMap {
+  scrollwheel?: boolean;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng | LatLngLiteral): void;
   setZoom(zoom: number): void;
@@ -56,4 +57,5 @@ export interface MapOptions {
   zoom?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
+  scrollwheel?: boolean;
 }
