@@ -11,7 +11,7 @@ module.exports.PATHS = {
     'test/**/*.ts',
     'typings/main.d.ts',
   ],
-  releaseAssets: ['assets/release/**/*', 'package.json', 'LICENSE'],
+  releaseAssets: ['assets/release/**/*', 'LICENSE'],
   exampleFiles: 'examples/**/*',
   jsFiles: ['gulpfile.js', 'gulp/*.js'],
   tsConfig: path.join(__dirname, '../tsconfig.json'),
