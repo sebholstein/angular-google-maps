@@ -1,8 +1,0 @@
-baseurl: "http://sebastianm.github.io/angular2-google-maps/"
-title: "angular2-google-maps - Google maps directives for Angular2"
-contentDir: "docs"
-dataDir: "assets/docs/data"
-staticDir: "assets/docs/static"
-layoutDir: "assets/docs/layouts"
-publishdir: "docs_generated"
-theme: "angular2-google-maps"
