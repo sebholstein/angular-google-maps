@@ -24,6 +24,7 @@ export interface Marker {
   setTitle(title: string): void;
   setLabel(label: string | MarkerLabel): void;
   setDraggable(draggable: boolean): void;
+  setIcon(icon: string): void;
   getLabel(): MarkerLabel;
   addListener(eventType: string, fn: Function): void;
 }
@@ -34,6 +35,7 @@ export interface MarkerOptions {
   map?: GoogleMap;
   label?: string | MarkerLabel;
   draggable?: boolean;
+  icon?: string;
 }
 
 export interface MarkerLabel {

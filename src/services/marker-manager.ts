@@ -43,11 +43,16 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setDraggable(marker.draggable));
   }
 
+  updateIcon(marker: SebmGoogleMapMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => m.setIcon(marker.iconUrl));
+  }
+
   addMarker(marker: SebmGoogleMapMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
       label: marker.label,
-      draggable: marker.draggable
+      draggable: marker.draggable,
+      icon: marker.iconUrl
     });
     this._markers.set(marker, markerPromise);
   }
