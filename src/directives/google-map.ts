@@ -42,7 +42,7 @@ import {MouseEvent} from '../events';
     }
   `],
   template: `
-    <div class="sebm-google-map-container-inner"></div>
+    <div class='sebm-google-map-container-inner'></div>
     <ng-content></ng-content>
   `
 })
