@@ -36,7 +36,7 @@
     "eslint-config-airbnb": "1.0.0",
     "eslint-plugin-react": "4.2.1",
     "gulp": "3.9.1",
-    "gulp-bump": "1.0.0",
+    "gulp-bump": "2.0.1",
     "gulp-clang-format": "1.0.23",
     "gulp-connect": "3.0.0",
     "gulp-conventional-changelog": "1.0.1",
