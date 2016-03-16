@@ -1,7 +1,8 @@
-import {describe, it, expect, beforeEachProviders, inject} from 'angular2/testing';
+import {describe, it, expect, beforeEachProviders, inject, injectAsync} from 'angular2/testing';
 import {provide, NgZone} from 'angular2/core';
 
 import {MarkerManager} from '../../src/services/marker-manager';
+import {Marker} from '../../src/services/google-maps-types';
 import {GoogleMapsAPIWrapper} from '../../src/services/google-maps-api-wrapper';
 import {SebmGoogleMapMarker} from '../../src/directives/google-map-marker';
 
@@ -28,7 +29,7 @@ export function main() {
                markerManager.addMarker(newMarker);
 
                expect(apiWrapper.createMarker)
-                   .toHaveBeenCalledWith({position: {lat: 34.4, lng: 22.3}, label: 'A', draggable: false});
+                   .toHaveBeenCalledWith({position: {lat: 34.4, lng: 22.3}, label: 'A', draggable: false, icon: undefined});
              }));
     });
 
@@ -42,13 +43,37 @@ export function main() {
                newMarker.longitude = 22.3;
                newMarker.label = 'A';
 
-               const markerInstance = jasmine.createSpyObj('Marker', ['setMap']);
+               const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap']);
                (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
 
                markerManager.addMarker(newMarker);
                markerManager.deleteMarker(newMarker)
                    .then(() => { expect(markerInstance.setMap).toHaveBeenCalledWith(null); });
              }));
+    });
+
+    describe('set marker icon', () => {
+      it('should update that marker via setIcon method when the markerUrl changes',
+        injectAsync(
+              [MarkerManager, GoogleMapsAPIWrapper],
+              (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+                const newMarker = new SebmGoogleMapMarker(markerManager);
+                newMarker.latitude = 34.4;
+                newMarker.longitude = 22.3;
+                newMarker.label = 'A';
+
+                const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setIcon']);
+                (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+
+                markerManager.addMarker(newMarker);
+                expect(apiWrapper.createMarker)
+                    .toHaveBeenCalledWith({position: {lat: 34.4, lng: 22.3}, label: 'A', draggable: false, icon: undefined});
+                const iconUrl = 'http://angular-maps.com/icon.png';
+                newMarker.iconUrl = iconUrl;
+                return markerManager.updateIcon(newMarker).then(() => {
+                  expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl);
+                });
+              }));
     });
   });
 }
