@@ -38,7 +38,7 @@
     "gulp": "3.9.1",
     "gulp-bump": "2.0.1",
     "gulp-clang-format": "1.0.23",
-    "gulp-connect": "3.0.0",
+    "gulp-connect": "3.2.0",
     "gulp-conventional-changelog": "1.0.1",
     "gulp-eslint": "1.1.1",
     "gulp-git": "1.7.0",
