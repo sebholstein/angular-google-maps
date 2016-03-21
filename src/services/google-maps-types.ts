@@ -62,4 +62,5 @@ export interface MapOptions {
   draggableCursor?: string;
   draggingCursor?: string;
   keyboardShortcuts?: boolean;
+  zoomControl?: boolean;
 }
