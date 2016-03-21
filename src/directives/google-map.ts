@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
+import {InfoWindowManager} from '../services/info-window-manager';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
 import {MouseEvent} from '../events';
 
@@ -31,7 +32,7 @@ import {MouseEvent} from '../events';
  */
 @Component({
   selector: 'sebm-google-map',
-  providers: [GoogleMapsAPIWrapper, MarkerManager],
+  providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
@@ -43,10 +44,15 @@ import {MouseEvent} from '../events';
       width: inherit;
       height: inherit;
     }
+    .sebm-google-map-content {
+      display:none;
+    }
   `],
   template: `
     <div class='sebm-google-map-container-inner'></div>
-    <ng-content></ng-content>
+    <div class='sebm-google-map-content'>
+      <ng-content></ng-content>
+    </div>
   `
 })
 export class SebmGoogleMap implements OnChanges,

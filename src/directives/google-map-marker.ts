@@ -1,5 +1,14 @@
-import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter} from 'angular2/core';
+import {
+  Directive,
+  SimpleChange,
+  OnDestroy,
+  OnChanges,
+  EventEmitter,
+  ContentChild,
+  AfterContentInit
+} from 'angular2/core';
 import {MarkerManager} from '../services/marker-manager';
+import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
 
@@ -36,7 +45,7 @@ let markerId = 0;
   outputs: ['markerClick', 'dragEnd']
 })
 export class SebmGoogleMapMarker implements OnDestroy,
-    OnChanges {
+    OnChanges, AfterContentInit {
   /**
    * The latitude position of the marker.
    */
@@ -77,10 +86,19 @@ export class SebmGoogleMapMarker implements OnDestroy,
    */
   dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
+  @ContentChild(SebmGoogleMapInfoWindow) private _infoWindow: SebmGoogleMapInfoWindow;
+
   private _markerAddedToManger: boolean = false;
   private _id: string;
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
+
+  /* @internal */
+  ngAfterContentInit() {
+    if (this._infoWindow != null) {
+      this._infoWindow.hostMarker = this;
+    }
+  }
 
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
@@ -112,6 +130,9 @@ export class SebmGoogleMapMarker implements OnDestroy,
 
   private _addEventListeners() {
     this._markerManager.createEventObservable('click', this).subscribe(() => {
+      if (this._infoWindow != null) {
+        this._infoWindow.open();
+      }
       this.markerClick.next(null);
     });
     this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)

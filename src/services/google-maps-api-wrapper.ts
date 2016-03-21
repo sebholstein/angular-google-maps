@@ -45,6 +45,10 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
+  createInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
+    return this._map.then(() => { return new google.maps.InfoWindow(options); });
+  }
+
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
       this._map.then((m: mapTypes.GoogleMap) => {
