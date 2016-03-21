@@ -34,7 +34,7 @@ import {MouseEvent} from '../events';
   providers: [GoogleMapsAPIWrapper, MarkerManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts'
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -99,11 +99,16 @@ export class SebmGoogleMap implements OnChanges,
   keyboardShortcuts: boolean = true;
 
   /**
+   * The enabled/disabled state of the Zoom control.
+   */
+  zoomControl: boolean = true;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts'
+    'keyboardShortcuts', 'zoomControl'
   ];
 
   /**
@@ -145,7 +150,8 @@ export class SebmGoogleMap implements OnChanges,
       backgroundColor: this.backgroundColor,
       draggableCursor: this.draggableCursor,
       draggingCursor: this.draggingCursor,
-      keyboardShortcuts: this.keyboardShortcuts
+      keyboardShortcuts: this.keyboardShortcuts,
+      zoomControl: this.zoomControl
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
