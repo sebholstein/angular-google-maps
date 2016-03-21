@@ -34,7 +34,7 @@ import {MouseEvent} from '../events';
   providers: [GoogleMapsAPIWrapper, MarkerManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor'
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -93,10 +93,18 @@ export class SebmGoogleMap implements OnChanges,
   draggingCursor: string;
 
   /**
+   * If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are
+   * enabled by default.
+   */
+  keyboardShortcuts: boolean = true;
+
+  /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] =
-      ['disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor'];
+  private static _mapOptionsAttributes: string[] = [
+    'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
+    'keyboardShortcuts'
+  ];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -136,7 +144,8 @@ export class SebmGoogleMap implements OnChanges,
       disableDefaultUI: this.disableDefaultUI,
       backgroundColor: this.backgroundColor,
       draggableCursor: this.draggableCursor,
-      draggingCursor: this.draggingCursor
+      draggingCursor: this.draggingCursor,
+      keyboardShortcuts: this.keyboardShortcuts
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();

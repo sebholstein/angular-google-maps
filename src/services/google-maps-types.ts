@@ -61,4 +61,5 @@ export interface MapOptions {
   backgroundColor?: string;
   draggableCursor?: string;
   draggingCursor?: string;
+  keyboardShortcuts?: boolean;
 }
