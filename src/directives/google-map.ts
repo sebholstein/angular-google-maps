@@ -34,7 +34,7 @@ import {MouseEvent} from '../events';
   providers: [GoogleMapsAPIWrapper, MarkerManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor'
+    'backgroundColor', 'draggableCursor', 'draggingCursor'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -79,16 +79,24 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The name or url of the cursor to display when mousing over a draggable map. This property uses
    * the css  * cursor attribute to change the icon. As with the css property, you must specify at
-   * least one fallback  * cursor that is not a URL. For example:
-   * draggableCursor="'url(http://www.example.com/icon.png), auto;'"
+   * least one fallback cursor that is not a URL. For example:
+   * [draggableCursor]="'url(http://www.example.com/icon.png), auto;'"
    */
   draggableCursor: string;
+
+  /**
+   * The name or url of the cursor to display when the map is being dragged. This property uses the
+   * css cursor attribute to change the icon. As with the css property, you must specify at least
+   * one fallback cursor that is not a URL. For example:
+   * [draggingCursor]="'url(http://www.example.com/icon.png), auto;'"
+   */
+  draggingCursor: string;
 
   /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] =
-      ['disableDoubleClickZoom', 'scrollwheel', 'draggableCursor'];
+      ['disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor'];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -127,7 +135,8 @@ export class SebmGoogleMap implements OnChanges,
       zoom: this._zoom,
       disableDefaultUI: this.disableDefaultUI,
       backgroundColor: this.backgroundColor,
-      draggableCursor: this.draggableCursor
+      draggableCursor: this.draggableCursor,
+      draggingCursor: this.draggingCursor
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
