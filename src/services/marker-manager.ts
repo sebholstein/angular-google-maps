@@ -57,6 +57,10 @@ export class MarkerManager {
     this._markers.set(marker, markerPromise);
   }
 
+  getNativeMarker(marker: SebmGoogleMapMarker): Promise<Marker> {
+    return this._markers.get(marker);
+  }
+
   createEventObservable<T>(eventName: string, marker: SebmGoogleMapMarker): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
       this._markers.get(marker).then((m: Marker) => {

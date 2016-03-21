@@ -64,3 +64,35 @@ export interface MapOptions {
   keyboardShortcuts?: boolean;
   zoomControl?: boolean;
 }
+
+export interface InfoWindow {
+  constructor(opts?: InfoWindowOptions): void;
+  close(): void;
+  getContent(): string | Node;
+  getPosition(): LatLng;
+  getZIndex(): number;
+  open(map?: GoogleMap, anchor?: MVCObject): void;
+  setContent(content: string | Node): void;
+  setOptions(options: InfoWindowOptions): void;
+  setPosition(position: LatLng | LatLngLiteral): void;
+  setZIndex(zIndex: number): void;
+}
+
+export interface MVCObject { constructor(): void; }
+
+export interface Size {
+  height: number;
+  width: number;
+  constructor(width: number, height: number, widthUnit?: string, heightUnit?: string): void;
+  equals(other: Size): boolean;
+  toString(): string;
+}
+
+export interface InfoWindowOptions {
+  content?: string | Node;
+  disableAutoPan?: boolean;
+  maxWidth?: number;
+  pixelOffset?: Size;
+  position?: LatLng | LatLngLiteral;
+  zIndex?: number;
+}
