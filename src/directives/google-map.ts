@@ -33,7 +33,8 @@ import {MouseEvent} from '../events';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel'
+    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
+    'backgroundColor'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -68,6 +69,12 @@ export class SebmGoogleMap implements OnChanges,
    * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
    */
   scrollwheel: boolean = true;
+
+  /**
+   * Color used for the background of the Map div. This color will be visible when tiles have not
+   * yet loaded as the user pans. This option can only be set when the map is initialized.
+   */
+  backgroundColor: string;
 
   /**
    * Map option attributes that can change over time
@@ -109,7 +116,8 @@ export class SebmGoogleMap implements OnChanges,
     this._mapsWrapper.createMap(el, {
       center: {lat: this._latitude, lng: this._longitude},
       zoom: this._zoom,
-      disableDefaultUI: this.disableDefaultUI
+      disableDefaultUI: this.disableDefaultUI,
+      backgroundColor: this.backgroundColor
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();

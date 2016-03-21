@@ -58,4 +58,5 @@ export interface MapOptions {
   zoom?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
+  backgroundColor?: string;
 }
