@@ -32,7 +32,9 @@ import {MouseEvent} from '../events';
 @Component({
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
-  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
+  inputs: [
+    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel'
+  ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
   styles: [`
@@ -63,9 +65,14 @@ export class SebmGoogleMap implements OnChanges,
   disableDefaultUI: boolean = false;
 
   /**
+   * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
+   */
+  scrollwheel: boolean = true;
+
+  /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
+  private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom', 'scrollwheel'];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -109,16 +116,17 @@ export class SebmGoogleMap implements OnChanges,
     this._handleMapMouseEvents();
   }
 
-  private static _containsMapOptionsChange(changesKeys: string[]): boolean {
-    return changesKeys.every(
-        (key: string) => { return SebmGoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
+  /* @internal */
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+    this._updateMapOptionsChanges(changes);
   }
 
-  /** @internal */
-  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-    if (SebmGoogleMap._containsMapOptionsChange(Object.keys(changes))) {
-      this._mapsWrapper.setMapOptions({disableDoubleClickZoom: this.disableDoubleClickZoom});
-    }
+  private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
+    let options: {[propName: string]: any} = {};
+    let optionKeys =
+        Object.keys(changes).filter(k => SebmGoogleMap._mapOptionsAttributes.indexOf(k) !== -1);
+    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
+    this._mapsWrapper.setMapOptions(options);
   }
 
   /**
