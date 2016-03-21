@@ -59,4 +59,5 @@ export interface MapOptions {
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
   backgroundColor?: string;
+  draggableCursor?: string;
 }
