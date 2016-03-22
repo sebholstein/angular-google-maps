@@ -1,3 +1,32 @@
+<a name="0.9.0"></a>
+# [0.9.0 icy-lama](https://github.com/SebastianM/angular2-google-maps/compare/0.8.1...0.9.0) (2016-03-22)
+
+
+### Bug Fixes
+
+* **LazyMapsAPILoader:** use default API version 3 ([426da66](https://github.com/SebastianM/angular2-google-maps/commit/426da66)), closes [#195](https://github.com/SebastianM/angular2-google-maps/issues/195)
+
+### Features
+
+* Expose GoogleMapsAPIWrapper ([8999da2](https://github.com/SebastianM/angular2-google-maps/commit/8999da2))
+* Expose InfoWindowManager ([7c95e55](https://github.com/SebastianM/angular2-google-maps/commit/7c95e55))
+* Expose MarkerManager ([0726ddb](https://github.com/SebastianM/angular2-google-maps/commit/0726ddb))
+* **GoogleMapsAPIWrapper:** expose map instance ([69e3c0e](https://github.com/SebastianM/angular2-google-maps/commit/69e3c0e)), closes [#161](https://github.com/SebastianM/angular2-google-maps/issues/161)
+* **LazyMapsAPILoaderConfig:** add clientId ([652b711](https://github.com/SebastianM/angular2-google-maps/commit/652b711)), closes [#198](https://github.com/SebastianM/angular2-google-maps/issues/198)
+* **SebmGoogleMap:** support backgroundColor opt ([bda7ca8](https://github.com/SebastianM/angular2-google-maps/commit/bda7ca8)), closes [#233](https://github.com/SebastianM/angular2-google-maps/issues/233)
+* **SebmGoogleMap:** support centerChange event ([20ad62b](https://github.com/SebastianM/angular2-google-maps/commit/20ad62b)), closes [#212](https://github.com/SebastianM/angular2-google-maps/issues/212)
+* **SebmGoogleMap:** support draggableCursor opt ([00d26e5](https://github.com/SebastianM/angular2-google-maps/commit/00d26e5)), closes [#234](https://github.com/SebastianM/angular2-google-maps/issues/234)
+* **SebmGoogleMap:** support draggingCursor opt ([553842a](https://github.com/SebastianM/angular2-google-maps/commit/553842a)), closes [#235](https://github.com/SebastianM/angular2-google-maps/issues/235)
+* **SebmGoogleMap:** support keyboardShortcuts opt ([1a14570](https://github.com/SebastianM/angular2-google-maps/commit/1a14570)), closes [#236](https://github.com/SebastianM/angular2-google-maps/issues/236)
+* **SebmGoogleMap:** support scrollwheel mapOption ([e19d99b](https://github.com/SebastianM/angular2-google-maps/commit/e19d99b)), closes [#232](https://github.com/SebastianM/angular2-google-maps/issues/232) [#159](https://github.com/SebastianM/angular2-google-maps/issues/159) [#211](https://github.com/SebastianM/angular2-google-maps/issues/211)
+* **SebmGoogleMap:** support zoomControl opt ([a5b909a](https://github.com/SebastianM/angular2-google-maps/commit/a5b909a)), closes [#237](https://github.com/SebastianM/angular2-google-maps/issues/237)
+* **SebmGoogleMap:** triggering resize events ([b27ae46](https://github.com/SebastianM/angular2-google-maps/commit/b27ae46)), closes [#166](https://github.com/SebastianM/angular2-google-maps/issues/166) [#188](https://github.com/SebastianM/angular2-google-maps/issues/188)
+* **SebmGoogleMapInfoWindow:** Basic support ([a3df794](https://github.com/SebastianM/angular2-google-maps/commit/a3df794)), closes [#150](https://github.com/SebastianM/angular2-google-maps/issues/150) [#238](https://github.com/SebastianM/angular2-google-maps/issues/238)
+* support angular2.0.0-beta.11 ([e187ae6](https://github.com/SebastianM/angular2-google-maps/commit/e187ae6))
+* **SebmGoogleMapMarker:** add custom icon support ([13ec2a1](https://github.com/SebastianM/angular2-google-maps/commit/13ec2a1)), closes [#123](https://github.com/SebastianM/angular2-google-maps/issues/123) [#224](https://github.com/SebastianM/angular2-google-maps/issues/224)
+
+
+
 <a name="0.8.1"></a>
 ## [0.8.1](https://github.com/SebastianM/angular2-google-maps/compare/0.8.0...v0.8.1) (2016-02-28)
 
