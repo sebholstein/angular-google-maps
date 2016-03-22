@@ -22,7 +22,8 @@ function bundle(moduleName, moduleBundleName, minify, done) {
   const builder = new Builder();
   builder.config(bundleConfig);
   const outputFile = path.join(config.PATHS.dist.bundles, moduleBundleName + (minify ? '.min' : '') + '.js');
-  const bundlePromise = builder.bundle(moduleName + ' - angular2/* - rxjs/*', outputFile, outputConfig);
+  // todo: newest systemjs-builder version requires to explicitly exclude .d.ts files - probably a systemjs-builder bug.
+  const bundlePromise = builder.bundle(moduleName + ' - angular2/*.ts - angular2/*.js - rxjs/*.ts - rxjs/*.js', outputFile, outputConfig);
 
   if (!minify) {
     bundlePromise.then(() => {
