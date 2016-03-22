@@ -95,12 +95,15 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
 
   ngOnInit() {
     this.content = this._el.nativeElement.querySelector('.sebm-google-map-info-window-content');
-    this._addToManager();
+    this._infoWindowManager.addInfoWindow(this);
+    this._infoWindowAddedToManager = true;
   }
 
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
-    this._addToManager();
+    if (!this._infoWindowAddedToManager) {
+      return;
+    }
     if ((changes['latitude'] || changes['longitude']) && typeof this.latitude === 'number' &&
         typeof this.longitude === 'number') {
       this._infoWindowManager.setPosition(this);
@@ -117,13 +120,6 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
         k => SebmGoogleMapInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._infoWindowManager.setOptions(this, options);
-  }
-
-  private _addToManager() {
-    if (!this._infoWindowAddedToManager) {
-      this._infoWindowAddedToManager = true;
-      this._infoWindowManager.addInfoWindow(this);
-    }
   }
 
   /**
