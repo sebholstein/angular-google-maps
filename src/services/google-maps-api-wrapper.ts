@@ -49,6 +49,13 @@ export class GoogleMapsAPIWrapper {
     return this._map.then(() => { return new google.maps.InfoWindow(options); });
   }
 
+  createControl(position: mapTypes.MapControlPosition, controlEl: HTMLElement): Promise<void> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      this._getPositionsMap().then(
+          (positionsMap) => map.controls[positionsMap[position]].push(controlEl));
+    });
+  }
+
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
       this._map.then((m: mapTypes.GoogleMap) => {
@@ -78,5 +85,20 @@ export class GoogleMapsAPIWrapper {
    */
   triggerMapEvent(eventName: string): Promise<void> {
     return this._map.then((m) => google.maps.event.trigger(m, eventName));
+  }
+
+  private _getPositionsMap(): Promise<Array<any>> {
+    return new Promise<Array<any>>((resolve) => {
+      this._map.then(() => {
+        resolve([
+          google.maps.ControlPosition.BOTTOM_CENTER, google.maps.ControlPosition.BOTTOM_LEFT,
+          google.maps.ControlPosition.BOTTOM_RIGHT, google.maps.ControlPosition.LEFT_BOTTOM,
+          google.maps.ControlPosition.LEFT_CENTER, google.maps.ControlPosition.LEFT_TOP,
+          google.maps.ControlPosition.RIGHT_BOTTOM, google.maps.ControlPosition.RIGHT_CENTER,
+          google.maps.ControlPosition.RIGHT_TOP, google.maps.ControlPosition.TOP_CENTER,
+          google.maps.ControlPosition.TOP_LEFT, google.maps.ControlPosition.TOP_RIGHT
+        ]);
+      });
+    });
   }
 }

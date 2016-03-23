@@ -1,6 +1,7 @@
 export var google: any;
 
 export interface GoogleMap {
+  controls: Array<any>;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng | LatLngLiteral): void;
   setZoom(zoom: number): void;
@@ -95,4 +96,19 @@ export interface InfoWindowOptions {
   pixelOffset?: Size;
   position?: LatLng | LatLngLiteral;
   zIndex?: number;
+}
+
+export enum MapControlPosition {
+  BOTTOM_CENTER,
+  BOTTOM_LEFT,
+  BOTTOM_RIGHT,
+  LEFT_BOTTOM,
+  LEFT_CENTER,
+  LEFT_TOP,
+  RIGHT_BOTTOM,
+  RIGHT_CENTER,
+  RIGHT_TOP,
+  TOP_CENTER,
+  TOP_LEFT,
+  TOP_RIGHT
 }
