@@ -22,6 +22,10 @@ export class GoogleMapsAPIWrapper {
         new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
   }
 
+  get map(): Promise<mapTypes.GoogleMap> {
+    return this._map;
+  }
+
   createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
     return this._loader.load().then(() => {
       const map = new google.maps.Map(el, mapOptions);
