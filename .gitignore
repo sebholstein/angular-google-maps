@@ -6,3 +6,4 @@ src/**/*.map
 .tmp
 test-built
 typings
+.idea/
