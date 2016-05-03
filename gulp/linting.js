@@ -3,7 +3,7 @@ const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const path = require('path');
 
-gulp.task('tslint', () => {
+gulp.task('tslint',['clang:check'], () => {
   return gulp.src(config.PATHS.tsSrcFiles)
     .pipe($.tslint({
       configuration: require('../tslint.json'),
@@ -11,7 +11,7 @@ gulp.task('tslint', () => {
     .pipe($.tslint.report('verbose'));
 });
 
-gulp.task('eslint', () => {
+gulp.task('eslint',['tslint'], () => {
   return gulp.src(config.PATHS.jsFiles)
     .pipe($.eslint({
       rulePaths: [path.join(__dirname, '../')],
@@ -20,7 +20,7 @@ gulp.task('eslint', () => {
     .pipe($.eslint.failAfterError());
 });
 
-gulp.task('clang:check', () => {
+gulp.task('clang:check',['clang:format'], () => {
   return gulp.src(config.PATHS.tsSrcFiles)
      .pipe($.clangFormat.checkFormat('file', undefined, {verbose: true, fail: true}));
 });
@@ -31,4 +31,4 @@ gulp.task('clang:format', () => {
      .pipe(gulp.dest(config.PATHS.srcDir));
 });
 
-gulp.task('lint', ['clang:check', 'tslint', 'eslint']);
+gulp.task('lint', ['clang:check','clang:format', 'tslint', 'eslint']);
