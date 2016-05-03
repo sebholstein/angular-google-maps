@@ -191,6 +191,10 @@ export class SebmGoogleMap implements OnChanges,
     });
   }
 
+  get wrapper(): GoogleMapsAPIWrapper {
+    return this._mapsWrapper;
+  }
+  
   /**
    * Sets the zoom level of the map. The default value is `8`.
    */
