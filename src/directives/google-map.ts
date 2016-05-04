@@ -34,12 +34,23 @@ import {MouseEvent} from '../events';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
+    'longitude',
+    'latitude',
+    'zoom',
+    'disableDoubleClickZoom',
+    'disableDefaultUI',
+    'scrollwheel',
+    'backgroundColor',
+    'draggableCursor',
+    'draggingCursor',
+    'keyboardShortcuts',
+    'zoomControl',
+    'mapkey'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
-  styles: [`
+  styles: [
+    `
     .sebm-google-map-container-inner {
       width: inherit;
       height: inherit;
@@ -47,7 +58,8 @@ import {MouseEvent} from '../events';
     .sebm-google-map-content {
       display:none;
     }
-  `],
+  `
+  ],
   template: `
     <div class='sebm-google-map-container-inner'></div>
     <div class='sebm-google-map-content'>
@@ -60,6 +72,12 @@ export class SebmGoogleMap implements OnChanges,
   private _longitude: number = 0;
   private _latitude: number = 0;
   private _zoom: number = 8;
+
+  /**
+   * Key associated to WrapperContainer service
+   */
+  mapkey: string;
+
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
    */
@@ -112,10 +130,8 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl'
-  ];
+  private static _mapOptionsAttributes: string[] =
+      ['disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -149,30 +165,29 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(el, {
-      center: {lat: this._latitude, lng: this._longitude},
-      zoom: this._zoom,
-      disableDefaultUI: this.disableDefaultUI,
-      backgroundColor: this.backgroundColor,
-      draggableCursor: this.draggableCursor,
-      draggingCursor: this.draggingCursor,
-      keyboardShortcuts: this.keyboardShortcuts,
-      zoomControl: this.zoomControl
-    });
+    this._mapsWrapper.createMap(el,
+                                {
+                                  center: {lat: this._latitude, lng: this._longitude},
+                                  zoom: this._zoom,
+                                  disableDefaultUI: this.disableDefaultUI,
+                                  backgroundColor: this.backgroundColor,
+                                  draggableCursor: this.draggableCursor,
+                                  draggingCursor: this.draggingCursor,
+                                  keyboardShortcuts: this.keyboardShortcuts,
+                                  zoomControl: this.zoomControl,
+                                },
+                                this.mapkey);
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
   }
 
   /* @internal */
-  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-    this._updateMapOptionsChanges(changes);
-  }
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) { this._updateMapOptionsChanges(changes); }
 
   private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
-    let optionKeys =
-        Object.keys(changes).filter(k => SebmGoogleMap._mapOptionsAttributes.indexOf(k) !== -1);
+    let optionKeys = Object.keys(changes).filter(k => SebmGoogleMap._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
   }
@@ -185,10 +200,7 @@ export class SebmGoogleMap implements OnChanges,
     // Note: When we would trigger the resize event and show the map in the same turn (which is a
     // common case for triggering a resize event), then the resize event would not
     // work (to show the map), so we trigger the event in a timeout.
-    return new Promise<void>((resolve) => {
-      setTimeout(
-          () => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); });
-    });
+    return new Promise<void>((resolve) => { setTimeout(() => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); }); });
   }
 
   /**
@@ -237,19 +249,18 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _handleMapCenterChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
-      this._mapsWrapper.getCenter().then((center: LatLng) => {
-        this._latitude = center.lat();
-        this._longitude = center.lng();
-        this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
-      });
-    });
+    this._mapsWrapper.subscribeToMapEvent<void>('center_changed')
+        .subscribe(() => {
+          this._mapsWrapper.getCenter().then((center: LatLng) => {
+            this._latitude = center.lat();
+            this._longitude = center.lng();
+            this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
+          });
+        });
   }
 
   private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
-    });
+    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
   }
 
   private _handleMapMouseEvents() {
@@ -258,17 +269,14 @@ export class SebmGoogleMap implements OnChanges,
     }
     type Event = {name: string, emitter: Emitter};
 
-    const events: Event[] = [
-      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
-      {name: 'dblclick', emitter: this.mapDblClick}
-    ];
+    const events: Event[] =
+        [{name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick}, {name: 'dblclick', emitter: this.mapDblClick}];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
-          (event: {latLng: LatLng}) => {
-            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
-            e.emitter.emit(value);
-          });
+      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe((event: {latLng: LatLng}) => {
+        const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+        e.emitter.emit(value);
+      });
     });
   }
 }

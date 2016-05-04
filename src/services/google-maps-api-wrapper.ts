@@ -1,8 +1,8 @@
 import {Injectable, NgZone} from 'angular2/core';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
-
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import {WrapperContainer} from './api-wrapper-container';
 import * as mapTypes from './google-maps-types';
 
 // todo: add types for this
@@ -17,16 +17,15 @@ export class GoogleMapsAPIWrapper {
   private _map: Promise<mapTypes.GoogleMap>;
   private _mapResolver: (value?: mapTypes.GoogleMap) => void;
 
-  constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
-    this._map =
-        new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
+  constructor(private _loader: MapsAPILoader, private _zone: NgZone, private _wrapper: WrapperContainer) {
+    this._map = new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
   }
 
-  createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
+  createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions, mapkey: string): Promise<void> {
     return this._loader.load().then(() => {
+      this._wrapper.addWrapper(mapkey, this);
       const map = new google.maps.Map(el, mapOptions);
       this._mapResolver(<mapTypes.GoogleMap>map);
-      return;
     });
   }
 
@@ -37,8 +36,7 @@ export class GoogleMapsAPIWrapper {
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
-      Promise<mapTypes.Marker> {
+  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}): Promise<mapTypes.Marker> {
     return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
       return new google.maps.Marker(options);
@@ -51,32 +49,22 @@ export class GoogleMapsAPIWrapper {
 
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
-      this._map.then((m: mapTypes.GoogleMap) => {
-        m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); });
-      });
+      this._map.then((m: mapTypes.GoogleMap) => { m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); }); });
     });
   }
 
-  setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng));
-  }
+  setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> { return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng)); }
 
   getZoom(): Promise<number> { return this._map.then((map: mapTypes.GoogleMap) => map.getZoom()); }
 
-  setZoom(zoom: number): Promise<void> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
-  }
+  setZoom(zoom: number): Promise<void> { return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom)); }
 
-  getCenter(): Promise<mapTypes.LatLng> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
-  }
+  getCenter(): Promise<mapTypes.LatLng> { return this._map.then((map: mapTypes.GoogleMap) => map.getCenter()); }
 
   getMap(): Promise<mapTypes.GoogleMap> { return this._map; }
 
   /**
    * Triggers the given event name on the map instance.
    */
-  triggerMapEvent(eventName: string): Promise<void> {
-    return this._map.then((m) => google.maps.event.trigger(m, eventName));
-  }
+  triggerMapEvent(eventName: string): Promise<void> { return this._map.then((m) => google.maps.event.trigger(m, eventName)); }
 }
