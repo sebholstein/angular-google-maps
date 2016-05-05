@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} fr
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {InfoWindowManager} from '../services/info-window-manager';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, GoogleMap} from '../services/google-maps-types';
 import {MouseEvent} from '../events';
 
 /**
@@ -142,7 +142,7 @@ export class SebmGoogleMap implements OnChanges,
    */
   centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, private _markerManager: MarkerManager) {}
 
   /** @internal */
   ngOnInit() {
@@ -226,6 +226,11 @@ export class SebmGoogleMap implements OnChanges,
       return <number>value;
     }
     return defaultValue;
+  }
+
+  private _fitBounds() {
+    const bounds = this._markerManager.getBounds();
+    this._mapsWrapper.getMap().then((map: GoogleMap) => map.fitBounds(bounds));
   }
 
   private _updateCenter() {
