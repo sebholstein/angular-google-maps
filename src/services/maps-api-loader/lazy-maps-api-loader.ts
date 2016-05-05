@@ -23,6 +23,13 @@ export class LazyMapsAPILoaderConfig {
   clientId: string = null;
 
   /**
+   * The Google Maps channel name (for premium plans).
+   * A channel parameter is an optional parameter that allows you to track usage under your client
+   * ID by assigning a distinct channel to each of your applications.
+   */
+  channel: string = null;
+
+  /**
    * Google Maps API version.
    */
   apiVersion: string = '3';
@@ -114,6 +121,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
     const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
     const clientId: string = this._config.clientId || DEFAULT_CONFIGURATION.clientId;
+    const channel: string = this._config.channel || DEFAULT_CONFIGURATION.channel;
     const libraries: string[] = this._config.libraries || DEFAULT_CONFIGURATION.libraries;
     const region: string = this._config.region || DEFAULT_CONFIGURATION.region;
     const language: string = this._config.language || DEFAULT_CONFIGURATION.language;
@@ -126,6 +134,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     }
     if (clientId) {
       queryParams['client'] = clientId;
+    }
+    if (channel) {
+      queryParams['channel'] = channel;
     }
     if (libraries != null && libraries.length > 0) {
       queryParams['libraries'] = libraries.join(',');
