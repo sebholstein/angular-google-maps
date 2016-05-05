@@ -1,4 +1,4 @@
-import {Component, SimpleChange, OnDestroy, OnChanges, ElementRef} from '@angular/core';
+import {Component, SimpleChange, OnDestroy, OnChanges, ElementRef, EventEmitter} from '@angular/core';
 import {InfoWindowManager} from '../services/info-window-manager';
 import {SebmGoogleMapMarker} from './google-map-marker';
 
@@ -36,6 +36,7 @@ let infoWindowId = 0;
 @Component({
   selector: 'sebm-google-map-info-window',
   inputs: ['latitude', 'longitude', 'disableAutoPan'],
+  outputs: ['infoWindowClose'],
   template: `<div class='sebm-google-map-info-window-content'>
       <ng-content></ng-content>
     </div>
@@ -86,6 +87,11 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
    */
   content: Node;
 
+  /**
+   * Emits an event when the info window is closed.
+   */
+  infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
+
   private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth'];
   private _infoWindowAddedToManager: boolean = false;
   private _id: string = (infoWindowId++).toString();
@@ -129,7 +135,9 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
   /**
    * Closes the info window.
    */
-  close(): Promise<void> { return this._infoWindowManager.close(this); }
+  close(): Promise<void> {
+    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(void 0); });
+  }
 
   /** @internal */
   id(): string { return this._id; }
