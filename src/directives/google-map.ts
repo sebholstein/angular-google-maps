@@ -35,7 +35,8 @@ import {MouseEvent} from '../events';
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
+    'fitBounds'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -60,6 +61,7 @@ export class SebmGoogleMap implements OnChanges,
   private _longitude: number = 0;
   private _latitude: number = 0;
   private _zoom: number = 8;
+  private _fitBounds: boolean = false;
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
    */
