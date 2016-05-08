@@ -47,7 +47,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
   /**
    * Emits an event when the info window is closed.
    */
-  @Output() infoWindowClose = new EventEmitter();
+  @Output() infoWindowClose: EventEmitter<SebmGoogleMapInfoWindow> = new EventEmitter();
 
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
@@ -136,7 +136,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
    * Closes the info window.
    */
   close(): Promise<void> {
-    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(); });
+    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(this); });
   }
 
   /** @internal */
