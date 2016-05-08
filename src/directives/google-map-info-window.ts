@@ -136,9 +136,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
    * Closes the info window.
    */
   close(): Promise<void> {
-    return this._infoWindowManager.close(this).then(() => {
-      this.infoWindowClose.emit();
-    });
+    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(); });
   }
 
   /** @internal */
