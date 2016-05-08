@@ -2,11 +2,11 @@ export var google: any;
 
 export interface GoogleMap {
   constructor(el: HTMLElement, opts?: MapOptions): void;
-  panTo(latLng: LatLng | LatLngLiteral): void;
+  panTo(latLng: LatLng|LatLngLiteral): void;
   setZoom(zoom: number): void;
   addListener(eventName: string, fn: Function): void;
   getCenter(): LatLng;
-  setCenter(latLng: LatLng | LatLngLiteral): void;
+  setCenter(latLng: LatLng|LatLngLiteral): void;
   getZoom(): number;
   setOptions(options: MapOptions): void;
 }
@@ -20,9 +20,9 @@ export interface LatLng {
 export interface Marker {
   constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
-  setPosition(latLng: LatLng | LatLngLiteral): void;
+  setPosition(latLng: LatLng|LatLngLiteral): void;
   setTitle(title: string): void;
-  setLabel(label: string | MarkerLabel): void;
+  setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
   setIcon(icon: string): void;
   getLabel(): MarkerLabel;
@@ -30,10 +30,10 @@ export interface Marker {
 }
 
 export interface MarkerOptions {
-  position: LatLng | LatLngLiteral;
+  position: LatLng|LatLngLiteral;
   title?: string;
   map?: GoogleMap;
-  label?: string | MarkerLabel;
+  label?: string|MarkerLabel;
   draggable?: boolean;
   icon?: string;
 }
@@ -54,7 +54,7 @@ export interface LatLngLiteral {
 export interface MouseEvent { latLng: LatLng; }
 
 export interface MapOptions {
-  center?: LatLng | LatLngLiteral;
+  center?: LatLng|LatLngLiteral;
   zoom?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
@@ -68,13 +68,13 @@ export interface MapOptions {
 export interface InfoWindow {
   constructor(opts?: InfoWindowOptions): void;
   close(): void;
-  getContent(): string | Node;
+  getContent(): string|Node;
   getPosition(): LatLng;
   getZIndex(): number;
   open(map?: GoogleMap, anchor?: MVCObject): void;
-  setContent(content: string | Node): void;
+  setContent(content: string|Node): void;
   setOptions(options: InfoWindowOptions): void;
-  setPosition(position: LatLng | LatLngLiteral): void;
+  setPosition(position: LatLng|LatLngLiteral): void;
   setZIndex(zIndex: number): void;
 }
 
@@ -89,10 +89,10 @@ export interface Size {
 }
 
 export interface InfoWindowOptions {
-  content?: string | Node;
+  content?: string|Node;
   disableAutoPan?: boolean;
   maxWidth?: number;
   pixelOffset?: Size;
-  position?: LatLng | LatLngLiteral;
+  position?: LatLng|LatLngLiteral;
   zIndex?: number;
 }
