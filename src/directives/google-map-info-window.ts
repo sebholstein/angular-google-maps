@@ -1,4 +1,4 @@
-import {Component, SimpleChange, OnDestroy, OnChanges, ElementRef} from 'angular2/core';
+import {Component, SimpleChange, OnDestroy, OnChanges, ElementRef, Output, EventEmitter} from 'angular2/core';
 import {InfoWindowManager} from '../services/info-window-manager';
 import {SebmGoogleMapMarker} from './google-map-marker';
 
@@ -44,6 +44,11 @@ let infoWindowId = 0;
 })
 export class SebmGoogleMapInfoWindow implements OnDestroy,
     OnChanges {
+  /**
+   * Emits an event when the info window is closed.
+   */
+  @Output() infoWindowClose: EventEmitter<SebmGoogleMapInfoWindow> = new EventEmitter();
+
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
    * SebmGoogleMapMarker}).
@@ -130,7 +135,9 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
   /**
    * Closes the info window.
    */
-  close(): Promise<void> { return this._infoWindowManager.close(this); }
+  close(): Promise<void> {
+    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(this); });
+  }
 
   /** @internal */
   id(): string { return this._id; }
