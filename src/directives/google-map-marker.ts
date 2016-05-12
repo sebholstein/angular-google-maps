@@ -1,12 +1,4 @@
-import {
-  Directive,
-  SimpleChange,
-  OnDestroy,
-  OnChanges,
-  EventEmitter,
-  ContentChild,
-  AfterContentInit
-} from 'angular2/core';
+import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChild, AfterContentInit} from '@angular/core';
 import {MarkerManager} from '../services/marker-manager';
 import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 import {MouseEvent} from '../events';

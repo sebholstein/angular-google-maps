@@ -14,14 +14,22 @@ module.exports = function(config) {
     },
     files: [
       {pattern: 'node_modules/es6-shim/es6-shim.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/angular2-polyfills.js', included: true, watched: true},
+      {pattern: 'node_modules/zone.js/dist/zone.js', included: true, watched: true},
+      //Needed for async testsing {https://github.com/angular/angular/issues/8232}
+      {pattern: 'node_modules/zone.js/dist/async-test.js', included: true, watched: true},
+      {pattern: 'node_modules/reflect-metadata/Reflect.js', included: true, watched: true},
+      {pattern: 'node_modules/systemjs/dist/system-polyfills.js', included: true, watched: false },
       {pattern: 'node_modules/systemjs/dist/system.src.js', included: true, watched: true},
-      {pattern: 'node_modules/rxjs/bundles/Rx.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/angular2.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/http.dev.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/router.dev.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/testing.dev.js', included: true, watched: true},
-
+      
+      {pattern: 'karma-systemjs-config.js', included: true, watched: true},
+      
+      {pattern: 'node_modules/rxjs/**/*', included: false, watched: false},
+      {pattern: 'node_modules/@angular/common/**/*', included: false, watched: false},
+      {pattern: 'node_modules/@angular/core/**/*', included: false, watched: false},
+      {pattern: 'node_modules/@angular/platform-browser/**/*', included: false, watched: false},
+      {pattern: 'node_modules/@angular/compiler/**/*', included: false, watched: false},
+      {pattern: 'node_modules/@angular/platform-browser-dynamic/**/*', included: false, watched: false},
+      
       {pattern: 'karma-test-shim.js', included: true, watched: true},
 
       // paths loaded via module imports
@@ -45,7 +53,6 @@ module.exports = function(config) {
       '/base/src/': '/base/dist/',
       '/base/test-built/src': '/base/dist'  
     },
-
     reporters: ['progress'],
     port: 9876,
     colors: true,

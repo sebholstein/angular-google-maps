@@ -18,8 +18,18 @@ System.config({
   }
 });
 
-System.import('angular2/platform/browser').then(function(browser) {
-    browser.BrowserDomAdapter.makeCurrent();
+//loading systemjs for angular to use in tests
+System.import('base/karma-systemjs-config.js').then(function() {
+  return Promise.all([
+    System.import('@angular/core/testing'),
+    System.import('@angular/platform-browser-dynamic/testing')
+  ]).then(function (providers) {
+    var testing = providers[0];
+    var testingBrowser = providers[1];
+
+    testing.setBaseTestProviders(testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
+      testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
+  });
 }).then(function() {
         return Promise.all(
             Object.keys(window.__karma__.files) // All files served by Karma.

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {InfoWindowManager} from '../services/info-window-manager';
@@ -194,7 +194,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * Sets the zoom level of the map. The default value is `8`.
    */
-  set zoom(value: number | string) {
+  set zoom(value: number|string) {
     this._zoom = this._convertToDecimal(value, 8);
     if (typeof this._zoom === 'number') {
       this._mapsWrapper.setZoom(this._zoom);
@@ -204,7 +204,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The longitude that sets the center of the map.
    */
-  set longitude(value: number | string) {
+  set longitude(value: number|string) {
     this._longitude = this._convertToDecimal(value);
     this._updateCenter();
   }
@@ -212,12 +212,12 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The latitude that sets the center of the map.
    */
-  set latitude(value: number | string) {
+  set latitude(value: number|string) {
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
 
-  private _convertToDecimal(value: string | number, defaultValue: number = null): number {
+  private _convertToDecimal(value: string|number, defaultValue: number = null): number {
     if (typeof value === 'string') {
       return parseFloat(value);
     } else if (typeof value === 'number') {
@@ -259,8 +259,8 @@ export class SebmGoogleMap implements OnChanges,
     type Event = {name: string, emitter: Emitter};
 
     const events: Event[] = [
-      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
-      {name: 'dblclick', emitter: this.mapDblClick}
+      {name: 'click', emitter: this.mapClick},
+      {name: 'rightclick', emitter: this.mapRightClick},
     ];
 
     events.forEach((e: Event) => {
