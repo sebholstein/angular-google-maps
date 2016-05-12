@@ -9,8 +9,9 @@ export class InfoWindowManager {
   private _infoWindows: Map<SebmGoogleMapInfoWindow, Promise<InfoWindow>> =
       new Map<SebmGoogleMapInfoWindow, Promise<InfoWindow>>();
 
-  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone,
-              private _markerManager: MarkerManager) {}
+  constructor(
+      private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone,
+      private _markerManager: MarkerManager) {}
 
   deleteInfoWindow(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
     const iWindow = this._infoWindows.get(infoWindow);
@@ -27,9 +28,10 @@ export class InfoWindowManager {
   }
 
   setPosition(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
-    return this._infoWindows.get(infoWindow)
-        .then((i: InfoWindow) =>
-                  i.setPosition({lat: infoWindow.latitude, lng: infoWindow.longitude}));
+    return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setPosition({
+      lat: infoWindow.latitude, 
+      lng: infoWindow.longitude
+    }));
   }
 
   setZIndex(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
@@ -38,16 +40,15 @@ export class InfoWindowManager {
   }
 
   open(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
-    return this._infoWindows.get(infoWindow)
-        .then((w) => {
-          if (infoWindow.hostMarker != null) {
-            return this._markerManager.getNativeMarker(infoWindow.hostMarker)
-                .then((marker) => {
-                  return this._mapsWrapper.getMap().then((map) => w.open(map, marker));
-                });
-          }
-          return this._mapsWrapper.getMap().then((map) => w.open(map));
-        });
+    return this._infoWindows.get(infoWindow).then((w) => {
+      if (infoWindow.hostMarker != null) {
+        return this._markerManager.getNativeMarker(infoWindow.hostMarker)
+            .then((marker) => {
+              return this._mapsWrapper.getMap().then((map) => w.open(map, marker));
+            });
+      }
+      return this._mapsWrapper.getMap().then((map) => w.open(map));
+    });
   }
 
   close(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {

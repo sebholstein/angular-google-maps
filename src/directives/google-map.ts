@@ -34,22 +34,12 @@ import {MouseEvent} from '../events';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
-    'longitude',
-    'latitude',
-    'zoom',
-    'disableDoubleClickZoom',
-    'disableDefaultUI',
-    'scrollwheel',
-    'backgroundColor',
-    'draggableCursor',
-    'draggingCursor',
-    'keyboardShortcuts',
-    'zoomControl'
+    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',    
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
-  styles: [
-    `
+  styles: [`
     .sebm-google-map-container-inner {
       width: inherit;
       height: inherit;
@@ -57,8 +47,7 @@ import {MouseEvent} from '../events';
     .sebm-google-map-content {
       display:none;
     }
-  `
-  ],
+  `],
   template: `
     <div class='sebm-google-map-container-inner'></div>
     <div class='sebm-google-map-content'>
@@ -124,12 +113,8 @@ export class SebmGoogleMap implements OnChanges,
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom',
-    'scrollwheel',
-    'draggableCursor',
-    'draggingCursor',
-    'keyboardShortcuts',
-    'zoomControl'
+    'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
+    'keyboardShortcuts', 'zoomControl'    
   ];
 
   /**
@@ -209,7 +194,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * Sets the zoom level of the map. The default value is `8`.
    */
-  set zoom(value: number | string) {
+  set zoom(value: number |string) {
     this._zoom = this._convertToDecimal(value, 8);
     if (typeof this._zoom === 'number') {
       this._mapsWrapper.setZoom(this._zoom);
@@ -219,7 +204,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The longitude that sets the center of the map.
    */
-  set longitude(value: number | string) {
+  set longitude(value: number |string) {
     this._longitude = this._convertToDecimal(value);
     this._updateCenter();
   }
@@ -227,12 +212,12 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The latitude that sets the center of the map.
    */
-  set latitude(value: number | string) {
+  set latitude(value: number |string) {
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
 
-  private _convertToDecimal(value: string | number, defaultValue: number = null): number {
+  private _convertToDecimal(value: string|number, defaultValue: number = null): number {
     if (typeof value === 'string') {
       return parseFloat(value);
     } else if (typeof value === 'number') {
@@ -252,19 +237,19 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _handleMapCenterChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('center_changed')
-        .subscribe(() => {
-          this._mapsWrapper.getCenter().then((center: LatLng) => {
-            this._latitude = center.lat();
-            this._longitude = center.lng();
-            this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
-          });
-        });
+    this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
+      this._mapsWrapper.getCenter().then((center: LatLng) => {
+        this._latitude = center.lat();
+        this._longitude = center.lng();
+        this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
+      });
+    });
   }
 
   private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed')
-        .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
+    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
+      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); 
+    });
   }
 
   private _handleMapMouseEvents() {
@@ -274,17 +259,15 @@ export class SebmGoogleMap implements OnChanges,
     type Event = {name: string, emitter: Emitter};
 
     const events: Event[] = [
-      {name: 'click', emitter: this.mapClick},
-      {name: 'rightclick', emitter: this.mapRightClick},
-      {name: 'dblclick', emitter: this.mapDblClick}
+      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
     ];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name)
-          .subscribe((event: {latLng: LatLng}) => {
-            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
-            e.emitter.emit(value);
-          });
+      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
+        (event: {latLng: LatLng}) => {
+          const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+          e.emitter.emit(value);
+        });
     });
   }
 }

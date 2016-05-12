@@ -1,12 +1,4 @@
-import {
-  Directive,
-  SimpleChange,
-  OnDestroy,
-  OnChanges,
-  EventEmitter,
-  ContentChild,
-  AfterContentInit
-} from '@angular/core';
+import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChild, AfterContentInit} from '@angular/core';
 import {MarkerManager} from '../services/marker-manager';
 import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 import {MouseEvent} from '../events';
@@ -129,13 +121,12 @@ export class SebmGoogleMapMarker implements OnDestroy,
   }
 
   private _addEventListeners() {
-    this._markerManager.createEventObservable('click', this)
-        .subscribe(() => {
-          if (this._infoWindow != null) {
-            this._infoWindow.open();
-          }
-          this.markerClick.next(null);
-        });
+    this._markerManager.createEventObservable('click', this).subscribe(() => {
+      if (this._infoWindow != null) {
+        this._infoWindow.open();
+      }
+      this.markerClick.next(null);
+    });
     this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
         .subscribe((e: mapTypes.MouseEvent) => {
           this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
