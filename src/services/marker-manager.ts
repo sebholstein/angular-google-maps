@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from 'angular2/core';
+import {Injectable, NgZone} from '@angular/core';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 import {SebmGoogleMapMarker} from '../directives/google-map-marker';
@@ -27,8 +27,8 @@ export class MarkerManager {
   }
 
   updateMarkerPosition(marker: SebmGoogleMapMarker): Promise<void> {
-    return this._markers.get(marker).then(
-        (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
+    return this._markers.get(marker)
+        .then((m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
   }
 
   updateTitle(marker: SebmGoogleMapMarker): Promise<void> {

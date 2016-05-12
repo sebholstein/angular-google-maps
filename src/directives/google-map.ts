@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {InfoWindowManager} from '../services/info-window-manager';
@@ -34,12 +34,22 @@ import {MouseEvent} from '../events';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
+    'longitude',
+    'latitude',
+    'zoom',
+    'disableDoubleClickZoom',
+    'disableDefaultUI',
+    'scrollwheel',
+    'backgroundColor',
+    'draggableCursor',
+    'draggingCursor',
+    'keyboardShortcuts',
+    'zoomControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
-  styles: [`
+  styles: [
+    `
     .sebm-google-map-container-inner {
       width: inherit;
       height: inherit;
@@ -47,7 +57,8 @@ import {MouseEvent} from '../events';
     .sebm-google-map-content {
       display:none;
     }
-  `],
+  `
+  ],
   template: `
     <div class='sebm-google-map-container-inner'></div>
     <div class='sebm-google-map-content'>
@@ -113,8 +124,12 @@ export class SebmGoogleMap implements OnChanges,
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl'
+    'disableDoubleClickZoom',
+    'scrollwheel',
+    'draggableCursor',
+    'draggingCursor',
+    'keyboardShortcuts',
+    'zoomControl'
   ];
 
   /**
@@ -237,19 +252,19 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _handleMapCenterChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
-      this._mapsWrapper.getCenter().then((center: LatLng) => {
-        this._latitude = center.lat();
-        this._longitude = center.lng();
-        this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
-      });
-    });
+    this._mapsWrapper.subscribeToMapEvent<void>('center_changed')
+        .subscribe(() => {
+          this._mapsWrapper.getCenter().then((center: LatLng) => {
+            this._latitude = center.lat();
+            this._longitude = center.lng();
+            this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
+          });
+        });
   }
 
   private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
-    });
+    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed')
+        .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
   }
 
   private _handleMapMouseEvents() {
@@ -259,13 +274,14 @@ export class SebmGoogleMap implements OnChanges,
     type Event = {name: string, emitter: Emitter};
 
     const events: Event[] = [
-      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'click', emitter: this.mapClick},
+      {name: 'rightclick', emitter: this.mapRightClick},
       {name: 'dblclick', emitter: this.mapDblClick}
     ];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
-          (event: {latLng: LatLng}) => {
+      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name)
+          .subscribe((event: {latLng: LatLng}) => {
             const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
             e.emitter.emit(value);
           });

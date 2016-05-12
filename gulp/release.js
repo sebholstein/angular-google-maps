@@ -7,9 +7,17 @@ const config = require('./config');
 const fs = require('fs');
 const path = require('path');
 
-gulp.task('copyReleaseAssets', function copyReleaseAssets() {
+gulp.task('copyReleaseAssets', ['copyReleaseAssets:int', 'copyReleaseAssets:ng']);
+
+gulp.task('copyReleaseAssets:int', function copyReleaseAssets() {
   return gulp.src(config.PATHS.releaseAssets)
     .pipe(gulp.dest(config.PATHS.dist.base));
+});
+
+gulp.task('copyReleaseAssets:ng', function copyReleaseAssets() {
+  // Need to copy over angular dependencies for minify
+  return gulp.src(['node_modules/@angular/**/*'])
+    .pipe(gulp.dest(config.PATHS.dist.base + '/@angular'));
 });
 
 gulp.task('changelog', function changelog() {

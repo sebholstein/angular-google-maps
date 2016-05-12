@@ -1,5 +1,5 @@
-import {describe, it, expect, beforeEachProviders, inject, injectAsync} from 'angular2/testing';
-import {provide, NgZone} from 'angular2/core';
+import {describe, it, expect, beforeEachProviders, inject, async} from '@angular/core/testing';
+import {provide, NgZone} from '@angular/core';
 
 import {MarkerManager} from '../../src/services/marker-manager';
 import {Marker} from '../../src/services/google-maps-types';
@@ -54,7 +54,7 @@ export function main() {
 
     describe('set marker icon', () => {
       it('should update that marker via setIcon method when the markerUrl changes',
-        injectAsync(
+        async(inject(
               [MarkerManager, GoogleMapsAPIWrapper],
               (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
                 const newMarker = new SebmGoogleMapMarker(markerManager);
@@ -73,7 +73,7 @@ export function main() {
                 return markerManager.updateIcon(newMarker).then(() => {
                   expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl);
                 });
-              }));
+              })));
     });
   });
 }
