@@ -1,3 +1,13 @@
+<a name="0.10.0"></a>
+# [0.10.0 agate-octopus](https://github.com/SebastianM/angular2-google-maps/compare/0.9.0...0.10.0) (2016-05-12)
+
+
+### Features
+
+* support angular2.0.0-rc.1 ([84bc54a](https://github.com/SebastianM/angular2-google-maps/commit/84bc54a)), closes [#339](https://github.com/SebastianM/angular2-google-maps/issues/339)
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0 icy-lama](https://github.com/SebastianM/angular2-google-maps/compare/0.8.1...0.9.0) (2016-03-22)
 
