@@ -29,7 +29,7 @@ export class InfoWindowManager {
 
   setPosition(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setPosition({
-      lat: infoWindow.latitude, 
+      lat: infoWindow.latitude,
       lng: infoWindow.longitude
     }));
   }
@@ -42,10 +42,9 @@ export class InfoWindowManager {
   open(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow).then((w) => {
       if (infoWindow.hostMarker != null) {
-        return this._markerManager.getNativeMarker(infoWindow.hostMarker)
-            .then((marker) => {
-              return this._mapsWrapper.getMap().then((map) => w.open(map, marker));
-            });
+        return this._markerManager.getNativeMarker(infoWindow.hostMarker).then((marker) => {
+          return this._mapsWrapper.getMap().then((map) => w.open(map, marker));
+        });
       }
       return this._mapsWrapper.getMap().then((map) => w.open(map));
     });

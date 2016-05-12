@@ -30,7 +30,7 @@ export interface Marker {
 }
 
 export interface MarkerOptions {
-  position: LatLng |LatLngLiteral;
+  position: LatLng|LatLngLiteral;
   title?: string;
   map?: GoogleMap;
   label?: string|MarkerLabel;
