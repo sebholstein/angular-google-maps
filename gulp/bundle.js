@@ -9,8 +9,16 @@ const bundleConfig = {
   defaultJSExtensions: true,
   paths: {
     'angular2-google-maps/*': '*',
-    'angular2/*': './node_modules/angular2/*',
+    '@angular/*': './node_modules/@angular/*',
     'rxjs/*': './node_modules/rxjs/*',
+  },
+  packages: {
+    '@angular/core': { main: 'index.js', defaultExtension: 'js' },
+    '@angular/common': { main: 'index.js', defaultExtension: 'js' },
+    '@angular/compiler': { main: 'index.js', defaultExtension: 'js' },
+  },
+  map: {
+    '@angular': '@angular',
   },
 };
 
@@ -23,7 +31,7 @@ function bundle(moduleName, moduleBundleName, minify, done) {
   builder.config(bundleConfig);
   const outputFile = path.join(config.PATHS.dist.bundles, moduleBundleName + (minify ? '.min' : '') + '.js');
   // todo: newest systemjs-builder version requires to explicitly exclude .d.ts files - probably a systemjs-builder bug.
-  const bundlePromise = builder.bundle(moduleName + ' - angular2/*.ts - angular2/*.js - rxjs/*.ts - rxjs/*.js', outputFile, outputConfig);
+  const bundlePromise = builder.bundle(moduleName + ' - @angular/core/*.ts - @angular/core/*.js - rxjs/*.ts - rxjs/*.js', outputFile, outputConfig);
 
   if (!minify) {
     bundlePromise.then(() => {

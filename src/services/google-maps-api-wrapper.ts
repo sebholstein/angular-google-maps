@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from 'angular2/core';
+import {Injectable, NgZone} from '@angular/core';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 
