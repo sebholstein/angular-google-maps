@@ -34,7 +34,7 @@ import {MouseEvent} from '../events';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',    
+    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
@@ -114,7 +114,7 @@ export class SebmGoogleMap implements OnChanges,
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl'    
+    'keyboardShortcuts', 'zoomControl'
   ];
 
   /**
@@ -194,7 +194,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * Sets the zoom level of the map. The default value is `8`.
    */
-  set zoom(value: number |string) {
+  set zoom(value: number|string) {
     this._zoom = this._convertToDecimal(value, 8);
     if (typeof this._zoom === 'number') {
       this._mapsWrapper.setZoom(this._zoom);
@@ -204,7 +204,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The longitude that sets the center of the map.
    */
-  set longitude(value: number |string) {
+  set longitude(value: number|string) {
     this._longitude = this._convertToDecimal(value);
     this._updateCenter();
   }
@@ -212,7 +212,7 @@ export class SebmGoogleMap implements OnChanges,
   /**
    * The latitude that sets the center of the map.
    */
-  set latitude(value: number |string) {
+  set latitude(value: number|string) {
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
@@ -248,7 +248,7 @@ export class SebmGoogleMap implements OnChanges,
 
   private _handleMapZoomChange() {
     this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); 
+      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
     });
   }
 
@@ -259,15 +259,16 @@ export class SebmGoogleMap implements OnChanges,
     type Event = {name: string, emitter: Emitter};
 
     const events: Event[] = [
-      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'click', emitter: this.mapClick},
+      {name: 'rightclick', emitter: this.mapRightClick},
     ];
 
     events.forEach((e: Event) => {
       this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
-        (event: {latLng: LatLng}) => {
-          const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
-          e.emitter.emit(value);
-        });
+          (event: {latLng: LatLng}) => {
+            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+            e.emitter.emit(value);
+          });
     });
   }
 }
