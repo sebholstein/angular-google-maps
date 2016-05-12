@@ -14,13 +14,13 @@ module.exports = function(config) {
     },
     files: [
       {pattern: 'node_modules/es6-shim/es6-shim.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/angular2-polyfills.js', included: true, watched: true},
+      {pattern: 'node_modules/@angular/bundles/angular2-polyfills.js', included: true, watched: true},
       {pattern: 'node_modules/systemjs/dist/system.src.js', included: true, watched: true},
       {pattern: 'node_modules/rxjs/bundles/Rx.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/angular2.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/http.dev.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/router.dev.js', included: true, watched: true},
-      {pattern: 'node_modules/angular2/bundles/testing.dev.js', included: true, watched: true},
+      {pattern: 'node_modules/@angular/core/core.js', included: true, watched: true},
+      {pattern: 'node_modules/@angular/http/http.js', included: true, watched: true},
+      {pattern: 'node_modules/@angular/router-deprecated/router-deprecated.umd.js', included: true, watched: true},
+      {pattern: 'node_modules/@angular/testing/core/testing.js', included: true, watched: true},
 
       {pattern: 'karma-test-shim.js', included: true, watched: true},
 

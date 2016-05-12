@@ -18,7 +18,7 @@ System.config({
   }
 });
 
-System.import('angular2/platform/browser').then(function(browser) {
+System.import('@angular/platform-browser/platform-browser.umd.js').then(function(browser) {
     browser.BrowserDomAdapter.makeCurrent();
 }).then(function() {
         return Promise.all(

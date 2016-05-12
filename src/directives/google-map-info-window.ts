@@ -1,4 +1,4 @@
-import {Component, SimpleChange, OnDestroy, OnChanges, ElementRef} from 'angular2/core';
+import {Component, SimpleChange, OnDestroy, OnChanges, ElementRef} from '@angular/core';
 import {InfoWindowManager} from '../services/info-window-manager';
 import {SebmGoogleMapMarker} from './google-map-marker';
 
@@ -9,7 +9,7 @@ let infoWindowId = 0;
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
+ * import {Component} from '@angular/core';
  * import {SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow} from
  * 'angular2-google-maps/core';
  *
@@ -35,8 +35,7 @@ let infoWindowId = 0;
  */
 @Component({
   selector: 'sebm-google-map-info-window',
-  inputs: ['latitude', 'longitude', 'disableAutoPan'],
-  template: `
+  inputs: ['latitude', 'longitude', 'disableAutoPan'], template: `
     <div class='sebm-google-map-info-window-content'>
       <ng-content></ng-content>
     </div>

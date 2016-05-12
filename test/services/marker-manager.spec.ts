@@ -1,5 +1,5 @@
-import {describe, it, expect, beforeEachProviders, inject, injectAsync} from 'angular2/testing';
-import {provide, NgZone} from 'angular2/core';
+import {describe, it, expect, beforeEachProviders, inject, injectAsync} from '@angular/core/testing';
+import {provide, NgZone} from '@angular/core';
 
 import {MarkerManager} from '../../src/services/marker-manager';
 import {Marker} from '../../src/services/google-maps-types';
