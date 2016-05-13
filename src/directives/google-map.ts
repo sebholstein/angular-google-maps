@@ -35,7 +35,8 @@ import {MouseEvent} from '../events';
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
+    'mapTypeId'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -110,11 +111,16 @@ export class SebmGoogleMap implements OnChanges,
   zoomControl: boolean = true;
 
   /**
+   * Sets the initial Map mapTypeId
+   */
+  mapTypeId: string;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl'
+    'keyboardShortcuts', 'zoomControl', 'mapTypeId'
   ];
 
   /**
@@ -157,7 +163,8 @@ export class SebmGoogleMap implements OnChanges,
       draggableCursor: this.draggableCursor,
       draggingCursor: this.draggingCursor,
       keyboardShortcuts: this.keyboardShortcuts,
-      zoomControl: this.zoomControl
+      zoomControl: this.zoomControl,
+      mapTypeId: this.mapTypeId
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();

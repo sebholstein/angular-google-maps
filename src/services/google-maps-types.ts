@@ -63,6 +63,7 @@ export interface MapOptions {
   draggingCursor?: string;
   keyboardShortcuts?: boolean;
   zoomControl?: boolean;
+  mapTypeId?: string;
 }
 
 export interface InfoWindow {
