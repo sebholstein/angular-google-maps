@@ -59,7 +59,7 @@
     "merge2": "1.0.1",
     "replace": "0.3.0",
     "require-dir": "0.3.0",
-    "run-sequence": "1.1.5",
+    "run-sequence": "1.2.0",
     "systemjs": "0.19.27",
     "systemjs-builder": "0.15.16",
     "tslint": "3.6.0",
