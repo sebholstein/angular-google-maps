@@ -67,7 +67,9 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     ```markup
     {
       "ambientDependencies": {
-        "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#6697d6f7dadbf5773cb40ecda35a76027e0783b2"
+        "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654",
+        "jasmine": "registry:dt/jasmine#2.2.0+20160412134438",
+        "node": "registry:dt/node#4.0.0+20160509154515"
       }
     }
     ```
@@ -81,30 +83,34 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     ```markup
     {
       "name": "angular2-google-maps-project",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "scripts": {
-        "postinstall": "npm run typings install",
+        "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+        "lite": "lite-server",
+        "postinstall": "typings install",
         "tsc": "tsc",
         "tsc:w": "tsc -w",
-        "lite": "lite-server",
-        "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
-        "typings" : "typings"
+        "typings": "typings"
       },
-      "license": "MIT",
+      "license": "ISC",
       "dependencies": {
-        "angular2": "^2.0.0-beta.11",
-        "es6-promise": "^3.0.2",
+        "@angular/common":  "2.0.0-rc.1",
+        "@angular/compiler":  "2.0.0-rc.1",
+        "@angular/core":  "2.0.0-rc.1",
+        "@angular/http":  "2.0.0-rc.1",
+        "@angular/platform-browser":  "2.0.0-rc.1",
+        "@angular/platform-browser-dynamic":  "2.0.0-rc.1",
+        "systemjs": "0.19.27",
         "es6-shim": "^0.35.0",
-        "reflect-metadata": "0.1.2",
-        "rxjs": "5.0.0-beta.2",
-        "zone.js": "^0.6.4"
-        "systemjs": "0.19.20"
+        "reflect-metadata": "^0.1.3",
+        "rxjs": "5.0.0-beta.6",
+        "zone.js": "^0.6.12"
       },
       "devDependencies": {
-        "concurrently": "^1.0.0",
-        "lite-server": "^2.0.1",
-        "typescript": "^1.7.5",
-        "typings":"^0.6.8"
+        "concurrently": "^2.0.0",
+        "lite-server": "^2.2.0",
+        "typescript": "^1.8.10",
+        "typings":"^0.8.1"
       }
     }
     ```
@@ -129,8 +135,8 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     ```markup
     {
       "compilerOptions": {
-        "target": "ES5",
-        "module": "system",
+        "target": "es5",
+        "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
@@ -139,11 +145,55 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
         "noImplicitAny": false
       },
       "exclude": [
-        "node_modules"
+        "node_modules",
+        "typings/main",
+        "typings/main.d.ts"
       ]
     }
     ```
+    
+:marked
+  ### systemjs.config.js
+  Next, we have to configure SystemJS, which loads our JavaScript modules. Please add the following **systemjs.config.js** to the project folder.
 
+.code-highlight
+  :marked
+    ```markup
+    (function(global) {
+      // map tells the System loader where to look for things
+      var map = {
+        'app':                        'app', // 'dist',
+        'rxjs':                       'node_modules/rxjs',
+        '@angular':                   'node_modules/@angular'
+      };
+      // packages tells the System loader how to load when no filename and/or no extension
+      var packages = {
+        'app':                        { main: 'main.js',  defaultExtension: 'js' },
+        'rxjs':                       { defaultExtension: 'js' }
+      };
+      var packageNames = [
+        '@angular/common',
+        '@angular/compiler',
+        '@angular/core',
+        '@angular/http',
+        '@angular/platform-browser',
+        '@angular/platform-browser-dynamic',
+        '@angular/router',
+        '@angular/router-deprecated',
+        '@angular/testing',
+        '@angular/upgrade',
+      ];
+      // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }
+      packageNames.forEach(function(pkgName) {
+        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
+      });
+      var config = {
+        map: map,
+        packages: packages
+      }
+      System.config(config);
+    })(this);
+    ```
 :marked
   ### index.html
   Our application will be served via a index.html. Add an **index.html** to the root directory of your project and add the following content:
@@ -156,23 +206,20 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
         <title>angular2-google-maps app</title>
 
         <!-- Load dependencies -->
-        <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+        <!-- Polyfill(s) for older browsers -->
+        <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+
+        <script src="node_modules/zone.js/dist/zone.js"></script>
+        <script src="node_modules/reflect-metadata/Reflect.js"></script>
         <script src="node_modules/systemjs/dist/system.src.js"></script>
-        <script src="node_modules/rxjs/bundles/Rx.js"></script>
-        <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
 
         <!-- Configure SystemJS -->
+        <script src="systemjs.config.js"></script>
+
         <script>
-          System.config({
-            packages: {
-              app: {
-                format: 'register',
-                defaultExtension: 'js'
-              }
-            }
+          System.import('app/boot').catch(function(err) {
+            console.error(err);
           });
-          System.import('app/boot')
-                .then(null, console.error.bind(console));
         </script>
       </head>
 
@@ -207,27 +254,23 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
         <title>angular2-google-maps app</title>
 
         <!-- Load dependencies -->
-        <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-        <script src="node_modules/es6-shim/es6-shim.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-        <script src="node_modules/rxjs/bundles/Rx.js"></script>
-        <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+        <!-- Polyfill(s) for older browsers -->
+        <script src="node_modules/es6-shim/es6-shim.min.js"></script>
 
+        <script src="node_modules/zone.js/dist/zone.js"></script>
+        <script src="node_modules/reflect-metadata/Reflect.js"></script>
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+        <!-- Configure SystemJS -->
+        <script src="systemjs.config.js"></script>
+        
         <!-- ## ADD THE FOLLOWING LINE  ## -->
         <script src="node_modules/angular2-google-maps/bundles/angular2-google-maps.js"></script>
 
-        <!-- Configure SystemJS -->
         <script>
-          System.config({
-            packages: {
-              app: {
-                format: 'register',
-                defaultExtension: 'js'
-              }
-            }
+          System.import('app/boot').catch(function(err) {
+            console.error(err);
           });
-          System.import('app/boot')
-                .then(null, console.error.bind(console));
         </script>
       </head>
 
@@ -237,6 +280,52 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
       </body>
     </html>
     ```
+:marked
+  ### Update systemjs.config.js
+  Next, we have to add one new line to our existing **systemjs.config.js**:
+
+.code-highlight
+  :marked
+    ```markup
+    (function(global) {
+      // map tells the System loader where to look for things
+      var map = {
+        'app':                        'app', // 'dist',
+        'rxjs':                       'node_modules/rxjs',
+        '@angular':                   'node_modules/@angular'
+      };
+      // packages tells the System loader how to load when no filename and/or no extension
+      var packages = {
+        'app':                        { main: 'main.js',  defaultExtension: 'js' },
+        'rxjs':                       { defaultExtension: 'js' },
+        
+        // ----> ADD THE FOLLOWING LINE !!!
+        'angular2-google-maps':       { defaultExtension: 'js' }
+      };
+      var packageNames = [
+        '@angular/common',
+        '@angular/compiler',
+        '@angular/core',
+        '@angular/http',
+        '@angular/platform-browser',
+        '@angular/platform-browser-dynamic',
+        '@angular/router',
+        '@angular/router-deprecated',
+        '@angular/testing',
+        '@angular/upgrade',
+      ];
+      // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }
+      packageNames.forEach(function(pkgName) {
+        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
+      });
+      var config = {
+        map: map,
+        packages: packages
+      }
+      System.config(config);
+    })(this);
+    ```
+    
 :marked
   ### Creating the app folder
   Before we start writing an Angular 2 component, that uses angular2-google-maps, let's create an app folder:
@@ -254,7 +343,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
 .code-highlight
   :marked
     ```typescript
-    import {Component} from 'angular2/core';
+    import {Component} from '@angular/core';
     import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from 'angular2-google-maps/core';
 
     @Component({
@@ -267,7 +356,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
         }
       `],
       template: `
-        <h1>My first angular-google-maps app!</h1>
+        <h1>My first angular2-google-maps app!</h1>
 
         <!-- this creates a google map on the page with the given lat/lng from the component as the initial center of the map: -->
 
@@ -294,7 +383,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
 .code-highlight
   :marked
     ```typescript
-    import {bootstrap}    from 'angular2/platform/browser';
+    import {bootstrap}    from '@angular/platform-browser-dynamic';
     import {AppComponent} from './app.component';
     import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 
@@ -312,6 +401,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
       - index.html
       - node_modules
       - package.json
+      - systemjs.config.js
       - tsconfig.json
       - typings.json
     ```
