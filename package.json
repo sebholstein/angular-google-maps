@@ -61,7 +61,7 @@
     "require-dir": "0.3.0",
     "run-sequence": "1.1.5",
     "systemjs": "0.19.27",
-    "systemjs-builder": "0.15.16",
+    "systemjs-builder": "0.15.17",
     "tslint": "3.6.0",
     "typescript": "1.8.9",
     "typings": "0.7.7",
