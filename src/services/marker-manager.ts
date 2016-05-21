@@ -3,7 +3,7 @@ import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 import {SebmGoogleMapMarker} from '../directives/google-map-marker';
 import {GoogleMapsAPIWrapper} from './google-maps-api-wrapper';
-import {Marker} from './google-maps-types';
+import {Marker, google} from './google-maps-types';
 
 @Injectable()
 export class MarkerManager {
@@ -67,5 +67,14 @@ export class MarkerManager {
         m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
+  }
+
+  getBounds() {
+    let latlngbounds = new google.maps.LatLngBounds();
+    for (let marker of this._markers) {
+      let nativeMarker = this.getNativeMarker(marker);
+      latlngbounds.extend(nativeMarker.getPosition());
+    }
+    return latlngbounds;
   }
 }
