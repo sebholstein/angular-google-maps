@@ -45,7 +45,7 @@
     "gulp-connect": "3.2.0",
     "gulp-conventional-changelog": "1.0.1",
     "gulp-eslint": "1.1.1",
-    "gulp-git": "1.7.0",
+    "gulp-git": "1.7.2",
     "gulp-header": "^1.7.1",
     "gulp-load-plugins": "1.1.0",
     "gulp-rename": "1.2.2",
