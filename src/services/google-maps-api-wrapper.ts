@@ -1,9 +1,9 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 import * as mapTypes from './google-maps-types';
+import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;

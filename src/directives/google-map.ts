@@ -1,10 +1,11 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
+
+import {MouseEvent} from '../events';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {MarkerManager} from '../services/marker-manager';
+import {LatLng, LatLngLiteral, MapTypeControlOptions} from '../services/google-maps-types';
 import {ImageMapTypeManager} from '../services/image-map-type-manager';
 import {InfoWindowManager} from '../services/info-window-manager';
-import {LatLng, LatLngLiteral, MapTypeControlOptions} from '../services/google-maps-types';
-import {MouseEvent} from '../events';
+import {MarkerManager} from '../services/marker-manager';
 
 /**
  * SebMGoogleMap renders a Google Map.

@@ -1,6 +1,7 @@
 import {Directive, OnDestroy, OnChanges} from '@angular/core';
-import {ImageMapTypeManager} from '../services/image-map-type-manager';
+
 import {ImageMapTypeOptions} from '../services/google-maps-types';
+import {ImageMapTypeManager} from '../services/image-map-type-manager';
 
 /**
  * SebmGoogleImageMapType renders custom tiles on a {@link SebmGoogleMap}.

@@ -1,8 +1,10 @@
 import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChild, AfterContentInit} from '@angular/core';
-import {MarkerManager} from '../services/marker-manager';
-import {SebmGoogleMapInfoWindow} from './google-map-info-window';
+
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
+import {MarkerManager} from '../services/marker-manager';
+
+import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 
 let markerId = 0;
 
