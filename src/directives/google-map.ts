@@ -1,8 +1,9 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
+import {ImageMapTypeManager} from '../services/image-map-type-manager';
 import {InfoWindowManager} from '../services/info-window-manager';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, MapTypeControlOptions} from '../services/google-maps-types';
 import {MouseEvent} from '../events';
 
 /**
@@ -32,11 +33,11 @@ import {MouseEvent} from '../events';
  */
 @Component({
   selector: 'sebm-google-map',
-  providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
+  providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, ImageMapTypeManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'mapTypeId'
+    'mapTypeId', 'mapTypeControlOptions'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -116,11 +117,15 @@ export class SebmGoogleMap implements OnChanges,
   mapTypeId: string;
 
   /**
+   * Sets the avalible map layers
+   */
+  mapTypeControlOptions: MapTypeControlOptions;
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'mapTypeId'
+    'keyboardShortcuts', 'zoomControl', 'mapTypeId', 'mapTypeControlOptions'
   ];
 
   /**
@@ -164,7 +169,8 @@ export class SebmGoogleMap implements OnChanges,
       draggingCursor: this.draggingCursor,
       keyboardShortcuts: this.keyboardShortcuts,
       zoomControl: this.zoomControl,
-      mapTypeId: this.mapTypeId
+      mapTypeId: this.mapTypeId,
+      mapTypeControlOptions: this.mapTypeControlOptions
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();

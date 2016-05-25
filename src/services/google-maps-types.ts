@@ -1,6 +1,7 @@
 export var google: any;
 
 export interface GoogleMap {
+  mapTypes: MapTypeRegistry;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   setZoom(zoom: number): void;
@@ -64,6 +65,7 @@ export interface MapOptions {
   keyboardShortcuts?: boolean;
   zoomControl?: boolean;
   mapTypeId?: string;
+  mapTypeControlOptions?: MapTypeControlOptions;
 }
 
 export interface InfoWindow {
@@ -96,4 +98,27 @@ export interface InfoWindowOptions {
   pixelOffset?: Size;
   position?: LatLng|LatLngLiteral;
   zIndex?: number;
+}
+
+export interface MapTypeRegistry { set(id: string, mapType: any): void; }
+
+export interface MapTypeControlOptions { mapTypeIds: string[]; }
+
+export interface ImageMapTypeCoord {
+  x: number;
+  y: number;
+}
+export interface ImageMapTypeTileSize {
+  height: number;
+  width: number;
+}
+
+export interface ImageMapTypeOptions {
+  tileSize?: ImageMapTypeTileSize;
+  maxZoom: number;
+  minZoom: number;
+  radius: number;
+  name: string;
+  alt?: string;
+  getTileUrl(coord: ImageMapTypeCoord, zoom: number): string;
 }
