@@ -1,8 +1,10 @@
 import {Injectable, NgZone} from '@angular/core';
+
 import {SebmGoogleMapInfoWindow} from '../directives/google-map-info-window';
+
 import {GoogleMapsAPIWrapper} from './google-maps-api-wrapper';
-import {MarkerManager} from './marker-manager';
 import {InfoWindow, InfoWindowOptions} from './google-maps-types';
+import {MarkerManager} from './marker-manager';
 
 @Injectable()
 export class InfoWindowManager {

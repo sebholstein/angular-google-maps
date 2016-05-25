@@ -1,9 +1,9 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 import * as mapTypes from './google-maps-types';
+import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;
@@ -78,5 +78,20 @@ export class GoogleMapsAPIWrapper {
    */
   triggerMapEvent(eventName: string): Promise<void> {
     return this._map.then((m) => google.maps.event.trigger(m, eventName));
+  }
+
+  setMapTypes(id: string, options: mapTypes.ImageMapTypeOptions): Promise<void> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      var mapType = new google.maps.ImageMapType({
+        getTileUrl: options.getTileUrl,
+        tileSize: options.tileSize,
+        maxZoom: options.maxZoom,
+        minZoom: options.minZoom,
+        radius: options.radius,
+        name: options.name,
+        alt: options.alt
+      });
+      map.mapTypes.set(id, mapType);
+    });
   }
 }
