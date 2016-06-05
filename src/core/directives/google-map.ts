@@ -3,6 +3,7 @@ import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} fr
 import {MouseEvent} from '../events';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {MapTypeStyle} from '../services/google-maps-types';
 import {InfoWindowManager} from '../services/info-window-manager';
 import {MarkerManager} from '../services/marker-manager';
 
@@ -36,7 +37,8 @@ import {MarkerManager} from '../services/marker-manager';
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
+    'styles'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -111,11 +113,17 @@ export class SebmGoogleMap implements OnChanges,
   zoomControl: boolean = true;
 
   /**
+   * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
+   * modes, these styles will only apply to labels and geometry.
+   */
+  styles: MapTypeStyle[] = [];
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl'
+    'keyboardShortcuts', 'zoomControl', 'styles'
   ];
 
   /**
@@ -158,7 +166,8 @@ export class SebmGoogleMap implements OnChanges,
       draggableCursor: this.draggableCursor,
       draggingCursor: this.draggingCursor,
       keyboardShortcuts: this.keyboardShortcuts,
-      zoomControl: this.zoomControl
+      zoomControl: this.zoomControl,
+      styles: this.styles
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
