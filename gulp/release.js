@@ -7,22 +7,22 @@ const config = require('./config');
 const fs = require('fs');
 const path = require('path');
 
-gulp.task('copyReleaseAssets', function copyReleaseAssets() {
-  return gulp.src(config.PATHS.releaseAssets)
-    .pipe(gulp.dest(config.PATHS.dist.base));
-});
+gulp.task('copyReleaseAssets', () =>
+  gulp.src(config.PATHS.releaseAssets)
+    .pipe(gulp.dest(config.PATHS.dist.base))
+);
 
-gulp.task('changelog', function changelog() {
-  return gulp.src('CHANGELOG.md', {
+gulp.task('changelog', () =>
+  gulp.src('CHANGELOG.md', {
     buffer: false,
   })
     .pipe($.conventionalChangelog({
       preset: 'angular',
     }))
-    .pipe(gulp.dest('.'));
-});
+    .pipe(gulp.dest('.'))
+);
 
-gulp.task('createPackageJson', function createPackageJson() {
+gulp.task('createPackageJson', () => {
   const basePkgJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
   // remove scripts
@@ -35,7 +35,7 @@ gulp.task('createPackageJson', function createPackageJson() {
   fs.writeFileSync(filepath, JSON.stringify(basePkgJson, null, 2), 'utf-8');
 });
 
-gulp.task('create-tag', function createTag(cb) {
+gulp.task('create-tag', (cb) => {
   function getPackageJsonVersion() {
     // We parse the json file instead of using require because require caches
     // multiple calls so the version number won't be updated
@@ -43,9 +43,10 @@ gulp.task('create-tag', function createTag(cb) {
   }
 
   const version = getPackageJsonVersion();
-  $.git.tag(version, 'chore(version): ' + version, function createGitTag(error) {
+  return $.git.tag(version, `chore(version): ${version}`, (error) => {
     if (error) {
       return cb(error);
     }
+    return cb();
   });
 });

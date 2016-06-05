@@ -1,4 +1,6 @@
 const path = require('path');
+const ts = require('typescript');
+const $ = require('gulp-load-plugins')();
 
 // package.json as JS object
 module.exports.pkg = require(path.join(__dirname, '../package.json'));
@@ -9,16 +11,17 @@ module.exports.PATHS = {
   tsSrcFiles: 'src/**/*.ts',
   tsTestFiles: [
     'test/**/*.ts',
-    'typings/main.d.ts',
+    'typings/index.d.ts',
   ],
   releaseAssets: ['assets/release/**/*', 'LICENSE'],
   exampleFiles: 'examples/**/*',
   jsFiles: ['gulpfile.js', 'gulp/*.js'],
   tsConfig: path.join(__dirname, '../tsconfig.json'),
+  tmp: '.tmp/',
   dist: {
     base: 'dist/',
     cjs: 'dist/',
-    es6: 'dist/es6/',
+    esm: 'dist/esm/',
     ts: 'dist/ts/',
     bundles: 'dist/bundles/',
   },
@@ -26,3 +29,23 @@ module.exports.PATHS = {
   // instead of test-built/test/ dir.
   testBuilt: 'test-built/',
 };
+
+module.exports.banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
+
+ // we create the the tsConfig outside the task for fast incremential compilations during a watch.
+module.exports.tscConfigCjs = $.typescript.createProject(module.exports.PATHS.tsConfig, {
+  target: 'ES5',
+  module: 'commonjs',
+  moduleResolution: 'node',
+  declaration: true,
+  emitDecoratorMetadata: true,
+  experimentalDecorators: true,
+  typescript: ts,
+  allowJs: true,
+});
