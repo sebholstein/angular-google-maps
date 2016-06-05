@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const config = require('./config');
 const $ = require('gulp-load-plugins')();
 
-const tsCmd = `./node_modules/.bin/tsc --out ${config.PATHS.dist.cjs}core.umd.js ` +
+const tsCmd = `./node_modules/.bin/tsc --out ${config.PATHS.dist.cjs}/core/core.umd.js ` +
 `--target es5 --allowJs ${config.PATHS.tmp}core.umd.js`;
 
 gulp.task('rollup:umd', ['scripts:esm'],

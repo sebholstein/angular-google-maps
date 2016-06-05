@@ -1,5 +1,5 @@
 export default {
-  entry: 'dist/esm/core.js',
+  entry: 'dist/esm/core/index.js',
   dest: '.tmp/core.umd.js',
   format: 'umd',
   moduleName: 'ngmaps.core',
