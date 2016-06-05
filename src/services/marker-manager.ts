@@ -1,7 +1,9 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
+
 import {SebmGoogleMapMarker} from '../directives/google-map-marker';
+
 import {GoogleMapsAPIWrapper} from './google-maps-api-wrapper';
 import {Marker} from './google-maps-types';
 
