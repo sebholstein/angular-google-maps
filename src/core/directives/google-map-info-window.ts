@@ -35,7 +35,7 @@ let infoWindowId = 0;
  */
 @Component({
   selector: 'sebm-google-map-info-window',
-  inputs: ['latitude', 'longitude', 'disableAutoPan'],
+  inputs: ['latitude', 'longitude', 'disableAutoPan', 'isOpen'],
   outputs: ['infoWindowClose'],
   template: `<div class='sebm-google-map-info-window-content'>
       <ng-content></ng-content>
@@ -88,6 +88,11 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
   content: Node;
 
   /**
+   * Sets the open state for the InfoWindow. You can also call the open() and close() methods.
+   */
+  isOpen: boolean = false;
+
+  /**
    * Emits an event when the info window is closed.
    */
   infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
@@ -102,6 +107,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
     this.content = this._el.nativeElement.querySelector('.sebm-google-map-info-window-content');
     this._infoWindowManager.addInfoWindow(this);
     this._infoWindowAddedToManager = true;
+    this._updateOpenState();
   }
 
   /** @internal */
@@ -116,7 +122,14 @@ export class SebmGoogleMapInfoWindow implements OnDestroy,
     if (changes['zIndex']) {
       this._infoWindowManager.setZIndex(this);
     }
+    if (changes['isOpen']) {
+      this._updateOpenState();
+    }
     this._setInfoWindowOptions(changes);
+  }
+
+  private _updateOpenState() {
+    this.isOpen ? this._infoWindowManager.open(this) : this._infoWindowManager.close(this);
   }
 
   private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
