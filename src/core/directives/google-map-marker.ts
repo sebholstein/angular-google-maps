@@ -1,5 +1,5 @@
-import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChild, AfterContentInit} from '@angular/core';
-
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
+import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChild, AfterContentInit, forwardRef, Provider} from '@angular/core';
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/marker-manager';
@@ -7,6 +7,9 @@ import {MarkerManager} from '../services/marker-manager';
 import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 
 let markerId = 0;
+
+const SEBM_GOOGLEMAP_MARKER_VALUE_ACCESSOR = new Provider(
+    NG_VALUE_ACCESSOR, {useExisting: forwardRef(() => SebmGoogleMapMarker), multi: true});
 
 /**
  * SebmGoogleMapMarker renders a map marker inside a {@link SebmGoogleMap}.
@@ -35,11 +38,12 @@ let markerId = 0;
  */
 @Directive({
   selector: 'sebm-google-map-marker',
+  bindings: [SEBM_GOOGLEMAP_MARKER_VALUE_ACCESSOR],
   inputs: ['latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl'],
   outputs: ['markerClick', 'dragEnd']
 })
 export class SebmGoogleMapMarker implements OnDestroy,
-    OnChanges, AfterContentInit {
+    OnChanges, AfterContentInit, ControlValueAccessor {
   /**
    * The latitude position of the marker.
    */
@@ -84,6 +88,8 @@ export class SebmGoogleMapMarker implements OnDestroy,
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
+  private onChange: (val: any) => any = (_: any) => { _ = _; };
+  private onTouched: () => any = () => {};
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
@@ -107,6 +113,7 @@ export class SebmGoogleMapMarker implements OnDestroy,
     }
     if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
+      this.onChange({latitude: this.latitude, longitude: this.longitude});
     }
     if (changes['title']) {
       this._markerManager.updateTitle(this);
@@ -134,6 +141,15 @@ export class SebmGoogleMapMarker implements OnDestroy,
           this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
         });
   }
+
+  writeValue(obj: any): void {
+    this.latitude = obj.latitude;
+    this.longitude = obj.longitude;
+  }
+
+  registerOnChange(fn: (value: any) => any): void { this.onChange = fn; }
+
+  registerOnTouched(fn: () => any): void { this.onTouched = fn; }
 
   /** @internal */
   id(): string { return this._id; }
