@@ -71,7 +71,10 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
 
-  getMap(): Promise<mapTypes.GoogleMap> { return this._map; }
+  /**
+   * Returns the native Google Maps Map instance. Be careful when using this instance directly.
+   */
+  getNativeMap(): Promise<mapTypes.GoogleMap> { return this._map; }
 
   /**
    * Triggers the given event name on the map instance.
