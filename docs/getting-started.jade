@@ -344,11 +344,11 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
   :marked
     ```typescript
     import {Component} from '@angular/core';
-    import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES} from 'angular2-google-maps/core';
+    import {GOOGLE_MAPS_DIRECTIVES} from 'angular2-google-maps/core';
 
     @Component({
       selector: 'my-app',
-      directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES], // this loads all angular2-google-maps directives in this component
+      directives: [GOOGLE_MAPS_DIRECTIVES], // this loads all angular2-google-maps directives in this component
       // the following line sets the height of the map - Important: if you don't set a height, you won't see a map!!
       styles: [`
         .sebm-google-map-container {
@@ -385,11 +385,11 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     ```typescript
     import {bootstrap}    from '@angular/platform-browser-dynamic';
     import {AppComponent} from './app.component';
-    import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
+    import {GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 
     // this line boots our application on the page in the <my-app> element:
-    // Note: It is required to add the ANGULAR2_GOOGLE_MAPS_PROVIDERS here!
-    bootstrap(AppComponent, [ANGULAR2_GOOGLE_MAPS_PROVIDERS]);
+    // Note: It is required to add the GOOGLE_MAPS_PROVIDERS here!
+    bootstrap(AppComponent, [GOOGLE_MAPS_PROVIDERS]);
     ```
     ### Final project structure
     Our final project structure should look like this:
