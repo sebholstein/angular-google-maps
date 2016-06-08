@@ -1,4 +1,4 @@
-import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChild, AfterContentInit} from '@angular/core';
+import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
 
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
