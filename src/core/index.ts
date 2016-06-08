@@ -8,6 +8,6 @@ export * from './directives';
 export * from './services';
 export * from './events';
 
-export const ANGULAR2_GOOGLE_MAPS_PROVIDERS: any[] = [
+export const GOOGLE_MAPS_PROVIDERS: any[] = [
   new Provider(MapsAPILoader, {useClass: LazyMapsAPILoader}),
 ];
