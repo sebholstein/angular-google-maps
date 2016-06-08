@@ -31,6 +31,10 @@ gulp.task('createPackageJson', () => {
   // remove devDependencies (as there are important for the sourcecode only)
   delete basePkgJson.devDependencies;
 
+  // transform dependencies to peerDependencies for the release
+  basePkgJson.peerDependencies = Object.assign({}, basePkgJson.dependencies);
+  basePkgJson.dependencies = {};
+
   const filepath = path.join(__dirname, '../dist/package.json');
   fs.writeFileSync(filepath, JSON.stringify(basePkgJson, null, 2), 'utf-8');
 });
