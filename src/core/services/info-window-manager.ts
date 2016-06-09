@@ -45,10 +45,10 @@ export class InfoWindowManager {
     return this._infoWindows.get(infoWindow).then((w) => {
       if (infoWindow.hostMarker != null) {
         return this._markerManager.getNativeMarker(infoWindow.hostMarker).then((marker) => {
-          return this._mapsWrapper.getMap().then((map) => w.open(map, marker));
+          return this._mapsWrapper.getNativeMap().then((map) => w.open(map, marker));
         });
       }
-      return this._mapsWrapper.getMap().then((map) => w.open(map));
+      return this._mapsWrapper.getNativeMap().then((map) => w.open(map));
     });
   }
 
