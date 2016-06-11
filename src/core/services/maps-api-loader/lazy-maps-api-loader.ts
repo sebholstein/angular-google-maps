@@ -1,4 +1,5 @@
-import {Injectable, Optional} from '@angular/core';
+import {Injectable, Optional, Provider, provide} from '@angular/core';
+
 import {MapsAPILoader} from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
@@ -7,12 +8,15 @@ export enum GoogleMapsScriptProtocol {
   AUTO
 }
 
-export class LazyMapsAPILoaderConfig {
+/**
+ * Config literal used to create an instance of LazyMapsAPILoaderConfig.
+ */
+export interface LazyMapsAPILoaderConfigLiteral {
   /**
    * The Google Maps API Key (see:
    * https://developers.google.com/maps/documentation/javascript/get-api-key)
    */
-  apiKey: string = null;
+  apiKey?: string;
 
   /**
    * The Google Maps client ID (for premium plans).
@@ -20,34 +24,34 @@ export class LazyMapsAPILoaderConfig {
    * your application with either an API key or a client ID.
    * The Google Maps API will fail to load if both a client ID and an API key are included.
    */
-  clientId: string = null;
+  clientId?: string;
 
   /**
    * The Google Maps channel name (for premium plans).
    * A channel parameter is an optional parameter that allows you to track usage under your client
    * ID by assigning a distinct channel to each of your applications.
    */
-  channel: string = null;
+  channel?: string;
 
   /**
    * Google Maps API version.
    */
-  apiVersion: string = '3';
+  apiVersion?: string;
 
   /**
    * Host and Path used for the `<script>` tag.
    */
-  hostAndPath: string = 'maps.googleapis.com/maps/api/js';
+  hostAndPath?: string;
 
   /**
    * Protocol used for the `<script>` tag.
    */
-  protocol: GoogleMapsScriptProtocol = GoogleMapsScriptProtocol.HTTPS;
+  protocol?: GoogleMapsScriptProtocol;
 
   /**
    * Defines which Google Maps libraries should get loaded.
    */
-  libraries: string[] = [];
+  libraries?: string[];
 
   /**
    * The default bias for the map behavior is US.
@@ -55,7 +59,7 @@ export class LazyMapsAPILoaderConfig {
    * application, you can overwrite the default behavior (US) by defining a `region`.
    * See https://developers.google.com/maps/documentation/javascript/basics#Region
    */
-  region: string = null;
+  region?: string;
 
   /**
    * The Google Maps API uses the browser's preferred language when displaying
@@ -63,6 +67,22 @@ export class LazyMapsAPILoaderConfig {
    * to use a given language, you can use this setting.
    * See https://developers.google.com/maps/documentation/javascript/basics#Language
    */
+  language?: string;
+}
+
+/**
+ * Configuration for {@link LazyMapsAPILoader}.
+ * See {@link LazyMapsAPILoaderConfig} for instance attribute descriptions.
+ */
+export class LazyMapsAPILoaderConfig implements LazyMapsAPILoaderConfigLiteral {
+  apiKey: string = null;
+  clientId: string = null;
+  channel: string = null;
+  apiVersion: string = '3';
+  hostAndPath: string = 'maps.googleapis.com/maps/api/js';
+  protocol: GoogleMapsScriptProtocol = GoogleMapsScriptProtocol.HTTPS;
+  libraries: string[] = [];
+  region: string = null;
   language: string = null;
 }
 
@@ -71,12 +91,15 @@ const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
   private _scriptLoadingPromise: Promise<void>;
+  private _config: LazyMapsAPILoaderConfig;
+  private _window: Window;
+  private _document: Document;
 
-  constructor(@Optional() private _config: LazyMapsAPILoaderConfig) {
+  constructor(@Optional() config: LazyMapsAPILoaderConfig, w: Window, d: Document) {
     super();
-    if (this._config === null || this._config === undefined) {
-      this._config = DEFAULT_CONFIGURATION;
-    }
+    this._config = config || DEFAULT_CONFIGURATION;
+    this._window = w;
+    this._document = d;
   }
 
   load(): Promise<void> {
@@ -84,20 +107,20 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return this._scriptLoadingPromise;
     }
 
-    const script = document.createElement('script');
+    const script = this._document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    const callbackName: string = `angular2googlemaps${new Date().getMilliseconds() }`;
+    const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>window)[callbackName] = () => { resolve(); };
+      (<any>this._window)[callbackName] = () => { resolve(); };
 
       script.onerror = (error: Event) => { reject(error); };
     });
 
-    document.body.appendChild(script);
+    this._document.body.appendChild(script);
     return this._scriptLoadingPromise;
   }
 
@@ -119,40 +142,57 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     }
 
     const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
-    const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
-    const clientId: string = this._config.clientId || DEFAULT_CONFIGURATION.clientId;
-    const channel: string = this._config.channel || DEFAULT_CONFIGURATION.channel;
-    const libraries: string[] = this._config.libraries || DEFAULT_CONFIGURATION.libraries;
-    const region: string = this._config.region || DEFAULT_CONFIGURATION.region;
-    const language: string = this._config.language || DEFAULT_CONFIGURATION.language;
-    const queryParams: {[key: string]: string} = {
+    const queryParams: {[key: string]: string | Array<string>} = {
       v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiVersion,
-      callback: callbackName
+      callback: callbackName,
+      key: this._config.apiKey,
+      client: this._config.clientId,
+      channel: this._config.channel,
+      libraries: this._config.libraries,
+      region: this._config.region,
+      language: this._config.language
     };
-    if (apiKey) {
-      queryParams['key'] = apiKey;
-    }
-    if (clientId) {
-      queryParams['client'] = clientId;
-    }
-    if (channel) {
-      queryParams['channel'] = channel;
-    }
-    if (libraries != null && libraries.length > 0) {
-      queryParams['libraries'] = libraries.join(',');
-    }
-    if (region != null && region.length > 0) {
-      queryParams['region'] = region;
-    }
-    if (language != null && language.length > 0) {
-      queryParams['language'] = language;
-    }
-    const params: string = Object.keys(queryParams)
-                               .map((k: string, i: number) => {
-                                 let param = (i === 0) ? '?' : '&';
-                                 return param += `${k}=${queryParams[k]}`;
-                               })
-                               .join('');
-    return `${protocol}//${hostAndPath}${params}`;
+    const params: string =
+        Object.keys(queryParams)
+            .filter((k: string) => queryParams[k] != null)
+            .filter((k: string) => {
+              // remove empty arrays
+              return !Array.isArray(queryParams[k]) ||
+                  (Array.isArray(queryParams[k]) && queryParams[k].length > 0);
+            })
+            .map((k: string) => {
+              // join arrays as comma seperated strings
+              let i = queryParams[k];
+              if (Array.isArray(i)) {
+                return {key: k, value: i.join(',')};
+              }
+              return {key: k, value: queryParams[k]};
+            })
+            .map((entry: {key: string, value: string}) => { return `${entry.key}=${entry.value}`; })
+            .join('&');
+    return `${protocol}//${hostAndPath}?${params}`;
   }
+}
+
+/**
+ * Creates a provider for a {@link LazyMapsAPILoaderConfig})
+ */
+export function provideLazyMapsAPILoaderConfig(confLiteral: LazyMapsAPILoaderConfigLiteral):
+    Provider {
+  return provide(LazyMapsAPILoaderConfig, {
+    useFactory: () => {
+      const config = new LazyMapsAPILoaderConfig();
+      // todo(sebastian): deprecate LazyMapsAPILoader class
+      config.apiKey = confLiteral.apiKey || DEFAULT_CONFIGURATION.apiKey;
+      config.apiVersion = confLiteral.apiVersion || DEFAULT_CONFIGURATION.apiVersion;
+      config.channel = confLiteral.channel || DEFAULT_CONFIGURATION.channel;
+      config.clientId = confLiteral.clientId || DEFAULT_CONFIGURATION.clientId;
+      config.hostAndPath = confLiteral.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
+      config.language = confLiteral.language || DEFAULT_CONFIGURATION.language;
+      config.libraries = confLiteral.libraries || DEFAULT_CONFIGURATION.libraries;
+      config.protocol = config.protocol || DEFAULT_CONFIGURATION.protocol;
+      config.region = config.region || DEFAULT_CONFIGURATION.region;
+      return config;
+    }
+  });
 }
