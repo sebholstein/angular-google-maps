@@ -38,7 +38,7 @@ import {MarkerManager} from '../services/marker-manager';
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles'
+    'styles', 'usePanning'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -60,9 +60,21 @@ import {MarkerManager} from '../services/marker-manager';
 })
 export class SebmGoogleMap implements OnChanges,
     OnInit {
-  private _longitude: number = 0;
-  private _latitude: number = 0;
-  private _zoom: number = 8;
+  /**
+   * The longitude that defines the center of the map.
+   */
+  longitude: number = 0;
+
+  /**
+   * The latitude that defines the center of the map.
+   */
+  latitude: number = 0;
+
+  /**
+   * The zoom level of the map. The default zoom level is 8.
+   */
+  zoom: number = 8;
+
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
    */
@@ -119,6 +131,13 @@ export class SebmGoogleMap implements OnChanges,
   styles: MapTypeStyle[] = [];
 
   /**
+   * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
+   * used to
+   * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
+   */
+  usePanning: boolean = false;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -159,8 +178,8 @@ export class SebmGoogleMap implements OnChanges,
 
   private _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, {
-      center: {lat: this._latitude, lng: this._longitude},
-      zoom: this._zoom,
+      center: {lat: this.latitude, lng: this.longitude},
+      zoom: this.zoom,
       disableDefaultUI: this.disableDefaultUI,
       backgroundColor: this.backgroundColor,
       draggableCursor: this.draggableCursor,
@@ -177,6 +196,9 @@ export class SebmGoogleMap implements OnChanges,
   /* @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     this._updateMapOptionsChanges(changes);
+    if (changes['latitude'] != null || changes['longitude']) {
+      this._updateCenter();
+    }
   }
 
   private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
@@ -201,64 +223,34 @@ export class SebmGoogleMap implements OnChanges,
     });
   }
 
-  /**
-   * Sets the zoom level of the map. The default value is `8`.
-   */
-  set zoom(value: number|string) {
-    this._zoom = this._convertToDecimal(value, 8);
-    if (typeof this._zoom === 'number') {
-      this._mapsWrapper.setZoom(this._zoom);
-    }
-  }
-
-  /**
-   * The longitude that sets the center of the map.
-   */
-  set longitude(value: number|string) {
-    this._longitude = this._convertToDecimal(value);
-    this._updateCenter();
-  }
-
-  /**
-   * The latitude that sets the center of the map.
-   */
-  set latitude(value: number|string) {
-    this._latitude = this._convertToDecimal(value);
-    this._updateCenter();
-  }
-
-  private _convertToDecimal(value: string|number, defaultValue: number = null): number {
-    if (typeof value === 'string') {
-      return parseFloat(value);
-    } else if (typeof value === 'number') {
-      return <number>value;
-    }
-    return defaultValue;
-  }
-
   private _updateCenter() {
-    if (typeof this._latitude !== 'number' || typeof this._longitude !== 'number') {
+    if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
-    this._mapsWrapper.setCenter({
-      lat: this._latitude,
-      lng: this._longitude,
-    });
+    let newCenter = {
+      lat: this.latitude,
+      lng: this.longitude,
+    };
+    if (this.usePanning) {
+      this._mapsWrapper.panTo(newCenter);
+    } else {
+      this._mapsWrapper.setCenter(newCenter);
+    }
   }
 
   private _handleMapCenterChange() {
     this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
       this._mapsWrapper.getCenter().then((center: LatLng) => {
-        this._latitude = center.lat();
-        this._longitude = center.lng();
-        this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
+        this.latitude = center.lat();
+        this.longitude = center.lng();
+        this.centerChange.emit(<LatLngLiteral>{lat: this.latitude, lng: this.longitude});
       });
     });
   }
 
   private _handleMapZoomChange() {
     this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
+      this._mapsWrapper.getZoom().then((z: number) => this.zoom = z);
     });
   }
 

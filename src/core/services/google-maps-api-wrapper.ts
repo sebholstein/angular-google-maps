@@ -71,6 +71,10 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
 
+  panTo(latLng: mapTypes.LatLng|mapTypes.LatLngLiteral): Promise<void> {
+    return this._map.then((map) => map.panTo(latLng));
+  }
+
   /**
    * Returns the native Google Maps Map instance. Be careful when using this instance directly.
    */
