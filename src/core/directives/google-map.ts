@@ -40,7 +40,7 @@ import {MarkerManager} from '../services/marker-manager';
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
     'styles', 'usePanning'
   ],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
+  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle'],
   host: {'[class.sebm-google-map-container]': 'true'},
   styles: [`
     .sebm-google-map-container-inner {
@@ -168,6 +168,11 @@ export class SebmGoogleMap implements OnChanges,
    */
   centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
+  /**
+   * This event is fired when the map becomes idle after panning or zooming.
+   */
+  idle: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
@@ -191,6 +196,7 @@ export class SebmGoogleMap implements OnChanges,
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
+    this._handleIdleEvent();
   }
 
   /* @internal */
@@ -252,6 +258,11 @@ export class SebmGoogleMap implements OnChanges,
     this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
       this._mapsWrapper.getZoom().then((z: number) => this.zoom = z);
     });
+  }
+
+  private _handleIdleEvent() {
+    this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
+        () => { this.idle.emit(void 0); });
   }
 
   private _handleMapMouseEvents() {
