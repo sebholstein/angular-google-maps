@@ -64,7 +64,7 @@
     "require-dir": "0.3.0",
     "rollup": "0.29.0",
     "run-sequence": "1.2.1",
-    "systemjs": "0.19.29",
+    "systemjs": "0.19.30",
     "tslint": "3.10.2",
     "typescript": "1.8.10",
     "typings": "1.0.4",
