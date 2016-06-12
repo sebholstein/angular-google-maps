@@ -1,4 +1,5 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../events';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
@@ -145,6 +146,8 @@ export class SebmGoogleMap implements OnChanges,
     'keyboardShortcuts', 'zoomControl', 'styles'
   ];
 
+  private _observableSubscriptions: Subscription[] = [];
+
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
@@ -199,10 +202,16 @@ export class SebmGoogleMap implements OnChanges,
     this._handleIdleEvent();
   }
 
+  /** @internal */
+  ngOnDestroy() {
+    // unsubscribe all registered observable subscriptions
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
+  }
+
   /* @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     this._updateMapOptionsChanges(changes);
-    if (changes['latitude'] != null || changes['longitude']) {
+    if (changes['latitude'] != null || changes['longitude'] != null) {
       this._updateCenter();
     }
   }
@@ -245,24 +254,27 @@ export class SebmGoogleMap implements OnChanges,
   }
 
   private _handleMapCenterChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
       this._mapsWrapper.getCenter().then((center: LatLng) => {
         this.latitude = center.lat();
         this.longitude = center.lng();
         this.centerChange.emit(<LatLngLiteral>{lat: this.latitude, lng: this.longitude});
       });
     });
+    this._observableSubscriptions.push(s);
   }
 
   private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
       this._mapsWrapper.getZoom().then((z: number) => this.zoom = z);
     });
+    this._observableSubscriptions.push(s);
   }
 
   private _handleIdleEvent() {
-    this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
         () => { this.idle.emit(void 0); });
+    this._observableSubscriptions.push(s);
   }
 
   private _handleMapMouseEvents() {
@@ -277,11 +289,12 @@ export class SebmGoogleMap implements OnChanges,
     ];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
+      const s = this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
           (event: {latLng: LatLng}) => {
             const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
             e.emitter.emit(value);
           });
+      this._observableSubscriptions.push(s);
     });
   }
 }
