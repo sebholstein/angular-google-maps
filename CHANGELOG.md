@@ -1,3 +1,70 @@
+<a name="0.11.0"></a>
+# [0.11.0 red-motherboard](https://github.com/SebastianM/angular2-google-maps/compare/0.10.0...0.11.0) (2016-06-12)
+
+
+### Bug Fixes
+
+* **SebmGoogleMap:** remove event listeners on destroy ([223d0de](https://github.com/SebastianM/angular2-google-maps/commit/223d0de)), closes [#425](https://github.com/SebastianM/angular2-google-maps/issues/425)
+* **tests:** fix path in unit tests ([f03f04f](https://github.com/SebastianM/angular2-google-maps/commit/f03f04f))
+
+
+### Code Refactoring
+
+* **GoogleMapsAPIWrapper:** rename getMap method ([f2084dd](https://github.com/SebastianM/angular2-google-maps/commit/f2084dd)), closes [#407](https://github.com/SebastianM/angular2-google-maps/issues/407)
+
+
+### Features
+
+* provide an UMD bundle ([531110d](https://github.com/SebastianM/angular2-google-maps/commit/531110d))
+* rename *ANGULAR2_GOOGLE_MAPS* constants ([8efa96d](https://github.com/SebastianM/angular2-google-maps/commit/8efa96d)), closes [#406](https://github.com/SebastianM/angular2-google-maps/issues/406)
+* **infoWindow:** emit event when closed ([00f4f2d](https://github.com/SebastianM/angular2-google-maps/commit/00f4f2d)), closes [#306](https://github.com/SebastianM/angular2-google-maps/issues/306) [#317](https://github.com/SebastianM/angular2-google-maps/issues/317) [#360](https://github.com/SebastianM/angular2-google-maps/issues/360)
+* **InfoWindow:** support initial open state ([4947efc](https://github.com/SebastianM/angular2-google-maps/commit/4947efc)), closes [#382](https://github.com/SebastianM/angular2-google-maps/issues/382) [#390](https://github.com/SebastianM/angular2-google-maps/issues/390)
+* **LazyMapsApiLoader:** add the channel parameter ([52fe30e](https://github.com/SebastianM/angular2-google-maps/commit/52fe30e)), closes [#319](https://github.com/SebastianM/angular2-google-maps/issues/319)
+* **LazyMapsAPILoader:** provide shortcut ([997aa80](https://github.com/SebastianM/angular2-google-maps/commit/997aa80)), closes [#388](https://github.com/SebastianM/angular2-google-maps/issues/388) [#420](https://github.com/SebastianM/angular2-google-maps/issues/420)
+* **npm:** define dependencies as peerDependencies ([b85ad0e](https://github.com/SebastianM/angular2-google-maps/commit/b85ad0e)), closes [#399](https://github.com/SebastianM/angular2-google-maps/issues/399) [#403](https://github.com/SebastianM/angular2-google-maps/issues/403)
+* **SebmGoogleMap:** support idle event ([c5d5744](https://github.com/SebastianM/angular2-google-maps/commit/c5d5744)), closes [#393](https://github.com/SebastianM/angular2-google-maps/issues/393) [#417](https://github.com/SebastianM/angular2-google-maps/issues/417)
+* **SebmGoogleMap:** support panning ([760f410](https://github.com/SebastianM/angular2-google-maps/commit/760f410)), closes [#412](https://github.com/SebastianM/angular2-google-maps/issues/412) [#416](https://github.com/SebastianM/angular2-google-maps/issues/416)
+* **SebmGoogleMaps:** support styles ([0e61df3](https://github.com/SebastianM/angular2-google-maps/commit/0e61df3)), closes [#387](https://github.com/SebastianM/angular2-google-maps/issues/387)
+
+
+### BREAKING CHANGES
+
+* **SebmGoogleMap**:
+
+The latitude, longitude and zoom inputs of <sebm-google-map> must be of type number now.
+Strings are not supported any more.
+
+Example:
+
+Old (now unsupported way):
+```
+<sebm-google-map latitude="33" longitude="22" zoom="8">...
+```
+
+New:
+```
+<sebm-google-map [latitude]="33" [longitude]="22" [zoom]="8">...
+```
+* **GoogleMapsAPIWrapper**: `getMap()` is now called `getNativeMap()`.
+
+* `ANGULAR2_GOOGLE_MAPS_PROVIDERS` is now called `GOOGLE_MAPS_PROVIDERS`.
+* `ANGULAR2_GOOGLE_MAPS_DIRECTIVES` is now called `GOOGLE_MAPS_DIRECTIVES`.
+
+The SystemJS based bundle located in the `bundles/` dir is gone!
+Please use the new UMD bundle located under `core/core.umd.js`.
+
+SystemJS example:
+
+```js
+SystemJS.config({
+	packages: {
+		'angular2-google-maps/core': { main:  'core.umd.js', defaultExtension: 'js' }
+	}
+})
+```
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0 agate-octopus](https://github.com/SebastianM/angular2-google-maps/compare/0.9.0...0.10.0) (2016-05-12)
 
