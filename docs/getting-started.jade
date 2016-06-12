@@ -6,41 +6,19 @@ include ../_includes/utils
 
 a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &raquo; Play with angular2-google-maps on Plunker
 
-+section_title('Package installation', 'package-installation')
-:marked
-  `angular2-google-maps` is shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.
-
-  You can install the package with the following command:
-
-.code-highlight
-  :marked
-    ```markup
-    npm install angular2-google-maps
-    ```
-
-:marked
-  ### What's included in the package?
-  This package contains different sources for different users:
-
-  1. The files located in the root directory are ES5 compatible files that can be consumed using CommonJS.
-  2. The files under `/es6` are ES6 compatible files that can be transpiled to E5 using any transpiler.
-  3. The files under `/ts` are the TypeScript source files.
-  4. The `/bundles` directory contains the following files:
-    * `angular2-google-maps.js` and `angular2-google-maps.min.js` are bundles that can be consumed using [SystemJS](https://github.com/systemjs/systemjs).
-
 +section_title('Setting up a basic project structure', 'project-structure')
 
 .note.blue
   h4.note-title Note
   p.note-description
     :marked
-        **If you're familiar with setting up Angular 2 projects with TypeScript & SystemJS, you can skip this part and move on to this part:**
+        **If you're familiar with setting up Angular 2 projects with Angular CLI & TypeScript, you can skip this part and move on to this part:**
 
         **[Setting up angular2-google-maps](#angular2-google-maps-setup)**
 
 :marked
   ### Installing TypeScript
-  `angular2-google-maps` works best with [TypeScript](http://www.typescriptlang.org/) version 1.7+.
+  `angular2-google-maps` works best with [TypeScript](http://www.typescriptlang.org/) version 1.8+.
   If you have an older version of TypeScript or haven't installed TypeScript yet, please run the following command:
 
 .code-highlight
@@ -48,325 +26,161 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     code.language-markup npm install -g typescript
 
 :marked
-  ### Create a project folder
+  ### Create an Angular CLI project
 
-  We start by creating a project were we'll place several files in it:
-
-.code-highlight
-  :marked
-    ```markup
-    mkdir my-project
-    cd my-project
-    ```
-:marked
-  ### typings.json
-  Add a **typings.json** file to the project folder and copy/paste the following:
+  We start by creating a project with [Angular CLI](https://cli.angular.io/). Angular CLI makes it easy to create an application that already works and allows you to follow the best practices. I you haven't installed Angular CLI yet, please run the following command first:
 
 .code-highlight
   :marked
     ```markup
-    {
-      "ambientDependencies": {
-        "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654",
-        "jasmine": "registry:dt/jasmine#2.2.0+20160412134438",
-        "node": "registry:dt/node#4.0.0+20160509154515"
-      }
-    }
+    npm install -g angular-cli
     ```
 
 :marked
-  ### package.json
-  Now, create the following **package.json** file in your project folder:
+  Run the following commands to create a new Angular 2 project with Angular CLI:
 
 .code-highlight
   :marked
     ```markup
-    {
-      "name": "angular2-google-maps-project",
-      "version": "1.0.0",
-      "scripts": {
-        "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
-        "lite": "lite-server",
-        "postinstall": "typings install",
-        "tsc": "tsc",
-        "tsc:w": "tsc -w",
-        "typings": "typings"
-      },
-      "license": "ISC",
-      "dependencies": {
-        "@angular/common":  "2.0.0-rc.1",
-        "@angular/compiler":  "2.0.0-rc.1",
-        "@angular/core":  "2.0.0-rc.1",
-        "@angular/http":  "2.0.0-rc.1",
-        "@angular/platform-browser":  "2.0.0-rc.1",
-        "@angular/platform-browser-dynamic":  "2.0.0-rc.1",
-        "systemjs": "0.19.27",
-        "es6-shim": "^0.35.0",
-        "reflect-metadata": "^0.1.3",
-        "rxjs": "5.0.0-beta.6",
-        "zone.js": "^0.6.12"
-      },
-      "devDependencies": {
-        "concurrently": "^2.0.0",
-        "lite-server": "^2.2.0",
-        "typescript": "^1.8.10",
-        "typings":"^0.8.1"
-      }
-    }
-    ```
+    ng new my-maps-project
+    cd my-maps-project
+    ```  
 
-:marked
-  ### Install NPM packages
-  All needed NPM packages are now configured for our new project, but we have to install them via the terminal window.
-  Open a terminal window or on windows a command window (cmd.exe), **navigate to the project folder**, and run the following command:
-
-.code-highlight
-  :marked
-    ```markup
-    npm install
-    ```
-
-:marked
-  ### tsconfig.json
-  To configure the TypeScript compiler for Angular 2 needs, we have to add the following **tsconfig.json** to our project folder.
-
-.code-highlight
-  :marked
-    ```markup
-    {
-      "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": false
-      },
-      "exclude": [
-        "node_modules",
-        "typings/main",
-        "typings/main.d.ts"
-      ]
-    }
-    ```
-    
-:marked
-  ### systemjs.config.js
-  Next, we have to configure SystemJS, which loads our JavaScript modules. Please add the following **systemjs.config.js** to the project folder.
-
-.code-highlight
-  :marked
-    ```markup
-    (function(global) {
-      // map tells the System loader where to look for things
-      var map = {
-        'app':                        'app', // 'dist',
-        'rxjs':                       'node_modules/rxjs',
-        '@angular':                   'node_modules/@angular'
-      };
-      // packages tells the System loader how to load when no filename and/or no extension
-      var packages = {
-        'app':                        { main: 'main.js',  defaultExtension: 'js' },
-        'rxjs':                       { defaultExtension: 'js' }
-      };
-      var packageNames = [
-        '@angular/common',
-        '@angular/compiler',
-        '@angular/core',
-        '@angular/http',
-        '@angular/platform-browser',
-        '@angular/platform-browser-dynamic',
-        '@angular/router',
-        '@angular/router-deprecated',
-        '@angular/testing',
-        '@angular/upgrade',
-      ];
-      // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }
-      packageNames.forEach(function(pkgName) {
-        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
-      });
-      var config = {
-        map: map,
-        packages: packages
-      }
-      System.config(config);
-    })(this);
-    ```
-:marked
-  ### index.html
-  Our application will be served via a index.html. Add an **index.html** to the root directory of your project and add the following content:
-
-.code-highlight
-  :marked
-    ```markup
-    <html>
-      <head>
-        <title>angular2-google-maps app</title>
-
-        <!-- Load dependencies -->
-        <!-- Polyfill(s) for older browsers -->
-        <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-
-        <script src="node_modules/zone.js/dist/zone.js"></script>
-        <script src="node_modules/reflect-metadata/Reflect.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-
-        <!-- Configure SystemJS -->
-        <script src="systemjs.config.js"></script>
-
-        <script>
-          System.import('app/boot').catch(function(err) {
-            console.error(err);
-          });
-        </script>
-      </head>
-
-      <body>
-        <!-- <my-app> will be our application component -->
-        <my-app>Loading...</my-app>
-      </body>
-    </html>
-    ```
 +section_title('Setting up angular2-google-maps', 'angular2-google-maps-setup')
 
 :marked
-  ### Install the NPM package
-  To add angular2-google-maps to your project, you have to install the following NPM package:
+  ### Install angular2-google-maps
+
+  `angular2-google-maps` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
 
 .code-highlight
   :marked
     ```markup
-    npm install --save angular2-google-maps
+    npm install angular2-google-maps --save
     ```
 
 :marked
-  ### Update index.html
-  The easiest way to load angular2-google-maps is loading the bundle, that comes with the NPM package.
-  So let's add the following line to our existing **index.html**:
-
-.code-highlight
-  :marked
-    ```markup
-    <html>
-      <head>
-        <title>angular2-google-maps app</title>
-
-        <!-- Load dependencies -->
-        <!-- Polyfill(s) for older browsers -->
-        <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-
-        <script src="node_modules/zone.js/dist/zone.js"></script>
-        <script src="node_modules/reflect-metadata/Reflect.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-
-        <!-- Configure SystemJS -->
-        <script src="systemjs.config.js"></script>
-        
-        <!-- ## ADD THE FOLLOWING LINE  ## -->
-        <script src="node_modules/angular2-google-maps/bundles/angular2-google-maps.js"></script>
-
-        <script>
-          System.import('app/boot').catch(function(err) {
-            console.error(err);
-          });
-        </script>
-      </head>
-
-      <body>
-        <!-- <my-app> will be our application component -->
-        <my-app>Loading...</my-app>
-      </body>
-    </html>
-    ```
-:marked
-  ### Update systemjs.config.js
-  Next, we have to add one new line to our existing **systemjs.config.js**:
-
-.code-highlight
-  :marked
-    ```markup
-    (function(global) {
-      // map tells the System loader where to look for things
-      var map = {
-        'app':                        'app', // 'dist',
-        'rxjs':                       'node_modules/rxjs',
-        '@angular':                   'node_modules/@angular'
-      };
-      // packages tells the System loader how to load when no filename and/or no extension
-      var packages = {
-        'app':                        { main: 'main.js',  defaultExtension: 'js' },
-        'rxjs':                       { defaultExtension: 'js' },
-        
-        // ----> ADD THE FOLLOWING LINE !!!
-        'angular2-google-maps':       { defaultExtension: 'js' }
-      };
-      var packageNames = [
-        '@angular/common',
-        '@angular/compiler',
-        '@angular/core',
-        '@angular/http',
-        '@angular/platform-browser',
-        '@angular/platform-browser-dynamic',
-        '@angular/router',
-        '@angular/router-deprecated',
-        '@angular/testing',
-        '@angular/upgrade',
-      ];
-      // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }
-      packageNames.forEach(function(pkgName) {
-        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
-      });
-      var config = {
-        map: map,
-        packages: packages
-      }
-      System.config(config);
-    })(this);
-    ```
-    
-:marked
-  ### Creating the app folder
-  Before we start writing an Angular 2 component, that uses angular2-google-maps, let's create an app folder:
-
-.code-highlight
-  :marked
-    ```markup
-    mkdir app
-    ```
-
-:marked
-  ### Creating the app component (app/app.component.ts)
-  Now that we have an app loader, let's create a **app.component.ts** inside the **app** folder.
+  ### Update system-config.js
+  Next, we have to add the following lines to the **src/system-config.js**. Modify the file like below:
 
 .code-highlight
   :marked
     ```typescript
-    import {Component} from '@angular/core';
-    import {GOOGLE_MAPS_DIRECTIVES} from 'angular2-google-maps/core';
+    /***********************************************************************************************
+    * User Configuration.
+    **********************************************************************************************/
+    /** Map relative paths to URLs. */
+    const map: any = {
+      'angular2-google-maps': 'vendor/angular2-google-maps'
+    };
+
+    /** User packages configuration. */
+    const packages: any = {
+      'angular2-google-maps/core': {
+        defaultExtension: 'js',
+        main: 'index.js' // you can also use core.umd.js here, if you want faster loads
+      }
+    };
+    ```
+
+:marked
+  ### Update angular-cli-build.js
+  Open the `angular-cli-build.js` located in the root folder.
+
+  Include angular2-gogole-maps in the `vendorNpmFiles` array. **Don't delete existing array entries.**
+
+.code-highlight
+  :marked
+    ```typescript
+    var Angular2App = require('angular-cli/lib/broccoli/angular2-app');
+
+    module.exports = function(defaults) {
+      return new Angular2App(defaults, {
+        vendorNpmFiles: [
+          ...
+          // add the following line:
+          'angular2-google-maps/**/*.+(js|js.map)'
+        ]
+      });
+    };
+    ```
+    
+:marked
+  ### Bootstrap
+  Open `src/main.ts` and inject the `GOOGLE_MAPS_PROVIDERS`.
+
+.code-highlight
+  :marked
+    ```typescript
+    my-maps-project
+    import { bootstrap } from '@angular/platform-browser-dynamic';
+    import { enableProdMode } from '@angular/core';
+    import { MyMapsProjectAppComponent, environment } from './app/';
+
+    import {GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
+
+    if (environment.production) {
+      enableProdMode();
+    }
+
+    bootstrap(MyMapsProjectAppComponent, [
+      GOOGLE_MAPS_PROVIDERS
+    ]);
+    ```
+
+:marked
+  ### Extending the app component
+  Angular CLI already created an app component the we'll now use to create our first google map.  
+  Open the file `src/app/my-maps-project.component.ts` and modify it like below:
+
+.code-highlight
+  :marked
+    ```typescript
+    import { Component } from '@angular/core';
+    import { GOOGLE_MAPS_DIRECTIVES } from 'angular2-google-maps/core';
 
     @Component({
-      selector: 'my-app',
-      directives: [GOOGLE_MAPS_DIRECTIVES], // this loads all angular2-google-maps directives in this component
-      // the following line sets the height of the map - Important: if you don't set a height, you won't see a map!!
-      styles: [`
-        .sebm-google-map-container {
-          height: 300px;
-        }
-      `],
-      template: `
-        <h1>My first angular2-google-maps app!</h1>
-
-        <!-- this creates a google map on the page with the given lat/lng from the component as the initial center of the map: -->
-
-        <sebm-google-map [latitude]="lat" [longitude]="lng">
-        </sebm-google-map>
-      `
+      moduleId: module.id,
+      selector: 'my-maps-project-app',
+      templateUrl: 'my-maps-project.component.html',
+      styleUrls: ['my-maps-project.component.css'],
+      directives: [GOOGLE_MAPS_DIRECTIVES]
     })
-    export class AppComponent {
+    export class MyMapsProjectAppComponent {
+      title: string = 'My first angular2-google-maps project';
       lat: number = 51.678418;
       lng: number = 7.809007;
+    }
+
+    ```
+
+:marked
+  ### Setup the template
+  Open the file `src/app/my-maps-project.component.html` and paste the following content:
+
+.code-highlight
+  :marked
+    ```markup
+    <h1>{{ title }}</h1>
+
+    <!-- this creates a google map on the page with the given lat/lng from -->
+    <!-- the component as the initial center of the map: -->
+
+    <sebm-google-map [latitude]="lat" [longitude]="lng">
+      <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+    </sebm-google-map>
+
+    ```
+
+:marked
+  ### Setup the CSS file
+  Open the file `src/app/my-maps-project.component.css` and paste the following content:
+
+.code-highlight
+  :marked
+    ```css
+    .sebm-google-map-container {
+      height: 300px;
     }
     ```
 
@@ -376,57 +190,29 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     :marked
         It is really important that you define a height for the css class `.sebm-google-map-container`. Otherwise, you won't see a map on the page!
 
-:marked
-  ### Create app/boot.ts - Loading the angular2-google-maps providers
-  To be able to run our application component, we have to create a **boot.ts** file in the **app** directory with the following content:
-
-.code-highlight
-  :marked
-    ```typescript
-    import {bootstrap}    from '@angular/platform-browser-dynamic';
-    import {AppComponent} from './app.component';
-    import {GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
-
-    // this line boots our application on the page in the <my-app> element:
-    // Note: It is required to add the GOOGLE_MAPS_PROVIDERS here!
-    bootstrap(AppComponent, [GOOGLE_MAPS_PROVIDERS]);
-    ```
-    ### Final project structure
-    Our final project structure should look like this:
-    ```markup
-    my-project
-      - app
-        -- app.component.ts
-        -- boot.ts
-      - index.html
-      - node_modules
-      - package.json
-      - systemjs.config.js
-      - tsconfig.json
-      - typings.json
-    ```
-
-+section_title('Compile and run your application', 'compile-and-run')
++section_title('Build and run your application', 'build-and-run')
 
 :marked
-  Great! So we have created all the needed source files, so everything should be ready to compile an run the application.
+  Great! So we have created all the needed source files, so everything should be ready to build an run the application.
 
   Run the following command in the **project root folder**:
 
 .code-highlight
   :marked
     ```markup
-    npm start
+    ng serve
     ```
 :marked
+  Then, open the following URL in your browser: <a href="http://localhost:4200/" target="_blank">http://localhost:4200/</a>
+
   The command starts the following things:
   * Starts the TypeScript compiler and compiles all sources files (watches also for file changes in the source files and recompiles all files if something has changed)
-  * Starts a local web server (called lite-server) to serve the Angular 2 application. It refreshes the page when served files change.
+  * Starts a local web server to serve the Angular 2 application. It refreshes the page when served files change.
 
-  **When everything works as expected, a browser tab should open and you should see your first Google Map built with angular2-google-maps!**
+  **When everything works as expected, you should see your first Google Map built with angular2-google-maps 🎉🎉🎉!**
 
 +section_title('Questions?', 'questions')
 :marked
   When you have problems setting up **angular2-google-maps** or questions in general, the best way to join the chat where you can ask your questions:
 
-  [Chat on Gitter](https://gitter.im/SebastianM/angular2-google-maps)
+a.button.button-icon.blue-light(href='https://gitter.im/SebastianM/angular2-google-maps') &raquo; Chat on Gitter
