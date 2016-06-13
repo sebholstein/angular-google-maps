@@ -44,7 +44,7 @@
     "gulp": "3.9.1",
     "gulp-bump": "2.1.0",
     "gulp-clang-format": "1.0.23",
-    "gulp-connect": "4.0.0",
+    "gulp-connect": "4.1.0",
     "gulp-conventional-changelog": "1.1.0",
     "gulp-eslint": "2.0.0",
     "gulp-git": "1.7.2",
