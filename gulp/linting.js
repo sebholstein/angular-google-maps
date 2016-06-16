@@ -5,7 +5,7 @@ const path = require('path');
 const tslint = require('../tslint.json');
 
 gulp.task('tslint', () =>
-  gulp.src(config.PATHS.tsSrcFiles)
+  gulp.src(config.PATHS.lintFiles)
     .pipe($.tslint({
       configuration: tslint,
     }))
@@ -22,7 +22,7 @@ gulp.task('eslint', () =>
 );
 
 gulp.task('clang:check', () =>
-  gulp.src(config.PATHS.tsSrcFiles)
+  gulp.src(config.PATHS.lintFiles)
      .pipe($.clangFormat.checkFormat('file', undefined, {
        verbose: true,
        fail: true,
