@@ -64,6 +64,7 @@ export interface MapOptions {
   keyboardShortcuts?: boolean;
   zoomControl?: boolean;
   styles?: MapTypeStyle[];
+  streetViewControl?: boolean;
 }
 
 export interface MapTypeStyle {
