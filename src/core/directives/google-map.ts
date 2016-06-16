@@ -15,7 +15,7 @@ import {MarkerManager} from '../services/marker-manager';
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
+ * import {Component} from '@angular/core';
  * import {SebmGoogleMap} from 'angular2-google-maps/core';
  *
  * @Component({
@@ -39,7 +39,7 @@ import {MarkerManager} from '../services/marker-manager';
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles', 'usePanning'
+    'styles', 'usePanning', 'streetViewControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -139,11 +139,18 @@ export class SebmGoogleMap implements OnChanges,
   usePanning: boolean = false;
 
   /**
+   * The initial enabled/disabled state of the Street View Pegman control.
+   * This control is part of the default UI, and should be set to false when displaying a map type
+   * on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+   */
+  streetViewControl: boolean = true;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -180,6 +187,7 @@ export class SebmGoogleMap implements OnChanges,
 
   /** @internal */
   ngOnInit() {
+    // todo: this should be solved with a new component and a viewChild decorator
     const container = this._elem.nativeElement.querySelector('.sebm-google-map-container-inner');
     this._initMapInstance(container);
   }
@@ -194,7 +202,8 @@ export class SebmGoogleMap implements OnChanges,
       draggingCursor: this.draggingCursor,
       keyboardShortcuts: this.keyboardShortcuts,
       zoomControl: this.zoomControl,
-      styles: this.styles
+      styles: this.styles,
+      streetViewControl: this.streetViewControl
     });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
