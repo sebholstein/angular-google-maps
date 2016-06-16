@@ -13,6 +13,10 @@ module.exports.PATHS = {
     'test/**/*.ts',
     'typings/index.d.ts',
   ],
+  lintFiles: [
+    'src/**/*.ts',
+    'test/**/*.spec.ts',
+  ],
   releaseAssets: ['assets/release/**/*', 'LICENSE'],
   exampleFiles: 'examples/**/*',
   jsFiles: ['gulpfile.js', 'gulp/*.js'],
