@@ -11,6 +11,6 @@ export * from './services';
 export * from './events';
 
 export const GOOGLE_MAPS_PROVIDERS: any[] = [
-  ...BROWSER_GLOBALS_PROVIDERS,
+  BROWSER_GLOBALS_PROVIDERS,
   provide(MapsAPILoader, {useClass: LazyMapsAPILoader}),
 ];

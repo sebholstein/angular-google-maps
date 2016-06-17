@@ -3,19 +3,21 @@ import {beforeEachProviders, describe, expect, inject, it} from '@angular/core/t
 
 import {LazyMapsAPILoader} from '../../../src/core/services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from '../../../src/core/services/maps-api-loader/maps-api-loader';
+import {DOCUMENT_GLOBAL, WINDOW_GLOBAL} from '../../../src/core/utils/browser-globals';
 
 export function main() {
   describe('Service: LazyMapsAPILoader', () => {
     beforeEachProviders(() => {
       return [
-        provide(MapsAPILoader, {useClass: LazyMapsAPILoader}), provide(Window, {useValue: {}}),
-        provide(
-            Document, {useValue: jasmine.createSpyObj<Document>('Document', ['createElement'])})
+        provide(MapsAPILoader, {useClass: LazyMapsAPILoader}),
+        provide(WINDOW_GLOBAL, {useValue: {}}), provide(DOCUMENT_GLOBAL, {
+          useValue: jasmine.createSpyObj<Document>('Document', ['createElement'])
+        })
       ];
     });
 
     it('should create the default script URL',
-       inject([MapsAPILoader, Document, Window], (loader: LazyMapsAPILoader, doc: Document) => {
+       inject([MapsAPILoader, DOCUMENT_GLOBAL], (loader: LazyMapsAPILoader, doc: Document) => {
          interface Script {
            src?: string;
            async?: boolean;

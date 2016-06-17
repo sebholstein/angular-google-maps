@@ -1,4 +1,6 @@
-import {Injectable, Optional, Provider, provide} from '@angular/core';
+import {Inject, Injectable, Optional, Provider, provide} from '@angular/core';
+
+import {DOCUMENT_GLOBAL, WINDOW_GLOBAL} from '../../utils/browser-globals';
 
 import {MapsAPILoader} from './maps-api-loader';
 
@@ -95,7 +97,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   private _window: Window;
   private _document: Document;
 
-  constructor(@Optional() config: LazyMapsAPILoaderConfig, w: Window, d: Document) {
+  constructor(
+      @Optional() config: LazyMapsAPILoaderConfig, @Inject(WINDOW_GLOBAL) w: Window,
+      @Inject(DOCUMENT_GLOBAL) d: Document) {
     super();
     this._config = config || DEFAULT_CONFIGURATION;
     this._window = w;
