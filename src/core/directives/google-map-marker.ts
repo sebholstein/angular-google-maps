@@ -127,11 +127,11 @@ export class SebmGoogleMapMarker implements OnDestroy,
       if (this._infoWindow != null) {
         this._infoWindow.open();
       }
-      this.markerClick.next(null);
+      this.markerClick.emit(null);
     });
     this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
         .subscribe((e: mapTypes.MouseEvent) => {
-          this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+          this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}} as mapTypes.MouseEvent);
         });
   }
 
