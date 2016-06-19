@@ -73,6 +73,10 @@ export class GoogleMapsAPIWrapper {
 
   getZoom(): Promise<number> { return this._map.then((map: mapTypes.GoogleMap) => map.getZoom()); }
 
+  getBounds(): Promise<mapTypes.LatLngBounds> {
+    return this._map.then((map: mapTypes.GoogleMap) => map.getBounds());
+  }
+
   setZoom(zoom: number): Promise<void> {
     return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
   }
