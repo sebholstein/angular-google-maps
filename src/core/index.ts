@@ -10,6 +10,9 @@ export * from './directives';
 export * from './services';
 export * from './events';
 
+// Google Maps types
+export {LatLngBounds, LatLng, LatLngLiteral, MapTypeStyle} from './services/google-maps-types';
+
 export const GOOGLE_MAPS_PROVIDERS: any[] = [
   BROWSER_GLOBALS_PROVIDERS,
   provide(MapsAPILoader, {useClass: LazyMapsAPILoader}),

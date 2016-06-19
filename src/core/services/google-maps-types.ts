@@ -7,6 +7,7 @@ export interface GoogleMap {
   addListener(eventName: string, fn: Function): void;
   getCenter(): LatLng;
   setCenter(latLng: LatLng|LatLngLiteral): void;
+  getBounds(): LatLngBounds;
   getZoom(): number;
   setOptions(options: MapOptions): void;
 }

@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {MouseEvent} from '../events';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
-import {MapTypeStyle} from '../services/google-maps-types';
+import {LatLngBounds, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
@@ -42,7 +42,7 @@ import {MarkerManager} from '../services/managers/marker-manager';
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
     'styles', 'usePanning', 'streetViewControl'
   ],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle'],
+  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
   styles: [`
     .sebm-google-map-container-inner {
@@ -180,6 +180,11 @@ export class SebmGoogleMap implements OnChanges,
   centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
   /**
+   * This event is fired when the viewport bounds have changed.
+   */
+  boundsChange: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
+
+  /**
    * This event is fired when the map becomes idle after panning or zooming.
    */
   idle: EventEmitter<void> = new EventEmitter<void>();
@@ -209,6 +214,7 @@ export class SebmGoogleMap implements OnChanges,
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
+    this._handleBoundsChange();
     this._handleIdleEvent();
   }
 
@@ -270,6 +276,13 @@ export class SebmGoogleMap implements OnChanges,
         this.longitude = center.lng();
         this.centerChange.emit(<LatLngLiteral>{lat: this.latitude, lng: this.longitude});
       });
+    });
+    this._observableSubscriptions.push(s);
+  }
+
+  private _handleBoundsChange() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
+      this._mapsWrapper.getBounds().then((bounds: LatLngBounds) => this.boundsChange.emit(bounds));
     });
     this._observableSubscriptions.push(s);
   }
