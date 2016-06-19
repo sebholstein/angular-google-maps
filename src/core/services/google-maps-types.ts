@@ -17,7 +17,7 @@ export interface LatLng {
   lng(): number;
 }
 
-export interface Marker {
+export interface Marker extends MVCObject {
   constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
   setPosition(latLng: LatLng|LatLngLiteral): void;
@@ -26,7 +26,6 @@ export interface Marker {
   setDraggable(draggable: boolean): void;
   setIcon(icon: string): void;
   getLabel(): MarkerLabel;
-  addListener(eventType: string, fn: Function): void;
 }
 
 export interface MarkerOptions {
@@ -44,6 +43,63 @@ export interface MarkerLabel {
   fontSize: string;
   fontWeight: string;
   text: string;
+}
+
+export interface Circle extends MVCObject {
+  getBounds(): LatLngBounds;
+  getCenter(): LatLng;
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getRadius(): number;
+  getVisible(): boolean;
+  setCenter(center: LatLng|LatLngLiteral): void;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: CircleOptions): void;
+  setRadius(radius: number): void;
+  setVisible(visible: boolean): void;
+}
+
+export interface CircleOptions {
+  center?: LatLng|LatLngLiteral;
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  map?: GoogleMap;
+  radius?: number;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
+export interface LatLngBounds {
+  contains(latLng: LatLng): boolean;
+  equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
+  extend(point: LatLng): void;
+  getCenter(): LatLng;
+  getNorthEast(): LatLng;
+  getSouthWest(): LatLng;
+  intersects(other: LatLngBounds|LatLngBoundsLiteral): boolean;
+  isEmpty(): boolean;
+  toJSON(): LatLngBoundsLiteral;
+  toSpan(): LatLng;
+  toString(): string;
+  toUrlValue(precision?: number): string;
+  union(other: LatLngBounds|LatLngBoundsLiteral): LatLngBounds;
+}
+
+export interface LatLngBoundsLiteral {
+  east: number;
+  north: number;
+  south: number;
+  west: number;
 }
 
 export interface LatLngLiteral {
@@ -108,7 +164,12 @@ export interface InfoWindow {
   setZIndex(zIndex: number): void;
 }
 
-export interface MVCObject { constructor(): void; }
+export interface MVCObject {
+  constructor(): void;
+  addListener(eventName: string, handler: Function): MapsEventListener;
+}
+
+export interface MapsEventListener { remove(): void; }
 
 export interface Size {
   height: number;

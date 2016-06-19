@@ -1,10 +1,10 @@
 import {NgZone, provide} from '@angular/core';
 import {async, beforeEachProviders, describe, expect, inject, it} from '@angular/core/testing';
 
-import {SebmGoogleMapMarker} from '../../src/core/directives/google-map-marker';
-import {GoogleMapsAPIWrapper} from '../../src/core/services/google-maps-api-wrapper';
-import {Marker} from '../../src/core/services/google-maps-types';
-import {MarkerManager} from '../../src/core/services/marker-manager';
+import {SebmGoogleMapMarker} from '../../../src/core/directives/google-map-marker';
+import {GoogleMapsAPIWrapper} from '../../../src/core/services/google-maps-api-wrapper';
+import {Marker} from '../../../src/core/services/google-maps-types';
+import {MarkerManager} from '../../../src/core/services/managers/marker-manager';
 
 export function main() {
   describe('MarkerManager', () => {

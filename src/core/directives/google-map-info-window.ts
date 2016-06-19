@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
 
-import {InfoWindowManager} from '../services/info-window-manager';
+import {InfoWindowManager} from '../services/managers/info-window-manager';
 
 import {SebmGoogleMapMarker} from './google-map-marker';
 
