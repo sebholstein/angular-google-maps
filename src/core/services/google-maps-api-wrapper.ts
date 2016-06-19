@@ -49,6 +49,16 @@ export class GoogleMapsAPIWrapper {
     return this._map.then(() => { return new google.maps.InfoWindow(options); });
   }
 
+  /**
+   * Creates a google.map.Circle for the current map.
+   */
+  createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      options.map = map;
+      return new google.maps.Circle(options);
+    });
+  }
+
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
       this._map.then((m: mapTypes.GoogleMap) => {

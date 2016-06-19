@@ -2,7 +2,7 @@ import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDe
 
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
-import {MarkerManager} from '../services/marker-manager';
+import {MarkerManager} from '../services/managers/marker-manager';
 
 import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 

@@ -5,8 +5,9 @@ import {MouseEvent} from '../events';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
 import {MapTypeStyle} from '../services/google-maps-types';
-import {InfoWindowManager} from '../services/info-window-manager';
-import {MarkerManager} from '../services/marker-manager';
+import {CircleManager} from '../services/managers/circle-manager';
+import {InfoWindowManager} from '../services/managers/info-window-manager';
+import {MarkerManager} from '../services/managers/marker-manager';
 
 /**
  * SebMGoogleMap renders a Google Map.
@@ -35,7 +36,7 @@ import {MarkerManager} from '../services/marker-manager';
  */
 @Component({
   selector: 'sebm-google-map',
-  providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager],
+  providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
