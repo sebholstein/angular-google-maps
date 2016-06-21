@@ -1,3 +1,20 @@
+<a name="0.12.0"></a>
+# [0.12.0 unexpected-lion](https://github.com/SebastianM/angular2-google-maps/compare/0.11.0...0.12.0) (2016-06-21)
+
+
+### Bug Fixes
+
+* **LazyMapsAPILoader:** use OpaqueTokens for globs ([78daae0](https://github.com/SebastianM/angular2-google-maps/commit/78daae0)), closes [#436](https://github.com/SebastianM/angular2-google-maps/issues/436) [#441](https://github.com/SebastianM/angular2-google-maps/issues/441)
+
+
+### Features
+
+* support Circle ([d5cc7b1](https://github.com/SebastianM/angular2-google-maps/commit/d5cc7b1)), closes [#432](https://github.com/SebastianM/angular2-google-maps/issues/432) [#449](https://github.com/SebastianM/angular2-google-maps/issues/449)
+* **SebmGoogleMap:** support bounds_changed event ([4bbc3b3](https://github.com/SebastianM/angular2-google-maps/commit/4bbc3b3)), closes [#200](https://github.com/SebastianM/angular2-google-maps/issues/200) [#450](https://github.com/SebastianM/angular2-google-maps/issues/450)
+* **SebmGoogleMap:** support streetViewControl opt ([e7426c5](https://github.com/SebastianM/angular2-google-maps/commit/e7426c5)), closes [#418](https://github.com/SebastianM/angular2-google-maps/issues/418) [#438](https://github.com/SebastianM/angular2-google-maps/issues/438)
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0 red-motherboard](https://github.com/SebastianM/angular2-google-maps/compare/0.10.0...0.11.0) (2016-06-12)
 
