@@ -47,7 +47,7 @@
     "gulp-conventional-changelog": "1.1.0",
     "gulp-eslint": "2.0.0",
     "gulp-git": "1.7.2",
-    "gulp-header": "^1.7.1",
+    "gulp-header": "^1.8.4",
     "gulp-load-plugins": "1.2.4",
     "gulp-rename": "1.2.2",
     "gulp-shell": "0.5.2",
