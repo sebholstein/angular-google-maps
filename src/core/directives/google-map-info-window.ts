@@ -44,8 +44,7 @@ let infoWindowId = 0;
     </div>
   `
 })
-export class SebmGoogleMapInfoWindow implements OnDestroy,
-    OnChanges {
+export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges {
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
    * SebmGoogleMapMarker}).

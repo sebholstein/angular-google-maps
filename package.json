@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "babel-eslint": "6.0.4",
-    "clang-format": "1.0.41",
+    "clang-format": "1.0.42",
     "del": "2.2.0",
     "eslint": "^3.0.0",
     "eslint-config-airbnb-base": "^3.0.1",
