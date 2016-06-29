@@ -62,7 +62,7 @@
     "replace": "0.3.0",
     "require-dir": "0.3.0",
     "rollup": "0.32.0",
-    "run-sequence": "1.2.1",
+    "run-sequence": "1.2.2",
     "systemjs": "0.19.29",
     "tslint": "3.13.0",
     "typescript": "1.8.10",
