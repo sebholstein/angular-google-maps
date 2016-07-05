@@ -150,7 +150,7 @@ export class SebmGoogleMap implements OnChanges, OnInit {
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
