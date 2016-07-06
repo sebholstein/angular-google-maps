@@ -1,5 +1,5 @@
-import {NgZone, provide} from '@angular/core';
-import {async, beforeEachProviders, describe, expect, inject, it} from '@angular/core/testing';
+import {NgZone} from '@angular/core';
+import {addProviders, async, describe, inject, it} from '@angular/core/testing';
 
 import {SebmGoogleMapMarker} from '../../../src/core/directives/google-map-marker';
 import {GoogleMapsAPIWrapper} from '../../../src/core/services/google-maps-api-wrapper';
@@ -8,12 +8,14 @@ import {MarkerManager} from '../../../src/core/services/managers/marker-manager'
 
 export function main() {
   describe('MarkerManager', () => {
-    beforeEachProviders(
-        () =>
-            [provide(NgZone, {useFactory: () => new NgZone({enableLongStackTrace: true})}),
-             MarkerManager, SebmGoogleMapMarker, provide(GoogleMapsAPIWrapper, {
-               useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
-             })]);
+    beforeEach(() => {
+      addProviders([
+        { provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true}) },
+        MarkerManager,
+        SebmGoogleMapMarker,
+        { provide: GoogleMapsAPIWrapper, useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])}
+      ]);
+    });
 
     describe('Create a new marker', () => {
       it('should call the mapsApiWrapper when creating a new marker',
