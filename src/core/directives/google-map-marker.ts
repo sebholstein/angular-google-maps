@@ -1,4 +1,5 @@
 import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
@@ -91,6 +92,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
+  private _observableSubscriptions: Subscription[] = [];
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
@@ -130,16 +132,19 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
   }
 
   private _addEventListeners() {
-    this._markerManager.createEventObservable('click', this).subscribe(() => {
+    const cs = this._markerManager.createEventObservable('click', this).subscribe(() => {
       if (this.openInfoWindow && this._infoWindow != null) {
         this._infoWindow.open();
       }
       this.markerClick.emit(null);
     });
-    this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-        .subscribe((e: mapTypes.MouseEvent) => {
-          this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-        });
+    this._observableSubscriptions.push(cs);
+
+    const ds = this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+                   .subscribe((e: mapTypes.MouseEvent) => {
+                     this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+                   });
+    this._observableSubscriptions.push(ds);
   }
 
   /** @internal */
@@ -149,5 +154,9 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
   toString(): string { return 'SebmGoogleMapMarker-' + this._id.toString(); }
 
   /** @internal */
-  ngOnDestroy() { this._markerManager.deleteMarker(this); }
+  ngOnDestroy() {
+    this._markerManager.deleteMarker(this);
+    // unsubscribe all registered observable subscriptions
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
+  }
 }

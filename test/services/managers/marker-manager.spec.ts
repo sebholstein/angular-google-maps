@@ -10,10 +10,11 @@ export function main() {
   describe('MarkerManager', () => {
     beforeEach(() => {
       addProviders([
-        { provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true}) },
-        MarkerManager,
-        SebmGoogleMapMarker,
-        { provide: GoogleMapsAPIWrapper, useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])}
+        {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
+        MarkerManager, SebmGoogleMapMarker, {
+          provide: GoogleMapsAPIWrapper,
+          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
+        }
       ]);
     });
 

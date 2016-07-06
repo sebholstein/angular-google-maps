@@ -8,9 +8,11 @@ export function main() {
   describe('Service: LazyMapsAPILoader', () => {
     beforeEach(() => {
       addProviders([
-        { provide: MapsAPILoader, useClass: LazyMapsAPILoader },
-        { provide: WINDOW_GLOBAL, useValue: {} },
-        { provide: DOCUMENT_GLOBAL, useValue: jasmine.createSpyObj<Document>('Document', ['createElement'])}
+        {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
+        {provide: WINDOW_GLOBAL, useValue: {}}, {
+          provide: DOCUMENT_GLOBAL,
+          useValue: jasmine.createSpyObj<Document>('Document', ['createElement'])
+        }
       ]);
     });
 
