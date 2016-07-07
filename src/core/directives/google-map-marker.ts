@@ -1,7 +1,7 @@
 import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {MouseEvent} from '../events';
+import {MouseEvent} from '../map-types';
 import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
 
@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow'
+    'openInfoWindow', 'fitBounds'
   ],
   outputs: ['markerClick', 'dragEnd']
 })
