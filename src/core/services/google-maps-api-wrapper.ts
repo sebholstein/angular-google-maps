@@ -89,6 +89,14 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map) => map.panTo(latLng));
   }
 
+  fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
+    return this._map.then((map) => map.fitBounds(latLng));
+  }
+
+  panToBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
+    return this._map.then((map) => map.panToBounds(latLng));
+  }
+
   /**
    * Returns the native Google Maps Map instance. Be careful when using this instance directly.
    */

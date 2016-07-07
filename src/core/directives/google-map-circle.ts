@@ -1,7 +1,7 @@
 import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {MouseEvent} from '../events';
+import {MouseEvent} from '../map-types';
 import {LatLng, LatLngBounds, LatLngLiteral} from '../services/google-maps-types';
 import {MouseEvent as MapMouseEvent} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
