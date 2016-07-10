@@ -40,7 +40,7 @@ import {MarkerManager} from '../services/managers/marker-manager';
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles', 'usePanning', 'streetViewControl', 'fitBounds'
+    'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -151,6 +151,11 @@ export class SebmGoogleMap implements OnChanges, OnInit {
   fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
 
   /**
+   * The initial enabled/disabled state of the Scale control. This is disabled by default.
+   */
+  scaleControl: boolean = false;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -213,7 +218,8 @@ export class SebmGoogleMap implements OnChanges, OnInit {
       keyboardShortcuts: this.keyboardShortcuts,
       zoomControl: this.zoomControl,
       styles: this.styles,
-      streetViewControl: this.streetViewControl
+      streetViewControl: this.streetViewControl,
+      scaleControl: this.scaleControl
     });
 
     // register event listeners
