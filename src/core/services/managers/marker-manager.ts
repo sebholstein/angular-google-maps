@@ -69,7 +69,8 @@ export class MarkerManager {
       icon: marker.iconUrl,
       opacity: marker.opacity,
       visible: marker.visible,
-      zIndex: marker.zIndex
+      zIndex: marker.zIndex,
+      title: marker.title
     });
     this._markers.set(marker, markerPromise);
   }

@@ -36,7 +36,8 @@ export function main() {
                  icon: undefined,
                  opacity: 1,
                  visible: true,
-                 zIndex: 1
+                 zIndex: 1,
+                 title: undefined
                });
              }));
     });
@@ -81,7 +82,8 @@ export function main() {
                  icon: undefined,
                  opacity: 1,
                  visible: true,
-                 zIndex: 1
+                 zIndex: 1,
+                 title: undefined
                });
                const iconUrl = 'http://angular-maps.com/icon.png';
                newMarker.iconUrl = iconUrl;
@@ -112,7 +114,8 @@ export function main() {
                  icon: undefined,
                  visible: true,
                  opacity: 1,
-                 zIndex: 1
+                 zIndex: 1,
+                 title: undefined
                });
                const opacity = 0.4;
                newMarker.opacity = opacity;
@@ -144,7 +147,8 @@ export function main() {
                  icon: undefined,
                  visible: false,
                  opacity: 1,
-                 zIndex: 1
+                 zIndex: 1,
+                 title: undefined
                });
                newMarker.visible = true;
                return markerManager.updateVisible(newMarker).then(
@@ -175,7 +179,8 @@ export function main() {
                  icon: undefined,
                  visible: false,
                  opacity: 1,
-                 zIndex: 1
+                 zIndex: 1,
+                 title: undefined
                });
                const zIndex = 10;
                newMarker.zIndex = zIndex;
