@@ -33,7 +33,8 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined
+                 icon: undefined,
+                 title: undefined
                });
              }));
     });
@@ -75,7 +76,8 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined
+                 icon: undefined,
+                 title: undefined
                });
                const iconUrl = 'http://angular-maps.com/icon.png';
                newMarker.iconUrl = iconUrl;

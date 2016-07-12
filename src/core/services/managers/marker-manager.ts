@@ -52,6 +52,7 @@ export class MarkerManager {
   addMarker(marker: SebmGoogleMapMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
+      title: marker.title,
       label: marker.label,
       draggable: marker.draggable,
       icon: marker.iconUrl
