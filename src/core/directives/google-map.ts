@@ -60,7 +60,8 @@ import {MarkerManager} from '../services/managers/marker-manager';
     </div>
   `
 })
-export class SebmGoogleMap implements OnChanges, OnInit {
+export class SebmGoogleMap implements OnChanges,
+    OnInit {
   /**
    * The longitude that defines the center of the map.
    */

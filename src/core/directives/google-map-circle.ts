@@ -18,7 +18,8 @@ import {CircleManager} from '../services/managers/circle-manager';
     'mouseMove', 'mouseOut', 'mouseOver', 'mouseUp', 'radiusChange', 'rightClick'
   ]
 })
-export class SebmGoogleMapCircle implements OnInit, OnChanges, OnDestroy {
+export class SebmGoogleMapCircle implements OnInit,
+    OnChanges, OnDestroy {
   /**
    * The latitude position of the circle (required).
    */
