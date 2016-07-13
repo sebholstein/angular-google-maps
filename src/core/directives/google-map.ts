@@ -1,10 +1,10 @@
 import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {MouseEvent} from '../events';
+import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {LatLng, LatLngLiteral} from '../services/google-maps-types';
-import {LatLngBounds, MapTypeStyle} from '../services/google-maps-types';
+import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
@@ -40,7 +40,7 @@ import {MarkerManager} from '../services/managers/marker-manager';
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles', 'usePanning', 'streetViewControl'
+    'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -147,11 +147,21 @@ export class SebmGoogleMap implements OnChanges,
   streetViewControl: boolean = true;
 
   /**
+   * Sets the viewport to contain the given bounds.
+   */
+  fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
+
+  /**
+   * The initial enabled/disabled state of the Scale control. This is disabled by default.
+   */
+  scaleControl: boolean = false;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -200,7 +210,7 @@ export class SebmGoogleMap implements OnChanges,
 
   private _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, {
-      center: {lat: this.latitude, lng: this.longitude},
+      center: {lat: this.latitude || 0, lng: this.longitude || 0},
       zoom: this.zoom,
       disableDefaultUI: this.disableDefaultUI,
       backgroundColor: this.backgroundColor,
@@ -209,8 +219,11 @@ export class SebmGoogleMap implements OnChanges,
       keyboardShortcuts: this.keyboardShortcuts,
       zoomControl: this.zoomControl,
       styles: this.styles,
-      streetViewControl: this.streetViewControl
+      streetViewControl: this.streetViewControl,
+      scaleControl: this.scaleControl
     });
+
+    // register event listeners
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
@@ -227,9 +240,7 @@ export class SebmGoogleMap implements OnChanges,
   /* @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     this._updateMapOptionsChanges(changes);
-    if (changes['latitude'] != null || changes['longitude'] != null) {
-      this._updateCenter();
-    }
+    this._updatePosition(changes);
   }
 
   private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
@@ -254,7 +265,19 @@ export class SebmGoogleMap implements OnChanges,
     });
   }
 
-  private _updateCenter() {
+  private _updatePosition(changes: {[propName: string]: SimpleChange}) {
+    if (changes['latitude'] == null && changes['longitude'] == null &&
+        changes['fitBounds'] == null) {
+      // no position update needed
+      return;
+    }
+
+    // we prefer fitBounds in changes
+    if (changes['fitBounds'] && this.fitBounds != null) {
+      this._fitBounds();
+      return;
+    }
+
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
@@ -267,6 +290,14 @@ export class SebmGoogleMap implements OnChanges,
     } else {
       this._mapsWrapper.setCenter(newCenter);
     }
+  }
+
+  private _fitBounds() {
+    if (this.usePanning) {
+      this._mapsWrapper.panToBounds(this.fitBounds);
+      return;
+    }
+    this._mapsWrapper.fitBounds(this.fitBounds);
   }
 
   private _handleMapCenterChange() {
@@ -282,7 +313,8 @@ export class SebmGoogleMap implements OnChanges,
 
   private _handleBoundsChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
-      this._mapsWrapper.getBounds().then((bounds: LatLngBounds) => this.boundsChange.emit(bounds));
+      this._mapsWrapper.getBounds().then(
+          (bounds: LatLngBounds) => { this.boundsChange.emit(bounds); });
     });
     this._observableSubscriptions.push(s);
   }

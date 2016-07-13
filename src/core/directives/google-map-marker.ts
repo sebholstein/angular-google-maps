@@ -1,6 +1,7 @@
 import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
-import {MouseEvent} from '../events';
+import {MouseEvent} from '../map-types';
 import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
 
@@ -35,7 +36,10 @@ let markerId = 0;
  */
 @Directive({
   selector: 'sebm-google-map-marker',
-  inputs: ['latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl'],
+  inputs: [
+    'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
+    'openInfoWindow', 'fitBounds'
+  ],
   outputs: ['markerClick', 'dragEnd', 'mouseover', 'mouseout']
 })
 export class SebmGoogleMapMarker implements OnDestroy,
@@ -71,6 +75,11 @@ export class SebmGoogleMapMarker implements OnDestroy,
   iconUrl: string;
 
   /**
+   * Whether to automatically open the child info window when the marker is clicked.
+   */
+  openInfoWindow: boolean = true;
+
+  /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   markerClick: EventEmitter<void> = new EventEmitter<void>();
@@ -94,6 +103,7 @@ export class SebmGoogleMapMarker implements OnDestroy,
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
+  private _observableSubscriptions: Subscription[] = [];
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
@@ -133,31 +143,40 @@ export class SebmGoogleMapMarker implements OnDestroy,
   }
 
   private _addEventListeners() {
-    this._markerManager.createEventObservable('click', this).subscribe(() => {
-      if (this._infoWindow != null) {
+    const cs = this._markerManager.createEventObservable('click', this).subscribe(() => {
+      if (this.openInfoWindow && this._infoWindow != null) {
         this._infoWindow.open();
       }
-      this.markerClick.next(null);
+      this.markerClick.emit(null);
     });
+    this._observableSubscriptions.push(cs);
 
-    this._markerManager.createEventObservable('mouseover', this).subscribe(() => {
+    const mo = this._markerManager.createEventObservable('mouseover', this).subscribe(() => {
       if (this._infoWindow != null) {
         this._infoWindow.open();
       }
       this.mouseover.next(null);
     });
+    this._observableSubscriptions.push(mo);
 
-    this._markerManager.createEventObservable('mouseout', this).subscribe(() => {
+    const ml = this._markerManager.createEventObservable('mouseout', this).subscribe(() => {
       if (this._infoWindow != null) {
         this._infoWindow.close();
       }
       this.mouseout.next(null);
     });
+    this._observableSubscriptions.push(ml);
 
     this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
         .subscribe((e: mapTypes.MouseEvent) => {
           this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
         });
+
+    const ds = this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+                   .subscribe((e: mapTypes.MouseEvent) => {
+                     this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+                   });
+    this._observableSubscriptions.push(ds);
   }
 
   /** @internal */
@@ -167,5 +186,9 @@ export class SebmGoogleMapMarker implements OnDestroy,
   toString(): string { return 'SebmGoogleMapMarker-' + this._id.toString(); }
 
   /** @internal */
-  ngOnDestroy() { this._markerManager.deleteMarker(this); }
+  ngOnDestroy() {
+    this._markerManager.deleteMarker(this);
+    // unsubscribe all registered observable subscriptions
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
+  }
 }

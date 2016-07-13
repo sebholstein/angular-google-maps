@@ -1,15 +1,16 @@
 export var google: any;
 
-export interface GoogleMap {
+export interface GoogleMap extends MVCObject {
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   setZoom(zoom: number): void;
-  addListener(eventName: string, fn: Function): void;
   getCenter(): LatLng;
   setCenter(latLng: LatLng|LatLngLiteral): void;
   getBounds(): LatLngBounds;
   getZoom(): number;
   setOptions(options: MapOptions): void;
+  panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
+  fitBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
 }
 
 export interface LatLng {
@@ -122,6 +123,7 @@ export interface MapOptions {
   zoomControl?: boolean;
   styles?: MapTypeStyle[];
   streetViewControl?: boolean;
+  scaleControl?: boolean;
 }
 
 export interface MapTypeStyle {
@@ -165,10 +167,7 @@ export interface InfoWindow {
   setZIndex(zIndex: number): void;
 }
 
-export interface MVCObject {
-  constructor(): void;
-  addListener(eventName: string, handler: Function): MapsEventListener;
-}
+export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
 
 export interface MapsEventListener { remove(): void; }
 
