@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds'
+    'openInfoWindow', 'fitBounds', 'hoverOpenInfoWindow'
   ],
   outputs: ['markerClick', 'dragEnd', 'mouseover', 'mouseout']
 })
@@ -78,6 +78,11 @@ export class SebmGoogleMapMarker implements OnDestroy,
    * Whether to automatically open the child info window when the marker is clicked.
    */
   openInfoWindow: boolean = true;
+
+  /**
+   * Whether to automatically open the child info window when the marker is hovered over.
+   */
+  hoverOpenInfoWindow: boolean = false;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -152,7 +157,7 @@ export class SebmGoogleMapMarker implements OnDestroy,
     this._observableSubscriptions.push(cs);
 
     const mo = this._markerManager.createEventObservable('mouseover', this).subscribe(() => {
-      if (this._infoWindow != null) {
+      if (this._infoWindow != null && this.hoverOpenInfoWindow) {
         this._infoWindow.open();
       }
       this.mouseover.next(null);
@@ -160,7 +165,7 @@ export class SebmGoogleMapMarker implements OnDestroy,
     this._observableSubscriptions.push(mo);
 
     const ml = this._markerManager.createEventObservable('mouseout', this).subscribe(() => {
-      if (this._infoWindow != null) {
+      if (this._infoWindow != null && this.hoverOpenInfoWindow) {
         this._infoWindow.close();
       }
       this.mouseout.next(null);
