@@ -36,7 +36,7 @@ let markerId = 0;
 @Directive({
   selector: 'sebm-google-map-marker',
   inputs: ['latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl'],
-  outputs: ['markerClick', 'dragEnd']
+  outputs: ['markerClick', 'dragEnd', 'mouseover', 'mouseout']
 })
 export class SebmGoogleMapMarker implements OnDestroy,
     OnChanges, AfterContentInit {
@@ -79,6 +79,16 @@ export class SebmGoogleMapMarker implements OnDestroy,
    * This event is fired when the user stops dragging the marker.
    */
   dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event is fired when a user is hovering over the marker.
+   */
+  mouseover: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event is fired when a user is mousing out from the marker.
+   */
+  mouseout: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   @ContentChild(SebmGoogleMapInfoWindow) private _infoWindow: SebmGoogleMapInfoWindow;
 
@@ -129,6 +139,21 @@ export class SebmGoogleMapMarker implements OnDestroy,
       }
       this.markerClick.next(null);
     });
+
+    this._markerManager.createEventObservable('mouseover', this).subscribe(() => {
+      if (this._infoWindow != null) {
+        this._infoWindow.open();
+      }
+      this.mouseover.next(null);
+    });
+
+    this._markerManager.createEventObservable('mouseout', this).subscribe(() => {
+      if (this._infoWindow != null) {
+        this._infoWindow.close();
+      }
+      this.mouseout.next(null);
+    });
+
     this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
         .subscribe((e: mapTypes.MouseEvent) => {
           this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
