@@ -123,6 +123,8 @@ export interface MapOptions {
   zoomControl?: boolean;
   styles?: MapTypeStyle[];
   streetViewControl?: boolean;
+  rotateControl?: boolean;
+  mapTypeControl?: boolean;
   scaleControl?: boolean;
 }
 
