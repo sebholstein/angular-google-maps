@@ -42,8 +42,7 @@ let markerId = 0;
   ],
   outputs: ['markerClick', 'dragEnd', 'mouseover', 'mouseout']
 })
-export class SebmGoogleMapMarker implements OnDestroy,
-    OnChanges, AfterContentInit {
+export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The latitude position of the marker.
    */

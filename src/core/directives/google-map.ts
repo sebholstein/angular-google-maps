@@ -40,7 +40,8 @@ import {MarkerManager} from '../services/managers/marker-manager';
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
+    'styles', 'usePanning', 'streetViewControl', 'mapTypeControl', 'rotateControl', 'fitBounds',
+    'scaleControl'
   ],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange'],
   host: {'[class.sebm-google-map-container]': 'true'},
@@ -60,8 +61,7 @@ import {MarkerManager} from '../services/managers/marker-manager';
     </div>
   `
 })
-export class SebmGoogleMap implements OnChanges,
-    OnInit {
+export class SebmGoogleMap implements OnChanges, OnInit {
   /**
    * The longitude that defines the center of the map.
    */
@@ -147,6 +147,17 @@ export class SebmGoogleMap implements OnChanges,
   streetViewControl: boolean = true;
 
   /**
+   * The initial enabled/disabled state of the map type control boolean
+   * used to enable/disable ability to toggle satellite/normal map type
+   */
+  mapTypeControl: boolean = false;
+
+  /**
+   * The initial enabled/disabled state of the map's rotate button
+   */
+  rotateControl: boolean = false;
+
+  /**
    * Sets the viewport to contain the given bounds.
    */
   fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
@@ -161,7 +172,8 @@ export class SebmGoogleMap implements OnChanges,
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'rotateControl',
+    'mapTypeControl'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -220,6 +232,8 @@ export class SebmGoogleMap implements OnChanges,
       zoomControl: this.zoomControl,
       styles: this.styles,
       streetViewControl: this.streetViewControl,
+      mapTypeControl: this.mapTypeControl,
+      rotateControl: this.rotateControl,
       scaleControl: this.scaleControl
     });
 
