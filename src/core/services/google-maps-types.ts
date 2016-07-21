@@ -27,6 +27,7 @@ export interface Marker extends MVCObject {
   setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
   setIcon(icon: string): void;
+  setOpacity(opacity: number): void;
   getLabel(): MarkerLabel;
 }
 
@@ -37,6 +38,7 @@ export interface MarkerOptions {
   label?: string|MarkerLabel;
   draggable?: boolean;
   icon?: string;
+  opacity?: number;
 }
 
 export interface MarkerLabel {
