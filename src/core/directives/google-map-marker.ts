@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds'
+    'openInfoWindow', 'fitBounds', 'opacity'
   ],
   outputs: ['markerClick', 'dragEnd']
 })
@@ -77,6 +77,11 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
    * Whether to automatically open the child info window when the marker is clicked.
    */
   openInfoWindow: boolean = true;
+
+  /**
+   * The marker's opacity between 0.0 and 1.0.
+   */
+  opacity: number = 1;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -129,6 +134,9 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
     if (changes['iconUrl']) {
       this._markerManager.updateIcon(this);
     }
+    if (changes['opacity']) {
+      this._markerManager.updateOpacity(this);
+    }
   }
 
   private _addEventListeners() {
@@ -140,10 +148,11 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
     });
     this._observableSubscriptions.push(cs);
 
-    const ds = this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-                   .subscribe((e: mapTypes.MouseEvent) => {
-                     this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-                   });
+    const ds =
+        this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+            .subscribe((e: mapTypes.MouseEvent) => {
+              this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+            });
     this._observableSubscriptions.push(ds);
   }
 

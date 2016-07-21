@@ -49,12 +49,17 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setIcon(marker.iconUrl));
   }
 
+  updateOpacity(marker: SebmGoogleMapMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => m.setOpacity(marker.opacity));
+  }
+
   addMarker(marker: SebmGoogleMapMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
       label: marker.label,
       draggable: marker.draggable,
-      icon: marker.iconUrl
+      icon: marker.iconUrl,
+      opacity: marker.opacity
     });
     this._markers.set(marker, markerPromise);
   }
