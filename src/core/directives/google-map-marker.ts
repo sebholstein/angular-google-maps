@@ -37,7 +37,7 @@ let markerId = 0;
 @Directive({
   selector: 'sebm-google-map-marker',
   inputs: [
-    'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
+    'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl', 'visible',
     'openInfoWindow', 'fitBounds'
   ],
   outputs: ['markerClick', 'dragEnd']
@@ -72,6 +72,11 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
    * Icon (the URL of the image) for the foreground.
    */
   iconUrl: string;
+
+  /**
+   * If true, the marker is visible
+   */
+  visible: boolean = true;
 
   /**
    * Whether to automatically open the child info window when the marker is clicked.
@@ -128,6 +133,9 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
     }
     if (changes['iconUrl']) {
       this._markerManager.updateIcon(this);
+    }
+    if (changes['visible']) {
+      this._markerManager.updateVisible(this);
     }
   }
 
