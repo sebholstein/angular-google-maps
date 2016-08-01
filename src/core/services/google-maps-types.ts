@@ -81,6 +81,38 @@ export interface CircleOptions {
   zIndex?: number;
 }
 
+
+export interface Polyline extends MVCObject {
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getPath(): any;
+  getVisible(): boolean;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: PolylineOptions): void;
+  setPath(path:any): void;
+  setVisible(visible: boolean): void;
+}
+
+export interface PolylineOptions {
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  geodesic?: boolean;
+  icons?: any;
+  map?: GoogleMap;
+  path?: any;
+  radius?: number;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
+
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
   equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
