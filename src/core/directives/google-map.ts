@@ -8,6 +8,7 @@ import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/googl
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
+import {PolylineManager} from '../services/managers/polyline-manager';
 
 /**
  * SebMGoogleMap renders a Google Map.
@@ -36,7 +37,8 @@ import {MarkerManager} from '../services/managers/marker-manager';
  */
 @Component({
   selector: 'sebm-google-map',
-  providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager],
+  providers:
+      [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
     'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
