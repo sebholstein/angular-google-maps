@@ -57,6 +57,10 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setVisible(marker.visible));
   }
 
+  updateZIndex(marker: SebmGoogleMapMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => m.setZIndex(marker.zIndex));
+  }
+
   addMarker(marker: SebmGoogleMapMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
@@ -64,7 +68,8 @@ export class MarkerManager {
       draggable: marker.draggable,
       icon: marker.iconUrl,
       opacity: marker.opacity,
-      visible: marker.visible
+      visible: marker.visible,
+      zIndex: marker.zIndex
     });
     this._markers.set(marker, markerPromise);
   }
