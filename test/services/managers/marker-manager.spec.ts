@@ -33,7 +33,7 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined,
+                 icon: {},
                  opacity: 1,
                  visible: true
                });
@@ -60,7 +60,7 @@ export function main() {
     });
 
     describe('set marker icon', () => {
-      it('should update that marker via setIcon method when the markerUrl changes',
+      it('should update that marker via setIcon method when the iconUrl changes',
          async(inject(
              [MarkerManager, GoogleMapsAPIWrapper],
              (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
@@ -77,14 +77,14 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined,
+                 icon: {},
                  opacity: 1,
                  visible: true
                });
                const iconUrl = 'http://angular-maps.com/icon.png';
-               newMarker.iconUrl = iconUrl;
+               newMarker.complexIcon.url = iconUrl;
                return markerManager.updateIcon(newMarker).then(
-                   () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
+                   () => { expect(markerInstance.setIcon).toHaveBeenCalledWith({url: iconUrl}); });
              })));
     });
 
@@ -107,7 +107,7 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined,
+                 icon: {},
                  visible: true,
                  opacity: 1
                });
@@ -138,7 +138,7 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined,
+                 icon: {},
                  visible: false,
                  opacity: 1
                });

@@ -26,7 +26,7 @@ export interface Marker extends MVCObject {
   setTitle(title: string): void;
   setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
-  setIcon(icon: string): void;
+  setIcon(icon: string|MarkerIcon|MarkerSymbol): void;
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   getLabel(): MarkerLabel;
@@ -38,7 +38,7 @@ export interface MarkerOptions {
   map?: GoogleMap;
   label?: string|MarkerLabel;
   draggable?: boolean;
-  icon?: string;
+  icon?: string|MarkerIcon|MarkerSymbol;
   opacity?: number;
   visible?: boolean;
 }
@@ -49,6 +49,28 @@ export interface MarkerLabel {
   fontSize: string;
   fontWeight: string;
   text: string;
+}
+
+export interface MarkerIcon {
+  anchor?: Point;
+  labelOrigin?: Point;
+  origin?: Point;
+  scaledSize?: Size;
+  size?: Size;
+  url?: string;
+}
+
+export interface MarkerSymbol {
+  anchor?: Point;
+  fillColor?: string;
+  fillOpacity?: number;
+  labelOrigin?: Point;
+  path: string;
+  rotation?: number;
+  scale?: number;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokeWeight?: number;
 }
 
 export interface Circle extends MVCObject {
@@ -190,4 +212,9 @@ export interface InfoWindowOptions {
   pixelOffset?: Size;
   position?: LatLng|LatLngLiteral;
   zIndex?: number;
+}
+
+export interface Point {
+  x: number;
+  y: number;
 }

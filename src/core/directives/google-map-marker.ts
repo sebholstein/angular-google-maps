@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds', 'opacity', 'visible'
+    'openInfoWindow', 'fitBounds', 'opacity', 'visible', 'complexIcon'
   ],
   outputs: ['markerClick', 'dragEnd']
 })
@@ -79,6 +79,13 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
   visible: boolean = true;
 
   /**
+   * Icon structure (as specified here
+   * https://developers.google.com/maps/documentation/javascript/3.exp/reference#Icon
+   * https://developers.google.com/maps/documentation/javascript/3.exp/reference#Symbol)
+   */
+  complexIcon: mapTypes.MarkerIcon|mapTypes.MarkerSymbol = {};
+
+  /**
    * Whether to automatically open the child info window when the marker is clicked.
    */
   openInfoWindow: boolean = true;
@@ -106,6 +113,19 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
+  /**
+   * Accessor to return either the complexIcon object or just the iconUrl
+   */
+  public get icon(): mapTypes.MarkerIcon|mapTypes.MarkerSymbol {
+    let marker = Object.assign({}, this.complexIcon);
+
+    if (this.iconUrl !== undefined && this.iconUrl.length !== 0) {
+      marker.url = this.iconUrl;
+    }
+
+    return marker;
+  }
+
   /* @internal */
   ngAfterContentInit() {
     if (this._infoWindow != null) {
@@ -124,6 +144,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
       this._addEventListeners();
       return;
     }
+
     if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
     }
@@ -137,6 +158,9 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
       this._markerManager.updateDraggable(this);
     }
     if (changes['iconUrl']) {
+      this._markerManager.updateIcon(this);
+    }
+    if (changes['complexIcon']) {
       this._markerManager.updateIcon(this);
     }
     if (changes['opacity']) {

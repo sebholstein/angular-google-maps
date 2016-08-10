@@ -46,7 +46,7 @@ export class MarkerManager {
   }
 
   updateIcon(marker: SebmGoogleMapMarker): Promise<void> {
-    return this._markers.get(marker).then((m: Marker) => m.setIcon(marker.iconUrl));
+    return this._markers.get(marker).then((m: Marker) => { m.setIcon(marker.icon); });
   }
 
   updateOpacity(marker: SebmGoogleMapMarker): Promise<void> {
@@ -62,9 +62,9 @@ export class MarkerManager {
       position: {lat: marker.latitude, lng: marker.longitude},
       label: marker.label,
       draggable: marker.draggable,
-      icon: marker.iconUrl,
       opacity: marker.opacity,
-      visible: marker.visible
+      visible: marker.visible,
+      icon: marker.icon
     });
     this._markers.set(marker, markerPromise);
   }
