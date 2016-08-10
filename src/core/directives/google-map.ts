@@ -38,9 +38,10 @@ import {MarkerManager} from '../services/managers/marker-manager';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
+    'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
+    'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
+    'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl', 'fitBounds',
+    'scaleControl'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -77,6 +78,11 @@ export class SebmGoogleMap implements OnChanges, OnInit {
    * The zoom level of the map. The default zoom level is 8.
    */
   zoom: number = 8;
+
+  /**
+   * Enables/disables if map is draggable.
+   */
+  draggable: boolean = true;
 
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
@@ -161,7 +167,7 @@ export class SebmGoogleMap implements OnChanges, OnInit {
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
+    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
   ];
 
@@ -220,6 +226,7 @@ export class SebmGoogleMap implements OnChanges, OnInit {
       zoom: this.zoom,
       disableDefaultUI: this.disableDefaultUI,
       backgroundColor: this.backgroundColor,
+      draggable: this.draggable,
       draggableCursor: this.draggableCursor,
       draggingCursor: this.draggingCursor,
       keyboardShortcuts: this.keyboardShortcuts,

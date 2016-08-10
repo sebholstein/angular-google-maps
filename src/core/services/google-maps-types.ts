@@ -123,6 +123,7 @@ export interface MapOptions {
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
   backgroundColor?: string;
+  draggable?: boolean;
   draggableCursor?: string;
   draggingCursor?: string;
   keyboardShortcuts?: boolean;
