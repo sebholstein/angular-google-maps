@@ -49,6 +49,9 @@ export class PolylineManager {
     return this._polylines.get(polyline).then((c) => { return c.setVisible(polyline.visible); });
   };
   
+  deletePolyline(polyline: SebmGoogleMapPolyline): Promise<void> {
+    return this._polylines.get(polyline).then((c) => { return c.setMap(null); });
+  };
 
   createEventObservable<T>(eventName: string, polyline: SebmGoogleMapPolyline): Observable<T> {
     return Observable.create((observer: Observer<T>) => {

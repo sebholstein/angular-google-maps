@@ -211,6 +211,7 @@ export class SebmGoogleMapPolyline implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this._eventSubscriptions.forEach(function(s: Subscription) { s.unsubscribe(); });
     this._eventSubscriptions = null;
+    this._manager.deletePolyline(this);
   }
 
 }
