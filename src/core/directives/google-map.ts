@@ -43,7 +43,9 @@ import {PolylineManager} from "../services/managers/polyline-manager";
     'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
     'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
   ],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange'],
+  outputs: [
+    'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
+  ],
   host: {'[class.sebm-google-map-container]': 'true'},
   styles: [`
     .sebm-google-map-container-inner {
@@ -199,6 +201,11 @@ export class SebmGoogleMap implements OnChanges, OnInit {
    */
   idle: EventEmitter<void> = new EventEmitter<void>();
 
+  /**
+   * This event is fired when the zoom level has changed.
+   */
+  zoomChange: EventEmitter<number> = new EventEmitter<number>();
+
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
@@ -321,7 +328,10 @@ export class SebmGoogleMap implements OnChanges, OnInit {
 
   private _handleMapZoomChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this.zoom = z);
+      this._mapsWrapper.getZoom().then((z: number) => {
+        this.zoom = z;
+        this.zoomChange.emit(z);
+      });
     });
     this._observableSubscriptions.push(s);
   }

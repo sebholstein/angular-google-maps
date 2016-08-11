@@ -33,7 +33,9 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined
+                 icon: undefined,
+                 opacity: 1,
+                 visible: true
                });
              }));
     });
@@ -75,12 +77,74 @@ export function main() {
                  position: {lat: 34.4, lng: 22.3},
                  label: 'A',
                  draggable: false,
-                 icon: undefined
+                 icon: undefined,
+                 opacity: 1,
+                 visible: true
                });
                const iconUrl = 'http://angular-maps.com/icon.png';
                newMarker.iconUrl = iconUrl;
                return markerManager.updateIcon(newMarker).then(
                    () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
+             })));
+    });
+
+    describe('set marker opacity', () => {
+      it('should update that marker via setOpacity method when the markerOpacity changes',
+         async(inject(
+             [MarkerManager, GoogleMapsAPIWrapper],
+             (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+               const newMarker = new SebmGoogleMapMarker(markerManager);
+               newMarker.latitude = 34.4;
+               newMarker.longitude = 22.3;
+               newMarker.label = 'A';
+
+               const markerInstance: Marker =
+                   jasmine.createSpyObj('Marker', ['setMap', 'setOpacity']);
+               (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+
+               markerManager.addMarker(newMarker);
+               expect(apiWrapper.createMarker).toHaveBeenCalledWith({
+                 position: {lat: 34.4, lng: 22.3},
+                 label: 'A',
+                 draggable: false,
+                 icon: undefined,
+                 visible: true,
+                 opacity: 1
+               });
+               const opacity = 0.4;
+               newMarker.opacity = opacity;
+               return markerManager.updateOpacity(newMarker).then(
+                   () => { expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity); });
+             })));
+    });
+
+    describe('set visible option', () => {
+      it('should update that marker via setVisible method when the visible changes',
+         async(inject(
+             [MarkerManager, GoogleMapsAPIWrapper],
+             (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+               const newMarker = new SebmGoogleMapMarker(markerManager);
+               newMarker.latitude = 34.4;
+               newMarker.longitude = 22.3;
+               newMarker.label = 'A';
+               newMarker.visible = false;
+
+               const markerInstance: Marker =
+                   jasmine.createSpyObj('Marker', ['setMap', 'setVisible']);
+               (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+
+               markerManager.addMarker(newMarker);
+               expect(apiWrapper.createMarker).toHaveBeenCalledWith({
+                 position: {lat: 34.4, lng: 22.3},
+                 label: 'A',
+                 draggable: false,
+                 icon: undefined,
+                 visible: false,
+                 opacity: 1
+               });
+               newMarker.visible = true;
+               return markerManager.updateVisible(newMarker).then(
+                   () => { expect(markerInstance.setVisible).toHaveBeenCalledWith(true); });
              })));
     });
   });
