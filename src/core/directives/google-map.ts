@@ -38,9 +38,10 @@ import {MarkerManager} from '../services/managers/marker-manager';
   selector: 'sebm-google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'draggable', 'disableDoubleClickZoom', 'disableDefaultUI',
-    'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts',
-    'zoomControl', 'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
+    'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
+    'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
+    'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl', 'fitBounds',
+    'scaleControl'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
