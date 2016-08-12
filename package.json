@@ -42,7 +42,7 @@
     "eslint-config-airbnb-base": "^3.0.1",
     "eslint-plugin-import": "^1.8.0",
     "gulp": "3.9.1",
-    "gulp-bump": "2.1.0",
+    "gulp-bump": "2.4.0",
     "gulp-clang-format": "1.0.23",
     "gulp-connect": "4.1.0",
     "gulp-conventional-changelog": "1.1.0",
