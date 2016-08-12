@@ -59,6 +59,17 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
+  /**
+   * Creates a google.map.Polyline for the current map.
+   */
+  createPolyline(options: mapTypes.PolylineOptions): Promise<mapTypes.Polyline> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      options.map = map;
+      console.log(options);
+      return new google.maps.Polyline(options);
+    });
+  }
+
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
       this._map.then((m: mapTypes.GoogleMap) => {
