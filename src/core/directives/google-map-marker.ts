@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds', 'opacity', 'visible'
+    'openInfoWindow', 'fitBounds', 'opacity', 'visible', 'zIndex'
   ],
   outputs: ['markerClick', 'dragEnd']
 })
@@ -87,6 +87,14 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
    * The marker's opacity between 0.0 and 1.0.
    */
   opacity: number = 1;
+
+  /**
+   * All markers are displayed on the map in order of their zIndex, with higher values displaying in
+   * front of markers with lower values. By default, markers are displayed according to their
+   * vertical position on screen, with lower markers appearing in front of markers further up the
+   * screen.
+   */
+  zIndex: number = 1;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -144,6 +152,9 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
     }
     if (changes['visible']) {
       this._markerManager.updateVisible(this);
+    }
+    if (changes['zIndex']) {
+      this._markerManager.updateZIndex(this);
     }
   }
 

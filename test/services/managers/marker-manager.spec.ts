@@ -35,7 +35,8 @@ export function main() {
                  draggable: false,
                  icon: undefined,
                  opacity: 1,
-                 visible: true
+                 visible: true,
+                 zIndex: 1
                });
              }));
     });
@@ -79,7 +80,8 @@ export function main() {
                  draggable: false,
                  icon: undefined,
                  opacity: 1,
-                 visible: true
+                 visible: true,
+                 zIndex: 1
                });
                const iconUrl = 'http://angular-maps.com/icon.png';
                newMarker.iconUrl = iconUrl;
@@ -109,7 +111,8 @@ export function main() {
                  draggable: false,
                  icon: undefined,
                  visible: true,
-                 opacity: 1
+                 opacity: 1,
+                 zIndex: 1
                });
                const opacity = 0.4;
                newMarker.opacity = opacity;
@@ -140,11 +143,44 @@ export function main() {
                  draggable: false,
                  icon: undefined,
                  visible: false,
-                 opacity: 1
+                 opacity: 1,
+                 zIndex: 1
                });
                newMarker.visible = true;
                return markerManager.updateVisible(newMarker).then(
                    () => { expect(markerInstance.setVisible).toHaveBeenCalledWith(true); });
+             })));
+    });
+
+    describe('set zIndex option', () => {
+      it('should update that marker via setZIndex method when the zIndex changes',
+         async(inject(
+             [MarkerManager, GoogleMapsAPIWrapper],
+             (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+               const newMarker = new SebmGoogleMapMarker(markerManager);
+               newMarker.latitude = 34.4;
+               newMarker.longitude = 22.3;
+               newMarker.label = 'A';
+               newMarker.visible = false;
+
+               const markerInstance: Marker =
+                   jasmine.createSpyObj('Marker', ['setMap', 'setZIndex']);
+               (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+
+               markerManager.addMarker(newMarker);
+               expect(apiWrapper.createMarker).toHaveBeenCalledWith({
+                 position: {lat: 34.4, lng: 22.3},
+                 label: 'A',
+                 draggable: false,
+                 icon: undefined,
+                 visible: false,
+                 opacity: 1,
+                 zIndex: 1
+               });
+               const zIndex = 10;
+               newMarker.zIndex = zIndex;
+               return markerManager.updateZIndex(newMarker).then(
+                   () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
              })));
     });
   });
