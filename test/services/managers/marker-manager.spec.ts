@@ -1,5 +1,5 @@
 import {NgZone} from '@angular/core';
-import {addProviders, async, describe, inject, it} from '@angular/core/testing';
+import {addProviders, async, inject} from '@angular/core/testing';
 
 import {SebmGoogleMapMarker} from '../../../src/core/directives/google-map-marker';
 import {GoogleMapsAPIWrapper} from '../../../src/core/services/google-maps-api-wrapper';
