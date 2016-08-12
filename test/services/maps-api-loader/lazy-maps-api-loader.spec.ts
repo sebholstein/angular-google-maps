@@ -1,4 +1,4 @@
-import {addProviders, describe, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {LazyMapsAPILoader} from '../../../src/core/services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from '../../../src/core/services/maps-api-loader/maps-api-loader';
