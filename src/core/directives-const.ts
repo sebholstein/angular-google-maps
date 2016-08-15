@@ -5,6 +5,7 @@ import {SebmGoogleMapMarker} from './directives/google-map-marker';
 import {SebmGoogleMapPolyline} from './directives/google-map-polyline';
 import {SebmGoogleMapPolylinePoint} from './directives/google-map-polyline-point';
 
+/** @deprecated */
 export const GOOGLE_MAPS_DIRECTIVES: any[] = [
   SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow, SebmGoogleMapCircle,
   SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint
