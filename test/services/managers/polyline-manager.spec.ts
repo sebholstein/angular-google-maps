@@ -1,5 +1,5 @@
 import {NgZone} from '@angular/core';
-import {addProviders, describe, inject, it} from '@angular/core/testing';
+import {addProviders, inject} from '@angular/core/testing';
 
 import {SebmGoogleMapPolyline} from '../../../src/core/directives/google-map-polyline';
 import {GoogleMapsAPIWrapper} from '../../../src/core/services/google-maps-api-wrapper';
