@@ -3,6 +3,8 @@ import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
 
 import * as mapTypes from './google-maps-types';
+import {Polyline} from './google-maps-types';
+import {PolylineOptions} from './google-maps-types';
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
@@ -56,6 +58,14 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
       return new google.maps.Circle(options);
+    });
+  }
+
+  public createPolyline(options: PolylineOptions): Promise<Polyline> {
+    return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
+      let line = new google.maps.Polyline(options);
+      line.setMap(map);
+      return line;
     });
   }
 
