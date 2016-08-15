@@ -1,3 +1,29 @@
+<a name="0.13.0"></a>
+# [0.13.0 onyx-piranha](https://github.com/SebastianM/angular2-google-maps/compare/0.12.0...0.13.0) (2016-08-15)
+
+
+### Bug Fixes
+
+* **SebmGoogleMap:** zoom listener ([b379c73](https://github.com/SebastianM/angular2-google-maps/commit/b379c73))
+* **SebmGoogleMapMarker:** cleanup event listeners ([c20d005](https://github.com/SebastianM/angular2-google-maps/commit/c20d005))
+* **SebmGoogleMapMarker:** set marker title ([9544a00](https://github.com/SebastianM/angular2-google-maps/commit/9544a00)), closes [#505](https://github.com/SebastianM/angular2-google-maps/issues/505)
+
+
+### Features
+
+* support angular 2.0.0-rc.5 ([43df74e](https://github.com/SebastianM/angular2-google-maps/commit/43df74e)), closes [#564](https://github.com/SebastianM/angular2-google-maps/issues/564)
+* support [@NgModule](https://github.com/NgModule) ([1d0cd9c](https://github.com/SebastianM/angular2-google-maps/commit/1d0cd9c)), closes [#560](https://github.com/SebastianM/angular2-google-maps/issues/560) [#571](https://github.com/SebastianM/angular2-google-maps/issues/571)
+* **MarkerManager:** set a visible option to marker. ([f8a6553](https://github.com/SebastianM/angular2-google-maps/commit/f8a6553)), closes [#524](https://github.com/SebastianM/angular2-google-maps/issues/524)
+* **polylines:** add support for Polylines ([a0ba861](https://github.com/SebastianM/angular2-google-maps/commit/a0ba861)), closes [#554](https://github.com/SebastianM/angular2-google-maps/issues/554)
+* **SebmGoogleMap:** support draggable map option ([836078a](https://github.com/SebastianM/angular2-google-maps/commit/836078a)), closes [#556](https://github.com/SebastianM/angular2-google-maps/issues/556)
+* **SebmGoogleMap:** support fitBounds ([e913394](https://github.com/SebastianM/angular2-google-maps/commit/e913394)), closes [#283](https://github.com/SebastianM/angular2-google-maps/issues/283) [#492](https://github.com/SebastianM/angular2-google-maps/issues/492)
+* **SebmGoogleMap:** support scaleControl option ([468a1a8](https://github.com/SebastianM/angular2-google-maps/commit/468a1a8)), closes [#502](https://github.com/SebastianM/angular2-google-maps/issues/502)
+* **SebmGoogleMap:** support zoom_changed event ([df34d0e](https://github.com/SebastianM/angular2-google-maps/commit/df34d0e)), closes [#555](https://github.com/SebastianM/angular2-google-maps/issues/555)
+* **SebmGoogleMapMarker:** support opacity ([8ed927b](https://github.com/SebastianM/angular2-google-maps/commit/8ed927b)), closes [#523](https://github.com/SebastianM/angular2-google-maps/issues/523) [#522](https://github.com/SebastianM/angular2-google-maps/issues/522)
+* **SebmGoogleMapMarker:** support zIndex option ([75f37a6](https://github.com/SebastianM/angular2-google-maps/commit/75f37a6)), closes [#559](https://github.com/SebastianM/angular2-google-maps/issues/559) [#558](https://github.com/SebastianM/angular2-google-maps/issues/558)
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0 unexpected-lion](https://github.com/SebastianM/angular2-google-maps/compare/0.11.0...0.12.0) (2016-06-21)
 
