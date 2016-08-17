@@ -254,8 +254,11 @@ export class SebmGoogleMap implements OnChanges, OnInit {
 
   /* @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+     
     this._updateMapOptionsChanges(changes);
     this._updatePosition(changes);
+    this._updateZoom(changes);
+
   }
 
   private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
@@ -313,6 +316,16 @@ export class SebmGoogleMap implements OnChanges, OnInit {
       return;
     }
     this._mapsWrapper.fitBounds(this.fitBounds);
+  }
+
+  private _updateZoom(changes: {[propName: string]: SimpleChange}){
+  if(changes['zoom'] == null){
+      return;
+    }
+    if(typeof this.zoom !== 'number'){
+      return;
+    }
+    this._mapsWrapper.setZoom(this.zoom);
   }
 
   private _handleMapCenterChange() {
