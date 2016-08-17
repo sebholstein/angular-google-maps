@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds', 'opacity', 'visible', 'zIndex'
+    'openInfoWindow', 'fitBounds', 'opacity', 'visible', 'zIndex', 'animation'
   ],
   outputs: ['markerClick', 'dragEnd']
 })
@@ -95,6 +95,12 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
    * screen.
    */
   zIndex: number = 1;
+
+  /**
+   * Which animation to play when marker is added to a map.
+   * This can be "bounce" or "drop"
+   */
+  animation: string;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -155,6 +161,9 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
     }
     if (changes['zIndex']) {
       this._markerManager.updateZIndex(this);
+    }
+    if (changes['animation']) {
+      this._markerManager.updateAnimation(this);
     }
   }
 

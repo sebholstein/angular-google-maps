@@ -112,6 +112,20 @@ export class GoogleMapsAPIWrapper {
    */
   getNativeMap(): Promise<mapTypes.GoogleMap> { return this._map; }
 
+  getAnimation(name: string): Promise<any> {
+    const ret = this._map.then(() => {
+      switch (name) {
+        case 'drop':
+          return google.maps.Animation.DROP;
+        case 'bounce':
+          return google.maps.Animation.BOUNCE;
+        default:
+          return null;
+      }
+    });
+    return ret;
+  }
+
   /**
    * Triggers the given event name on the map instance.
    */
