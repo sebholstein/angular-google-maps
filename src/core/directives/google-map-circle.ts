@@ -14,7 +14,7 @@ import {CircleManager} from '../services/managers/circle-manager';
     'visible', 'zIndex'
   ],
   outputs: [
-    'centerChange', 'circleClick', 'circleDblclick', 'drag', 'dragEnd', 'dragStart', 'mouseDown',
+    'centerChange', 'circleClick', 'circleDblClick', 'drag', 'dragEnd', 'dragStart', 'mouseDown',
     'mouseMove', 'mouseOut', 'mouseOver', 'mouseUp', 'radiusChange', 'rightClick'
   ]
 })
