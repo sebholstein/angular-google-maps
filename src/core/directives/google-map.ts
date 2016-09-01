@@ -43,7 +43,7 @@ import {PolylineManager} from '../services/managers/polyline-manager';
     'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
     'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl', 'fitBounds',
-    'scaleControl'
+    'scaleControl', 'mapTypeControl'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -166,11 +166,16 @@ export class SebmGoogleMap implements OnChanges, OnInit {
   scaleControl: boolean = false;
 
   /**
+   * The initial enabled/disabled state of the Map type control.
+   */
+  mapTypeControl: boolean = false;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -235,7 +240,8 @@ export class SebmGoogleMap implements OnChanges, OnInit {
       zoomControl: this.zoomControl,
       styles: this.styles,
       streetViewControl: this.streetViewControl,
-      scaleControl: this.scaleControl
+      scaleControl: this.scaleControl,
+      mapTypeControl: this.mapTypeControl
     });
 
     // register event listeners
