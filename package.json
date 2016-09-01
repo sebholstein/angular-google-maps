@@ -23,14 +23,13 @@
   },
   "homepage": "https://github.com/SebastianM/angular2-google-maps#readme",
   "dependencies": {
-    "@angular/common": "2.0.0-rc.5",
-    "@angular/compiler": "2.0.0-rc.5",
-    "@angular/core": "2.0.0-rc.5",
-    "@angular/platform-browser": "2.0.0-rc.5",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.5",
-    "reflect-metadata": "^0.1.3",
-    "rxjs": "5.0.0-beta.6",
-    "zone.js": "^0.6.12"
+    "@angular/common": "2.0.0-rc.6",
+    "@angular/compiler": "2.0.0-rc.6",
+    "@angular/core": "2.0.0-rc.6",
+    "@angular/platform-browser": "2.0.0-rc.6",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.6",
+    "rxjs": "5.0.0-beta.11",
+    "zone.js": "^0.6.17"
   },
   "devDependencies": {
     "babel-eslint": "6.0.4",
@@ -64,21 +63,20 @@
     "run-sequence": "1.2.2",
     "systemjs": "0.19.29",
     "tslint": "3.13.0",
-    "typescript": "1.8.10",
+    "typescript": "^2.0.2",
     "typings": "1.0.4",
     "watchify": "3.7.0"
   },
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "2.0.0-rc.5",
-      "@angular/compiler": "2.0.0-rc.5",
-      "@angular/core": "2.0.0-rc.5",
-      "@angular/platform-browser": "2.0.0-rc.5",
-      "@angular/platform-browser-dynamic": "2.0.0-rc.5",
-      "reflect-metadata": "^0.1.3",
-      "rxjs": "5.0.0-beta.6",
-      "zone.js": "^0.6.12"
+      "@angular/common": "2.0.0-rc.6",
+      "@angular/compiler": "2.0.0-rc.6",
+      "@angular/core": "2.0.0-rc.6",
+      "@angular/platform-browser": "2.0.0-rc.6",
+      "@angular/platform-browser-dynamic": "2.0.0-rc.6",
+      "rxjs": "5.0.0-beta.11",
+      "zone.js": "^0.6.17"
     }
   }
 }

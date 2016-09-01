@@ -1,4 +1,4 @@
-import {ModuleWithProviders, NgModule, Provider, provide} from '@angular/core';
+import {ModuleWithProviders, NgModule, Provider} from '@angular/core';
 
 import {SebmGoogleMap} from './directives/google-map';
 import {SebmGoogleMapCircle} from './directives/google-map-circle';
@@ -27,7 +27,7 @@ export class AgmCoreModule {
    */
   static forRoot(lazyMapsAPILoaderConfig?: LazyMapsAPILoaderConfigLiteral): ModuleWithProviders {
     const providers: Provider[] =
-        [...BROWSER_GLOBALS_PROVIDERS, provide(MapsAPILoader, {useClass: LazyMapsAPILoader})];
+        [...BROWSER_GLOBALS_PROVIDERS, {provide: MapsAPILoader, useClass: LazyMapsAPILoader}];
     if (lazyMapsAPILoaderConfig) {
       providers.push(provideLazyMapsAPILoaderConfig(lazyMapsAPILoaderConfig));
     }

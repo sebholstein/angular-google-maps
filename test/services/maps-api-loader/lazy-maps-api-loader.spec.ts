@@ -1,4 +1,4 @@
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {LazyMapsAPILoader} from '../../../src/core/services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from '../../../src/core/services/maps-api-loader/maps-api-loader';
@@ -7,13 +7,15 @@ import {DOCUMENT_GLOBAL, WINDOW_GLOBAL} from '../../../src/core/utils/browser-gl
 export function main() {
   describe('Service: LazyMapsAPILoader', () => {
     beforeEach(() => {
-      addProviders([
-        {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
-        {provide: WINDOW_GLOBAL, useValue: {}}, {
-          provide: DOCUMENT_GLOBAL,
-          useValue: jasmine.createSpyObj<Document>('Document', ['createElement'])
-        }
-      ]);
+      TestBed.configureTestingModule({
+        providers: [
+          {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
+          {provide: WINDOW_GLOBAL, useValue: {}}, {
+            provide: DOCUMENT_GLOBAL,
+            useValue: jasmine.createSpyObj<Document>('Document', ['createElement'])
+          }
+        ]
+      });
     });
 
     it('should create the default script URL',

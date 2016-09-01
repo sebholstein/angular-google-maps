@@ -1,5 +1,5 @@
 import {NgZone} from '@angular/core';
-import {addProviders, async, inject} from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 
 import {SebmGoogleMapMarker} from '../../../src/core/directives/google-map-marker';
 import {GoogleMapsAPIWrapper} from '../../../src/core/services/google-maps-api-wrapper';
@@ -9,13 +9,15 @@ import {MarkerManager} from '../../../src/core/services/managers/marker-manager'
 export function main() {
   describe('MarkerManager', () => {
     beforeEach(() => {
-      addProviders([
-        {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
-        MarkerManager, SebmGoogleMapMarker, {
-          provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
-        }
-      ]);
+      TestBed.configureTestingModule({
+        providers: [
+          {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
+          MarkerManager, SebmGoogleMapMarker, {
+            provide: GoogleMapsAPIWrapper,
+            useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
+          }
+        ]
+      });
     });
 
     describe('Create a new marker', () => {
