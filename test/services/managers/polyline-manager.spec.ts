@@ -1,5 +1,5 @@
 import {NgZone} from '@angular/core';
-import {addProviders, inject} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {SebmGoogleMapPolyline} from '../../../src/core/directives/google-map-polyline';
 import {GoogleMapsAPIWrapper} from '../../../src/core/services/google-maps-api-wrapper';
@@ -9,13 +9,15 @@ import {PolylineManager} from '../../../src/core/services/managers/polyline-mana
 export function main() {
   describe('PolylineManager', () => {
     beforeEach(() => {
-      addProviders([
-        {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
-        PolylineManager, SebmGoogleMapPolyline, {
-          provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createPolyline'])
-        }
-      ]);
+      TestBed.configureTestingModule({
+        providers: [
+          {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
+          PolylineManager, SebmGoogleMapPolyline, {
+            provide: GoogleMapsAPIWrapper,
+            useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createPolyline'])
+          }
+        ]
+      });
     });
 
     describe('Create a new polyline', () => {

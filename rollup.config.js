@@ -12,6 +12,7 @@ export default {
     'rxjs/Subject': 'Rx',
     'rxjs/observable/PromiseObservable': 'Rx',
     'rxjs/operator/toPromise': 'Rx.Observable.prototype',
-    'rxjs/Observable': 'Rx'
+    'rxjs/Observable': 'Rx',
+    'rxjs/Rx': 'Rx'
   }
 }
