@@ -23,7 +23,7 @@ import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 
 // main modules
 export * from './services';
-export * from './map-types'; 
+export * from './map-types';
 
 // Google Maps types
 export {LatLngBounds, LatLng, LatLngLiteral, MapTypeStyle} from './services/google-maps-types';
