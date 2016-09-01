@@ -14,7 +14,7 @@ export * from './map-types';
 export {LatLngBounds, LatLng, LatLngLiteral, MapTypeStyle} from './services/google-maps-types';
 
 /** @deprecated */
-export const GOOGLE_MAPS_PROVIDERS: any[] = [
+const GOOGLE_MAPS_PROVIDERS: any[] = [
   BROWSER_GLOBALS_PROVIDERS,
   provide(MapsAPILoader, {useClass: LazyMapsAPILoader}),
 ];
@@ -22,8 +22,6 @@ export const GOOGLE_MAPS_PROVIDERS: any[] = [
 /**
  * The angular2-google-maps core module. Contains all Directives/Services/Pipes
  * of the core module. Please use `AgmCoreModule.forRoot()` in your app module.
- *
- * @experimental
  */
 @NgModule({declarations: GOOGLE_MAPS_DIRECTIVES, exports: GOOGLE_MAPS_DIRECTIVES})
 export class AgmCoreModule {
