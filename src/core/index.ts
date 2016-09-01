@@ -4,12 +4,6 @@
  * @link https://github.com/SebastianM/angular2-google-maps#readme
  * @license MIT
  */
-/**
- * angular2-google-maps - Angular 2 components for Google Maps
- * @version v0.13.0
- * @link https://github.com/SebastianM/angular2-google-maps#readme
- * @license MIT
- */
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {SebmGoogleMap} from './directives/google-map';
 import {SebmGoogleMapCircle} from './directives/google-map-circle';
