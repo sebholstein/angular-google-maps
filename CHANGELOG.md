@@ -1,3 +1,34 @@
+<a name="0.14.0"></a>
+# [0.14.0 tundra-snow](https://github.com/SebastianM/angular2-google-maps/compare/0.13.0...0.14.0) (2016-09-02)
+
+
+### Bug Fixes
+
+* **core:** dont import full RxJS library ([84dfaaa](https://github.com/SebastianM/angular2-google-maps/commit/84dfaaa)), closes [#619](https://github.com/SebastianM/angular2-google-maps/issues/619)
+* **SebmGoogleMapCircle:** circleDblClick output ([6224dc3](https://github.com/SebastianM/angular2-google-maps/commit/6224dc3)), closes [#582](https://github.com/SebastianM/angular2-google-maps/issues/582)
+
+
+### Code Refactoring
+
+* **core:** remove GOOGLE_MAPS_PROVIDERS ([1995d4a](https://github.com/SebastianM/angular2-google-maps/commit/1995d4a)), closes [#607](https://github.com/SebastianM/angular2-google-maps/issues/607)
+* **core:** remove GOOGLE_MAPS_DIRECTIVES ([05544d5](https://github.com/SebastianM/angular2-google-maps/commit/05544d5)), closes [#608](https://github.com/SebastianM/angular2-google-maps/issues/608)
+
+
+### Features
+
+* Support for Angular 2 RC6 ([c50bc92](https://github.com/SebastianM/angular2-google-maps/commit/c50bc92)), closes [#604](https://github.com/SebastianM/angular2-google-maps/issues/604) [#613](https://github.com/SebastianM/angular2-google-maps/issues/613)
+* **AgmCoreModule:** support loader config ([dba6a36](https://github.com/SebastianM/angular2-google-maps/commit/dba6a36)), closes [#609](https://github.com/SebastianM/angular2-google-maps/issues/609)
+
+
+### BREAKING CHANGES
+
+* core: previously deprecated GOOGLE_MAPS_DIRECTIVES
+was removed. Please use AgmCoreModule instead.
+* core: previously deprecated GOOGLE_MAPS_PROVIDERS
+was removed. Please use AgmCoreModule instead.
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0 onyx-piranha](https://github.com/SebastianM/angular2-google-maps/compare/0.12.0...0.13.0) (2016-08-15)
 
