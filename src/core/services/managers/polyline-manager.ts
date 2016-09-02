@@ -1,5 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 
 import {SebmGoogleMapPolyline} from '../../directives/google-map-polyline';
 import {SebmGoogleMapPolylinePoint} from '../../directives/google-map-polyline-point';
