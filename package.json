@@ -59,7 +59,7 @@
     "merge2": "1.0.2",
     "replace": "0.3.0",
     "require-dir": "0.3.0",
-    "rollup": "0.34.10",
+    "rollup": "0.35.3",
     "run-sequence": "1.2.2",
     "systemjs": "0.19.29",
     "tslint": "3.13.0",
