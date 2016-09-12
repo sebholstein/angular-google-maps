@@ -1,4 +1,4 @@
-import {Inject, Injectable, Optional, Provider, provide} from '@angular/core';
+import {Inject, Injectable, Optional, Provider} from '@angular/core';
 
 import {DOCUMENT_GLOBAL, WINDOW_GLOBAL} from '../../utils/browser-globals';
 
@@ -183,7 +183,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
  */
 export function provideLazyMapsAPILoaderConfig(confLiteral: LazyMapsAPILoaderConfigLiteral):
     Provider {
-  return provide(LazyMapsAPILoaderConfig, {
+  return {
+    provide: LazyMapsAPILoaderConfig,
     useFactory: () => {
       const config = new LazyMapsAPILoaderConfig();
       // todo(sebastian): deprecate LazyMapsAPILoader class
@@ -198,5 +199,5 @@ export function provideLazyMapsAPILoaderConfig(confLiteral: LazyMapsAPILoaderCon
       config.region = config.region || DEFAULT_CONFIGURATION.region;
       return config;
     }
-  });
+  };
 }

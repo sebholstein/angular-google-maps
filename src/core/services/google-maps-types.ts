@@ -133,6 +133,7 @@ export interface MapOptions {
   styles?: MapTypeStyle[];
   streetViewControl?: boolean;
   scaleControl?: boolean;
+  mapTypeControl?: boolean;
 }
 
 export interface MapTypeStyle {
