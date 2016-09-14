@@ -260,3 +260,36 @@ export interface PolyMouseEvent extends MouseEvent {
   path: number;
   vertex: number;
 }
+
+export interface PolygonOptions {
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  geodesic?: boolean;
+  icon?: Array<IconSequence>;
+  map?: GoogleMap;
+  paths?: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>>;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
+export interface Polygon extends MVCObject {
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getPath(): Array<LatLng>;
+  getPaths(): Array<Array<LatLng>>;
+  getVisible(): boolean;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setPath(path: Array<LatLng>|Array<LatLng|LatLngLiteral>): void;
+  setOptions(options: PolygonOptions): void;
+  setPaths(paths: Array<Array<LatLng|LatLngLiteral>>|Array<LatLng|LatLngLiteral>): void;
+  setVisible(visible: boolean): void;
+}

@@ -61,12 +61,27 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  public createPolyline(options: PolylineOptions): Promise<Polyline> {
+  createPolyline(options: PolylineOptions): Promise<Polyline> {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
       let line = new google.maps.Polyline(options);
       line.setMap(map);
       return line;
     });
+  }
+
+  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polyline> {
+    return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
+      let polygon = new google.maps.Polygon(options);
+      polygon.setMap(map);
+      return polygon;
+    });
+  }
+
+  /**
+   * Determines if given coordinates are insite a Polygon path.
+   */
+  containsLocation(latLng: mapTypes.LatLngLiteral, polygon: mapTypes.Polygon): Promise<boolean> {
+    return google.maps.geometry.poly.containsLocation(latLng, polygon);
   }
 
   subscribeToMapEvent<E>(eventName: string): Observable<E> {

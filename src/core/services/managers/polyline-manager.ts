@@ -4,9 +4,8 @@ import {Observer} from 'rxjs/Observer';
 
 import {SebmGoogleMapPolyline} from '../../directives/google-map-polyline';
 import {SebmGoogleMapPolylinePoint} from '../../directives/google-map-polyline-point';
-import {LatLngLiteral} from '../../services/google-maps-types';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {Polyline} from '../google-maps-types';
+import {LatLngLiteral, Polyline} from '../google-maps-types';
 
 @Injectable()
 export class PolylineManager {
