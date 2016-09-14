@@ -31,6 +31,12 @@ export class PolygonManager {
     this._polygons.set(path, polygonPromise);
   }
 
+  updatePolygon(polygon: SebmGoogleMapPolygon): Promise<void> {
+    const m = this._polygons.get(polygon);
+    if (m == null) return Promise.resolve();
+    return m.then((l: Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
+  }
+
   setPolygonOptions(path: SebmGoogleMapPolygon, options: {[propName: string]: any}): Promise<void> {
     return this._polygons.get(path).then((l: Polygon) => { l.setOptions(options); });
   }
