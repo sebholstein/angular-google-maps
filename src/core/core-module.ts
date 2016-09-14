@@ -4,6 +4,7 @@ import {SebmGoogleMap} from './directives/google-map';
 import {SebmGoogleMapCircle} from './directives/google-map-circle';
 import {SebmGoogleMapInfoWindow} from './directives/google-map-info-window';
 import {SebmGoogleMapMarker} from './directives/google-map-marker';
+import {SebmGoogleMapPolygon} from './directives/google-map-polygon';
 import {SebmGoogleMapPolyline} from './directives/google-map-polyline';
 import {SebmGoogleMapPolylinePoint} from './directives/google-map-polyline-point';
 import {SebmGoogleStreetView} from './directives/google-street-view';
@@ -18,7 +19,7 @@ import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 export function coreDirectives() {
   return [
     SebmGoogleMap, SebmGoogleStreetView, SebmGoogleMapMarker, SebmGoogleMapInfoWindow, SebmGoogleMapCircle,
-    SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint
+    SebmGoogleMapPolygon, SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint
   ];
 };
 

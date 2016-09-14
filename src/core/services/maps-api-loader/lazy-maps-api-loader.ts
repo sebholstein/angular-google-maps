@@ -1,6 +1,6 @@
 import {Inject, Injectable, OpaqueToken} from '@angular/core';
 
-import {WindowRef, DocumentRef} from '../../utils/browser-globals';
+import {DocumentRef, WindowRef} from '../../utils/browser-globals';
 
 import {MapsAPILoader} from './maps-api-loader';
 
@@ -85,8 +85,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   private _windowRef: WindowRef;
   private _documentRef: DocumentRef;
 
-  constructor(
-      @Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
+  constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
