@@ -21,10 +21,7 @@ describe('Service: LazyMapsAPILoader', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
-        {provide: WindowRef, useValue: windowRef}, {
-          provide: DocumentRef,
-          useValue: documentRef
-        }
+        {provide: WindowRef, useValue: windowRef}, {provide: DocumentRef, useValue: documentRef}
       ]
     });
 
@@ -59,10 +56,7 @@ describe('Service: LazyMapsAPILoader', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
-        {provide: WindowRef, useValue: windowRef}, {
-          provide: DocumentRef,
-          useValue: documentRef
-        },
+        {provide: WindowRef, useValue: windowRef}, {provide: DocumentRef, useValue: documentRef},
         {provide: LAZY_MAPS_API_CONFIG, useValue: lazyLoadingConf}
       ]
     });
