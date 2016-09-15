@@ -13,8 +13,10 @@ module.exports = function(config) {
         }
     },
     files: [
-      {pattern: 'node_modules/core-js/client/core.js', included: true, watched: true},
+      'node_modules/systemjs/dist/system-polyfills.js',
+      'node_modules/core-js/client/core.js',
       'node_modules/reflect-metadata/Reflect.js',
+
       'node_modules/zone.js/dist/zone.js',
       'node_modules/zone.js/dist/long-stack-trace-zone.js',
       'node_modules/zone.js/dist/proxy.js',
@@ -22,7 +24,7 @@ module.exports = function(config) {
       'node_modules/zone.js/dist/jasmine-patch.js',
       'node_modules/zone.js/dist/async-test.js',
       'node_modules/zone.js/dist/fake-async-test.js',
-      {pattern: 'node_modules/systemjs/dist/system-polyfills.js', included: true, watched: false },
+      
       {pattern: 'node_modules/systemjs/dist/system.src.js', included: true, watched: true},
       
       {pattern: 'karma-systemjs-config.js', included: true, watched: true},
