@@ -135,9 +135,9 @@ export interface MapOptions {
 }
 
 export interface MapTypeStyle {
-  elementType: 'all'|'geometry'|'geometry.fill'|'geometry.stroke'|'labels'|'labels.icon'|
+  elementType?: 'all'|'geometry'|'geometry.fill'|'geometry.stroke'|'labels'|'labels.icon'|
       'labels.text'|'labels.text.fill'|'labels.text.stroke';
-  featureType: 'administrative'|'administrative.country'|'administrative.land_parcel'|
+  featureType?: 'administrative'|'administrative.country'|'administrative.land_parcel'|
       'administrative.locality'|'administrative.neighborhood'|'administrative.province'|'all'|
       'landscape'|'landscape.man_made'|'landscape.natural'|'landscape.natural.landcover'|
       'landscape.natural.terrain'|'poi'|'poi.attraction'|'poi.business'|'poi.government'|
