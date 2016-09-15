@@ -37,7 +37,7 @@ let infoWindowId = 0;
  */
 @Component({
   selector: 'sebm-google-map-info-window',
-  inputs: ['latitude', 'longitude', 'disableAutoPan', 'isOpen'],
+  inputs: ['latitude', 'longitude', 'disableAutoPan', 'isOpen', 'zIndex', 'maxWidth'],
   outputs: ['infoWindowClose'],
   template: `<div class='sebm-google-map-info-window-content'>
       <ng-content></ng-content>
