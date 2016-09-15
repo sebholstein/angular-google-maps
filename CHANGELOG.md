@@ -1,3 +1,22 @@
+<a name="0.15.0"></a>
+# [0.15.0 urban-filly](https://github.com/SebastianM/angular2-google-maps/compare/0.14.0...0.15.0) (2016-09-15)
+
+
+### Bug Fixes
+
+* **LazyMapsAPILoader:** HTTP loading mode ([cb2c465](https://github.com/SebastianM/angular2-google-maps/commit/cb2c465)), closes [#655](https://github.com/SebastianM/angular2-google-maps/issues/655)
+* **MapTypeStyle:** set attrs to optional ([c340ffd](https://github.com/SebastianM/angular2-google-maps/commit/c340ffd)), closes [#617](https://github.com/SebastianM/angular2-google-maps/issues/617)
+* **SebmGoogleMapCircle:** removing circles ([fb402f3](https://github.com/SebastianM/angular2-google-maps/commit/fb402f3)), closes [#650](https://github.com/SebastianM/angular2-google-maps/issues/650) [#657](https://github.com/SebastianM/angular2-google-maps/issues/657)
+* **SebmGoogleMapInfoWindow:** zIndex and maxWidth ([1bc2ed8](https://github.com/SebastianM/angular2-google-maps/commit/1bc2ed8)), closes [#651](https://github.com/SebastianM/angular2-google-maps/issues/651) [#656](https://github.com/SebastianM/angular2-google-maps/issues/656)
+
+
+### Features
+
+* support angular 2.0.0 ([8059b44](https://github.com/SebastianM/angular2-google-maps/commit/8059b44)), closes [#658](https://github.com/SebastianM/angular2-google-maps/issues/658) [#659](https://github.com/SebastianM/angular2-google-maps/issues/659)
+* **SebmGoogleMap:** support mapTypeControl ([28ec00c](https://github.com/SebastianM/angular2-google-maps/commit/28ec00c)), closes [#612](https://github.com/SebastianM/angular2-google-maps/issues/612)
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0 tundra-snow](https://github.com/SebastianM/angular2-google-maps/compare/0.13.0...0.14.0) (2016-09-02)
 
