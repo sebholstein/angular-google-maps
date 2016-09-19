@@ -63,6 +63,8 @@ export class InfoWindowManager {
   addInfoWindow(infoWindow: SebmGoogleMapInfoWindow) {
     const options: InfoWindowOptions = {
       content: infoWindow.content,
+      maxWidth: infoWindow.maxWidth,
+      zIndex: infoWindow.zIndex,
     };
     if (typeof infoWindow.latitude === 'number' && typeof infoWindow.longitude === 'number') {
       options.position = {lat: infoWindow.latitude, lng: infoWindow.longitude};

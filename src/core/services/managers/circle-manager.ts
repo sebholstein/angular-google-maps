@@ -32,6 +32,16 @@ export class CircleManager {
     }));
   };
 
+  /**
+   * Removes the given circle from the map.
+   */
+  removeCircle(circle: SebmGoogleMapCircle): Promise<void> {
+    return this._circles.get(circle).then((c) => {
+      c.setMap(null);
+      this._circles.delete(circle);
+    });
+  }
+
   setOptions(circle: SebmGoogleMapCircle, options: mapTypes.CircleOptions): Promise<void> {
     return this._circles.get(circle).then((c) => c.setOptions(options));
   };

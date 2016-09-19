@@ -1,6 +1,6 @@
 {
   "name": "angular2-google-maps",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Angular 2 components for Google Maps",
   "repository": {
     "type": "git",
@@ -10,6 +10,7 @@
     "angular2",
     "google-maps",
     "ng2",
+    "angular",
     "maps"
   ],
   "scripts": {
@@ -23,13 +24,13 @@
   },
   "homepage": "https://github.com/SebastianM/angular2-google-maps#readme",
   "dependencies": {
-    "@angular/common": "2.0.0-rc.6",
-    "@angular/compiler": "2.0.0-rc.6",
-    "@angular/core": "2.0.0-rc.6",
-    "@angular/platform-browser": "2.0.0-rc.6",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.6",
-    "rxjs": "5.0.0-beta.11",
-    "zone.js": "^0.6.17"
+    "@angular/common": "^2.0.0",
+    "@angular/compiler": "^2.0.0",
+    "@angular/core": "^2.0.0",
+    "@angular/platform-browser": "^2.0.0",
+    "@angular/platform-browser-dynamic": "^2.0.0",
+    "rxjs": "^5.0.0-beta.12",
+    "zone.js": "^0.6.21"
   },
   "devDependencies": {
     "babel-eslint": "6.0.4",
@@ -52,7 +53,7 @@
     "gulp-sourcemaps": "1.6.0",
     "gulp-tslint": "5.0.0",
     "gulp-typescript": "^2.13.4",
-    "jasmine-core": "2.4.1",
+    "jasmine-core": "2.5.0",
     "karma": "0.13.22",
     "karma-chrome-launcher": "2.0.0",
     "karma-jasmine": "1.0.2",
@@ -61,7 +62,7 @@
     "require-dir": "0.3.0",
     "rollup": "0.35.7",
     "run-sequence": "1.2.2",
-    "systemjs": "0.19.29",
+    "systemjs": "0.19.38",
     "tslint": "3.13.0",
     "typescript": "^2.0.2",
     "typings": "1.0.4",
@@ -70,13 +71,13 @@
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "2.0.0-rc.6",
-      "@angular/compiler": "2.0.0-rc.6",
-      "@angular/core": "2.0.0-rc.6",
-      "@angular/platform-browser": "2.0.0-rc.6",
-      "@angular/platform-browser-dynamic": "2.0.0-rc.6",
-      "rxjs": "5.0.0-beta.11",
-      "zone.js": "^0.6.17"
+      "@angular/common": "^2.0.0",
+      "@angular/compiler": "^2.0.0",
+      "@angular/core": "^2.0.0",
+      "@angular/platform-browser": "^2.0.0",
+      "@angular/platform-browser-dynamic": "^2.0.0",
+      "rxjs": "^5.0.0-beta.12",
+      "zone.js": "^0.6.21"
     }
   }
 }

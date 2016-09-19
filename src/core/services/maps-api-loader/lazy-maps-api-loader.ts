@@ -5,9 +5,9 @@ import {DOCUMENT_GLOBAL, WINDOW_GLOBAL} from '../../utils/browser-globals';
 import {MapsAPILoader} from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
-  HTTP,
-  HTTPS,
-  AUTO
+  HTTP = 1,
+  HTTPS = 2,
+  AUTO = 3
 }
 
 /**
