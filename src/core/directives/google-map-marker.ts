@@ -186,16 +186,16 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
     const mover =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
-          .subscribe((e: mapTypes.MouseEvent) => {
-            this.mouseOver.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-          });
+            .subscribe((e: mapTypes.MouseEvent) => {
+              this.mouseOver.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+            });
     this._observableSubscriptions.push(mover);
 
     const mout =
-      this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseout', this)
-        .subscribe((e: mapTypes.MouseEvent) => {
-          this.mouseOut.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-        });
+        this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseout', this)
+            .subscribe((e: mapTypes.MouseEvent) => {
+              this.mouseOut.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+            });
     this._observableSubscriptions.push(mout);
   }
 
