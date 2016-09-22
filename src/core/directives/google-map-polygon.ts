@@ -1,7 +1,7 @@
 import {AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {LatLng, LatLngLiteral, PolyMouseEvent} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions} from '../services/google-maps-types';
 import {PolygonManager} from '../services/managers/polygon-manager';
 
 /**
@@ -9,12 +9,11 @@ import {PolygonManager} from '../services/managers/polygon-manager';
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
+ * import {Component} from '@angular/core';
  * import {SebmGoogleMap, SebmGooglePolygon, LatLngLiteral} from 'angular2-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
- *  directives: [SebmGoogleMap, SebmGooglePolygon],
  *  styles: [`
  *    .semb-map-container {
  *      height: 300px;
@@ -72,8 +71,8 @@ import {PolygonManager} from '../services/managers/polygon-manager';
     'zIndex',
   ],
   outputs: [
-    'lineClick', 'lineDblClick', 'lineDrag', 'lineDragEnd', 'lineMouseDown', 'lineMouseMove',
-    'lineMouseOut', 'lineMouseOver', 'lineMouseUp', 'lineRightClick'
+    'polyClick', 'polyDblClick', 'polyDrag', 'polyDragEnd', 'polyMouseDown', 'polyMouseMove',
+    'polyMouseOut', 'polyMouseOver', 'polyMouseUp', 'polyRightClick'
   ]
 })
 export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentInit {
@@ -95,11 +94,11 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
    * The fill color. All CSS3 colors are supported except for extended
    * named colors.
    */
-  fillColor: string = '#fff';
+  fillColor: string;
   /**
    * The fill opacity between 0.0 and 1.0
    */
-  fillOpacity: number = 0.7;
+  fillOpacity: number;
   /**
    * When true, edges of the polygon are interpreted as geodesic and will
    * follow the curvature of the Earth. When false, edges of the polygon are
@@ -222,10 +221,7 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
       return;
     }
 
-    let options: {[propName: string]: any} = {};
-    const optionKeys = Object.keys(changes).filter(
-        k => SebmGoogleMapPolygon._polygonOptionsAttributes.indexOf(k) !== -1);
-    optionKeys.forEach(k => options[k] = changes[k].currentValue);
+    let options = this._updatePolygonOptions(changes);
     this._polygonManager.setPolygonOptions(this, options);
   }
 
@@ -253,6 +249,15 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
       const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
       this._subscriptions.push(os);
     });
+  }
+
+  private _updatePolygonOptions(changes: SimpleChanges): PolygonOptions {
+    return Object.keys(changes)
+        .filter(k => SebmGoogleMapPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
+        .reduce((obj, k) => {
+          obj[k] = changes[k].currentValue;
+          return obj;
+        }, {});
   }
 
   /** @internal */
