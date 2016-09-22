@@ -221,8 +221,7 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
       return;
     }
 
-    let options = this._updatePolygonOptions(changes);
-    this._polygonManager.setPolygonOptions(this, options);
+    this._polygonManager.setPolygonOptions(this, this._updatePolygonOptions(changes));
   }
 
   private _init() {
