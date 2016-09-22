@@ -65,7 +65,7 @@
     "systemjs": "0.19.38",
     "tslint": "3.13.0",
     "typescript": "^2.0.2",
-    "typings": "1.0.4",
+    "typings": "1.4.0",
     "watchify": "3.7.0"
   },
   "jspm": {
