@@ -52,7 +52,7 @@
     "gulp-shell": "0.5.2",
     "gulp-sourcemaps": "1.6.0",
     "gulp-tslint": "5.0.0",
-    "gulp-typescript": "^2.13.4",
+    "gulp-typescript": "^3.0.0",
     "jasmine-core": "2.5.0",
     "karma": "0.13.22",
     "karma-chrome-launcher": "2.0.0",
