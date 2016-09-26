@@ -24,9 +24,9 @@ export function main() {
       it('should call the mapsApiWrapper when creating a new polygon',
          inject(
              [PolygonManager, GoogleMapsAPIWrapper],
-             (polylineManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
-               const newPolygon = new SebmGoogleMapPolygon(polylineManager);
-               polylineManager.addPolygon(newPolygon);
+             (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
+               const newPolygon = new SebmGoogleMapPolygon(polygonManager);
+               polygonManager.addPolygon(newPolygon);
 
                expect(apiWrapper.createPolygon).toHaveBeenCalledWith({
                  clickable: true,
@@ -49,14 +49,14 @@ export function main() {
       it('should set the map to null when deleting a existing polygon',
          inject(
              [PolygonManager, GoogleMapsAPIWrapper],
-             (polylineManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
-               const newPolygon = new SebmGoogleMapPolygon(polylineManager);
+             (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
+               const newPolygon = new SebmGoogleMapPolygon(polygonManager);
 
                const polygonInstance: Polygon = jasmine.createSpyObj('Polygon', ['setMap']);
                (<any>apiWrapper.createPolygon).and.returnValue(Promise.resolve(polygonInstance));
 
-               polylineManager.addPolygon(newPolygon);
-               polylineManager.deletePolygon(newPolygon).then(() => {
+               polygonManager.addPolygon(newPolygon);
+               polygonManager.deletePolygon(newPolygon).then(() => {
                  expect(polygonInstance.setMap).toHaveBeenCalledWith(null);
                });
              }));

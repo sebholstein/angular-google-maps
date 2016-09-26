@@ -144,57 +144,57 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
   /**
    * This event is fired when the DOM click event is fired on the Polygon.
    */
-  lineClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM dblclick event is fired on the Polygon.
    */
-  lineDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the polygon.
    */
-  lineDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  polyDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the polygon.
    */
-  lineDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  polyDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the polygon.
    */
-  lineDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  polyDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the Polygon.
    */
-  lineMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the Polygon.
    */
-  lineMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired on Polygon mouseout.
    */
-  lineMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired on Polygon mouseover.
    */
-  lineMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired whe the DOM mouseup event is fired on the Polygon
    */
-  lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This even is fired when the Polygon is right-clicked on.
    */
-  lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
@@ -232,17 +232,17 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
 
   private _addEventListeners() {
     const handlers = [
-      {name: 'click', handler: (ev: PolyMouseEvent) => this.lineClick.emit(ev)},
-      {name: 'dbclick', handler: (ev: PolyMouseEvent) => this.lineDblClick.emit(ev)},
-      {name: 'drag', handler: (ev: MouseEvent) => this.lineDrag.emit(ev)},
-      {name: 'dragend', handler: (ev: MouseEvent) => this.lineDragEnd.emit(ev)},
-      {name: 'dragstart', handler: (ev: MouseEvent) => this.lineDragStart.emit(ev)},
-      {name: 'mousedown', handler: (ev: PolyMouseEvent) => this.lineMouseDown.emit(ev)},
-      {name: 'mousemove', handler: (ev: PolyMouseEvent) => this.lineMouseMove.emit(ev)},
-      {name: 'mouseout', handler: (ev: PolyMouseEvent) => this.lineMouseOut.emit(ev)},
-      {name: 'mouseover', handler: (ev: PolyMouseEvent) => this.lineMouseOver.emit(ev)},
-      {name: 'mouseup', handler: (ev: PolyMouseEvent) => this.lineMouseUp.emit(ev)},
-      {name: 'rightclick', handler: (ev: PolyMouseEvent) => this.lineRightClick.emit(ev)},
+      {name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev)},
+      {name: 'dbclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev)},
+      {name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev)},
+      {name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev)},
+      {name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev)},
+      {name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev)},
+      {name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev)},
+      {name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev)},
+      {name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev)},
+      {name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev)},
+      {name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev)},
     ];
     handlers.forEach((obj) => {
       const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
