@@ -131,8 +131,13 @@ export interface MapOptions {
   styles?: MapTypeStyle[];
   streetViewControl?: boolean;
   scaleControl?: boolean;
+  tilt?: number;
   mapTypeControl?: boolean;
+  mapTypeControlOptions?: MapTypeControlOptions;
+  mapTypeId?: string;
 }
+
+export interface MapTypeControlOptions { mapTypeIds?: Array<string>; }
 
 export interface MapTypeStyle {
   elementType?: 'all'|'geometry'|'geometry.fill'|'geometry.stroke'|'labels'|'labels.icon'|
