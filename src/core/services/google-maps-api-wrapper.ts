@@ -28,8 +28,6 @@ export class GoogleMapsAPIWrapper {
     return this._loader.load().then(() => {
       const map = new google.maps.Map(el, mapOptions);
       this._mapResolver(<mapTypes.GoogleMap>map);
-      console.debug('Map Type Id', mapOptions.mapTypeId);
-      console.debug('Google Map', map);
       return;
     });
   }
