@@ -33,7 +33,7 @@
     "zone.js": "^0.6.21"
   },
   "devDependencies": {
-    "babel-eslint": "6.0.4",
+    "babel-eslint": "7.0.0",
     "clang-format": "1.0.42",
     "del": "2.2.2",
     "eslint": "^3.0.0",
