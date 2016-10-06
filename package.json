@@ -59,7 +59,7 @@
     "karma-jasmine": "1.0.2",
     "merge2": "1.0.2",
     "replace": "0.3.0",
-    "require-dir": "0.3.0",
+    "require-dir": "0.3.1",
     "rollup": "0.35.7",
     "run-sequence": "1.2.2",
     "systemjs": "0.19.38",
