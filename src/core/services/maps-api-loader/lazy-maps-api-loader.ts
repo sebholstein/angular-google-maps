@@ -1,6 +1,6 @@
-import {Inject, Injectable, Optional, Provider} from '@angular/core';
+import {Inject, Injectable, OpaqueToken} from '@angular/core';
 
-import {DOCUMENT_GLOBAL, WINDOW_GLOBAL} from '../../utils/browser-globals';
+import {WindowRef, DocumentRef} from '../../utils/browser-globals';
 
 import {MapsAPILoader} from './maps-api-loader';
 
@@ -11,7 +11,13 @@ export enum GoogleMapsScriptProtocol {
 }
 
 /**
- * Config literal used to create an instance of LazyMapsAPILoaderConfig.
+ * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
+ * LazyMapsAPILoaderConfig}.
+ */
+export const LAZY_MAPS_API_CONFIG = new OpaqueToken('angular2-google-maps LAZY_MAPS_API_CONFIG');
+
+/**
+ * Configuration for the {@link LazyMapsAPILoader}.
  */
 export interface LazyMapsAPILoaderConfigLiteral {
   /**
@@ -72,38 +78,19 @@ export interface LazyMapsAPILoaderConfigLiteral {
   language?: string;
 }
 
-/**
- * Configuration for {@link LazyMapsAPILoader}.
- * See {@link LazyMapsAPILoaderConfig} for instance attribute descriptions.
- */
-export class LazyMapsAPILoaderConfig implements LazyMapsAPILoaderConfigLiteral {
-  apiKey: string = null;
-  clientId: string = null;
-  channel: string = null;
-  apiVersion: string = '3';
-  hostAndPath: string = 'maps.googleapis.com/maps/api/js';
-  protocol: GoogleMapsScriptProtocol = GoogleMapsScriptProtocol.HTTPS;
-  libraries: string[] = [];
-  region: string = null;
-  language: string = null;
-}
-
-const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
-
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
   private _scriptLoadingPromise: Promise<void>;
-  private _config: LazyMapsAPILoaderConfig;
-  private _window: Window;
-  private _document: Document;
+  private _config: LazyMapsAPILoaderConfigLiteral;
+  private _windowRef: WindowRef;
+  private _documentRef: DocumentRef;
 
   constructor(
-      @Optional() config: LazyMapsAPILoaderConfig, @Inject(WINDOW_GLOBAL) w: Window,
-      @Inject(DOCUMENT_GLOBAL) d: Document) {
+      @Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
     super();
-    this._config = config || DEFAULT_CONFIGURATION;
-    this._window = w;
-    this._document = d;
+    this._config = config || {};
+    this._windowRef = w;
+    this._documentRef = d;
   }
 
   load(): Promise<void> {
@@ -111,7 +98,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return this._scriptLoadingPromise;
     }
 
-    const script = this._document.createElement('script');
+    const script = this._documentRef.getNativeDocument().createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
@@ -119,18 +106,18 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._window)[callbackName] = () => { resolve(); };
+      (<any>this._windowRef.getNativeWindow())[callbackName] = () => { resolve(); };
 
       script.onerror = (error: Event) => { reject(error); };
     });
 
-    this._document.body.appendChild(script);
+    this._documentRef.getNativeDocument().body.appendChild(script);
     return this._scriptLoadingPromise;
   }
 
   private _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =
-        (this._config && this._config.protocol) || DEFAULT_CONFIGURATION.protocol;
+        (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
     let protocol: string;
 
     switch (protocolType) {
@@ -145,9 +132,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
         break;
     }
 
-    const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
+    const hostAndPath: string = this._config.hostAndPath || 'maps.googleapis.com/maps/api/js';
     const queryParams: {[key: string]: string | Array<string>} = {
-      v: this._config.apiVersion || DEFAULT_CONFIGURATION.apiVersion,
+      v: this._config.apiVersion || '3',
       callback: callbackName,
       key: this._config.apiKey,
       client: this._config.clientId,
@@ -176,28 +163,4 @@ export class LazyMapsAPILoader extends MapsAPILoader {
             .join('&');
     return `${protocol}//${hostAndPath}?${params}`;
   }
-}
-
-/**
- * Creates a provider for a {@link LazyMapsAPILoaderConfig})
- */
-export function provideLazyMapsAPILoaderConfig(confLiteral: LazyMapsAPILoaderConfigLiteral):
-    Provider {
-  return {
-    provide: LazyMapsAPILoaderConfig,
-    useFactory: () => {
-      const config = new LazyMapsAPILoaderConfig();
-      // todo(sebastian): deprecate LazyMapsAPILoader class
-      config.apiKey = confLiteral.apiKey || DEFAULT_CONFIGURATION.apiKey;
-      config.apiVersion = confLiteral.apiVersion || DEFAULT_CONFIGURATION.apiVersion;
-      config.channel = confLiteral.channel || DEFAULT_CONFIGURATION.channel;
-      config.clientId = confLiteral.clientId || DEFAULT_CONFIGURATION.clientId;
-      config.hostAndPath = confLiteral.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
-      config.language = confLiteral.language || DEFAULT_CONFIGURATION.language;
-      config.libraries = confLiteral.libraries || DEFAULT_CONFIGURATION.libraries;
-      config.protocol = config.protocol || DEFAULT_CONFIGURATION.protocol;
-      config.region = config.region || DEFAULT_CONFIGURATION.region;
-      return config;
-    }
-  };
 }

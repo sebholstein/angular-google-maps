@@ -1,8 +1,9 @@
 export default {
   entry: 'dist/esm/core/index.js',
-  dest: '.tmp/core.umd.js',
+  dest: 'dist/core/core.umd.js',
   format: 'umd',
   moduleName: 'ngmaps.core',
+  sourceMap: true,
   globals: {
     '@angular/core': 'ng.core',
     '@angular/common': 'ng.common',
