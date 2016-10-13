@@ -7,4 +7,5 @@ export * from './map-types';
 export {LatLngBounds, LatLng, LatLngLiteral, MapTypeStyle} from './services/google-maps-types';
 
 // core module
-export * from './core-module';
+// we explicitly export the module here to prevent this Ionic 2 bug: http://stevemichelotti.com/integrate-angular-2-google-maps-into-ionic-2/ 
+export {AgmCoreModule} from './core-module';

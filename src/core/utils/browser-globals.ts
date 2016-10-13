@@ -1,7 +1,15 @@
-import {OpaqueToken, Provider} from '@angular/core';
+import {Provider} from '@angular/core';
 
-export const WINDOW_GLOBAL = new OpaqueToken('angular2-google-maps window_global');
-export const DOCUMENT_GLOBAL = new OpaqueToken('angular2-google-maps document_global');
+export class WindowRef {
+  getNativeWindow(): any {
+    return window;
+  }
+}
 
-export const BROWSER_GLOBALS_PROVIDERS: Provider[] =
-    [{provide: WINDOW_GLOBAL, useValue: window}, {provide: DOCUMENT_GLOBAL, useValue: document}];
+export class DocumentRef {
+  getNativeDocument(): any {
+    return document;
+  }
+}
+
+export const BROWSER_GLOBALS_PROVIDERS: Provider[] = [WindowRef, DocumentRef];
