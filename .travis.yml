@@ -36,3 +36,9 @@ install:
 
 script:
   - npm run ci
+
+after_script:
+  if [ -f yarn-error.log ];
+  then
+    cat yarn-error.log
+  fi
