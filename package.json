@@ -39,16 +39,16 @@
   },
   "homepage": "https://angular-maps.com",
   "dependencies": {
-    "@angular/common": "^2.1.0",
-    "@angular/compiler": "^2.1.0",
-    "@angular/core": "^2.1.0",
-    "@angular/platform-browser": "^2.1.0",
-    "@angular/platform-browser-dynamic": "^2.1.0",
+    "@angular/common": "^2.1.1",
+    "@angular/compiler": "^2.1.1",
+    "@angular/core": "^2.1.1",
+    "@angular/platform-browser": "^2.1.1",
+    "@angular/platform-browser-dynamic": "^2.1.1",
     "rxjs": "^5.0.0-beta.12",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^0.6.0",
+    "@angular/compiler-cli": "^2.1.1",
     "@angular/platform-server": "^2.1.0",
     "@angularclass/hmr-loader": "^3.0.2",
     "@ngtools/webpack": "^1.1.0",
@@ -82,11 +82,11 @@
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^2.1.0",
-      "@angular/compiler": "^2.1.0",
-      "@angular/core": "^2.1.0",
-      "@angular/platform-browser": "^2.1.0",
-      "@angular/platform-browser-dynamic": "^2.1.0",
+      "@angular/common": "^2.1.1",
+      "@angular/compiler": "^2.1.1",
+      "@angular/core": "^2.1.1",
+      "@angular/platform-browser": "^2.1.1",
+      "@angular/platform-browser-dynamic": "^2.1.1",
       "rxjs": "^5.0.0-beta.12",
       "zone.js": "^0.6.25"
     }
