@@ -1,8 +1,8 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, SimpleChange, OnInit } from '@angular/core';
 
-import {InfoWindowManager} from '../services/managers/info-window-manager';
+import { InfoWindowManager } from '../services/managers/info-window-manager';
 
-import {SebmGoogleMapMarker} from './google-map-marker';
+import { SebmGoogleMapMarker } from './google-map-marker';
 
 let infoWindowId = 0;
 
@@ -11,8 +11,8 @@ let infoWindowId = 0;
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
- * import {SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow} from
+ * import { Component } from 'angular2/core';
+ * import { SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow } from
  * 'angular2-google-maps/core';
  *
  * @Component({
@@ -44,7 +44,7 @@ let infoWindowId = 0;
     </div>
   `
 })
-export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges {
+export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
    * SebmGoogleMapMarker}).

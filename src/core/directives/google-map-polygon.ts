@@ -1,16 +1,16 @@
-import {AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
-import {LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions} from '../services/google-maps-types';
-import {PolygonManager} from '../services/managers/polygon-manager';
+import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
+import { PolygonManager } from '../services/managers/polygon-manager';
 
 /**
  * SebmGoogleMapPolygon renders a polygon on a {@link SebmGoogleMap}
  *
  * ### Example
  * ```typescript
- * import {Component} from '@angular/core';
- * import {SebmGoogleMap, SebmGooglePolygon, LatLngLiteral} from 'angular2-maps/core';
+ * import { Component } from '@angular/core';
+ * import { SebmGoogleMap, SebmGooglePolygon, LatLngLiteral } from 'angular2-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
@@ -55,7 +55,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
  * ```
  */
 @Directive({
-  selector: 'semb-map-polygon',
+  selector: 'sebm-map-polygon',
   inputs: [
     'clickable',
     'draggable: polyDraggable',

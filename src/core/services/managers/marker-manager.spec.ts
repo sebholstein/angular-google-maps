@@ -1,10 +1,10 @@
-import {NgZone} from '@angular/core';
-import {TestBed, async, inject} from '@angular/core/testing';
+import { NgZone } from '@angular/core';
+import { TestBed, async, inject } from '@angular/core/testing';
 
-import {SebmGoogleMapMarker} from './../../directives/google-map-marker';
-import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {Marker} from './../google-maps-types';
-import {MarkerManager} from './../managers/marker-manager';
+import { SebmGoogleMapMarker } from './../../directives/google-map-marker';
+import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
+import { Marker } from './../google-maps-types';
+import { MarkerManager } from './../managers/marker-manager';
 
 describe('MarkerManager', () => {
   beforeEach(() => {
