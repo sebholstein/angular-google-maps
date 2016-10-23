@@ -116,7 +116,10 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
    */
   mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  @ContentChild(SebmGoogleMapInfoWindow) private _infoWindow: SebmGoogleMapInfoWindow;
+  /**
+   * @internal
+   */
+  @ContentChild(SebmGoogleMapInfoWindow) infoWindow: SebmGoogleMapInfoWindow;
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -126,8 +129,8 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
   /* @internal */
   ngAfterContentInit() {
-    if (this._infoWindow != null) {
-      this._infoWindow.hostMarker = this;
+    if (this.infoWindow != null) {
+      this.infoWindow.hostMarker = this;
     }
   }
 
@@ -170,8 +173,8 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
   private _addEventListeners() {
     const cs = this._markerManager.createEventObservable('click', this).subscribe(() => {
-      if (this.openInfoWindow && this._infoWindow != null) {
-        this._infoWindow.open();
+      if (this.openInfoWindow && this.infoWindow != null) {
+        this.infoWindow.open();
       }
       this.markerClick.emit(null);
     });
