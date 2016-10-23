@@ -38,7 +38,7 @@ let markerId = 0;
   selector: 'sebm-google-map-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds', 'opacity', 'visible', 'zIndex'
+    'openInfoWindow', 'opacity', 'visible', 'zIndex'
   ],
   outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
 })
