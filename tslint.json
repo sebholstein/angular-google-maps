@@ -10,7 +10,7 @@
     ],
     "curly": true,
     "eofline": true,
-    "indent": "spaces",
+    "indent": [true, "spaces"],
     "jsdoc-format": true,
     "member-ordering": [
       true,
@@ -52,7 +52,6 @@
       true,
       "parameter",
       "property-declaration",
-      "variable-delcaration",
       "member-variable-declaration"
     ],
     "typedef-whitespace": [
@@ -93,7 +92,7 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "pipe-naming": [true, "camelCase", "sebm"],
-    "import-destructuring-spacing": true,
+    "import-destructuring-spacing": false,
     "templates-use-public": true,
     "no-access-missing-member": true,
     "invoke-injectable": true

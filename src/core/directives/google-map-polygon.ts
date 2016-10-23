@@ -1,8 +1,8 @@
-import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import {AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
-import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
-import { PolygonManager } from '../services/managers/polygon-manager';
+import {LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions} from '../services/google-maps-types';
+import {PolygonManager} from '../services/managers/polygon-manager';
 
 /**
  * SebmGoogleMapPolygon renders a polygon on a {@link SebmGoogleMap}
