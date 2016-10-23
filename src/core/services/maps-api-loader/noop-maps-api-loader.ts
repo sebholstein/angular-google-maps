@@ -1,4 +1,4 @@
-import {MapsAPILoader} from './maps-api-loader';
+import { MapsAPILoader } from './maps-api-loader';
 
 /**
  * When using the NoOpMapsAPILoader, the Google Maps API must be added to the page via a `<script>`

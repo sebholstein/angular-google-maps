@@ -1,10 +1,10 @@
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
-import {SebmGoogleMapCircle} from '../../directives/google-map-circle';
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
+import { SebmGoogleMapCircle } from '../../directives/google-map-circle';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
 import * as mapTypes from '../google-maps-types';
 
 @Injectable()

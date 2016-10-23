@@ -687,6 +687,12 @@ codecov@^1.0.1:
     request ">=2.42.0"
     urlgrey ">=0.4.0"
 
+codelyzer:
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-1.0.0-beta.2.tgz#800f1162ea39225370e9605d2dc871274a2e6267"
+  dependencies:
+    sprintf-js "^1.0.3"
+
 colors@^1.1.0, colors@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
