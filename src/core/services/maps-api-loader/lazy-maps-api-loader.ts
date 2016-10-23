@@ -1,8 +1,8 @@
-import {Inject, Injectable, OpaqueToken} from '@angular/core';
+import { Inject, Injectable, OpaqueToken } from '@angular/core';
 
-import {DocumentRef, WindowRef} from '../../utils/browser-globals';
+import { DocumentRef, WindowRef } from '../../utils/browser-globals';
 
-import {MapsAPILoader} from './maps-api-loader';
+import { MapsAPILoader } from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
   HTTP = 1,

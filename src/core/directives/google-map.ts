@@ -1,15 +1,15 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
-import {MouseEvent} from '../map-types';
-import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
-import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
-import {CircleManager} from '../services/managers/circle-manager';
-import {InfoWindowManager} from '../services/managers/info-window-manager';
-import {MarkerManager} from '../services/managers/marker-manager';
-import {PolygonManager} from '../services/managers/polygon-manager';
-import {PolylineManager} from '../services/managers/polyline-manager';
+import { MouseEvent } from '../map-types';
+import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
+import { LatLng, LatLngLiteral } from '../services/google-maps-types';
+import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
+import { CircleManager } from '../services/managers/circle-manager';
+import { InfoWindowManager } from '../services/managers/info-window-manager';
+import { MarkerManager } from '../services/managers/marker-manager';
+import { PolygonManager } from '../services/managers/polygon-manager';
+import { PolylineManager } from '../services/managers/polyline-manager';
 
 /**
  * SebMGoogleMap renders a Google Map.
@@ -18,8 +18,8 @@ import {PolylineManager} from '../services/managers/polyline-manager';
  *
  * ### Example
  * ```typescript
- * import {Component} from '@angular/core';
- * import {SebmGoogleMap} from 'angular2-google-maps/core';
+ * import { Component } from '@angular/core';
+ * import { SebmGoogleMap } from 'angular2-google-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
@@ -68,7 +68,7 @@ import {PolylineManager} from '../services/managers/polyline-manager';
     </div>
   `
 })
-export class SebmGoogleMap implements OnChanges, OnInit {
+export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The longitude that defines the center of the map.
    */
