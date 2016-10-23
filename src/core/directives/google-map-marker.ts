@@ -1,11 +1,11 @@
-import { AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
-import { MouseEvent } from '../map-types';
+import {MouseEvent} from '../map-types';
 import * as mapTypes from '../services/google-maps-types';
-import { MarkerManager } from '../services/managers/marker-manager';
+import {MarkerManager} from '../services/managers/marker-manager';
 
-import { SebmGoogleMapInfoWindow } from './google-map-info-window';
+import {SebmGoogleMapInfoWindow} from './google-map-info-window';
 
 let markerId = 0;
 

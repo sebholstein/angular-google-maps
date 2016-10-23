@@ -1,4 +1,4 @@
-import { LatLngLiteral, StreetViewPov } from './services/google-maps-types';
+import {LatLngLiteral, StreetViewPov} from './services/google-maps-types';
 
 // exported map types
 export {LatLngBounds, LatLngBoundsLiteral, LatLngLiteral, StreetViewPov, PolyMouseEvent} from './services/google-maps-types';

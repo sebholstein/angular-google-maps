@@ -1,10 +1,10 @@
-import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import {AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
-import { PolylineManager } from '../services/managers/polyline-manager';
+import {PolyMouseEvent} from '../services/google-maps-types';
+import {PolylineManager} from '../services/managers/polyline-manager';
 
-import { SebmGoogleMapPolylinePoint } from './google-map-polyline-point';
+import {SebmGoogleMapPolylinePoint} from './google-map-polyline-point';
 
 let polylineId = 0;
 /**
