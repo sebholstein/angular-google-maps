@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
 import {MouseEvent} from '../map-types';
 import {Subscription} from 'rxjs/Subscription';
 import {GoogleStreetViewAPIWrapper} from '../services/google-street-view-api-wrapper';
@@ -62,7 +62,7 @@ import {PolylineManager} from '../services/managers/polyline-manager';
     </div>
   `
 })
-export class SebmGoogleStreetView implements OnChanges, OnInit {
+export class SebmGoogleStreetView implements OnChanges, OnInit, OnDestroy {
   /**
    * The longitude that defines the center of the map.
    */
@@ -136,7 +136,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
    * yet loaded as the user pans. This option can only be set when the map is initialized.
    */
   backgroundColor: string;
- 
+
   /**
    * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
    * used to
@@ -251,7 +251,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
     this._observableSubscriptions.forEach((s) => s.unsubscribe());
   }
 
-  /* @internal */
+  /** @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     // this._updateMapOptionsChanges(changes);
     this._updatePosition(changes);
@@ -303,7 +303,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
       this._viewsWrapper.setPosition(newCenter);
   }
 
-  private _updatePov(changes: {[propName:string]: SimpleChange}) {
+  private _updatePov(changes: {[propName: string]: SimpleChange}) {
     if (changes['heading'] == null && changes['pitch'] == null) {
       // no povupdate needed
       return;
