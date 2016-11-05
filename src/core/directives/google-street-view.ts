@@ -136,7 +136,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit, OnDestroy {
    * yet loaded as the user pans. This option can only be set when the map is initialized.
    */
   backgroundColor: string;
-
+ 
   /**
    * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
    * used to
