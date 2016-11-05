@@ -7,7 +7,7 @@ import {SebmGoogleMapMarker} from './directives/google-map-marker';
 import {SebmGoogleMapPolygon} from './directives/google-map-polygon';
 import {SebmGoogleMapPolyline} from './directives/google-map-polyline';
 import {SebmGoogleMapPolylinePoint} from './directives/google-map-polyline-point';
-import {SebmGoogleStreetView} from "./directives/google-street-view";
+import {SebmGoogleStreetView} from './directives/google-street-view';
 import {LazyMapsAPILoader} from './services/maps-api-loader/lazy-maps-api-loader';
 import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
