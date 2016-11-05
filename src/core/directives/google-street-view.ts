@@ -169,10 +169,10 @@ export class SebmGoogleStreetView implements OnChanges, OnInit, OnDestroy {
   /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
-  ];
+  //private static _mapOptionsAttributes: string[] = [
+  //  'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
+  //  'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
+  //];
 
   private _observableSubscriptions: Subscription[] = [];
 
