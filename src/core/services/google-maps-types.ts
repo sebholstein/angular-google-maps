@@ -27,9 +27,9 @@ export interface GoogleStreetViewPanorama extends MVCObject {
   addCloseClickHandler(handler: Handler): void;
   addLinksChangeHandler(handler: Handler): void;
   addPanoChangeHandler(handler: Handler): void;
-  addPositionChangeHandler(handler: Handler);
-  addPovChangeHandler(handler: Handler);
-  addVisibleChangeHandler(handler: Handler);
+  addPositionChangeHandler(handler: Handler): void;
+  addPovChangeHandler(handler: Handler): void;
+  addVisibleChangeHandler(handler: Handler): void;
 }
 
 export interface Handler {
@@ -50,7 +50,7 @@ export interface StreetViewPov {
 
 export interface StreetViewLinks {
   getDescription(): string;
-  setDescription(description: string);
+  setDescription(description: string): void;
   getHeading(): number;
   setHeading(heading: number): number;
   getPano(): number;
