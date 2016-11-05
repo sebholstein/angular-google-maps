@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../map-types';
@@ -8,6 +8,7 @@ import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/googl
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
+import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 
 /**
@@ -17,8 +18,8 @@ import {PolylineManager} from '../services/managers/polyline-manager';
  *
  * ### Example
  * ```typescript
- * import {Component} from '@angular/core';
- * import {SebmGoogleMap} from 'angular2-google-maps/core';
+ * import { Component } from '@angular/core';
+ * import { SebmGoogleMap } from 'angular2-google-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
@@ -37,8 +38,10 @@ import {PolylineManager} from '../services/managers/polyline-manager';
  */
 @Component({
   selector: 'sebm-google-map',
-  providers:
-      [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager],
+  providers: [
+    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
+    PolygonManager
+  ],
   inputs: [
     'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
     'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
@@ -65,7 +68,7 @@ import {PolylineManager} from '../services/managers/polyline-manager';
     </div>
   `
 })
-export class SebmGoogleMap implements OnChanges, OnInit {
+export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The longitude that defines the center of the map.
    */
