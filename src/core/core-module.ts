@@ -6,13 +6,14 @@ import {SebmGoogleMapInfoWindow} from './directives/google-map-info-window';
 import {SebmGoogleMapMarker} from './directives/google-map-marker';
 import {SebmGoogleMapPolyline} from './directives/google-map-polyline';
 import {SebmGoogleMapPolylinePoint} from './directives/google-map-polyline-point';
+import {SebmGoogleStreetView} from './directives/google-street-view';
 import {LazyMapsAPILoader} from './services/maps-api-loader/lazy-maps-api-loader';
 import {LazyMapsAPILoaderConfigLiteral, provideLazyMapsAPILoaderConfig} from './services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
 import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 
 const CORE_DIRECTIVES: any[] = [
-  SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow, SebmGoogleMapCircle,
+  SebmGoogleMap, SebmGoogleStreetView,SebmGoogleMapMarker, SebmGoogleMapInfoWindow, SebmGoogleMapCircle,
   SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint
 ];
 

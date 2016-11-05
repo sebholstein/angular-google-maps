@@ -154,8 +154,10 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
    */
   lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
-  @ContentChildren(SebmGoogleMapPolylinePoint)
-  private _points: QueryList<SebmGoogleMapPolylinePoint>;
+  /**
+   * @internal
+   */
+  @ContentChildren(SebmGoogleMapPolylinePoint) points: QueryList<SebmGoogleMapPolylinePoint>;
 
   private static _polylineOptionsAttributes: Array<string> = [
     'draggable', 'editable', 'visible', 'geodesic', 'strokeColor', 'strokeOpacity', 'strokeWeight',
@@ -170,8 +172,8 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
 
   /** @internal */
   ngAfterContentInit() {
-    if (this._points.length) {
-      this._points.forEach((point: SebmGoogleMapPolylinePoint) => {
+    if (this.points.length) {
+      this.points.forEach((point: SebmGoogleMapPolylinePoint) => {
         const s = point.positionChanged.subscribe(
             () => { this._polylineManager.updatePolylinePoints(this); });
         this._subscriptions.push(s);
@@ -180,8 +182,7 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
     if (!this._polylineAddedToManager) {
       this._init();
     }
-    const s =
-        this._points.changes.subscribe(() => this._polylineManager.updatePolylinePoints(this));
+    const s = this.points.changes.subscribe(() => this._polylineManager.updatePolylinePoints(this));
     this._subscriptions.push(s);
     this._polylineManager.updatePolylinePoints(this);
   }
@@ -227,8 +228,8 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
 
   /** @internal */
   _getPoints(): Array<SebmGoogleMapPolylinePoint> {
-    if (this._points) {
-      return this._points.toArray();
+    if (this.points) {
+      return this.points.toArray();
     }
     return [];
   }
