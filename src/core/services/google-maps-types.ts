@@ -17,23 +17,23 @@ export interface GoogleStreetViewPanorama extends MVCObject {
   constructor(el: HTMLElement, opts?: StreetViewPanoramaOptions): void;
   getLinks(): Array<string>;
   getPano(): string;
-  setPano(pano:string):void;
+  setPano(pano: string): void;
   getPosition(): LatLng;
-  setPosition(latLng: LatLng|LatLngLiteral):void;
-  getPov():StreetViewPov;
-  setPov(pov:StreetViewPov):void;
-  getVisible():boolean;
-  setVisible(visible:boolean):void;
-  addCloseClickHandler(handler:Handler):void;
-  addLinksChangeHandler(handler:Handler):void;
-  addPanoChangeHandler(handler:Handler):void;
-  addPositionChangeHandler(handler:Handler);
-  addPovChangeHandler(handler:Handler);
-  addVisibleChangeHandler(handler:Handler);
+  setPosition(latLng: LatLng|LatLngLiteral): void;
+  getPov(): StreetViewPov;
+  setPov(pov: StreetViewPov): void;
+  getVisible(): boolean;
+  setVisible(visible: boolean): void;
+  addCloseClickHandler(handler: Handler): void;
+  addLinksChangeHandler(handler: Handler): void;
+  addPanoChangeHandler(handler: Handler): void;
+  addPositionChangeHandler(handler: Handler): void;
+  addPovChangeHandler(handler: Handler): void;
+  addVisibleChangeHandler(handler: Handler): void;
 }
 
 export interface Handler {
-  onChange($event:any):void;
+  onChange($event: any): void;
 }
 
 export interface LatLng {
@@ -43,24 +43,24 @@ export interface LatLng {
 }
 
 export interface StreetViewPov {
-  heading:number;
-  pitch:number;
-  zoom:number;
+  heading: number;
+  pitch: number;
+  zoom: number;
 }
 
 export interface StreetViewLinks {
-  getDescription():string;
-  setDescription(description:string);
-  getHeading():number;
-  setHeading(heading:number):number;
-  getPano():number;
-  setPano(pano:number):number;
+  getDescription(): string;
+  setDescription(description: string): void;
+  getHeading(): number;
+  setHeading(heading: number): number;
+  getPano(): number;
+  setPano(pano: number): number;
 }
 
 export interface StreetViewLinksLiteral {
-  description:string;
-  heading:number;
-  pano:number;
+  description: string;
+  heading: number;
+  pano: number;
 }
 
 export interface Marker extends MVCObject {
@@ -179,23 +179,22 @@ export interface MapOptions {
 }
 
 export interface StreetViewPanoramaOptions {
-  addressControl?:boolean;
-  addressControlOptions?:any;
+  addressControl?: boolean;
+  addressControlOptions?: any;
   disableDoubleClickZoom?: boolean;
-  enableCloseButton?:boolean;
-  linksControl?:boolean;
-  panControl?:boolean;
-  panControlOptions?:any;
-  pano?:any;
-  provider?:any;
-  position?:LatLng|LatLngLiteral;
-  scrollwheel?:boolean;
-  pov?:StreetViewPov;
-  visible?:boolean;
-  zoomControl?:any;
-  zoomControlOptions?:any;
+  enableCloseButton?: boolean;
+  linksControl?: boolean;
+  panControl?: boolean;
+  panControlOptions?: any;
+  pano?: any;
+  provider?: any;
+  position?: LatLng|LatLngLiteral;
+  scrollwheel?: boolean;
+  pov?: StreetViewPov;
+  visible?: boolean;
+  zoomControl?: any;
+  zoomControlOptions?: any;
 }
-
 
 export interface MapTypeStyle {
   elementType?: 'all'|'geometry'|'geometry.fill'|'geometry.stroke'|'labels'|'labels.icon'|

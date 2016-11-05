@@ -7,4 +7,3 @@ export {LatLngBounds, LatLngBoundsLiteral, LatLngLiteral, StreetViewPov, PolyMou
  * MouseEvent gets emitted when the user triggers mouse events on the map.
  */
 export interface MouseEvent { coords: LatLngLiteral|StreetViewPov; }
-

@@ -6,7 +6,7 @@ import * as mapTypes from './google-maps-types';
 import {Polyline} from './google-maps-types';
 import {PolylineOptions} from './google-maps-types';
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
-import {Handler} from "./google-maps-types";
+import {Handler} from './google-maps-types';
 
 // todo: add types for this
 declare var google: any;
@@ -28,7 +28,6 @@ export class GoogleStreetViewAPIWrapper {
   createView(el: HTMLElement, viewOptions: mapTypes.StreetViewPanoramaOptions): Promise<void> {
     return this._loader.load().then(() => {
       const view = new google.maps.StreetViewPanorama(el, viewOptions);
-      console.log("create view resolver", "func", view.getPov,'pov',view.getPov().heading);
       this._viewResolver(<mapTypes.GoogleStreetViewPanorama>view);
       return;
     });
@@ -70,7 +69,6 @@ export class GoogleStreetViewAPIWrapper {
   subscribeToViewEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
       this._view.then((m: mapTypes.GoogleStreetViewPanorama) => {
-        console.log("adding street view listener");
         m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); });
       });
     });
@@ -112,27 +110,27 @@ export class GoogleStreetViewAPIWrapper {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.setVisible(visible));
   }
 
-  addCloseClickHandler(handler:Handler): Promise<void> {
+  addCloseClickHandler(handler: Handler): Promise<void> {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.addCloseClickHandler(handler));
   }
 
-  addLinksChangeHandler(handler:Handler): Promise<void> {
+  addLinksChangeHandler(handler: Handler): Promise<void> {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.addLinksChangeHandler(handler));
   }
 
-  addPanoChangeHandler(handler:Handler): Promise<void> {
+  addPanoChangeHandler(handler: Handler): Promise<void> {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.addPanoChangeHandler(handler));
   }
 
-  addPositionChangeHandler(handler:Handler): Promise<void> {
+  addPositionChangeHandler(handler: Handler): Promise<void> {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.addPositionChangeHandler(handler));
   }
 
-  addPovChangeHandler(handler:Handler): Promise<void> {
+  addPovChangeHandler(handler: Handler): Promise<void> {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.addPovChangeHandler(handler));
   }
 
-  addVisibleChangeHandler(handler:Handler): Promise<void> {
+  addVisibleChangeHandler(handler: Handler): Promise<void> {
     return this._view.then((view: mapTypes.GoogleStreetViewPanorama) => view.addVisibleChangeHandler(handler));
   }
 

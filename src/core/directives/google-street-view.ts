@@ -1,8 +1,8 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
 import {MouseEvent} from '../map-types';
 import {Subscription} from 'rxjs/Subscription';
 import {GoogleStreetViewAPIWrapper} from '../services/google-street-view-api-wrapper';
-import {LatLng, LatLngLiteral, StreetViewPanoramaOptions,StreetViewPov} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, StreetViewPanoramaOptions, StreetViewPov} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
@@ -39,8 +39,8 @@ import {PolylineManager} from '../services/managers/polyline-manager';
   providers:
       [GoogleStreetViewAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager],
   inputs: [
-    'longitude', 'latitude', 'heading','pitch', 'zoom', 'draggable: mapDraggable',
-    '','disableDoubleClickZoom', 'backgroundColor','zoomControl',
+    'longitude', 'latitude', 'heading', 'pitch', 'zoom', 'draggable: mapDraggable',
+    'disableDoubleClickZoom', 'backgroundColor', 'zoomControl',
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'positionChange', 'povChange', 'idle'
@@ -62,7 +62,7 @@ import {PolylineManager} from '../services/managers/polyline-manager';
     </div>
   `
 })
-export class SebmGoogleStreetView implements OnChanges, OnInit {
+export class SebmGoogleStreetView implements OnChanges, OnInit, OnDestroy {
   /**
    * The longitude that defines the center of the map.
    */
@@ -77,7 +77,6 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
    * the heading that defines the horizontal angle of the view
    */
   heading: number = 0;
-
 
   /**
    * the pitch that defins the vetical angle of the view
@@ -138,7 +137,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
    */
   backgroundColor: string;
 
-/**
+  /**
    * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
    * used to
    * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
@@ -170,10 +169,10 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
   /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
-  ];
+  // private static _mapOptionsAttributes: string[] = [
+  //   'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
+  //   'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
+  // ];
 
   private _observableSubscriptions: Subscription[] = [];
 
@@ -252,7 +251,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
     this._observableSubscriptions.forEach((s) => s.unsubscribe());
   }
 
-  /* @internal */
+  /** @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     // this._updateMapOptionsChanges(changes);
     this._updatePosition(changes);
@@ -304,7 +303,7 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
       this._viewsWrapper.setPosition(newCenter);
   }
 
-  private _updatePov(changes: {[propName:string]: SimpleChange}) {
+  private _updatePov(changes: {[propName: string]: SimpleChange}) {
     if (changes['heading'] == null && changes['pitch'] == null) {
       // no povupdate needed
       return;
