@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} fr
 import {MouseEvent} from '../map-types';
 import {Subscription} from 'rxjs/Subscription';
 import {GoogleStreetViewAPIWrapper} from '../services/google-street-view-api-wrapper';
-import {LatLng, LatLngLiteral, StreetViewPanoramaOptions,StreetViewPov} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, StreetViewPanoramaOptions, StreetViewPov} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
@@ -39,8 +39,8 @@ import {PolylineManager} from '../services/managers/polyline-manager';
   providers:
       [GoogleStreetViewAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager],
   inputs: [
-    'longitude', 'latitude', 'heading','pitch', 'zoom', 'draggable: mapDraggable',
-    '','disableDoubleClickZoom', 'backgroundColor','zoomControl',
+    'longitude', 'latitude', 'heading', 'pitch', 'zoom', 'draggable: mapDraggable',
+    'disableDoubleClickZoom', 'backgroundColor', 'zoomControl',
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'positionChange', 'povChange', 'idle'
@@ -77,7 +77,6 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
    * the heading that defines the horizontal angle of the view
    */
   heading: number = 0;
-
 
   /**
    * the pitch that defins the vetical angle of the view
@@ -137,8 +136,8 @@ export class SebmGoogleStreetView implements OnChanges, OnInit {
    * yet loaded as the user pans. This option can only be set when the map is initialized.
    */
   backgroundColor: string;
-
-/**
+ 
+  /**
    * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
    * used to
    * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
