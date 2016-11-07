@@ -1,3 +1,31 @@
+<a name="0.16.0"></a>
+# [0.16.0 violet-sun](https://github.com/SebastianM/angular2-google-maps/compare/0.15.0...0.16.0) (2016-11-07)
+
+
+### Bug Fixes
+
+* **SebmGoogleMapPolyline:** fix private member state ([758d3e0](https://github.com/SebastianM/angular2-google-maps/commit/758d3e0))
+* **SebmGoogleMapMarker:** fix private member state ([648856d](https://github.com/SebastianM/angular2-google-maps/commit/648856d))
+* **SebmGoogleMapMarker:** remove unused fitBounds ([d625ab6](https://github.com/SebastianM/angular2-google-maps/commit/d625ab6))
+
+
+### Features
+
+* AOT support ([d28ad96](https://github.com/SebastianM/angular2-google-maps/commit/d28ad96)), closes [#709](https://github.com/SebastianM/angular2-google-maps/issues/709) [#629](https://github.com/SebastianM/angular2-google-maps/issues/629)
+* **SebmGoogleMapMarker:** support mouseover and mouseout event ([59ba45b](https://github.com/SebastianM/angular2-google-maps/commit/59ba45b)), closes [#662](https://github.com/SebastianM/angular2-google-maps/issues/662)
+* **SebmGoogleMapPolygon:** support polygons ([8437c74](https://github.com/SebastianM/angular2-google-maps/commit/8437c74)), closes [#615](https://github.com/SebastianM/angular2-google-maps/issues/615) [#652](https://github.com/SebastianM/angular2-google-maps/issues/652)
+
+
+### BREAKING CHANGES
+
+* `provideLazyMapsAPILoaderConfig` is gone. Please use the
+`AgmCoreModule#forRoot` method instead.
+
+* `LazyMapsAPILoaderConfig` is gone and is now a token named
+`LAZY_MAPS_API_CONFIG`. Please use the `AgmCoreModule#forRoot` method instead.
+
+
+
 <a name="0.15.0"></a>
 # [0.15.0 urban-filly](https://github.com/SebastianM/angular2-google-maps/compare/0.14.0...0.15.0) (2016-09-15)
 

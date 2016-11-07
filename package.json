@@ -1,6 +1,6 @@
 {
   "name": "angular2-google-maps",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Angular 2 components for Google Maps",
   "repository": {
     "type": "git",
@@ -39,16 +39,16 @@
   },
   "homepage": "https://angular-maps.com",
   "dependencies": {
-    "@angular/common": "^2.1.1",
-    "@angular/compiler": "^2.1.1",
-    "@angular/core": "^2.1.1",
-    "@angular/platform-browser": "^2.1.1",
-    "@angular/platform-browser-dynamic": "^2.1.1",
+    "@angular/common": "^2.1.2",
+    "@angular/compiler": "^2.1.2",
+    "@angular/core": "^2.1.2",
+    "@angular/platform-browser": "^2.1.2",
+    "@angular/platform-browser-dynamic": "^2.1.2",
     "rxjs": "^5.0.0-beta.12",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^2.1.1",
+    "@angular/compiler-cli": "^2.1.2",
     "@angular/platform-server": "^2.1.0",
     "@angularclass/hmr-loader": "^3.0.2",
     "@ngtools/webpack": "^1.1.0",
@@ -83,11 +83,11 @@
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^2.1.1",
-      "@angular/compiler": "^2.1.1",
-      "@angular/core": "^2.1.1",
-      "@angular/platform-browser": "^2.1.1",
-      "@angular/platform-browser-dynamic": "^2.1.1",
+      "@angular/common": "^2.1.2",
+      "@angular/compiler": "^2.1.2",
+      "@angular/core": "^2.1.2",
+      "@angular/platform-browser": "^2.1.2",
+      "@angular/platform-browser-dynamic": "^2.1.2",
       "rxjs": "^5.0.0-beta.12",
       "zone.js": "^0.6.25"
     }
