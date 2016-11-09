@@ -132,7 +132,7 @@ export class SebmGoogleMapMarker implements OnInit, OnDestroy, OnChanges, AfterC
   constructor(private _markerManager: MarkerManager) {}
 
   ngOnInit() {
-    if (!!this.id) {
+    if (!this.id) {
       this.id = (markerId++).toString();
     }
   }
