@@ -197,34 +197,34 @@ describe('MarkerManager', () => {
 
   describe('set id option', () => {
     it('should update that marker via setId method when the id changes',
-      async(inject(
-        [MarkerManager, GoogleMapsAPIWrapper],
-        (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-          const newMarker = new SebmGoogleMapMarker(markerManager);
-          newMarker.latitude = 34.4;
-          newMarker.longitude = 22.3;
-          newMarker.label = 'A';
-          newMarker.visible = false;
+       async(inject(
+           [MarkerManager, GoogleMapsAPIWrapper],
+           (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+             const newMarker = new SebmGoogleMapMarker(markerManager);
+             newMarker.latitude = 34.4;
+             newMarker.longitude = 22.3;
+             newMarker.label = 'A';
+             newMarker.visible = false;
 
-          const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setId']);
-          (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setId']);
+             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
 
-          markerManager.addMarker(newMarker);
-          expect(apiWrapper.createMarker).toHaveBeenCalledWith({
-            position: {lat: 34.4, lng: 22.3},
-            label: 'A',
-            draggable: false,
-            icon: undefined,
-            visible: false,
-            opacity: 1,
-            zIndex: 1,
-            title: undefined,
-            id: undefined
-          });
-          const id = 'myId';
-          newMarker.id = id;
-          return markerManager.updateId(newMarker).then(
-            () => { expect(markerInstance.setId).toHaveBeenCalledWith(id); });
-        })));
+             markerManager.addMarker(newMarker);
+             expect(apiWrapper.createMarker).toHaveBeenCalledWith({
+               position: {lat: 34.4, lng: 22.3},
+               label: 'A',
+               draggable: false,
+               icon: undefined,
+               visible: false,
+               opacity: 1,
+               zIndex: 1,
+               title: undefined,
+               id: undefined
+             });
+             const id = 'myId';
+             newMarker.id = id;
+             return markerManager.updateId(newMarker).then(
+                 () => { expect(markerInstance.setId).toHaveBeenCalledWith(id); });
+           })));
   });
 });

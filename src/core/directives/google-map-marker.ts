@@ -43,7 +43,6 @@ let markerId = 0;
   outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
 })
 export class SebmGoogleMapMarker implements OnInit, OnDestroy, OnChanges, AfterContentInit {
-
   /**
    * The id of the marker.
    */
@@ -133,7 +132,7 @@ export class SebmGoogleMapMarker implements OnInit, OnDestroy, OnChanges, AfterC
   constructor(private _markerManager: MarkerManager) {}
 
   ngOnInit() {
-    if(!!this.id) {
+    if (!!this.id) {
       this.id = (markerId++).toString();
     }
   }
