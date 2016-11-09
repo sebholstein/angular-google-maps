@@ -105,7 +105,7 @@ export class SebmGoogleMapMarker implements OnInit, OnDestroy, OnChanges, AfterC
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  markerClick: EventEmitter<void> = new EventEmitter<void>();
+  markerClick: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * This event is fired when the user stops dragging the marker.
@@ -190,7 +190,7 @@ export class SebmGoogleMapMarker implements OnInit, OnDestroy, OnChanges, AfterC
       if (this.openInfoWindow && this.infoWindow != null) {
         this.infoWindow.open();
       }
-      this.markerClick.emit(null);
+      this.markerClick.emit(this.id);
     });
     this._observableSubscriptions.push(cs);
 
