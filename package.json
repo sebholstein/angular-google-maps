@@ -58,7 +58,7 @@
     "clang-format": "1.0.42",
     "codelyzer": "^1.0.0-beta.2",
     "conventional-changelog": "^1.1.0",
-    "copy-webpack-plugin": "^3.0.1",
+    "copy-webpack-plugin": "^4.0.1",
     "copyfiles": "^1.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "html-webpack-plugin": "^2.8.1",
