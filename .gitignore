@@ -3,6 +3,9 @@ dist
 docs_generated
 src/**/*.js
 src/**/*.map
+src/**/*.ngfactory.js
 .tmp
 test-built
-typings
+npm-debug.log
+*.ngfactory.ts
+coverage/

@@ -14,8 +14,8 @@ let markerId = 0;
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
- * import {SebmGoogleMap, SebmGoogleMapMarker} from 'angular2-google-maps/core';
+ * import { Component } from 'angular2/core';
+ * import { SebmGoogleMap, SebmGoogleMapMarker } from 'angular2-google-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',

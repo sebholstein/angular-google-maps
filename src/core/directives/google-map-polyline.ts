@@ -12,8 +12,8 @@ let polylineId = 0;
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
- * import {SebmGoogleMap, SebmGooglePolyline, SebmGooglePolylinePoint} from
+ * import { Component } from 'angular2/core';
+ * import { SebmGoogleMap, SebmGooglePolyline, SebmGooglePolylinePoint } from
  * 'angular2-google-maps/core';
  *
  * @Component({
