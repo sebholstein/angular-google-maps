@@ -293,3 +293,64 @@ export interface Polygon extends MVCObject {
   setPaths(paths: Array<Array<LatLng|LatLngLiteral>>|Array<LatLng|LatLngLiteral>): void;
   setVisible(visible: boolean): void;
 }
+
+export interface KmlLayer extends MVCObject {
+  getDefaultViewport(): LatLngBounds;
+  getMap(): GoogleMap;
+  getMetadata(): KmlLayerMetadata;
+  getStatus(): KmlLayerStatus;
+  getUrl(): string;
+  getZIndex(): number;
+  setMap(map: GoogleMap): void;
+  setOptions(options: KmlLayerOptions): void;
+  setUrl(url: string): void;
+  setZIndex(zIndex: number): void;
+}
+
+/**
+ * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerStatus
+ */
+export type KmlLayerStatus = 'DOCUMENT_NOT_FOUND' |
+    'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' |
+    'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
+
+/**
+ * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerMetadata
+ */
+export interface KmlLayerMetadata {
+  author: KmlAuthor;
+  description: string;
+  hasScreenOverlays: boolean;
+  name: string;
+  snippet: string;
+}
+
+export interface KmlAuthor {
+  email: string;
+  name: string;
+  uri: string;
+}
+
+export interface KmlLayerOptions {
+  clickable?: boolean;
+  map?: GoogleMap;
+  preserveViewport?: boolean;
+  screenOverlays?: boolean;
+  suppressInfoWindows?: boolean;
+  url?: string;
+  zIndex?: number;
+}
+
+export interface KmlFeatureData {
+  author: KmlAuthor;
+  description: string;
+  id: string;
+  infoWindowHtml: string;
+  name: string;
+  snippet: string;
+}
+
+export interface KmlMouseEvent extends MouseEvent {
+  featureData: KmlFeatureData;
+  pixelOffset: Size;
+}
