@@ -76,7 +76,7 @@
     "rimraf": "^2.5.4",
     "rollup": "0.35.7",
     "ts-helpers": "^1.1.2",
-    "tslint": "3.13.0",
+    "tslint": "4.0.1",
     "typescript": "^2.0.2",
     "webpack": "2.1.0-beta.25"
   },
