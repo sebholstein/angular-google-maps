@@ -1,4 +1,5 @@
-import {AfterContentInit, ContentChild, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange} from '@angular/core';
+import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
+  AfterContentInit, ContentChildren, QueryList} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../map-types';
@@ -119,7 +120,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
   /**
    * @internal
    */
-  @ContentChild(SebmGoogleMapInfoWindow) infoWindow: SebmGoogleMapInfoWindow;
+  @ContentChildren(SebmGoogleMapInfoWindow) infoWindow: QueryList<SebmGoogleMapInfoWindow> = new QueryList<SebmGoogleMapInfoWindow>();
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -129,9 +130,17 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
   /* @internal */
   ngAfterContentInit() {
-    if (this.infoWindow != null) {
-      this.infoWindow.hostMarker = this;
+    this.handleInfoWindowUpdate();
+    this.infoWindow.changes.subscribe(() => this.handleInfoWindowUpdate());
+  }
+
+  private handleInfoWindowUpdate() {
+    if (this.infoWindow.length > 1) {
+      throw new Error('Expected no more than one info window.');
     }
+    this.infoWindow.forEach(marker => {
+      marker.hostMarker = this;
+    });
   }
 
   /** @internal */
@@ -173,8 +182,8 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
 
   private _addEventListeners() {
     const cs = this._markerManager.createEventObservable('click', this).subscribe(() => {
-      if (this.openInfoWindow && this.infoWindow != null) {
-        this.infoWindow.open();
+      if (this.openInfoWindow) {
+        this.infoWindow.forEach(infoWindow => infoWindow.open());
       }
       this.markerClick.emit(null);
     });
