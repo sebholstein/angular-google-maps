@@ -9,3 +9,4 @@ test-built
 npm-debug.log
 *.ngfactory.ts
 coverage/
+.idea/
