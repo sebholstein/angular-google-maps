@@ -192,6 +192,7 @@ export class SebmGoogleMapCircle implements OnInit, OnChanges, OnDestroy {
       this._manager.setVisible(this);
     }
     if (changes['radius']) {
+      this.radius = parseFloat(this.radius)
       this._manager.setRadius(this);
     }
     this._updateCircleOptionsChanges(changes);
