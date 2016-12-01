@@ -1,4 +1,5 @@
 export {GoogleMapsAPIWrapper} from './services/google-maps-api-wrapper';
+export {GoogleStreetViewAPIWrapper} from './services/google-street-view-api-wrapper';
 export {CircleManager} from './services/managers/circle-manager';
 export {InfoWindowManager} from './services/managers/info-window-manager';
 export {MarkerManager} from './services/managers/marker-manager';

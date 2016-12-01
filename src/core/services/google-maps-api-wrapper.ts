@@ -41,6 +41,7 @@ export class GoogleMapsAPIWrapper {
    */
   createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
       Promise<mapTypes.Marker> {
+    console.log('createMarker');
     return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
       return new google.maps.Marker(options);

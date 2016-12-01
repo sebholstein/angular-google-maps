@@ -214,7 +214,7 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   /**
    * This event is fired when the map becomes idle after panning or zooming.
    */
-  idle: EventEmitter<void> = new EventEmitter<void>();
+  idle: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
 
   /**
    * This event is fired when the zoom level has changed.
@@ -354,8 +354,10 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _handleIdleEvent() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
-        () => { this.idle.emit(void 0); });
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(() => {
+      this._mapsWrapper.getBounds().then(
+        (bounds: LatLngBounds) => { this.idle.emit(bounds); });
+    });
     this._observableSubscriptions.push(s);
   }
 
