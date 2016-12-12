@@ -74,7 +74,7 @@
     "karma-webpack": "^1.8.0",
     "remap-istanbul": "^0.8.0",
     "rimraf": "^2.5.4",
-    "rollup": "0.35.7",
+    "rollup": "0.37.0",
     "ts-helpers": "^1.1.2",
     "tslint": "3.13.0",
     "typescript": "^2.0.2",
