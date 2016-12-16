@@ -39,24 +39,23 @@
   },
   "homepage": "https://angular-maps.com",
   "dependencies": {
-    "@angular/common": "^2.1.2",
-    "@angular/compiler": "^2.1.2",
-    "@angular/core": "^2.1.2",
-    "@angular/platform-browser": "^2.1.2",
-    "@angular/platform-browser-dynamic": "^2.1.2",
-    "rxjs": "^5.0.0-beta.12",
-    "zone.js": "^0.6.25"
+    "@angular/common": "^2.3.1",
+    "@angular/core": "^2.3.1"
   },
   "devDependencies": {
+    "@angular/compiler": "^2.3.1",
     "@angular/compiler-cli": "^2.1.2",
-    "@angular/platform-server": "^2.1.0",
+    "@angular/platform-browser": "^2.3.1",
+    "@angular/platform-browser-dynamic": "^2.3.1",
+    "@angular/platform-server": "^2.3.1",
+    "@angular/tsc-wrapped": "~0.5.0",
     "@angularclass/hmr-loader": "^3.0.2",
     "@ngtools/webpack": "^1.1.0",
     "@types/jasmine": "^2.5.35",
     "angular2-template-loader": "^0.6.0",
     "awesome-typescript-loader": "^2.2.4",
     "clang-format": "1.0.46",
-    "codelyzer": "^1.0.0-beta.2",
+    "codelyzer": "^2.0.0-beta.3",
     "conventional-changelog": "^1.1.0",
     "copy-webpack-plugin": "^4.0.1",
     "copyfiles": "^1.0.0",
@@ -72,24 +71,22 @@
     "karma-remap-istanbul": "^0.2.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
+    "reflect-metadata": "^0.1.8",
     "remap-istanbul": "^0.8.0",
     "rimraf": "^2.5.4",
     "rollup": "0.37.0",
+    "rxjs": "5.0.0-rc.4",
     "ts-helpers": "^1.1.2",
-    "tslint": "3.13.0",
-    "typescript": "^2.0.2",
-    "webpack": "2.1.0-beta.25"
+    "tslint": "~4.0.0",
+    "typescript": "~2.0.1",
+    "webpack": "2.1.0-beta.25",
+    "zone.js": "^0.7.2"
   },
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^2.1.2",
-      "@angular/compiler": "^2.1.2",
-      "@angular/core": "^2.1.2",
-      "@angular/platform-browser": "^2.1.2",
-      "@angular/platform-browser-dynamic": "^2.1.2",
-      "rxjs": "^5.0.0-beta.12",
-      "zone.js": "^0.6.25"
+      "@angular/common": "^2.3.1",
+      "@angular/core": "^2.3.1"
     }
   }
 }
