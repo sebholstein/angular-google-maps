@@ -6,7 +6,7 @@ The sources for this package are in the [angular2-google-maps](https://github.co
 This package contains different sources for different users:
 
 1. The files located in the root dir are ES5 compatible files that can be consumed using CommonJS.
-2. The files under `/esm` are ES6 compatible files that can be transpiled to E5 using any transpiler.
+2. The files under `/esm` are ES5 based with ES2015 modules.
 3. The files under `/ts` are the TypeScript source files.
 4. Files with the name pattern *.umd.js are UMD bundled modules for fast load times during development.
 
