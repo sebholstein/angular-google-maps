@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {LatLng, LatLngLiteral, MapTypeControlOptions} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
@@ -45,10 +45,27 @@ import {KmlLayerManager} from './../services/managers/kml-layer-manager';
     PolygonManager, KmlLayerManager
   ],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
-    'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl', 'fitBounds',
-    'scaleControl', 'mapTypeControl'
+    'longitude',
+    'latitude',
+    'zoom',
+    'draggable: mapDraggable',
+    'disableDoubleClickZoom',
+    'disableDefaultUI',
+    'scrollwheel',
+    'backgroundColor',
+    'draggableCursor',
+    'draggingCursor',
+    'keyboardShortcuts',
+    'zoomControl',
+    'styles',
+    'usePanning',
+    'streetViewControl',
+    'fitBounds',
+    'scaleControl',
+    'tilt',
+    'mapTypeControl',
+    'mapTypeControlOptions',
+    'mapTypeId'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -171,16 +188,32 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   scaleControl: boolean = false;
 
   /**
+   * Sets the default title setting
+   */
+  tilt: number = 45;
+
+  /**
    * The initial enabled/disabled state of the Map type control.
    */
   mapTypeControl: boolean = false;
+
+  /**
+   * Sets the initial state of mapTypeControlOptions
+   */
+  mapTypeControlOptions: MapTypeControlOptions = null;
+
+  /**
+   * The initial id for mapTypeId
+   */
+  mapTypeId: string = 'roadmap';
 
   /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'tilt',
+    'mapTypeControl', 'mapTypeControlOptions', 'mapTypeId'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -246,7 +279,10 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
       styles: this.styles,
       streetViewControl: this.streetViewControl,
       scaleControl: this.scaleControl,
-      mapTypeControl: this.mapTypeControl
+      tilt: this.tilt,
+      mapTypeControl: this.mapTypeControl,
+      mapTypeControlOptions: this.mapTypeControlOptions,
+      mapTypeId: this.mapTypeId,
     });
 
     // register event listeners
