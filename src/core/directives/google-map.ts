@@ -11,6 +11,8 @@ import {MarkerManager} from '../services/managers/marker-manager';
 import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 
+import {KmlLayerManager} from './../services/managers/kml-layer-manager';
+
 /**
  * SebMGoogleMap renders a Google Map.
  * **Important note**: To be able see a map in the browser, you have to define a height for the CSS
@@ -40,13 +42,13 @@ import {PolylineManager} from '../services/managers/polyline-manager';
   selector: 'sebm-google-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager
+    PolygonManager, KmlLayerManager
   ],
   inputs: [
-    'longitude', 'latitude', 'zoom', 'draggable: mapDraggable', 'disableDoubleClickZoom',
-    'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl', 'fitBounds',
-    'scaleControl', 'mapTypeControl'
+    'longitude', 'latitude', 'zoom', 'minZoom', 'maxZoom', 'draggable: mapDraggable',
+    'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor',
+    'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl',
+    'fitBounds', 'scaleControl', 'mapTypeControl'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -83,6 +85,18 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
    * The zoom level of the map. The default zoom level is 8.
    */
   zoom: number = 8;
+
+  /**
+   * The minimal zoom level of the map allowed. When not provided, no restrictions to the zoom level
+   * are enforced.
+   */
+  minZoom: number;
+
+  /**
+   * The maximal zoom level of the map allowed. When not provided, no restrictions to the zoom level
+   * are enforced.
+   */
+  maxZoom: number;
 
   /**
    * Enables/disables if map is draggable.
@@ -178,7 +192,8 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl'
+    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl',
+    'minZoom', 'maxZoom'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -234,6 +249,8 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
     this._mapsWrapper.createMap(el, {
       center: {lat: this.latitude || 0, lng: this.longitude || 0},
       zoom: this.zoom,
+      minZoom: this.minZoom,
+      maxZoom: this.maxZoom,
       disableDefaultUI: this.disableDefaultUI,
       backgroundColor: this.backgroundColor,
       draggable: this.draggable,
