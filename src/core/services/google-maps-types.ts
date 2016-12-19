@@ -13,10 +13,54 @@ export interface GoogleMap extends MVCObject {
   fitBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
 }
 
+export interface GoogleStreetViewPanorama extends MVCObject {
+  constructor(el: HTMLElement, opts?: StreetViewPanoramaOptions): void;
+  getLinks(): Array<string>;
+  getPano(): string;
+  setPano(pano: string): void;
+  getPosition(): LatLng;
+  setPosition(latLng: LatLng|LatLngLiteral): void;
+  getPov(): StreetViewPov;
+  setPov(pov: StreetViewPov): void;
+  getVisible(): boolean;
+  setVisible(visible: boolean): void;
+  addCloseClickHandler(handler: Handler): void;
+  addLinksChangeHandler(handler: Handler): void;
+  addPanoChangeHandler(handler: Handler): void;
+  addPositionChangeHandler(handler: Handler): void;
+  addPovChangeHandler(handler: Handler): void;
+  addVisibleChangeHandler(handler: Handler): void;
+}
+
+export interface Handler {
+  onChange($event: any): void;
+}
+
 export interface LatLng {
   constructor(lat: number, lng: number): void;
   lat(): number;
   lng(): number;
+}
+
+export interface StreetViewPov {
+  heading: number;
+  pitch: number;
+  zoom: number;
+}
+
+export interface StreetViewLinks {
+  getDescription(): string;
+  setDescription(description: string): void;
+  getHeading(): number;
+  setHeading(heading: number): number;
+  getPano(): number;
+  setPano(pano: number): number;
+}
+
+export interface StreetViewLinksLiteral {
+  description: string;
+  heading: number;
+  pano: number;
 }
 
 export interface Marker extends MVCObject {
@@ -36,7 +80,7 @@ export interface Marker extends MVCObject {
 export interface MarkerOptions {
   position: LatLng|LatLngLiteral;
   title?: string;
-  map?: GoogleMap;
+  map?: GoogleMap|GoogleStreetViewPanorama;
   label?: string|MarkerLabel;
   draggable?: boolean;
   icon?: string;
@@ -77,7 +121,7 @@ export interface CircleOptions {
   editable?: boolean;
   fillColor?: string;
   fillOpacity?: number;
-  map?: GoogleMap;
+  map?: GoogleMap|GoogleStreetViewPanorama;
   radius?: number;
   strokeColor?: string;
   strokeOpacity?: number;
@@ -134,6 +178,24 @@ export interface MapOptions {
   streetViewControl?: boolean;
   scaleControl?: boolean;
   mapTypeControl?: boolean;
+}
+
+export interface StreetViewPanoramaOptions {
+  addressControl?: boolean;
+  addressControlOptions?: any;
+  disableDoubleClickZoom?: boolean;
+  enableCloseButton?: boolean;
+  linksControl?: boolean;
+  panControl?: boolean;
+  panControlOptions?: any;
+  pano?: any;
+  provider?: any;
+  position?: LatLng|LatLngLiteral;
+  scrollwheel?: boolean;
+  pov?: StreetViewPov;
+  visible?: boolean;
+  zoomControl?: any;
+  zoomControlOptions?: any;
 }
 
 export interface MapTypeStyle {
