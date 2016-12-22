@@ -2,58 +2,55 @@ import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, Simpl
 
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 
-import {SebmGoogleMapMarker} from './google-map-marker';
+import {AgmMarker} from './marker';
 
 let infoWindowId = 0;
 
 /**
- * SebmGoogleMapInfoWindow renders a info window inside a {@link SebmGoogleMapMarker} or standalone.
+ * AgmInfoWindow renders a info window inside a {@link AgmMarker} or standalone.
  *
  * ### Example
  * ```typescript
- * import { Component } from 'angular2/core';
- * import { SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow } from
- * 'angular2-google-maps/core';
+ * import { Component } from '@angular/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
- *  directives: [SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow],
  *  styles: [`
- *    .sebm-google-map-container {
+ *    .agm-map-container {
  *      height: 300px;
  *    }
  * `],
  *  template: `
- *    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
- *        <sebm-google-map-info-window [disableAutoPan]="true">
+ *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ *      <agm-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
+ *        <agm-info-window [disableAutoPan]="true">
  *          Hi, this is the content of the <strong>info window</strong>
- *        </sebm-google-map-info-window>
- *      </sebm-google-map-marker>
- *    </sebm-google-map>
+ *        </agm-info-window>
+ *      </agm-marker>
+ *    </agm-map>
  *  `
  * })
  * ```
  */
 @Component({
-  selector: 'sebm-google-map-info-window',
+  selector: 'agm-info-window',
   inputs: ['latitude', 'longitude', 'disableAutoPan', 'isOpen', 'zIndex', 'maxWidth'],
   outputs: ['infoWindowClose'],
-  template: `<div class='sebm-google-map-info-window-content'>
+  template: `<div class='agm-info-window-content'>
       <ng-content></ng-content>
     </div>
   `
 })
-export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
+export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
-   * SebmGoogleMapMarker}).
+   * AgmMarker}).
    */
   latitude: number;
 
   /**
    * The longitude position of the info window (only usefull if you use it ouside of a {@link
-   * SebmGoogleMapMarker}).
+   * AgmMarker}).
    */
   longitude: number;
 
@@ -81,7 +78,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * Holds the marker that is the host of the info window (if available)
    */
-  hostMarker: SebmGoogleMapMarker;
+  hostMarker: AgmMarker;
 
   /**
    * Holds the native element that is used for the info window content.
@@ -105,7 +102,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
   constructor(private _infoWindowManager: InfoWindowManager, private _el: ElementRef) {}
 
   ngOnInit() {
-    this.content = this._el.nativeElement.querySelector('.sebm-google-map-info-window-content');
+    this.content = this._el.nativeElement.querySelector('.agm-info-window-content');
     this._infoWindowManager.addInfoWindow(this);
     this._infoWindowAddedToManager = true;
     this._updateOpenState();
@@ -144,7 +141,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
   private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
     let optionKeys = Object.keys(changes).filter(
-        k => SebmGoogleMapInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
+        k => AgmInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._infoWindowManager.setOptions(this, options);
   }
@@ -165,7 +162,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
   id(): string { return this._id; }
 
   /** @internal */
-  toString(): string { return 'SebmGoogleMapInfoWindow-' + this._id.toString(); }
+  toString(): string { return 'AgmInfoWindow-' + this._id.toString(); }
 
   /** @internal */
   ngOnDestroy() { this._infoWindowManager.deleteInfoWindow(this); }

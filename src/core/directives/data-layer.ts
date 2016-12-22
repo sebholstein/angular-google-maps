@@ -7,27 +7,27 @@ import { DataLayerManager } from './../services/managers/data-layer-manager';
 let layerId = 0;
 
 /**
- * SebmGoogleMapDataLayer enables the user to add data layers to the map.
+ * AgmDataLayer enables the user to add data layers to the map.
  *
  * ### Example
  * ```typescript
  * import { Component } from 'angular2/core';
- * import { SebmGoogleMap, SebmGoogleMapDataLayer } from
- * 'angular2-google-maps/core';
+ * import { AgmMap, AgmDataLayer } from
+ * 'angular-google-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
- *  directives: [SebmGoogleMap, SebmGoogleMapDataLayer],
+ *  directives: [AgmMap, AgmDataLayer],
  *  styles: [`
- *    .sebm-google-map-container {
+ *    .agm-container {
  *      height: 300px;
  *    }
  * `],
  *  template: `
- * <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- * 	  <sebm-google-map-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc">
- * 	  </sebm-google-map-data-layer>
- * </sebm-google-map>
+ * <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ * 	  <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc">
+ * 	  </agm-data-layer>
+ * </agm-map>
  *  `
  * })
  * export class MyMapCmp {
@@ -197,11 +197,11 @@ let layerId = 0;
  * ```
  */
 @Directive({
-  selector: 'sebm-google-map-data-layer',
+  selector: 'agm-data-layer',
   inputs: ['geoJson', 'style'],
   outputs: ['layerClick']
 })
-export class SebmGoogleMapDataLayer implements OnInit, OnDestroy, OnChanges {
+export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   private static _dataOptionsAttributes: Array<string> = ['style'];
 
   private _addedToManager: boolean = false;
@@ -248,7 +248,7 @@ export class SebmGoogleMapDataLayer implements OnInit, OnDestroy, OnChanges {
   id(): string { return this._id; }
 
   /** @internal */
-  toString(): string { return `SebmGoogleMapDataLayer-${this._id.toString()}`; }
+  toString(): string { return `AgmDataLayer-${this._id.toString()}`; }
 
   /** @internal */
   ngOnDestroy() {
@@ -270,7 +270,7 @@ export class SebmGoogleMapDataLayer implements OnInit, OnDestroy, OnChanges {
 
     let dataOptions: DataOptions = {};
     const optionKeys = Object.keys(changes).filter(
-      k => SebmGoogleMapDataLayer._dataOptionsAttributes.indexOf(k) !== -1);
+      k => AgmDataLayer._dataOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach(k => (<any>dataOptions)[k] = changes[k].currentValue);
     this._manager.setDataOptions(this, dataOptions);
   }

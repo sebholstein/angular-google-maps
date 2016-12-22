@@ -6,44 +6,42 @@ import {MouseEvent} from '../map-types';
 import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
 
-import {SebmGoogleMapInfoWindow} from './google-map-info-window';
+import {AgmInfoWindow} from './info-window';
 
 let markerId = 0;
 
 /**
- * SebmGoogleMapMarker renders a map marker inside a {@link SebmGoogleMap}.
+ * AgmMarker renders a map marker inside a {@link AgmMap}.
  *
  * ### Example
  * ```typescript
- * import { Component } from 'angular2/core';
- * import { SebmGoogleMap, SebmGoogleMapMarker } from 'angular2-google-maps/core';
+ * import { Component } from '@angular/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
- *  directives: [SebmGoogleMap, SebmGoogleMapMarker],
  *  styles: [`
- *    .sebm-google-map-container {
+ *    .agm-map-container {
  *      height: 300px;
  *    }
  * `],
  *  template: `
- *    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
- *      </sebm-google-map-marker>
- *    </sebm-google-map>
+ *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ *      <agm-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
+ *      </agm-marker>
+ *    </agm-map>
  *  `
  * })
  * ```
  */
 @Directive({
-  selector: 'sebm-google-map-marker',
+  selector: 'agm-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
     'openInfoWindow', 'opacity', 'visible', 'zIndex'
   ],
   outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
 })
-export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentInit {
+export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The latitude position of the marker.
    */
@@ -120,7 +118,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
   /**
    * @internal
    */
-  @ContentChildren(SebmGoogleMapInfoWindow) infoWindow: QueryList<SebmGoogleMapInfoWindow> = new QueryList<SebmGoogleMapInfoWindow>();
+  @ContentChildren(AgmInfoWindow) infoWindow: QueryList<AgmInfoWindow> = new QueryList<AgmInfoWindow>();
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -215,7 +213,7 @@ export class SebmGoogleMapMarker implements OnDestroy, OnChanges, AfterContentIn
   id(): string { return this._id; }
 
   /** @internal */
-  toString(): string { return 'SebmGoogleMapMarker-' + this._id.toString(); }
+  toString(): string { return 'AgmMarker-' + this._id.toString(); }
 
   /** @internal */
   ngOnDestroy() {

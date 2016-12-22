@@ -1,7 +1,7 @@
 import {NgZone} from '@angular/core';
 import {TestBed, inject} from '@angular/core/testing';
 
-import {SebmGoogleMapPolyline} from '../../directives/google-map-polyline';
+import {AgmPolyline} from '../../directives/polyline';
 import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
 import {Polyline} from '../../services/google-maps-types';
 import {PolylineManager} from '../../services/managers/polyline-manager';
@@ -24,7 +24,7 @@ describe('PolylineManager', () => {
        inject(
            [PolylineManager, GoogleMapsAPIWrapper],
            (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newPolyline = new SebmGoogleMapPolyline(polylineManager);
+             const newPolyline = new AgmPolyline(polylineManager);
              polylineManager.addPolyline(newPolyline);
 
              expect(apiWrapper.createPolyline).toHaveBeenCalledWith({
@@ -47,7 +47,7 @@ describe('PolylineManager', () => {
        inject(
            [PolylineManager, GoogleMapsAPIWrapper],
            (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newPolyline = new SebmGoogleMapPolyline(polylineManager);
+             const newPolyline = new AgmPolyline(polylineManager);
 
              const polylineInstance: Polyline = jasmine.createSpyObj('Polyline', ['setMap']);
              (<any>apiWrapper.createPolyline).and.returnValue(Promise.resolve(polylineInstance));

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import {Injectable, NgZone} from '@angular/core';
 
-import {SebmGoogleMapInfoWindow} from '../../directives/google-map-info-window';
+import {AgmInfoWindow} from '../../directives/info-window';
 
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
 import {InfoWindow, InfoWindowOptions} from '../google-maps-types';
@@ -10,14 +10,14 @@ import {MarkerManager} from './marker-manager';
 
 @Injectable()
 export class InfoWindowManager {
-  private _infoWindows: Map<SebmGoogleMapInfoWindow, Promise<InfoWindow>> =
-      new Map<SebmGoogleMapInfoWindow, Promise<InfoWindow>>();
+  private _infoWindows: Map<AgmInfoWindow, Promise<InfoWindow>> =
+      new Map<AgmInfoWindow, Promise<InfoWindow>>();
 
   constructor(
       private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone,
       private _markerManager: MarkerManager) {}
 
-  deleteInfoWindow(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
+  deleteInfoWindow(infoWindow: AgmInfoWindow): Promise<void> {
     const iWindow = this._infoWindows.get(infoWindow);
     if (iWindow == null) {
       // info window already deleted
@@ -31,19 +31,19 @@ export class InfoWindowManager {
     });
   }
 
-  setPosition(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
+  setPosition(infoWindow: AgmInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setPosition({
       lat: infoWindow.latitude,
       lng: infoWindow.longitude
     }));
   }
 
-  setZIndex(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
+  setZIndex(infoWindow: AgmInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow)
         .then((i: InfoWindow) => i.setZIndex(infoWindow.zIndex));
   }
 
-  open(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
+  open(infoWindow: AgmInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow).then((w) => {
       if (infoWindow.hostMarker != null) {
         return this._markerManager.getNativeMarker(infoWindow.hostMarker).then((marker) => {
@@ -54,15 +54,15 @@ export class InfoWindowManager {
     });
   }
 
-  close(infoWindow: SebmGoogleMapInfoWindow): Promise<void> {
+  close(infoWindow: AgmInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow).then((w) => w.close());
   }
 
-  setOptions(infoWindow: SebmGoogleMapInfoWindow, options: InfoWindowOptions) {
+  setOptions(infoWindow: AgmInfoWindow, options: InfoWindowOptions) {
     return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setOptions(options));
   }
 
-  addInfoWindow(infoWindow: SebmGoogleMapInfoWindow) {
+  addInfoWindow(infoWindow: AgmInfoWindow) {
     const options: InfoWindowOptions = {
       content: infoWindow.content,
       maxWidth: infoWindow.maxWidth,
@@ -78,7 +78,7 @@ export class InfoWindowManager {
    /**
     * Creates a Google Maps event listener for the given InfoWindow as an Observable
     */
-  createEventObservable<T>(eventName: string, infoWindow: SebmGoogleMapInfoWindow): Observable<T> {
+  createEventObservable<T>(eventName: string, infoWindow: AgmInfoWindow): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
       this._infoWindows.get(infoWindow).then((i: InfoWindow) => {
         i.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));

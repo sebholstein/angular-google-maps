@@ -1,17 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule. Com } from '@angular/core';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@angular-google-maps/core';
 
 @Component({
   selector: 'app-root',
 	styles: [`
-		.sebm-google-map-container {
+		agm-map {
 			height: 300px;
 		}
 	`],
   template: `
-		&lt;sebm-google-map [latitude]=&quot;lat&quot; [longitude]=&quot;lng&quot;&gt;&lt;/sebm-google-map&gt;
+		&lt;agm-map [latitude]=&quot;lat&quot; [longitude]=&quot;lng&quot;&gt;&lt;/agm-map&gt;
 	`
 })
 export class AppComponent {

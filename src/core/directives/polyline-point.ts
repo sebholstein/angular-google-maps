@@ -2,11 +2,11 @@ import {Directive, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {LatLngLiteral} from '../../core/services/google-maps-types';
 
 /**
- * SebmGoogleMapPolylinePoint represents one element of a polyline within a  {@link
+ * AgmPolylinePoint represents one element of a polyline within a  {@link
  * SembGoogleMapPolyline}
  */
-@Directive({selector: 'sebm-google-map-polyline-point'})
-export class SebmGoogleMapPolylinePoint implements OnChanges {
+@Directive({selector: 'agm-polyline-point'})
+export class AgmPolylinePoint implements OnChanges {
   /**
    * The latitude position of the point.
    */

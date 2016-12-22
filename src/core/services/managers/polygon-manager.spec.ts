@@ -1,7 +1,7 @@
 import {NgZone} from '@angular/core';
 import {TestBed, inject} from '@angular/core/testing';
 
-import {SebmGoogleMapPolygon} from '../../directives/google-map-polygon';
+import {AgmPolygon} from '../../directives/polygon';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
 import {Polygon} from '../google-maps-types';
 import {PolygonManager} from './polygon-manager';
@@ -11,7 +11,7 @@ describe('PolygonManager', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
-        PolygonManager, SebmGoogleMapPolygon, {
+        PolygonManager, AgmPolygon, {
           provide: GoogleMapsAPIWrapper,
           useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createPolygon'])
         }
@@ -24,7 +24,7 @@ describe('PolygonManager', () => {
        inject(
            [PolygonManager, GoogleMapsAPIWrapper],
            (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newPolygon = new SebmGoogleMapPolygon(polygonManager);
+             const newPolygon = new AgmPolygon(polygonManager);
              polygonManager.addPolygon(newPolygon);
 
              expect(apiWrapper.createPolygon).toHaveBeenCalledWith({
@@ -49,7 +49,7 @@ describe('PolygonManager', () => {
        inject(
            [PolygonManager, GoogleMapsAPIWrapper],
            (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newPolygon = new SebmGoogleMapPolygon(polygonManager);
+             const newPolygon = new AgmPolygon(polygonManager);
 
              const polygonInstance: Polygon = jasmine.createSpyObj('Polygon', ['setMap']);
              (<any>apiWrapper.createPolygon).and.returnValue(Promise.resolve(polygonInstance));

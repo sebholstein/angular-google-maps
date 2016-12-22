@@ -4,17 +4,24 @@
 const fs = require('fs');
 const path = require('path');
 
-const basePkgJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+const pkgNames = ['core'];
 
-// remove scripts
-delete basePkgJson.scripts;
+pkgNames.forEach(function(pkgName) {
+  const basePkgJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
-// remove devDependencies (as there are important for the sourcecode only)
-delete basePkgJson.devDependencies;
+  // define the package name
+  basePkgJson.name = `@angular-google-maps/${pkgName}`
 
-// transform dependencies to peerDependencies for the release
-basePkgJson.peerDependencies = Object.assign({}, basePkgJson.dependencies);
-basePkgJson.dependencies = {};
+  // remove scripts
+  delete basePkgJson.scripts;
 
-const filepath = path.join(__dirname, '../dist/package.json');
-fs.writeFileSync(filepath, JSON.stringify(basePkgJson, null, 2), 'utf-8');
+  // remove devDependencies (as there are important for the sourcecode only)
+  delete basePkgJson.devDependencies;
+
+  // transform dependencies to peerDependencies for the release
+  basePkgJson.peerDependencies = Object.assign({}, basePkgJson.dependencies);
+  basePkgJson.dependencies = {};
+
+  const filepath = path.join(__dirname, `../dist/${pkgName}/package.json`);
+  fs.writeFileSync(filepath, JSON.stringify(basePkgJson, null, 2), 'utf-8');
+});

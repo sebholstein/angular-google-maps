@@ -117,7 +117,10 @@ module.exports = function makeWebpackConfig() {
     enforce: 'post',
     include: path.resolve('src'),
     loader: 'istanbul-instrumenter-loader',
-    exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/]
+    exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/],
+    query: {
+        esModules: true
+    }
   });
 
   /**

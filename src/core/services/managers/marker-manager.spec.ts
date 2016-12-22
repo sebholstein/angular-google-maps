@@ -1,7 +1,7 @@
 import {NgZone} from '@angular/core';
 import {TestBed, async, inject} from '@angular/core/testing';
 
-import {SebmGoogleMapMarker} from './../../directives/google-map-marker';
+import {AgmMarker} from './../../directives/marker';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
 import {Marker} from './../google-maps-types';
 import {MarkerManager} from './../managers/marker-manager';
@@ -24,7 +24,7 @@ describe('MarkerManager', () => {
        inject(
            [MarkerManager, GoogleMapsAPIWrapper],
            (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new SebmGoogleMapMarker(markerManager);
+             const newMarker = new AgmMarker(markerManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
@@ -48,7 +48,7 @@ describe('MarkerManager', () => {
        inject(
            [MarkerManager, GoogleMapsAPIWrapper],
            (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new SebmGoogleMapMarker(markerManager);
+             const newMarker = new AgmMarker(markerManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
@@ -67,7 +67,7 @@ describe('MarkerManager', () => {
        async(inject(
            [MarkerManager, GoogleMapsAPIWrapper],
            (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new SebmGoogleMapMarker(markerManager);
+             const newMarker = new AgmMarker(markerManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
@@ -98,7 +98,7 @@ describe('MarkerManager', () => {
        async(inject(
            [MarkerManager, GoogleMapsAPIWrapper],
            (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new SebmGoogleMapMarker(markerManager);
+             const newMarker = new AgmMarker(markerManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
@@ -130,7 +130,7 @@ describe('MarkerManager', () => {
        async(inject(
            [MarkerManager, GoogleMapsAPIWrapper],
            (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new SebmGoogleMapMarker(markerManager);
+             const newMarker = new AgmMarker(markerManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
@@ -162,7 +162,7 @@ describe('MarkerManager', () => {
        async(inject(
            [MarkerManager, GoogleMapsAPIWrapper],
            (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new SebmGoogleMapMarker(markerManager);
+             const newMarker = new AgmMarker(markerManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';

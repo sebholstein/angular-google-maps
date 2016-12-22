@@ -14,32 +14,30 @@ import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
 
 /**
- * SebMGoogleMap renders a Google Map.
- * **Important note**: To be able see a map in the browser, you have to define a height for the CSS
- * class `sebm-google-map-container`.
+ * AgmMap renders a Google Map.
+ * **Important note**: To be able see a map in the browser, you have to define a height for the
+ * element `agm-map`.
  *
  * ### Example
  * ```typescript
  * import { Component } from '@angular/core';
- * import { SebmGoogleMap } from 'angular2-google-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
- *  directives: [SebmGoogleMap],
  *  styles: [`
- *    .sebm-google-map-container {
+ *    agm-map {
  *      height: 300px;
  *    }
  * `],
  *  template: `
- *    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *    </sebm-google-map>
+ *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ *    </agm-map>
  *  `
  * })
  * ```
  */
 @Component({
-  selector: 'sebm-google-map',
+  selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
     PolygonManager, KmlLayerManager, DataLayerManager
@@ -53,24 +51,27 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
   ],
-  host: {'[class.sebm-google-map-container]': 'true'},
+  host: {
+    // todo: deprecated - we will remove it with the next version
+    '[class.sebm-google-map-container]': 'true'
+  },
   styles: [`
-    .sebm-google-map-container-inner {
+    .agm-map-container-inner {
       width: inherit;
       height: inherit;
     }
-    .sebm-google-map-content {
+    .agm-map-content {
       display:none;
     }
   `],
   template: `
-    <div class='sebm-google-map-container-inner'></div>
-    <div class='sebm-google-map-content'>
+    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>
+    <div class='agm-map-content'>
       <ng-content></ng-content>
     </div>
   `
 })
-export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
+export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The longitude that defines the center of the map.
    */
@@ -241,7 +242,7 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   /** @internal */
   ngOnInit() {
     // todo: this should be solved with a new component and a viewChild decorator
-    const container = this._elem.nativeElement.querySelector('.sebm-google-map-container-inner');
+    const container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
     this._initMapInstance(container);
   }
 
@@ -287,7 +288,7 @@ export class SebmGoogleMap implements OnChanges, OnInit, OnDestroy {
   private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
     let optionKeys =
-        Object.keys(changes).filter(k => SebmGoogleMap._mapOptionsAttributes.indexOf(k) !== -1);
+        Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
   }

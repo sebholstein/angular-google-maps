@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
-import { SebmGoogleMapDataLayer } from './../../directives/google-map-data-layer';
+import { AgmDataLayer } from './../../directives/data-layer';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
 import { Data, DataOptions, Feature } from './../google-maps-types';
 
@@ -13,15 +13,15 @@ declare var google: any;
  */
 @Injectable()
 export class DataLayerManager {
-  private _layers: Map<SebmGoogleMapDataLayer, Promise<Data>> =
-  new Map<SebmGoogleMapDataLayer, Promise<Data>>();
+  private _layers: Map<AgmDataLayer, Promise<Data>> =
+  new Map<AgmDataLayer, Promise<Data>>();
 
   constructor(private _wrapper: GoogleMapsAPIWrapper, private _zone: NgZone) { }
 
   /**
    * Adds a new Data Layer to the map.
    */
-  addDataLayer(layer: SebmGoogleMapDataLayer) {
+  addDataLayer(layer: AgmDataLayer) {
     const newLayer = this._wrapper.getNativeMap().then(m => {
       var dataLayer = new google.maps.Data(<DataOptions>{
         map: m,
@@ -35,14 +35,14 @@ export class DataLayerManager {
     this._layers.set(layer, newLayer);
   }
 
-  deleteDataLayer(layer: SebmGoogleMapDataLayer) {
+  deleteDataLayer(layer: AgmDataLayer) {
     this._layers.get(layer).then(l => {
       l.setMap(null);
       this._layers.delete(layer);
     });
   }
 
-  updateGeoJson(layer: SebmGoogleMapDataLayer, geoJson: Object) {
+  updateGeoJson(layer: AgmDataLayer, geoJson: Object) {
     this._layers.get(layer).then(l => {
       l.forEach(function (feature: Feature) {
         l.remove(feature);
@@ -56,7 +56,7 @@ export class DataLayerManager {
     });
   }
 
-  setDataOptions(layer: SebmGoogleMapDataLayer, options: DataOptions)
+  setDataOptions(layer: AgmDataLayer, options: DataOptions)
   {
     this._layers.get(layer).then(l => {
       l.setControlPosition(options.controlPosition);
@@ -69,7 +69,7 @@ export class DataLayerManager {
   /**
    * Creates a Google Maps event listener for the given DataLayer as an Observable
    */
-  createEventObservable<T>(eventName: string, layer: SebmGoogleMapDataLayer): Observable<T> {
+  createEventObservable<T>(eventName: string, layer: AgmDataLayer): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
       this._layers.get(layer).then((d: Data) => {
         d.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
