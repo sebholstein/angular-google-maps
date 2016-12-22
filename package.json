@@ -1,17 +1,20 @@
 {
-  "name": "angular2-google-maps",
+  "name": "angular-google-maps-src",
   "version": "0.17.0",
-  "description": "Angular 2 components for Google Maps",
+  "description": "Angular 2+ components for Google Maps",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SebastianM/angular2-google-maps.git"
+    "url": "https://github.com/SebastianM/angular-google-maps.git"
   },
   "keywords": [
+    "angular",
     "angular2",
+    "ng",
     "google-maps",
     "ng2",
-    "angular",
-    "maps"
+    "maps",
+    "google",
+    "gmaps"
   ],
   "scripts": {
     "clean": "rimraf dist && rimraf .tmp && mkdir dist && mkdir .tmp && rimraf 'src/**/*.ngfactory.ts'",
@@ -19,15 +22,12 @@
     "build": "npm run lint && npm run scripts && npm run packagejson && npm run copyassets",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "packagejson": "node ./scripts/create-package-json.js",
-    "copyassets": "cp -R assets/release/* dist/ && cp LICENSE dist/",
-    "scripts": "npm run ngc:es5 && npm run ngc:es2015 && npm run ts:copy && npm run bundle:umd",
+    "copyassets": "cp -R assets/release/* dist/core && cp LICENSE dist/core",
+    "scripts": "npm run ngc:esm && npm run bundle:umd",
     "bundle:umd": "rollup -c rollup.config.js",
-    "ngc:es5": "ngc -p tsconfig.json",
-    "postngc:es5": "cp -R .tmp/es5/src/* dist/ && rimraf src/**/*.ngfactory.ts",
-    "ngc:es2015": "ngc -p tsconfig.es2015.json",
-    "ts:copy": "mkdir -p dist/ts && cp -R src/* dist/ts",
+    "ngc:esm": "ngc -p tsconfig.json",
     "clang:format": "clang-format --glob=src/**/*.ts -i",
-    "postngc:es2015": "cp -R .tmp/esm/src dist/esm/  && rimraf src/**/*.ngfactory.ts",
+    "postngc:esm": "mkdir -p dist/ && cp -R .tmp/esm/src/* dist/ && rimraf src/**/*.ngfactory.ts",
     "test": "karma start",
     "test:watch": "karma start --no-single-run --auto-watch",
     "ci": "npm run build && npm run test"
@@ -35,7 +35,7 @@
   "author": "Sebastian Müller <info@sebastian-mueller.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SebastianM/angular2-google-maps/issues"
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
   },
   "homepage": "https://angular-maps.com",
   "dependencies": {
@@ -55,7 +55,7 @@
     "angular2-template-loader": "^0.6.0",
     "awesome-typescript-loader": "^2.2.4",
     "clang-format": "1.0.46",
-    "codelyzer": "^2.0.0-beta.3",
+    "codelyzer": "^2.0.0-beta.4",
     "conventional-changelog": "^1.1.0",
     "copy-webpack-plugin": "^4.0.1",
     "copyfiles": "^1.0.0",
@@ -77,7 +77,7 @@
     "rollup": "0.39.2",
     "rxjs": "5.0.0-rc.4",
     "ts-helpers": "^1.1.2",
-    "tslint": "~4.0.0",
+    "tslint": "^4.0.0",
     "typescript": "~2.0.1",
     "webpack": "2.1.0-beta.25",
     "zone.js": "^0.7.2"

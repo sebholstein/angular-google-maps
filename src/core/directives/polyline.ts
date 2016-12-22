@@ -4,41 +4,38 @@ import {Subscription} from 'rxjs/Subscription';
 import {PolyMouseEvent} from '../services/google-maps-types';
 import {PolylineManager} from '../services/managers/polyline-manager';
 
-import {SebmGoogleMapPolylinePoint} from './google-map-polyline-point';
+import {AgmPolylinePoint} from './polyline-point';
 
 let polylineId = 0;
 /**
- * SebmGoogleMapPolyline renders a polyline on a {@link SebmGoogleMap}
+ * AgmPolyline renders a polyline on a {@link AgmMap}
  *
  * ### Example
  * ```typescript
- * import { Component } from 'angular2/core';
- * import { SebmGoogleMap, SebmGooglePolyline, SebmGooglePolylinePoint } from
- * 'angular2-google-maps/core';
+ * import { Component } from '@angular/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
- *  directives: [SebmGoogleMap, SebmGooglePolyline, SebmGooglePolylinePoint],
  *  styles: [`
- *    .sebm-google-map-container {
+ *    .agm-map-container {
  *      height: 300px;
  *    }
  * `],
  *  template: `
- *    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <sebm-google-map-polyline>
- *          <sebm-google-map-polyline-point [latitude]="latA" [longitude]="lngA">
- *          </sebm-google-map-polyline-point>
- *          <sebm-google-map-polyline-point [latitude]="latB" [longitude]="lngB">
- *          </sebm-google-map-polyline-point>
- *      </sebm-google-map-polyline>
- *    </sebm-google-map>
+ *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ *      <agm-polyline>
+ *          <agm-polyline-point [latitude]="latA" [longitude]="lngA">
+ *          </agm-polyline-point>
+ *          <agm-polyline-point [latitude]="latB" [longitude]="lngB">
+ *          </agm-polyline-point>
+ *      </agm-polyline>
+ *    </agm-map>
  *  `
  * })
  * ```
  */
 @Directive({
-  selector: 'sebm-google-map-polyline',
+  selector: 'agm-polyline',
   inputs: [
     'clickable', 'draggable: polylineDraggable', 'editable', 'geodesic', 'strokeColor',
     'strokeWeight', 'strokeOpacity', 'visible', 'zIndex'
@@ -48,7 +45,7 @@ let polylineId = 0;
     'lineMouseOut', 'lineMouseOver', 'lineMouseUp', 'lineRightClick'
   ]
 })
-export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContentInit {
+export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polyline handles mouse events. Defaults to true.
    */
@@ -157,7 +154,7 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
   /**
    * @internal
    */
-  @ContentChildren(SebmGoogleMapPolylinePoint) points: QueryList<SebmGoogleMapPolylinePoint>;
+  @ContentChildren(AgmPolylinePoint) points: QueryList<AgmPolylinePoint>;
 
   private static _polylineOptionsAttributes: Array<string> = [
     'draggable', 'editable', 'visible', 'geodesic', 'strokeColor', 'strokeOpacity', 'strokeWeight',
@@ -173,7 +170,7 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
   /** @internal */
   ngAfterContentInit() {
     if (this.points.length) {
-      this.points.forEach((point: SebmGoogleMapPolylinePoint) => {
+      this.points.forEach((point: AgmPolylinePoint) => {
         const s = point.positionChanged.subscribe(
             () => { this._polylineManager.updatePolylinePoints(this); });
         this._subscriptions.push(s);
@@ -195,7 +192,7 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
 
     let options: {[propName: string]: any} = {};
     const optionKeys = Object.keys(changes).filter(
-        k => SebmGoogleMapPolyline._polylineOptionsAttributes.indexOf(k) !== -1);
+        k => AgmPolyline._polylineOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach(k => options[k] = changes[k].currentValue);
     this._polylineManager.setPolylineOptions(this, options);
   }
@@ -227,7 +224,7 @@ export class SebmGoogleMapPolyline implements OnDestroy, OnChanges, AfterContent
   }
 
   /** @internal */
-  _getPoints(): Array<SebmGoogleMapPolylinePoint> {
+  _getPoints(): Array<AgmPolylinePoint> {
     if (this.points) {
       return this.points.toArray();
     }

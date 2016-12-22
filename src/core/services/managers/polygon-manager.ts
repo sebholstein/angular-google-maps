@@ -2,18 +2,18 @@ import {Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
 
-import {SebmGoogleMapPolygon} from '../../directives/google-map-polygon';
+import {AgmPolygon} from '../../directives/polygon';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
 import {Polygon} from '../google-maps-types';
 
 @Injectable()
 export class PolygonManager {
-  private _polygons: Map<SebmGoogleMapPolygon, Promise<Polygon>> =
-      new Map<SebmGoogleMapPolygon, Promise<Polygon>>();
+  private _polygons: Map<AgmPolygon, Promise<Polygon>> =
+      new Map<AgmPolygon, Promise<Polygon>>();
 
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
-  addPolygon(path: SebmGoogleMapPolygon) {
+  addPolygon(path: AgmPolygon) {
     const polygonPromise = this._mapsWrapper.createPolygon({
       clickable: path.clickable,
       draggable: path.draggable,
@@ -31,7 +31,7 @@ export class PolygonManager {
     this._polygons.set(path, polygonPromise);
   }
 
-  updatePolygon(polygon: SebmGoogleMapPolygon): Promise<void> {
+  updatePolygon(polygon: AgmPolygon): Promise<void> {
     const m = this._polygons.get(polygon);
     if (m == null) {
       return Promise.resolve();
@@ -39,11 +39,11 @@ export class PolygonManager {
     return m.then((l: Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
   }
 
-  setPolygonOptions(path: SebmGoogleMapPolygon, options: {[propName: string]: any}): Promise<void> {
+  setPolygonOptions(path: AgmPolygon, options: {[propName: string]: any}): Promise<void> {
     return this._polygons.get(path).then((l: Polygon) => { l.setOptions(options); });
   }
 
-  deletePolygon(paths: SebmGoogleMapPolygon): Promise<void> {
+  deletePolygon(paths: AgmPolygon): Promise<void> {
     const m = this._polygons.get(paths);
     if (m == null) {
       return Promise.resolve();
@@ -56,7 +56,7 @@ export class PolygonManager {
     });
   }
 
-  createEventObservable<T>(eventName: string, path: SebmGoogleMapPolygon): Observable<T> {
+  createEventObservable<T>(eventName: string, path: AgmPolygon): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
       this._polygons.get(path).then((l: Polygon) => {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));

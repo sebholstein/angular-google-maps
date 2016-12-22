@@ -1,4 +1,4 @@
-Naming Conventions in angular2-google-maps
+Naming Conventions in angular-google-maps
 ---
 
 Based on the [Angular2](https://github.com/angular/angular/blob/master/NAMING.md) conventions:

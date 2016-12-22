@@ -1,10 +1,10 @@
 include ../_includes/utils
 
-+section_title('Playing with angular2-google-maps', 'playing')
++section_title('Playing with angular-google-maps (AGM)', 'playing')
 :marked
-  If you just want to play with `angular2-google-maps` and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular2, Typescript and of course `angular2-google-maps`:
+  If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular 2, Typescript and of course `angular-google-maps`:
 
-a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &raquo; Play with angular2-google-maps on Plunker
+a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &raquo; Play with angular-google-maps on Plunker
 
 +section_title('Setting up a basic project structure', 'project-structure')
 
@@ -12,18 +12,18 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
   h4.note-title Note
   p.note-description
     :marked
-        **If you're familiar with setting up Angular 2 projects with Angular CLI & TypeScript, you can skip this part and move on to this part:**
+        **If you're familiar with setting up Angular projects with Angular CLI & TypeScript, you can skip this part and move on to this part:**
 
-        **[Setting up angular2-google-maps](#angular2-google-maps-setup)**
+        **[Setting up angular-google-maps (AGM)](#angular-google-maps-setup)**
 
 :marked
   ### Installing TypeScript
-  `angular2-google-maps` works best with [TypeScript](http://www.typescriptlang.org/) version 2+.
+  `AGM` works best with [TypeScript](http://www.typescriptlang.org/) version 2+.
   If you have an older version of TypeScript or haven't installed TypeScript yet, please run the following command:
 
 .code-highlight
   pre
-    code.language-markup npm install -g typescript@2
+    code.language-markup npm install -g typescript@2.1
 
 :marked
   ### Create an Angular CLI project
@@ -37,7 +37,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     ```
 
 :marked
-  Run the following commands to create a new Angular 2 project with Angular CLI:
+  Run the following commands to create a new Angular project with Angular CLI:
 
 .code-highlight
   :marked
@@ -46,17 +46,17 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     cd my-maps-project
     ```  
 
-+section_title('Setting up angular2-google-maps', 'angular2-google-maps-setup')
++section_title('Setting up angular-google-maps', 'angular-google-maps-setup')
 
 :marked
-  ### Install angular2-google-maps
+  ### Install angular-google-maps
 
-  `angular2-google-maps` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
+  `angular-google-maps (short name: AGM)` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
 
 .code-highlight
   :marked
     ```markup
-    npm install angular2-google-maps --save
+    npm install @angular-google-maps/core --save
     ```
     
 :marked
@@ -73,7 +73,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     import { FormsModule } from '@angular/forms';
     import { AppComponent } from './app.component';
 
-    import { AgmCoreModule } from 'angular2-google-maps/core';
+    import { AgmCoreModule } from '@angular-google-maps/core';
 
     @NgModule({
       imports: [
@@ -107,7 +107,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
       styleUrls: ['app.component.css'],
     })
     export class AppComponent {
-      title: string = 'My first angular2-google-maps project';
+      title: string = 'My first AGM project';
       lat: number = 51.678418;
       lng: number = 7.809007;
     }
@@ -125,9 +125,9 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     <!-- this creates a google map on the page with the given lat/lng from -->
     <!-- the component as the initial center of the map: -->
 
-    <sebm-google-map [latitude]="lat" [longitude]="lng">
-      <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
-    </sebm-google-map>
+    <agm-map [latitude]="lat" [longitude]="lng">
+      <agm-map-marker [latitude]="lat" [longitude]="lng"></agm-map-marker>
+    </agm-map>
 
     ```
 
@@ -138,7 +138,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
 .code-highlight
   :marked
     ```css
-    .sebm-google-map-container {
+    agm-map {
       height: 300px;
     }
     ```
@@ -147,7 +147,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
   h4.note-title CSS styling is required!
   p.note-description
     :marked
-        It is really important that you define a height for the css class `.sebm-google-map-container`. Otherwise, you won't see a map on the page!
+        It is really important that you define a height component `agm-map`. Otherwise, you won't see a map on the page!
 
 +section_title('Build and run your application', 'build-and-run')
 
@@ -168,10 +168,10 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
   * Starts the TypeScript compiler and compiles all sources files (watches also for file changes in the source files and recompiles all files if something has changed)
   * Starts a local web server to serve the Angular 2 application. It refreshes the page when served files change.
 
-  **When everything works as expected, you should see your first Google Map created with angular2-google-maps 🎉🎉🎉!**
+  **When everything works as expected, you should see your first Google Map created with AGM 🎉🎉🎉!**
 
 +section_title('Questions?', 'questions')
 :marked
-  When you have problems setting up **angular2-google-maps** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
+  When you have problems setting up **angular-google-maps** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
 
-a.button.button-icon.blue-light(href='https://gitter.im/SebastianM/angular2-google-maps') &raquo; Chat on Gitter
+a.button.button-icon.blue-light(href='https://gitter.im/SebastianM/angular-google-maps') &raquo; Chat on Gitter

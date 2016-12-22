@@ -1,5 +1,5 @@
 export default {
-  entry: 'dist/esm/core/index.js',
+  entry: 'dist/core/index.js',
   dest: 'dist/core/core.umd.js',
   format: 'umd',
   moduleName: 'ngmaps.core',
@@ -15,5 +15,7 @@ export default {
     'rxjs/operator/toPromise': 'Rx.Observable.prototype',
     'rxjs/Observable': 'Rx',
     'rxjs/Rx': 'Rx'
-  }
+  },
+  context: 'window',
+  external: ['rxjs', '@angular/core', 'rxjs/Observable']
 }
