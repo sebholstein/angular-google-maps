@@ -164,7 +164,7 @@ export interface MapTypeStyler {
   weight?: number;
 }
 
-export interface InfoWindow {
+export interface InfoWindow extends MVCObject {
   constructor(opts?: InfoWindowOptions): void;
   close(): void;
   getContent(): string|Node;

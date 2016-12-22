@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import {Injectable, NgZone} from '@angular/core';
 
 import {SebmGoogleMapInfoWindow} from '../../directives/google-map-info-window';
@@ -71,5 +73,16 @@ export class InfoWindowManager {
     }
     const infoWindowPromise = this._mapsWrapper.createInfoWindow(options);
     this._infoWindows.set(infoWindow, infoWindowPromise);
+  }
+
+   /**
+    * Creates a Google Maps event listener for the given InfoWindow as an Observable
+    */
+  createEventObservable<T>(eventName: string, infoWindow: SebmGoogleMapInfoWindow): Observable<T> {
+    return Observable.create((observer: Observer<T>) => {
+      this._infoWindows.get(infoWindow).then((i: InfoWindow) => {
+        i.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+      });
+    });
   }
 }

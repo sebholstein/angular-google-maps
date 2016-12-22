@@ -109,6 +109,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
     this._infoWindowManager.addInfoWindow(this);
     this._infoWindowAddedToManager = true;
     this._updateOpenState();
+    this._registerEventListeners();
   }
 
   /** @internal */
@@ -129,8 +130,15 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
     this._setInfoWindowOptions(changes);
   }
 
+  private _registerEventListeners() {
+    this._infoWindowManager.createEventObservable('closeclick', this).subscribe(() => {
+      this.isOpen = false;
+      this.infoWindowClose.emit();
+    });
+  }
+
   private _updateOpenState() {
-    this.isOpen ? this._infoWindowManager.open(this) : this._infoWindowManager.close(this);
+    this.isOpen ? this.open() : this.close();
   }
 
   private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
@@ -150,7 +158,7 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
    * Closes the info window.
    */
   close(): Promise<void> {
-    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(void 0); });
+    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(); });
   }
 
   /** @internal */
