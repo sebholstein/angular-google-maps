@@ -1,3 +1,27 @@
+<a name="0.17.0"></a>
+# [0.17.0 christmas-edition](https://github.com/SebastianM/angular2-google-maps/compare/0.16.0...0.17.0) (2016-12-22)
+
+
+### Bug Fixes
+
+* **core.umd.js:** ship ES5 compatible UMD file ([c81a15f](https://github.com/SebastianM/angular2-google-maps/commit/c81a15f)), closes [#783](https://github.com/SebastianM/angular2-google-maps/issues/783)
+* **InfoWindow:** fire infoWindowClose Event ([b669aea](https://github.com/SebastianM/angular2-google-maps/commit/b669aea)), closes [#728](https://github.com/SebastianM/angular2-google-maps/issues/728) [#811](https://github.com/SebastianM/angular2-google-maps/issues/811)
+* **package:** remove indirect peerDependencies ([0f93e39](https://github.com/SebastianM/angular2-google-maps/commit/0f93e39)), closes [#792](https://github.com/SebastianM/angular2-google-maps/issues/792) [#794](https://github.com/SebastianM/angular2-google-maps/issues/794)
+
+
+### Features
+
+* Support KML Layer ([4d2a5d5](https://github.com/SebastianM/angular2-google-maps/commit/4d2a5d5)), closes [#734](https://github.com/SebastianM/angular2-google-maps/issues/734)
+* **SebmGoogleMap:** support maxZoom and minZoom ([0789a17](https://github.com/SebastianM/angular2-google-maps/commit/0789a17))
+
+
+### BREAKING CHANGES
+
+* core.umd.js: The files under `/esm` are ES5 (before: ES2015) based with ES2015 modules.
+In the real world, this should not cause troubles.
+
+
+
 <a name="0.16.0"></a>
 # [0.16.0 violet-sun](https://github.com/SebastianM/angular2-google-maps/compare/0.15.0...0.16.0) (2016-11-07)
 
