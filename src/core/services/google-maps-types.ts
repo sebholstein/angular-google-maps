@@ -1,6 +1,7 @@
 export var google: any;
 
 export interface GoogleMap extends MVCObject {
+  data?: Data;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   setZoom(zoom: number): void;
@@ -355,4 +356,65 @@ export interface KmlFeatureData {
 export interface KmlMouseEvent extends MouseEvent {
   featureData: KmlFeatureData;
   pixelOffset: Size;
+}
+
+export interface Data extends MVCObject {
+  features: Feature[];
+  constructor(options?: DataOptions): void;
+  addGeoJson(geoJson: Object, options?: GeoJsonOptions): Feature[];
+  remove(feature: Feature): void;
+  setControlPosition(controlPosition: ControlPosition): void;
+  setControls(controls: string[]): void;
+  setDrawingMode(drawingMode: string): void;
+  setMap(map: GoogleMap): void;
+  /* tslint:disable */
+  /*
+  * Tslint configuration check-parameters will prompt errors for these lines of code.
+  * https://palantir.github.io/tslint/rules/no-unused-variable/
+  */
+  setStyle(style: () => void): void;
+  forEach(callback: (feature: Feature) => void): void;
+  /* tslint:enable */
+}
+
+export interface Feature extends MVCObject {
+  id?: number|string|undefined;
+  geometry: Geometry;
+  properties: any;
+}
+
+export interface DataOptions{
+  controlPosition?: ControlPosition;
+  controls?: string[];
+  drawingMode?: string;
+  featureFactory?: (geometry: Geometry) => Feature;
+  map?: GoogleMap;
+  style?: () => void;
+}
+
+export interface DataMouseEvent extends MouseEvent {
+  feature: Feature;
+}
+
+export interface GeoJsonOptions {
+  idPropertyName: string;
+}
+
+export interface Geometry {
+  type: string;
+}
+
+export class ControlPosition{
+  readonly BOTTOM_CENTER: string = 'BOTTOM_CENTER';
+  readonly BOTTOM_LEFT: string = 'BOTTOM_LEFT';
+  readonly BOTTOM_RIGHT: string = 'BOTTOM_RIGHT';
+  readonly LEFT_BOTTOM: string = 'LEFT_BOTTOM';
+  readonly LEFT_CENTER: string = 'LEFT_CENTER';
+  readonly LEFT_TOP: string = 'LEFT_TOP';
+  readonly RIGHT_BOTTOM: string = 'RIGHT_BOTTOM';
+  readonly RIGHT_CENTER: string = 'RIGHT_CENTER';
+  readonly RIGHT_TOP: string = 'RIGHT_TOP';
+  readonly TOP_CENTER: string = 'TOP_CENTER';
+  readonly TOP_LEFT: string = 'TOP_LEFT';
+  readonly TOP_RIGHT: string = 'TOP_RIGHT';
 }

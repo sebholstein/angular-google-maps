@@ -10,8 +10,8 @@ import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
 import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
-
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
+import {DataLayerManager} from './../services/managers/data-layer-manager';
 
 /**
  * SebMGoogleMap renders a Google Map.
@@ -42,7 +42,7 @@ import {KmlLayerManager} from './../services/managers/kml-layer-manager';
   selector: 'sebm-google-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager, KmlLayerManager
+    PolygonManager, KmlLayerManager, DataLayerManager
   ],
   inputs: [
     'longitude', 'latitude', 'zoom', 'minZoom', 'maxZoom', 'draggable: mapDraggable',
