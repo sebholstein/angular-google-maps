@@ -1,6 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 
 import {SebmGoogleMapKmlLayer} from './directives/google-map-kml-layer';
+import {SebmGoogleMapDataLayer} from './directives/google-map-data-layer';
 import {SebmGoogleMap} from './directives/google-map';
 import {SebmGoogleMapCircle} from './directives/google-map-circle';
 import {SebmGoogleMapInfoWindow} from './directives/google-map-info-window';
@@ -19,7 +20,8 @@ import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 export function coreDirectives() {
   return [
     SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow, SebmGoogleMapCircle,
-    SebmGoogleMapPolygon, SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint, SebmGoogleMapKmlLayer
+    SebmGoogleMapPolygon, SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint, SebmGoogleMapKmlLayer,
+    SebmGoogleMapDataLayer
   ];
 };
 
