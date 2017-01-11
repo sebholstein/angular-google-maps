@@ -5,7 +5,7 @@ import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {SebmGoogleMapMarker} from './google-map-marker';
 
 let infoWindowId = 0;
-
+let infoWindowLastContext: SebmGoogleMapInfoWindow = null;
 /**
  * SebmGoogleMapInfoWindow renders a info window inside a {@link SebmGoogleMapMarker} or standalone.
  *
@@ -152,7 +152,15 @@ export class SebmGoogleMapInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * Opens the info window.
    */
-  open(): Promise<void> { return this._infoWindowManager.open(this); }
+  open(): Promise<void> { 
+    if(infoWindowLastContext !== null) {
+      this._infoWindowManager.close(infoWindowLastContext)
+    }
+
+    infoWindowLastContext = this;
+
+    return this._infoWindowManager.open(this); 
+  }
 
   /**
    * Closes the info window.
