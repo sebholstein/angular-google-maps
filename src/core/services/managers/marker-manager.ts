@@ -7,6 +7,8 @@ import {AgmMarker} from './../../directives/marker';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
 import {Marker} from './../google-maps-types';
 
+declare var google: any;
+
 @Injectable()
 export class MarkerManager {
   private _markers: Map<AgmMarker, Promise<Marker>> =
@@ -61,6 +63,16 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setZIndex(marker.zIndex));
   }
 
+  updateAnimation(marker: AgmMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => {
+      if (typeof marker.animation === 'string') {
+        m.setAnimation(google.maps.Animation[marker.animation]);
+      } else {
+        m.setAnimation(marker.animation);
+      }
+    });
+  }
+
   addMarker(marker: AgmMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
@@ -70,8 +82,10 @@ export class MarkerManager {
       opacity: marker.opacity,
       visible: marker.visible,
       zIndex: marker.zIndex,
-      title: marker.title
+      title: marker.title,
+      animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] : marker.animation
     });
+
     this._markers.set(marker, markerPromise);
   }
 
