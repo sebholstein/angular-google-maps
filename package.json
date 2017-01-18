@@ -74,7 +74,7 @@
     "reflect-metadata": "^0.1.8",
     "remap-istanbul": "^0.8.0",
     "rimraf": "^2.5.4",
-    "rollup": "0.39.2",
+    "rollup": "0.41.4",
     "rxjs": "5.0.0-rc.4",
     "ts-helpers": "^1.1.2",
     "tslint": "^4.0.0",
