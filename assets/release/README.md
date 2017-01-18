@@ -1,7 +1,7 @@
-angular2-google-maps
+angular-google-maps - Angular 2+ Google Maps components
 =========
 
-The sources for this package are in the [angular2-google-maps](https://github.com/SebastianM/angular2-google-maps) repository. Please file issues and pull requests against that repo.
+The sources for this package are in the [angular-google-maps](https://github.com/SebastianM/angular-google-maps) repository. Please file issues and pull requests against that repo.
 
 This package contains different sources for different users:
 

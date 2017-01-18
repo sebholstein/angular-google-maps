@@ -7,7 +7,7 @@ import {MouseEvent as MapMouseEvent} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 
 @Directive({
-  selector: 'sebm-google-map-circle',
+  selector: 'agm-circle',
   inputs: [
     'latitude', 'longitude', 'clickable', 'draggable: circleDraggable', 'editable', 'fillColor',
     'fillOpacity', 'radius', 'strokeColor', 'strokeOpacity', 'strokePosition', 'strokeWeight',
@@ -18,7 +18,7 @@ import {CircleManager} from '../services/managers/circle-manager';
     'mouseMove', 'mouseOut', 'mouseOver', 'mouseUp', 'radiusChange', 'rightClick'
   ]
 })
-export class SebmGoogleMapCircle implements OnInit, OnChanges, OnDestroy {
+export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * The latitude position of the circle (required).
    */
@@ -200,7 +200,7 @@ export class SebmGoogleMapCircle implements OnInit, OnChanges, OnDestroy {
   private _updateCircleOptionsChanges(changes: {[propName: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
     let optionKeys =
-        Object.keys(changes).filter(k => SebmGoogleMapCircle._mapOptions.indexOf(k) !== -1);
+        Object.keys(changes).filter(k => AgmCircle._mapOptions.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     if (optionKeys.length > 0) {
       this._manager.setOptions(this, options);

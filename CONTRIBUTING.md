@@ -1,9 +1,9 @@
-# Contributing to angular2-google-maps
+# Contributing to angular-google-maps
 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-* Search [GitHub](https://github.com/SebastianM/angular2-google-maps/pulls) for an open or closed PR
+* Search [GitHub](https://github.com/SebastianM/angular-google-maps/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
 * Make your changes in a new git branch:
 
@@ -13,7 +13,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 * Create your patch, **including appropriate test cases**.
 * Follow the [Coding Rules](#rules).
-* Run the full angular2-google-maps test suite with `npm run build` & `npm run test` and ensure that all tests pass.
+* Run the full angular-google-maps test suite with `npm run build` & `npm run test` and ensure that all tests pass.
 * Commit your changes using a descriptive commit message that follows our
   [commit message conventions](#commit). Adherence to these conventions
   is necessary because release notes are automatically generated from these messages.
@@ -29,10 +29,10 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-* In GitHub, send a pull request to `angular2-google-maps:master`.
+* In GitHub, send a pull request to `angular-google-maps:master`.
 * If we suggest changes then:
   * Make the required updates.
-  * Re-run the angular2-google-maps test suite to ensure tests are still passing.
+  * Re-run the angular-google-maps test suite to ensure tests are still passing.
   * Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
     ```shell

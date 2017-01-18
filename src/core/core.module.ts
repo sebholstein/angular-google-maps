@@ -1,14 +1,13 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-
-import {SebmGoogleMapKmlLayer} from './directives/google-map-kml-layer';
-import {SebmGoogleMapDataLayer} from './directives/google-map-data-layer';
-import {SebmGoogleMap} from './directives/google-map';
-import {SebmGoogleMapCircle} from './directives/google-map-circle';
-import {SebmGoogleMapInfoWindow} from './directives/google-map-info-window';
-import {SebmGoogleMapMarker} from './directives/google-map-marker';
-import {SebmGoogleMapPolygon} from './directives/google-map-polygon';
-import {SebmGoogleMapPolyline} from './directives/google-map-polyline';
-import {SebmGoogleMapPolylinePoint} from './directives/google-map-polyline-point';
+import {AgmMap} from './directives/map';
+import {AgmCircle} from './directives/circle';
+import {AgmInfoWindow} from './directives/info-window';
+import {AgmMarker} from './directives/marker';
+import {AgmPolygon} from './directives/polygon';
+import {AgmPolyline} from './directives/polyline';
+import {AgmPolylinePoint} from './directives/polyline-point';
+import {AgmKmlLayer} from './directives/kml-layer';
+import {AgmDataLayer} from './directives/data-layer';
 import {LazyMapsAPILoader} from './services/maps-api-loader/lazy-maps-api-loader';
 import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
@@ -19,14 +18,14 @@ import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
  */
 export function coreDirectives() {
   return [
-    SebmGoogleMap, SebmGoogleMapMarker, SebmGoogleMapInfoWindow, SebmGoogleMapCircle,
-    SebmGoogleMapPolygon, SebmGoogleMapPolyline, SebmGoogleMapPolylinePoint, SebmGoogleMapKmlLayer,
-    SebmGoogleMapDataLayer
+    AgmMap, AgmMarker, AgmInfoWindow, AgmCircle,
+    AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
+    AgmDataLayer
   ];
 };
 
 /**
- * The angular2-google-maps core module. Contains all Directives/Services/Pipes
+ * The angular-google-maps core module. Contains all Directives/Services/Pipes
  * of the core module. Please use `AgmCoreModule.forRoot()` in your app module.
  */
 @NgModule({declarations: coreDirectives(), exports: coreDirectives()})

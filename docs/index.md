@@ -1,4 +1,4 @@
 ---
-title: Angular2 Google Maps
-description: Angular2 Directives for Google Maps
+title: Angular 2+ Google Maps
+description: Angular 2+ Google Maps components
 ---

@@ -5,25 +5,24 @@ import {LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions} from '../services
 import {PolygonManager} from '../services/managers/polygon-manager';
 
 /**
- * SebmGoogleMapPolygon renders a polygon on a {@link SebmGoogleMap}
+ * AgmPolygon renders a polygon on a {@link AgmMap}
  *
  * ### Example
  * ```typescript
  * import { Component } from '@angular/core';
- * import { SebmGoogleMap, SebmGooglePolygon, LatLngLiteral } from 'angular2-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
  *  styles: [`
- *    .semb-map-container {
+ *    agm-map {
  *      height: 300px;
  *    }
  * `],
  *  template: `
- *    <semb-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <semb-map-polygon [paths]="paths">
- *      </semb-map-polygon>
- *    </semb-map>
+ *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ *      <agm-polygon [paths]="paths">
+ *      </agm-polygon>
+ *    </agm-map>
  *  `
  * })
  * export class MyMapCmp {
@@ -55,7 +54,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
  * ```
  */
 @Directive({
-  selector: 'sebm-map-polygon',
+  selector: 'agm-polygon',
   inputs: [
     'clickable',
     'draggable: polyDraggable',
@@ -75,7 +74,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
     'polyMouseOut', 'polyMouseOver', 'polyMouseUp', 'polyRightClick'
   ]
 })
-export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentInit {
+export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polygon handles mouse events. Defaults to true.
    */
@@ -252,7 +251,7 @@ export class SebmGoogleMapPolygon implements OnDestroy, OnChanges, AfterContentI
 
   private _updatePolygonOptions(changes: SimpleChanges): PolygonOptions {
     return Object.keys(changes)
-        .filter(k => SebmGoogleMapPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
+        .filter(k => AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
         .reduce((obj: any, k: string) => {
           obj[k] = changes[k].currentValue;
           return obj;

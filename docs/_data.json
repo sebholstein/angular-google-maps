@@ -1,11 +1,11 @@
 {
   "getting-started": {
-    "title": "Getting started with angular2-google-maps",
+    "title": "Getting started with angular-google-maps (AGM)",
     "header_title": "Getting started",
-    "subtitle": "Let's start from zero and build an Angular 2 app with angular2-google-maps"
+    "subtitle": "Let's start from zero and build an Angular 2+ app with angular-google-maps (AGM)"
   },
   "CHANGELOG": {
     "title": "Changelog",
-    "subtitle": "angular2-google-maps Version Changelog"
+    "subtitle": "angular-google-maps Version Changelog"
   }
 }

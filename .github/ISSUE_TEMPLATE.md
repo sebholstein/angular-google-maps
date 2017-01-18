@@ -13,7 +13,7 @@ _What steps should we try in your demo to see the problem?_
 **Expected/desired behavior**
 
 
-**angular2 & angular2-google-maps version**
+**angular2 & angular-google-maps version**
 
 
 **Other information**

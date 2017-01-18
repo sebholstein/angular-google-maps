@@ -7,12 +7,12 @@ import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 let layerId = 0;
 
 @Directive({
-  selector: 'sebm-google-map-kml-layer',
+  selector: 'agm-kml-layer',
   inputs:
       ['clickable', 'preserveViewport', 'screenOverlays', 'suppressInfoWindows', 'url', 'zIndex'],
   outputs: ['layerClick', 'defaultViewportChange', 'statusChange']
 })
-export class SebmGoogleMapKmlLayer implements OnInit, OnDestroy, OnChanges {
+export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
   private _addedToManager: boolean = false;
   private _id: string = (layerId++).toString();
   private _subscriptions: Subscription[] = [];
@@ -89,7 +89,7 @@ export class SebmGoogleMapKmlLayer implements OnInit, OnDestroy, OnChanges {
 
   private _updatePolygonOptions(changes: SimpleChanges) {
     const options = Object.keys(changes)
-                        .filter(k => SebmGoogleMapKmlLayer._kmlLayerOptions.indexOf(k) !== -1)
+                        .filter(k => AgmKmlLayer._kmlLayerOptions.indexOf(k) !== -1)
                         .reduce((obj: any, k: string) => {
                           obj[k] = changes[k].currentValue;
                           return obj;
@@ -115,7 +115,7 @@ export class SebmGoogleMapKmlLayer implements OnInit, OnDestroy, OnChanges {
   id(): string { return this._id; }
 
   /** @internal */
-  toString(): string { return `SebmGoogleMapKmlLayer-${this._id.toString()}`; }
+  toString(): string { return `AgmKmlLayer-${this._id.toString()}`; }
 
   /** @internal */
   ngOnDestroy() {

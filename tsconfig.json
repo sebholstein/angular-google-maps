@@ -1,11 +1,11 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "es2015",
         "target": "es5",
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "outDir": ".tmp/es5",
+        "outDir": ".tmp/esm",
         "rootDir": ".",
         "sourceMap": true,
         "removeComments": false,
