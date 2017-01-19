@@ -1,9 +1,10 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions,
+        RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
@@ -154,6 +155,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   zoomControl: boolean = true;
 
   /**
+   * Options for the Zoom control.
+   */
+  zoomControlOptions: ZoomControlOptions;
+
+  /**
    * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
    * modes, these styles will only apply to labels and geometry.
    */
@@ -174,6 +180,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   streetViewControl: boolean = true;
 
   /**
+   * Options for the Street View control.
+   */
+  streetViewControlOptions: StreetViewControlOptions;
+
+  /**
    * Sets the viewport to contain the given bounds.
    */
   fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
@@ -184,17 +195,59 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   scaleControl: boolean = false;
 
   /**
+   * Options for the scale control.
+   */
+  scaleControlOptions: ScaleControlOptions;
+
+  /**
    * The initial enabled/disabled state of the Map type control.
    */
   mapTypeControl: boolean = false;
+
+  /**
+   * Options for the Map type control.
+   */
+  mapTypeControlOptions: MapTypeControlOptions;
+
+  /**
+   * The initial enabled/disabled state of the Pan control.
+   */
+  panControl: boolean  = false;
+
+  /**
+   * Options for the Pan control.
+   */
+  panControlOptions: PanControlOptions;
+
+  /**
+   * The initial enabled/disabled state of the Rotate control.
+   */
+  rotateControl: boolean = false;
+
+  /**
+   * Options for the Rotate control.
+   */
+  rotateControlOptions: RotateControlOptions;
+
+  /**
+   * The initial enabled/disabled state of the Fullscreen control.
+   */
+  fullscreenControl: boolean  = false;
+
+  /**
+   * Options for the Fullscreen control.
+   */
+  fullscreenControlOptions: FullscreenControlOptions;
 
   /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom', 'mapTypeControl',
-    'minZoom', 'maxZoom'
+    'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
+    'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
+    'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
+    'fullscreenControl', 'fullscreenControlOptions'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -253,16 +306,28 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       disableDefaultUI: this.disableDefaultUI,
+      disableDoubleClickZoom: this.disableDoubleClickZoom,
+      scrollwheel: this.scrollwheel,
       backgroundColor: this.backgroundColor,
       draggable: this.draggable,
       draggableCursor: this.draggableCursor,
       draggingCursor: this.draggingCursor,
       keyboardShortcuts: this.keyboardShortcuts,
-      zoomControl: this.zoomControl,
       styles: this.styles,
+      zoomControl: this.zoomControl,
+      zoomControlOptions: this.zoomControlOptions,
       streetViewControl: this.streetViewControl,
+      streetViewControlOptions: this.streetViewControlOptions,
       scaleControl: this.scaleControl,
-      mapTypeControl: this.mapTypeControl
+      scaleControlOptions: this.scaleControlOptions,
+      mapTypeControl: this.mapTypeControl,
+      mapTypeControlOptions: this.mapTypeControlOptions,
+      panControl: this.panControl,
+      panControlOptions: this.panControlOptions,
+      rotateControl: this.rotateControl,
+      rotateControlOptions: this.rotateControlOptions,
+      fullscreenControl: this.fullscreenControl,
+      fullscreenControlOptions: this.fullscreenControlOptions,
     });
 
     // register event listeners
@@ -280,12 +345,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   /* @internal */
-  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+  ngOnChanges(changes: SimpleChanges) {
     this._updateMapOptionsChanges(changes);
     this._updatePosition(changes);
   }
 
-  private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
+  private _updateMapOptionsChanges(changes: SimpleChanges) {
     let options: {[propName: string]: any} = {};
     let optionKeys =
         Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
@@ -307,7 +372,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  private _updatePosition(changes: {[propName: string]: SimpleChange}) {
+  private _updatePosition(changes: SimpleChanges) {
     if (changes['latitude'] == null && changes['longitude'] == null &&
         changes['fitBounds'] == null) {
       // no position update needed

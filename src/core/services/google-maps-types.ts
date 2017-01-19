@@ -125,16 +125,27 @@ export interface MapOptions {
   maxZoom?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
+  scrollwheel?: boolean;
   backgroundColor?: string;
   draggable?: boolean;
   draggableCursor?: string;
   draggingCursor?: string;
   keyboardShortcuts?: boolean;
-  zoomControl?: boolean;
   styles?: MapTypeStyle[];
+  zoomControl?: boolean;
+  zoomControlOptions?: ZoomControlOptions;
   streetViewControl?: boolean;
+  streetViewControlOptions?: StreetViewControlOptions;
   scaleControl?: boolean;
+  scaleControlOptions?: ScaleControlOptions;
   mapTypeControl?: boolean;
+  mapTypeControlOptions?: MapTypeControlOptions;
+  panControl?: boolean;
+  panControlOptions?: PanControlOptions;
+  rotateControl?: boolean;
+  rotateControlOptions?: RotateControlOptions;
+  fullscreenControl?: boolean;
+  fullscreenControlOptions?: FullscreenControlOptions;
 }
 
 export interface MapTypeStyle {
@@ -404,17 +415,123 @@ export interface Geometry {
   type: string;
 }
 
-export class ControlPosition{
-  readonly BOTTOM_CENTER: string = 'BOTTOM_CENTER';
-  readonly BOTTOM_LEFT: string = 'BOTTOM_LEFT';
-  readonly BOTTOM_RIGHT: string = 'BOTTOM_RIGHT';
-  readonly LEFT_BOTTOM: string = 'LEFT_BOTTOM';
-  readonly LEFT_CENTER: string = 'LEFT_CENTER';
-  readonly LEFT_TOP: string = 'LEFT_TOP';
-  readonly RIGHT_BOTTOM: string = 'RIGHT_BOTTOM';
-  readonly RIGHT_CENTER: string = 'RIGHT_CENTER';
-  readonly RIGHT_TOP: string = 'RIGHT_TOP';
-  readonly TOP_CENTER: string = 'TOP_CENTER';
-  readonly TOP_LEFT: string = 'TOP_LEFT';
-  readonly TOP_RIGHT: string = 'TOP_RIGHT';
+/**
+ * Identifiers used to specify the placement of controls on the map. Controls are
+ * positioned relative to other controls in the same layout position. Controls that
+ * are added first are positioned closer to the edge of the map.
+ */
+export enum ControlPosition {
+  BOTTOM_CENTER,
+  BOTTOM_LEFT,
+  BOTTOM_RIGHT,
+  LEFT_BOTTOM,
+  LEFT_CENTER,
+  LEFT_TOP,
+  RIGHT_BOTTOM,
+  RIGHT_CENTER,
+  RIGHT_TOP,
+  TOP_CENTER,
+  TOP_LEFT,
+  TOP_RIGHT
+}
+
+export enum MapTypeId {
+  /** This map type displays a transparent layer of major streets on satellite images. */
+  HYBRID,
+  /** This map type displays a normal street map. */
+  ROADMAP,
+  /** This map type displays satellite images. */
+  SATELLITE,
+  /** This map type displays maps with physical features such as terrain and vegetation. */
+  TERRAIN
+}
+
+/***** Controls *****/
+/** Options for the rendering of the map type control. */
+export interface MapTypeControlOptions {
+  /** IDs of map types to show in the control. */
+  mapTypeIds?: (MapTypeId|string)[];
+  /**
+   * Position id. Used to specify the position of the control on the map.
+   * The default position is TOP_RIGHT.
+   */
+  position?: ControlPosition;
+  /** Style id. Used to select what style of map type control to display. */
+  style?: MapTypeControlStyle;
+}
+
+export enum MapTypeControlStyle {
+  DEFAULT,
+  DROPDOWN_MENU,
+  HORIZONTAL_BAR
+}
+
+export interface OverviewMapControlOptions {
+  opened?: boolean;
+}
+
+/** Options for the rendering of the pan control. */
+export interface PanControlOptions {
+  /**
+   * Position id. Used to specify the position of the control on the map.
+   * The default position is TOP_LEFT.
+   */
+  position?: ControlPosition;
+}
+
+/** Options for the rendering of the rotate control. */
+export interface RotateControlOptions {
+  /**
+   * Position id. Used to specify the position of the control on the map.
+   * The default position is TOP_LEFT.
+   */
+  position?: ControlPosition;
+}
+
+/** Options for the rendering of the scale control. */
+export interface ScaleControlOptions {
+  /** Style id. Used to select what style of scale control to display. */
+  style?: ScaleControlStyle;
+}
+
+export enum ScaleControlStyle {
+  DEFAULT
+}
+
+/** Options for the rendering of the Street View pegman control on the map. */
+export interface StreetViewControlOptions {
+  /**
+   * Position id. Used to specify the position of the control on the map. The
+   * default position is embedded within the navigation (zoom and pan) controls.
+   * If this position is empty or the same as that specified in the
+   * zoomControlOptions or panControlOptions, the Street View control will be
+   * displayed as part of the navigation controls. Otherwise, it will be displayed
+   * separately.
+   */
+  position?: ControlPosition;
+}
+
+/** Options for the rendering of the zoom control. */
+export interface ZoomControlOptions {
+  /**
+   * Position id. Used to specify the position of the control on the map.
+   * The default position is TOP_LEFT.
+   */
+  position?: ControlPosition;
+  style?: ZoomControlStyle;
+}
+
+export enum ZoomControlStyle {
+  DEFAULT,
+  LARGE,
+  SMALL
+}
+
+/** Options for the rendering of the fullscreen control. */
+export interface FullscreenControlOptions {
+  /**
+   * Position id. Used to specify the position of the control on the map.
+   * The default position is RIGHT_TOP.
+   */
+  position?: ControlPosition;
 }
