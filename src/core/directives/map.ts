@@ -46,8 +46,10 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   inputs: [
     'longitude', 'latitude', 'zoom', 'minZoom', 'maxZoom', 'draggable: mapDraggable',
     'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel', 'backgroundColor', 'draggableCursor',
-    'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'styles', 'usePanning', 'streetViewControl',
-    'fitBounds', 'scaleControl', 'mapTypeControl'
+    'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'usePanning',
+    'streetViewControl', 'streetViewControlOptions', 'fitBounds', 'mapTypeControl', 'mapTypeControlOptions',
+    'panControlOptions', 'rotateControl', 'rotateControlOptions', 'fullscreenControl', 'fullscreenControlOptions',
+    'scaleControl', 'scaleControlOptions'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -247,7 +249,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
-    'fullscreenControl', 'fullscreenControlOptions'
+    'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
