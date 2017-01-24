@@ -91,7 +91,7 @@ export interface CircleOptions {
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
   equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
-  extend(point: LatLng): void;
+  extend(point: LatLng|LatLngLiteral): void;
   getCenter(): LatLng;
   getNorthEast(): LatLng;
   getSouthWest(): LatLng;
