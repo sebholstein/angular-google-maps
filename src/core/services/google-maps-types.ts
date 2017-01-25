@@ -146,6 +146,7 @@ export interface MapOptions {
   rotateControlOptions?: RotateControlOptions;
   fullscreenControl?: boolean;
   fullscreenControlOptions?: FullscreenControlOptions;
+  mapTypeId?: string|MapTypeId;
 }
 
 export interface MapTypeStyle {
