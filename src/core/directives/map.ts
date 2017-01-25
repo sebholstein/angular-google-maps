@@ -49,7 +49,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
     'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'usePanning',
     'streetViewControl', 'streetViewControlOptions', 'fitBounds', 'mapTypeControl', 'mapTypeControlOptions',
     'panControlOptions', 'rotateControl', 'rotateControlOptions', 'fullscreenControl', 'fullscreenControlOptions',
-    'scaleControl', 'scaleControlOptions'
+    'scaleControl', 'scaleControlOptions', 'mapTypeId'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -242,6 +242,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   fullscreenControlOptions: FullscreenControlOptions;
 
   /**
+   * The map mapTypeId. Defaults to 'roadmap'.
+   */
+  mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -249,7 +254,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
-    'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions'
+    'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
+    'mapTypeId'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -330,6 +336,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
+      mapTypeId: this.mapTypeId
     });
 
     // register event listeners
