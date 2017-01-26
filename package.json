@@ -70,7 +70,7 @@
     "karma-mocha-reporter": "^2.2.0",
     "karma-remap-istanbul": "^0.2.1",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.8.0",
+    "karma-webpack": "^2.0.2",
     "reflect-metadata": "^0.1.8",
     "remap-istanbul": "^0.8.0",
     "rimraf": "^2.5.4",
