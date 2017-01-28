@@ -1,6 +1,7 @@
 export var google: any;
 
 export interface GoogleMap extends MVCObject {
+  data:any;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   setZoom(zoom: number): void;
