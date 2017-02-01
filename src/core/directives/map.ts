@@ -460,6 +460,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     const events: Event[] = [
       {name: 'click', emitter: this.mapClick},
       {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'dblclick', emitter: this.mapDblClick},
     ];
 
     events.forEach((e: Event) => {
