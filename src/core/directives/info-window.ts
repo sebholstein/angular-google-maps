@@ -93,7 +93,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * Emits an event when the info window is closed.
    */
-  infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
+  infoWindowClose: EventEmitter<AgmInfoWindow> = new EventEmitter<AgmInfoWindow>();
 
   private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth'];
   private _infoWindowAddedToManager: boolean = false;
@@ -105,7 +105,9 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
     this.content = this._el.nativeElement.querySelector('.agm-info-window-content');
     this._infoWindowManager.addInfoWindow(this);
     this._infoWindowAddedToManager = true;
-    this._updateOpenState();
+    if (this.isOpen) {
+      this.open();
+    }
     this._registerEventListeners();
   }
 
@@ -130,7 +132,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   private _registerEventListeners() {
     this._infoWindowManager.createEventObservable('closeclick', this).subscribe(() => {
       this.isOpen = false;
-      this.infoWindowClose.emit();
+      this.infoWindowClose.emit(this);
     });
   }
 
@@ -155,7 +157,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
    * Closes the info window.
    */
   close(): Promise<void> {
-    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(); });
+    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(this); });
   }
 
   /** @internal */
