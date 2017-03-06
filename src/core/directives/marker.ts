@@ -59,9 +59,10 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
 
   /**
    * The label (a single uppercase character) for the marker.
+   * Alternatively, a MarkerLabel object may be provided.
    */
-  label: string;
-
+  label: string | mapTypes.MarkerLabel;
+  
   /**
    * If true, the marker can be dragged. Default value is false.
    */
