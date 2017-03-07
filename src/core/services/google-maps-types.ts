@@ -43,6 +43,7 @@ export interface MarkerOptions {
   icon?: string;
   opacity?: number;
   visible?: boolean;
+  optimized?: boolean;
   zIndex?: number;
 }
 
