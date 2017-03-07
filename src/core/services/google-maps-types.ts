@@ -147,6 +147,7 @@ export interface MapOptions {
   fullscreenControl?: boolean;
   fullscreenControlOptions?: FullscreenControlOptions;
   mapTypeId?: string|MapTypeId;
+  clickableIcons?: boolean;
 }
 
 export interface MapTypeStyle {
