@@ -49,7 +49,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
     'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'usePanning',
     'streetViewControl', 'streetViewControlOptions', 'fitBounds', 'mapTypeControl', 'mapTypeControlOptions',
     'panControlOptions', 'rotateControl', 'rotateControlOptions', 'fullscreenControl', 'fullscreenControlOptions',
-    'scaleControl', 'scaleControlOptions', 'mapTypeId'
+    'scaleControl', 'scaleControlOptions', 'mapTypeId', 'clickableIcons'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -247,6 +247,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
 
   /**
+   * When false, map icons are not clickable. A map icon represents a point of interest,
+   * also known as a POI. By default map icons are clickable.
+   */
+  clickableIcons: boolean = true;
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -255,7 +261,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId'
+    'mapTypeId', 'clickableIcons'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -336,7 +342,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
-      mapTypeId: this.mapTypeId
+      mapTypeId: this.mapTypeId,
+      clickableIcons: this.clickableIcons
     });
 
     // register event listeners
