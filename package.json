@@ -39,8 +39,8 @@
   },
   "homepage": "https://angular-maps.com",
   "dependencies": {
-    "@angular/common": "^2.3.1",
-    "@angular/core": "^2.3.1"
+    "@angular/common": ">=2.0.0 < 5.0.0",
+    "@angular/core": ">=2.0.0 < 5.0.0"
   },
   "devDependencies": {
     "@angular/compiler": "^2.3.1",
@@ -85,8 +85,8 @@
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^2.3.1",
-      "@angular/core": "^2.3.1"
+      "@angular/common": ">=2.0.0 < 5.0.0",
+      "@angular/core": ">=2.0.0 < 5.0.0"
     }
   }
 }
