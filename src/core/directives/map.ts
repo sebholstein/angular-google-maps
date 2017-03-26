@@ -247,6 +247,16 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
 
   /**
+   * This setting controls how gestures on the map are handled.
+   * Allowed values:
+   *     'cooperative' (Two-finger touch gestures pan and zoom the map. One-finger touch gestures are not handled by the map.)
+   *     'greedy'      (All touch gestures pan or zoom the map.)
+   *     'none'        (The map cannot be panned or zoomed by user gestures.)
+   *     'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
+   */
+  gestureHandling: string = 'auto';
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -336,7 +346,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
-      mapTypeId: this.mapTypeId
+      mapTypeId: this.mapTypeId,
+      gestureHandling: this.gestureHandling
     });
 
     // register event listeners
