@@ -34,7 +34,7 @@ let layerId = 0;
  *   lat: number = -25.274449;
  *   lng: number = 133.775060;
  *   zoom: number = 5;
- *   
+ *
  * clicked(clickEvent) {
  *    console.log(clickEvent);
  *  }
