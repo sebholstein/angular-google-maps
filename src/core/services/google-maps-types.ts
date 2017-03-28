@@ -148,6 +148,7 @@ export interface MapOptions {
   fullscreenControlOptions?: FullscreenControlOptions;
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
+  gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
 }
 
 export interface MapTypeStyle {

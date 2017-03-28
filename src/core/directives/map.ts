@@ -49,7 +49,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
     'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'usePanning',
     'streetViewControl', 'streetViewControlOptions', 'fitBounds', 'mapTypeControl', 'mapTypeControlOptions',
     'panControlOptions', 'rotateControl', 'rotateControlOptions', 'fullscreenControl', 'fullscreenControlOptions',
-    'scaleControl', 'scaleControlOptions', 'mapTypeId', 'clickableIcons'
+    'scaleControl', 'scaleControlOptions', 'mapTypeId', 'clickableIcons', 'gestureHandling'
   ],
   outputs: [
     'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
@@ -253,6 +253,16 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   clickableIcons: boolean = true;
 
   /**
+   * This setting controls how gestures on the map are handled.
+   * Allowed values:
+   * - 'cooperative' (Two-finger touch gestures pan and zoom the map. One-finger touch gestures are not handled by the map.)
+   * - 'greedy'      (All touch gestures pan or zoom the map.)
+   * - 'none'        (The map cannot be panned or zoomed by user gestures.)
+   * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
+   */
+  gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -261,7 +271,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons'
+    'mapTypeId', 'clickableIcons', 'gestureHandling'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -343,7 +353,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
       mapTypeId: this.mapTypeId,
-      clickableIcons: this.clickableIcons
+      clickableIcons: this.clickableIcons,
+      gestureHandling: this.gestureHandling
     });
 
     // register event listeners
