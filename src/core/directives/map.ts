@@ -52,7 +52,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
     'scaleControl', 'scaleControlOptions', 'mapTypeId', 'clickableIcons', 'gestureHandling'
   ],
   outputs: [
-    'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
+    'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange', 'mapReady'
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
@@ -314,6 +314,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   zoomChange: EventEmitter<number> = new EventEmitter<number>();
 
+  /**
+   * This event is fired when the google map is fully initialized.
+   * You get the google.maps.Map instance as a result of this EventEmitter.
+   */
+  mapReady: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
@@ -355,7 +361,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       mapTypeId: this.mapTypeId,
       clickableIcons: this.clickableIcons,
       gestureHandling: this.gestureHandling
-    });
+    })
+      .then(() => this._mapsWrapper.getNativeMap())
+      .then(map => this.mapReady.emit(map));
 
     // register event listeners
     this._handleMapCenterChange();
