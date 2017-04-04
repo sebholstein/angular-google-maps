@@ -13,6 +13,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import {FitBoundsService} from './../services/fitBounds.service';
 
 /**
  * AgmMap renders a Google Map.
@@ -41,7 +42,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager, KmlLayerManager, DataLayerManager
+    PolygonManager, KmlLayerManager, DataLayerManager, FitBoundsService
   ],
   inputs: [
     'longitude', 'latitude', 'zoom', 'minZoom', 'maxZoom', 'draggable: mapDraggable',
@@ -189,7 +190,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Sets the viewport to contain the given bounds.
    */
-  fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
+  fitBounds: LatLngBoundsLiteral|LatLngBounds|boolean = null;
 
   /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
@@ -276,6 +277,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _observableSubscriptions: Subscription[] = [];
 
+  private _fitBoundsSubscription: Subscription;
+
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
@@ -314,7 +317,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   zoomChange: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
+  constructor(
+    private _elem: ElementRef,
+    private _mapsWrapper: GoogleMapsAPIWrapper,
+    private _fitBoundsService: FitBoundsService) {}
 
   /** @internal */
   ngOnInit() {
@@ -427,11 +433,37 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _fitBounds() {
-    if (this.usePanning) {
-      this._mapsWrapper.panToBounds(this.fitBounds);
+    if (this.fitBounds == null) {
       return;
     }
-    this._mapsWrapper.fitBounds(this.fitBounds);
+    if (typeof this.fitBounds !== 'boolean') {
+      if (this.usePanning) {
+        this._mapsWrapper.panToBounds(this.fitBounds);
+        return;
+      }
+      this._mapsWrapper.fitBounds(this.fitBounds);
+      return;
+    }
+
+    if (this.fitBounds === false && this._fitBoundsSubscription != null) {
+      // unbsubscribe to fitBounds updates
+      this._fitBoundsSubscription.unsubscribe();
+      this._fitBoundsSubscription = null;
+    } else if (this._fitBoundsSubscription == null) {
+      console.log('subscribe!');
+      this._fitBoundsSubscription = this._fitBoundsService.getBounds().subscribe((bounds) => {
+        console.log(bounds.toJSON());
+        if (this.fitBounds == null || bounds == null) {
+          return;
+        }
+        if (this.usePanning) {
+          this._mapsWrapper.panToBounds(bounds);
+          return;
+        }
+        this._mapsWrapper.fitBounds(bounds);
+      });
+    }
+
   }
 
   private _handleMapCenterChange() {

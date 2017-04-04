@@ -37,9 +37,9 @@ let markerId = 0;
   selector: 'agm-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'opacity', 'visible', 'zIndex'
+    'openInfoWindow', 'opacity', 'visible', 'zIndex', 'fitBounds'
   ],
-  outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
+  outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut'],
 })
 export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
@@ -96,6 +96,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   zIndex: number = 1;
 
   /**
+   * Fit to bounds? Defaults to true.
+   */
+  fitBounds: boolean = true;
+
+  /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   markerClick: EventEmitter<void> = new EventEmitter<void>();
@@ -124,7 +129,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   private _id: string;
   private _observableSubscriptions: Subscription[] = [];
 
-  constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
+  constructor(private _markerManager: MarkerManager, ) { this._id = (markerId++).toString(); }
 
   /* @internal */
   ngAfterContentInit() {
@@ -154,6 +159,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
     if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
+    }
+    if (changes['fitBounds']) {
+      this._markerManager.updateBoundsOptions(this);
     }
     if (changes['title']) {
       this._markerManager.updateTitle(this);

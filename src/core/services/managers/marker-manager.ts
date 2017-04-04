@@ -1,3 +1,4 @@
+import { FitBoundsService } from './../fitBounds.service';
 import {Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
@@ -12,7 +13,10 @@ export class MarkerManager {
   private _markers: Map<AgmMarker, Promise<Marker>> =
       new Map<AgmMarker, Promise<Marker>>();
 
-  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
+  constructor(
+    private _mapsWrapper: GoogleMapsAPIWrapper,
+    private _zone: NgZone,
+    private _fitBoundsService: FitBoundsService) {}
 
   deleteMarker(marker: AgmMarker): Promise<void> {
     const m = this._markers.get(marker);
@@ -28,9 +32,20 @@ export class MarkerManager {
     });
   }
 
+  updateBoundsOptions(marker: AgmMarker): void {
+    if (marker.fitBounds) {
+      this._fitBoundsService.addToBoundsResult(this, {lat: marker.latitude, lng: marker.longitude});
+    } else {
+      this._fitBoundsService.removeFromBoundsResult(this);
+    }
+  }
+
   updateMarkerPosition(marker: AgmMarker): Promise<void> {
     return this._markers.get(marker).then(
-        (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
+        (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}))
+        .then(() => {
+          this.updateBoundsOptions(marker);
+        });
   }
 
   updateTitle(marker: AgmMarker): Promise<void> {
@@ -73,6 +88,9 @@ export class MarkerManager {
       title: marker.title
     });
     this._markers.set(marker, markerPromise);
+    markerPromise.then(() => {
+      this.updateBoundsOptions(marker);
+    });
   }
 
   getNativeMarker(marker: AgmMarker): Promise<Marker> {
