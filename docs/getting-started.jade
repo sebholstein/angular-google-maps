@@ -1,8 +1,8 @@
 include ../_includes/utils
 
-+section_title('Playing with angular-google-maps (AGM)', 'playing')
++section_title('Playing with Angular Google Maps (AGM)', 'playing')
 :marked
-  If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular 2, Typescript and of course `angular-google-maps`:
+  If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
 
 a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &raquo; Play with angular-google-maps on Plunker
 
@@ -14,7 +14,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     :marked
         **If you're familiar with setting up Angular projects with Angular CLI & TypeScript, you can skip this part and move on to this part:**
 
-        **[Setting up angular-google-maps (AGM)](#angular-google-maps-setup)**
+        **[Setting up Angular Google Maps (AGM)](#angular-google-maps-setup)**
 
 :marked
   ### Installing TypeScript
@@ -33,7 +33,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
 .code-highlight
   :marked
     ```markup
-    npm install -g angular-cli
+    npm install -g @angular/cli
     ```
 
 :marked
@@ -51,12 +51,12 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
 :marked
   ### Install angular-google-maps
 
-  `angular-google-maps (short name: AGM)` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
+  `Angular Google Maps (short name: AGM)` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
 
 .code-highlight
   :marked
     ```markup
-    npm install @angular-google-maps/core --save
+    npm install @agm/core --save
     ```
     
 :marked
@@ -73,7 +73,7 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
     import { FormsModule } from '@angular/forms';
     import { AppComponent } from './app.component';
 
-    import { AgmCoreModule } from '@angular-google-maps/core';
+    import { AgmCoreModule } from '@agm/core';
 
     @NgModule({
       imports: [
@@ -166,12 +166,12 @@ a.button.button-icon.blue-light(href='http://plnkr.co/edit/YX7W20?p=preview') &r
 
   The command starts the following things:
   * Starts the TypeScript compiler and compiles all sources files (watches also for file changes in the source files and recompiles all files if something has changed)
-  * Starts a local web server to serve the Angular 2 application. It refreshes the page when served files change.
+  * Starts a local web server to serve the Angular application. It refreshes the page when served files change.
 
   **When everything works as expected, you should see your first Google Map created with AGM 🎉🎉🎉!**
 
 +section_title('Questions?', 'questions')
 :marked
-  When you have problems setting up **angular-google-maps** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
+  When you have problems setting up **angular-google-maps (AGM)** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
 
 a.button.button-icon.blue-light(href='https://gitter.im/SebastianM/angular-google-maps') &raquo; Chat on Gitter
