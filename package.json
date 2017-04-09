@@ -1,6 +1,6 @@
 {
-  "name": "angular-google-maps-src",
-  "version": "0.17.0",
+  "name": "@agm/core-src",
+  "version": "1.0.0-beta.0",
   "description": "Angular 2+ components for Google Maps",
   "repository": {
     "type": "git",
@@ -8,13 +8,13 @@
   },
   "keywords": [
     "angular",
-    "angular2",
     "ng",
     "google-maps",
-    "ng2",
     "maps",
     "google",
-    "gmaps"
+    "gmaps",
+    "ng2",
+    "angular2"
   ],
   "scripts": {
     "clean": "rimraf dist && rimraf .tmp && mkdir dist && mkdir .tmp && rimraf 'src/**/*.ngfactory.ts'",
