@@ -1,3 +1,74 @@
+<a name="1.0.0-beta.0"></a>
+# [1.0.0-beta.0 - green-zebra](https://github.com/SebastianM/angular-google-maps/compare/0.17.0...1.0.0-beta.0) (2017-04-09)
+
+**Please read the BREAKING CHANGES below!**
+
+### Bug Fixes
+
+* **AgmMap:** Add missing control opt inputs ([52315b3](https://github.com/SebastianM/angular-google-maps/commit/52315b3)), closes [#
+863](https://github.com/SebastianM/angular-google-maps/issues/863)
+* **AgmMap:** mapDblClick output fixed ([500dce0](https://github.com/SebastianM/angular-google-maps/commit/500dce0)), closes [#879](h
+ttps://github.com/SebastianM/angular-google-maps/issues/879) [#880](https://github.com/SebastianM/angular-google-maps/issues/880)
+* **AgmMarker:** fix mislocated info window ([c5a2414](https://github.com/SebastianM/angular-google-maps/commit/c5a2414)), closes [#752]
+(https://github.com/SebastianM/angular-google-maps/issues/752) [#754](https://github.com/SebastianM/angular-google-maps/issues/754)
+
+
+### Features
+
+* **change project name to AGM - Angular Google Maps** ([d1bab5a](https://github.com/SebastianM/angular-google-maps/commit/d1bab5a))
+* Support data layer ([66806e5](https://github.com/SebastianM/angular-google-maps/commit/66806e5)), closes [#809](https://github.com/
+SebastianM/angular-google-maps/issues/809) [#819](https://github.com/SebastianM/angular-google-maps/issues/819)
+* **AgmMap:** add gestureHandling option ([f863228](https://github.com/SebastianM/angular-google-maps/commit/f863228)), closes [#919]
+(https://github.com/SebastianM/angular-google-maps/issues/919)
+* **AgmMap:** add mapTypeId support ([edf6e4f](https://github.com/SebastianM/angular-google-maps/commit/edf6e4f)), closes [#774](http
+s://github.com/SebastianM/angular-google-maps/issues/774)
+* **AgmMap:** know when map is ready ([2788dba](https://github.com/SebastianM/angular-google-maps/commit/2788dba)), closes [#740](htt
+ps://github.com/SebastianM/angular-google-maps/issues/740) [#972](https://github.com/SebastianM/angular-google-maps/issues/972)
+* **AgmMap:** Add attribute „clickableIcons“ to map ([9960522](https://github.com/SebastianM/angular-google-maps/commit/996052
+2))
+* **AgmMap:** Add control options support ([0048ccf](https://github.com/SebastianM/angular-google-maps/commit/0048ccf))
+* support angular 4.0 and 2.0 ([263e92d](https://github.com/SebastianM/angular-google-maps/commit/263e92d))
+
+### BREAKING CHANGES
+The project and NPM package name changes:
+
+Old name: angular2-google-maps
+New NPM pkg name: @agm/core
+
+To have a consisten naming pattern, we also change the
+component/directives names:
+
+| Old class name / old selector                               | New class name / new selector         |
+|-------------------------------------------------------------|---------------------------------------|
+| SebmGoogleMap / sebm-google-map                             | AgmMap / agm-map                      |
+| SebmGoogleMapCircle / sebm-google-map-circle                | AgmCircle / agm-circle                |
+| SebmGoogleMapInfoWindow / sebm-google-map-info-window       | AgmInfoWindow / agm-info-window       |
+| SebmGoogleMapKmlLayer / sebm-google-map-kml-layer           | AgmKmlLayer / agm-kml-layer           |
+| SebmGoogleMapMarker / sebm-google-map-marker                | AgmMarker / agm-marker                |
+| SebmGoogleMapPolygon / sebm-map-polygon                     | AgmPolygon / agm-polygon              |
+| SebmGoogleMapPolyline / sebm-google-map-polyline            | AgmPolyline / agm-polyline            |
+| SebmGoogleMapPolylinePoint / sebm-google-map-polyline-point | AgmPolylinePoint / agm-polyline-point |
+
+You can simply migrate by search/replace these class/selector names.
+
+The package structure also changes. The root directory now contains **esm** code (ES5 code with ES2015 modules).
+
+**A CommonJS compatible format and TS are not part of the package any more!  
+This change aligns with structure of the @angular packages.**
+
+The styling of the maps is now more intuitive.
+To style the map, please use the `agm-map` element (or a custom class or
+ID) directly.
+
+**The `.sebm-google-map-container` css class is deprecated and will be
+gone with the next version.**
+
+**The `.sebm.google-map-container-inner` is now called
+`.agm-map-container-inner`. `.sebm-google-map-container-inner` is
+depcrecated and will be gone with the next version.**
+
+
+
 <a name="0.17.0"></a>
 # [0.17.0 christmas-edition](https://github.com/SebastianM/angular2-google-maps/compare/0.16.0...0.17.0) (2016-12-22)
 
