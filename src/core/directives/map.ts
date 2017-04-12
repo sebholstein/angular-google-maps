@@ -395,15 +395,22 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * Triggers a resize event on the google map instance.
+   * When recenter is true, the of the google map gets called with the current lat/lng values or fitBounds value to recenter the map.
    * Returns a promise that gets resolved after the event was triggered.
    */
-  triggerResize(): Promise<void> {
+  triggerResize(recenter: boolean = true): Promise<void> {
     // Note: When we would trigger the resize event and show the map in the same turn (which is a
     // common case for triggering a resize event), then the resize event would not
     // work (to show the map), so we trigger the event in a timeout.
     return new Promise<void>((resolve) => {
-      setTimeout(
-          () => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); });
+      setTimeout(() => {
+        return this._mapsWrapper.triggerMapEvent('resize').then(() => {
+          if (recenter) {
+            this.fitBounds != null ? this._fitBounds() : this._setCenter();
+          }
+          resolve();
+        });
+      });
     });
   }
 
@@ -423,6 +430,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
+    this._setCenter();
+  }
+
+  private _setCenter() {
     let newCenter = {
       lat: this.latitude,
       lng: this.longitude,
