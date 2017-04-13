@@ -35,8 +35,8 @@ The project and NPM package name changes:
 Old name: angular2-google-maps
 New NPM pkg name: @agm/core
 
-To have a consisten naming pattern, we also change the
-component/directives names:
+To have a consistent naming pattern, we also change the
+component/directive names:
 
 | Old class name / old selector                               | New class name / new selector         |
 |-------------------------------------------------------------|---------------------------------------|
