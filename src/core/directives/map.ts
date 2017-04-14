@@ -49,10 +49,10 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
     'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'usePanning',
     'streetViewControl', 'streetViewControlOptions', 'fitBounds', 'mapTypeControl', 'mapTypeControlOptions',
     'panControlOptions', 'rotateControl', 'rotateControlOptions', 'fullscreenControl', 'fullscreenControlOptions',
-    'scaleControl', 'scaleControlOptions', 'mapTypeId'
+    'scaleControl', 'scaleControlOptions', 'mapTypeId', 'clickableIcons', 'gestureHandling'
   ],
   outputs: [
-    'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange'
+    'mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange', 'zoomChange', 'mapReady'
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
@@ -247,6 +247,22 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
 
   /**
+   * When false, map icons are not clickable. A map icon represents a point of interest,
+   * also known as a POI. By default map icons are clickable.
+   */
+  clickableIcons: boolean = true;
+
+  /**
+   * This setting controls how gestures on the map are handled.
+   * Allowed values:
+   * - 'cooperative' (Two-finger touch gestures pan and zoom the map. One-finger touch gestures are not handled by the map.)
+   * - 'greedy'      (All touch gestures pan or zoom the map.)
+   * - 'none'        (The map cannot be panned or zoomed by user gestures.)
+   * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
+   */
+  gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
+
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -255,7 +271,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId'
+    'mapTypeId', 'clickableIcons', 'gestureHandling'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -298,6 +314,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   zoomChange: EventEmitter<number> = new EventEmitter<number>();
 
+  /**
+   * This event is fired when the google map is fully initialized.
+   * You get the google.maps.Map instance as a result of this EventEmitter.
+   */
+  mapReady: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
@@ -336,8 +358,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
-      mapTypeId: this.mapTypeId
-    });
+      mapTypeId: this.mapTypeId,
+      clickableIcons: this.clickableIcons,
+      gestureHandling: this.gestureHandling
+    })
+      .then(() => this._mapsWrapper.getNativeMap())
+      .then(map => this.mapReady.emit(map));
 
     // register event listeners
     this._handleMapCenterChange();
@@ -369,15 +395,22 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * Triggers a resize event on the google map instance.
+   * When recenter is true, the of the google map gets called with the current lat/lng values or fitBounds value to recenter the map.
    * Returns a promise that gets resolved after the event was triggered.
    */
-  triggerResize(): Promise<void> {
+  triggerResize(recenter: boolean = true): Promise<void> {
     // Note: When we would trigger the resize event and show the map in the same turn (which is a
     // common case for triggering a resize event), then the resize event would not
     // work (to show the map), so we trigger the event in a timeout.
     return new Promise<void>((resolve) => {
-      setTimeout(
-          () => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); });
+      setTimeout(() => {
+        return this._mapsWrapper.triggerMapEvent('resize').then(() => {
+          if (recenter) {
+            this.fitBounds != null ? this._fitBounds() : this._setCenter();
+          }
+          resolve();
+        });
+      });
     });
   }
 
@@ -397,6 +430,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
+    this._setCenter();
+  }
+
+  private _setCenter() {
     let newCenter = {
       lat: this.latitude,
       lng: this.longitude,
