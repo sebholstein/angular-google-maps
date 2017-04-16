@@ -1,5 +1,6 @@
 import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
-  AfterContentInit, ContentChildren, QueryList} from '@angular/core';
+  AfterContentInit, ContentChildren, QueryList, Input, Output
+} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../map-types';
@@ -34,58 +35,54 @@ let markerId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-marker',
-  inputs: [
-    'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'opacity', 'visible', 'zIndex'
-  ],
-  outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
+  selector: 'agm-marker'
 })
 export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The latitude position of the marker.
    */
-  latitude: number;
+  @Input() latitude: number;
 
   /**
    * The longitude position of the marker.
    */
-  longitude: number;
+  @Input() longitude: number;
 
   /**
    * The title of the marker.
    */
-  title: string;
+  @Input() title: string;
 
   /**
    * The label (a single uppercase character) for the marker.
    */
-  label: string;
+  @Input() label: string;
 
   /**
    * If true, the marker can be dragged. Default value is false.
    */
-  draggable: boolean = false;
+  // tslint:disable-next-line:no-input-rename
+  @Input('markerDraggable') draggable: boolean = false;
 
   /**
    * Icon (the URL of the image) for the foreground.
    */
-  iconUrl: string;
+  @Input() iconUrl: string;
 
   /**
    * If true, the marker is visible
    */
-  visible: boolean = true;
+  @Input() visible: boolean = true;
 
   /**
    * Whether to automatically open the child info window when the marker is clicked.
    */
-  openInfoWindow: boolean = true;
+  @Input() openInfoWindow: boolean = true;
 
   /**
    * The marker's opacity between 0.0 and 1.0.
    */
-  opacity: number = 1;
+  @Input() opacity: number = 1;
 
   /**
    * All markers are displayed on the map in order of their zIndex, with higher values displaying in
@@ -93,27 +90,27 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
    * vertical position on screen, with lower markers appearing in front of markers further up the
    * screen.
    */
-  zIndex: number = 1;
+  @Input() zIndex: number = 1;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  markerClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * This event is fired when the user stops dragging the marker.
    */
-  dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user mouses over the marker.
    */
-  mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user mouses outside the marker.
    */
-  mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * @internal
