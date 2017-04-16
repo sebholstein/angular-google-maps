@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Output, Input } from '@angular/core';
 
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 
@@ -34,8 +34,6 @@ let infoWindowId = 0;
  */
 @Component({
   selector: 'agm-info-window',
-  inputs: ['latitude', 'longitude', 'disableAutoPan', 'isOpen', 'zIndex', 'maxWidth'],
-  outputs: ['infoWindowClose'],
   template: `<div class='agm-info-window-content'>
       <ng-content></ng-content>
     </div>
@@ -46,19 +44,19 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
    * AgmMarker}).
    */
-  latitude: number;
+  @Input() latitude: number;
 
   /**
    * The longitude position of the info window (only usefull if you use it ouside of a {@link
    * AgmMarker}).
    */
-  longitude: number;
+  @Input() longitude: number;
 
   /**
    * Disable auto-pan on open. By default, the info window will pan the map so that it is fully
    * visible when it opens.
    */
-  disableAutoPan: boolean;
+  @Input() disableAutoPan: boolean;
 
   /**
    * All InfoWindows are displayed on the map in order of their zIndex, with higher values
@@ -66,14 +64,14 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
    * according to their latitude, with InfoWindows of lower latitudes appearing in front of
    * InfoWindows at higher latitudes. InfoWindows are always displayed in front of markers.
    */
-  zIndex: number;
+  @Input() zIndex: number;
 
   /**
    * Maximum width of the infowindow, regardless of content's width. This value is only considered
    * if it is set before a call to open. To change the maximum width when changing content, call
    * close, update maxWidth, and then open.
    */
-  maxWidth: number;
+  @Input() maxWidth: number;
 
   /**
    * Holds the marker that is the host of the info window (if available)
@@ -88,12 +86,12 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * Sets the open state for the InfoWindow. You can also call the open() and close() methods.
    */
-  isOpen: boolean = false;
+  @Input() isOpen: boolean = false;
 
   /**
    * Emits an event when the info window is closed.
    */
-  infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
+  @Output() infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
 
   private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth'];
   private _infoWindowAddedToManager: boolean = false;
