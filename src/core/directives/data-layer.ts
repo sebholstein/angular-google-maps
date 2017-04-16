@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { DataMouseEvent, DataOptions } from './../services/google-maps-types';
@@ -197,9 +197,7 @@ let layerId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-data-layer',
-  inputs: ['geoJson', 'style'],
-  outputs: ['layerClick']
+  selector: 'agm-data-layer'
 })
 export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   private static _dataOptionsAttributes: Array<string> = ['style'];
@@ -211,17 +209,17 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * This event is fired when a feature in the layer is clicked.
    */
-  layerClick: EventEmitter<DataMouseEvent> = new EventEmitter<DataMouseEvent>();
+  @Output() layerClick: EventEmitter<DataMouseEvent> = new EventEmitter<DataMouseEvent>();
 
   /**
    * The geoJson to be displayed
    */
-  geoJson: Object | null = null;
+  @Input() geoJson: Object | null = null;
 
   /**
    * The layer's style function.
    */
-  style: () => void;
+  @Input() style: () => void;
 
   constructor(private _manager: DataLayerManager) { }
 
