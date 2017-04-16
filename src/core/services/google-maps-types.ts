@@ -31,6 +31,7 @@ export interface Marker extends MVCObject {
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   setZIndex(zIndex: number): void;
+  setAnimation(animation: any): void;
   getLabel(): MarkerLabel;
 }
 
@@ -44,6 +45,7 @@ export interface MarkerOptions {
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
+  animation?: any;
 }
 
 export interface MarkerLabel {
