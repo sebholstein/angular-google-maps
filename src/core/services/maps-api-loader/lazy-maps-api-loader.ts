@@ -24,7 +24,7 @@ export interface LazyMapsAPILoaderConfigLiteral {
    * The Google Maps API Key (see:
    * https://developers.google.com/maps/documentation/javascript/get-api-key)
    */
-  apiKey?: string;
+  apiKey?: string | Function;
 
   /**
    * The Google Maps client ID (for premium plans).
@@ -135,7 +135,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const queryParams: {[key: string]: string | Array<string>} = {
       v: this._config.apiVersion || '3',
       callback: callbackName,
-      key: this._config.apiKey,
+      key: typeof this._config.apiKey === 'string' ? this._config.apiKey : this._config.apiKey(),
       client: this._config.clientId,
       channel: this._config.channel,
       libraries: this._config.libraries,
