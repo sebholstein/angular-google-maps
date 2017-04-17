@@ -54,6 +54,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Input() title: string;
 
   /**
+   * If the icon is optimized
+   */
+  optimized: boolean;
+
+  /**
    * The label (a single uppercase character) for the marker.
    */
   @Input() label: string;

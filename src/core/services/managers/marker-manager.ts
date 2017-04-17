@@ -70,7 +70,8 @@ export class MarkerManager {
       opacity: marker.opacity,
       visible: marker.visible,
       zIndex: marker.zIndex,
-      title: marker.title
+      title: marker.title,
+      optimized: marker.optimized
     });
     this._markers.set(marker, markerPromise);
   }
