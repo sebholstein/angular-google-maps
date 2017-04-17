@@ -1,8 +1,8 @@
-import {AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges, Input, Output } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
-import {LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions} from '../services/google-maps-types';
-import {PolygonManager} from '../services/managers/polygon-manager';
+import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
+import { PolygonManager } from '../services/managers/polygon-manager';
 
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
@@ -54,50 +54,38 @@ import {PolygonManager} from '../services/managers/polygon-manager';
  * ```
  */
 @Directive({
-  selector: 'agm-polygon',
-  inputs: [
-    'clickable',
-    'draggable: polyDraggable',
-    'editable',
-    'fillColor',
-    'fillOpacity',
-    'geodesic',
-    'paths',
-    'strokeColor',
-    'strokeOpacity',
-    'strokeWeight',
-    'visible',
-    'zIndex',
-  ],
-  outputs: [
-    'polyClick', 'polyDblClick', 'polyDrag', 'polyDragEnd', 'polyMouseDown', 'polyMouseMove',
-    'polyMouseOut', 'polyMouseOver', 'polyMouseUp', 'polyRightClick'
-  ]
+  selector: 'agm-polygon'
 })
 export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polygon handles mouse events. Defaults to true.
    */
-  clickable: boolean = true;
+  @Input() clickable: boolean = true;
+
   /**
    * If set to true, the user can drag this shape over the map. The geodesic
    * property defines the mode of dragging. Defaults to false.
    */
-  draggable: boolean = false;
+  // tslint:disable-next-line:no-input-rename
+  @Input('polyDraggable') draggable: boolean = false;
+
   /**
    * If set to true, the user can edit this shape by dragging the control
    * points shown at the vertices and on each segment. Defaults to false.
    */
   editable: boolean = false;
+
   /**
    * The fill color. All CSS3 colors are supported except for extended
    * named colors.
    */
-  fillColor: string;
+  @Input() fillColor: string;
+
   /**
    * The fill opacity between 0.0 and 1.0
    */
-  fillOpacity: number;
+  @Input() fillOpacity: number;
+
   /**
    * When true, edges of the polygon are interpreted as geodesic and will
    * follow the curvature of the Earth. When false, edges of the polygon are
@@ -105,7 +93,8 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * geodesic polygon may appear to change when dragged, as the dimensions
    * are maintained relative to the surface of the earth. Defaults to false.
    */
-  geodesic: boolean = false;
+  @Input() geodesic: boolean = false;
+
   /**
    * The ordered sequence of coordinates that designates a closed loop.
    * Unlike polylines, a polygon may consist of one or more paths.
@@ -117,83 +106,88 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * Inserting or removing LatLngs from the Array will automatically update
    * the polygon on the map.
    */
-  paths: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>> = [];
+  @Input() paths: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>> = [];
+
   /**
    * The stroke color. All CSS3 colors are supported except for extended
    * named colors.
    */
-  strokeColor: string;
+  @Input() strokeColor: string;
+
   /**
    * The stroke opacity between 0.0 and 1.0
    */
-  strokeOpacity: number;
+  @Input() strokeOpacity: number;
+
   /**
    * The stroke width in pixels.
    */
-  strokeWeight: number;
+  @Input() strokeWeight: number;
+
   /**
    * Whether this polygon is visible on the map. Defaults to true.
    */
-  visible: boolean;
+  @Input() visible: boolean;
+
   /**
    * The zIndex compared to other polys.
    */
-  zIndex: number;
+  @Input() zIndex: number;
 
   /**
    * This event is fired when the DOM click event is fired on the Polygon.
    */
-  polyClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM dblclick event is fired on the Polygon.
    */
-  polyDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the polygon.
    */
-  polyDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() polyDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the polygon.
    */
-  polyDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() polyDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the polygon.
    */
-  polyDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() polyDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the Polygon.
    */
-  polyMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the Polygon.
    */
-  polyMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired on Polygon mouseout.
    */
-  polyMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired on Polygon mouseover.
    */
-  polyMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired whe the DOM mouseup event is fired on the Polygon
    */
-  polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This even is fired when the Polygon is right-clicked on.
    */
-  polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
