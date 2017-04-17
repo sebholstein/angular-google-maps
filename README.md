@@ -1,5 +1,4 @@
 [![AGM - Angular Google Maps](assets/images/angular-google-maps-logo.png)](https://angular-maps.com/)
-[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors)
 
 # AGM - Angular Google Maps
 
@@ -20,7 +19,7 @@ New package name: `@agm/core`
 
 -----
 
-[![Build Status](https://travis-ci.org/SebastianM/angular-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular-google-maps) [![Join the chat at https://gitter.im/SebastianM/angular2-google-maps](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SebastianM/angular2-google-maps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![npm version](https://badge.fury.io/js/%40agm%2Fcore.svg)](https://www.npmjs.com/package/@agm/core)  
+[![Build Status](https://travis-ci.org/SebastianM/angular-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular-google-maps) [![Join the chat at https://gitter.im/SebastianM/angular2-google-maps](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SebastianM/angular2-google-maps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![npm version](https://badge.fury.io/js/%40agm%2Fcore.svg)](https://www.npmjs.com/package/@agm/core) [![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors)
 
 | Package                               | Downloads                                                                       |
 |---------------------------------------|---------------------------------------------------------------------------------|
