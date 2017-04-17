@@ -1,10 +1,9 @@
-import {AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
-import {PolyMouseEvent} from '../services/google-maps-types';
-import {PolylineManager} from '../services/managers/polyline-manager';
-
-import {AgmPolylinePoint} from './polyline-point';
+import { PolyMouseEvent } from '../services/google-maps-types';
+import { PolylineManager } from '../services/managers/polyline-manager';
+import { AgmPolylinePoint } from './polyline-point';
 
 let polylineId = 0;
 /**
@@ -35,33 +34,26 @@ let polylineId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-polyline',
-  inputs: [
-    'clickable', 'draggable: polylineDraggable', 'editable', 'geodesic', 'strokeColor',
-    'strokeWeight', 'strokeOpacity', 'visible', 'zIndex'
-  ],
-  outputs: [
-    'lineClick', 'lineDblClick', 'lineDrag', 'lineDragEnd', 'lineMouseDown', 'lineMouseMove',
-    'lineMouseOut', 'lineMouseOver', 'lineMouseUp', 'lineRightClick'
-  ]
+  selector: 'agm-polyline'
 })
 export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polyline handles mouse events. Defaults to true.
    */
-  clickable: boolean = true;
+  @Input() clickable: boolean = true;
 
   /**
    * If set to true, the user can drag this shape over the map. The geodesic property defines the
    * mode of dragging. Defaults to false.
    */
-  draggable: boolean = false;
+  // tslint:disable-next-line:no-input-rename
+  @Input('polylineDraggable') draggable: boolean = false;
 
   /**
    * If set to true, the user can edit this shape by dragging the control points shown at the
    * vertices and on each segment. Defaults to false.
    */
-  editable: boolean = false;
+  @Input() editable: boolean = false;
 
   /**
    * When true, edges of the polygon are interpreted as geodesic and will follow the curvature of
@@ -69,87 +61,87 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
    * Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions
    * are maintained relative to the surface of the earth. Defaults to false.
    */
-  geodesic: boolean = false;
+  @Input() geodesic: boolean = false;
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended named colors.
    */
-  strokeColor: string;
+  @Input() strokeColor: string;
 
   /**
    * The stroke opacity between 0.0 and 1.0.
    */
-  strokeOpacity: number;
+  @Input() strokeOpacity: number;
 
   /**
    * The stroke width in pixels.
    */
-  strokeWeight: number;
+  @Input() strokeWeight: number;
 
   /**
    * Whether this polyline is visible on the map. Defaults to true.
    */
-  visible: boolean = true;
+  @Input() visible: boolean = true;
 
   /**
    * The zIndex compared to other polys.
    */
-  zIndex: number;
+  @Input() zIndex: number;
 
   /**
    * This event is fired when the DOM click event is fired on the Polyline.
    */
-  lineClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM dblclick event is fired on the Polyline.
    */
-  lineDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the polyline.
    */
-  lineDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() lineDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the polyline.
    */
-  lineDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() lineDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the polyline.
    */
-  lineDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() lineDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the Polyline.
    */
-  lineMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the Polyline.
    */
-  lineMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired on Polyline mouseout.
    */
-  lineMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired on Polyline mouseover.
    */
-  lineMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired whe the DOM mouseup event is fired on the Polyline
    */
-  lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This even is fired when the Polyline is right-clicked on.
    */
-  lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * @internal
