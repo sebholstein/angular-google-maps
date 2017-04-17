@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import { Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {KmlMouseEvent} from './../services/google-maps-types';
@@ -7,10 +7,7 @@ import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 let layerId = 0;
 
 @Directive({
-  selector: 'agm-kml-layer',
-  inputs:
-      ['clickable', 'preserveViewport', 'screenOverlays', 'suppressInfoWindows', 'url', 'zIndex'],
-  outputs: ['layerClick', 'defaultViewportChange', 'statusChange']
+  selector: 'agm-kml-layer'
 })
 export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
   private _addedToManager: boolean = false;
@@ -22,7 +19,7 @@ export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * If true, the layer receives mouse events. Default value is true.
    */
-  clickable: boolean = true;
+  @Input() clickable: boolean = true;
 
   /**
    * By default, the input map is centered and zoomed to the bounding box of the contents of the
@@ -30,44 +27,44 @@ export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
    * If this option is set to true, the viewport is left unchanged, unless the map's center and zoom
    * were never set.
    */
-  preserveViewport: boolean = false;
+  @Input() preserveViewport: boolean = false;
 
   /**
    * Whether to render the screen overlays. Default true.
    */
-  screenOverlays: boolean = true;
+  @Input() screenOverlays: boolean = true;
 
   /**
    * Suppress the rendering of info windows when layer features are clicked.
    */
-  suppressInfoWindows: boolean = false;
+  @Input() suppressInfoWindows: boolean = false;
 
   /**
    * The URL of the KML document to display.
    */
-  url: string = null;
+  @Input() url: string = null;
 
   /**
    * The z-index of the layer.
    */
-  zIndex: number|null = null;
+  @Input() zIndex: number|null = null;
 
   /**
    * This event is fired when a feature in the layer is clicked.
    */
-  layerClick: EventEmitter<KmlMouseEvent> = new EventEmitter<KmlMouseEvent>();
+  @Output() layerClick: EventEmitter<KmlMouseEvent> = new EventEmitter<KmlMouseEvent>();
 
   /**
    * This event is fired when the KML layers default viewport has changed.
    */
-  defaultViewportChange: EventEmitter<void> = new EventEmitter<void>();
+  @Output() defaultViewportChange: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * This event is fired when the KML layer has finished loading.
    * At this point it is safe to read the status property to determine if the layer loaded
    * successfully.
    */
-  statusChange: EventEmitter<void> = new EventEmitter<void>();
+  @Output() statusChange: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private _manager: KmlLayerManager) {}
 
