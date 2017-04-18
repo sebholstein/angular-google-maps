@@ -261,4 +261,12 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
+
+  getPath(): Promise<Array<LatLng>> {
+    return this._polygonManager.getPath(this);
+  }
+
+  getPaths(): Promise<Array<Array<LatLng>>> {
+    return this._polygonManager.getPaths(this);
+  }
 }
