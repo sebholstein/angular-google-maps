@@ -20,6 +20,11 @@ export interface LatLng {
   lng(): number;
 }
 
+export interface WeightedLocation {
+  location: LatLng;
+  weight: number;
+}
+
 export interface Marker extends MVCObject {
   constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
@@ -309,6 +314,24 @@ export interface Polygon extends MVCObject {
   setOptions(options: PolygonOptions): void;
   setPaths(paths: Array<Array<LatLng|LatLngLiteral>>|Array<LatLng|LatLngLiteral>): void;
   setVisible(visible: boolean): void;
+}
+
+export interface HeatmapLayer extends MVCObject {
+  getData():  Array<LatLng|WeightedLocation>;
+  getMap(): GoogleMap;
+  setData(data: Array<LatLng|WeightedLocation>): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: HeatmapLayerOptions): void;
+}
+
+export interface HeatmapLayerOptions {
+  data: Array<LatLng|WeightedLocation>;
+  dissipating: boolean;
+  gradient: Array<string>;
+  map: GoogleMap;
+  maxIntensity: number;
+  opacity: number;
+  radius: number;
 }
 
 export interface KmlLayer extends MVCObject {
