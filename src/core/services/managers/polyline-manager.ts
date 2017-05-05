@@ -7,6 +7,9 @@ import {AgmPolylinePoint} from '../../directives/polyline-point';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
 import {LatLngLiteral, Polyline} from '../google-maps-types';
 
+// todo: add types for this
+declare var google: any;
+
 @Injectable()
 export class PolylineManager {
   private _polylines: Map<AgmPolyline, Promise<Polyline>> =
@@ -33,7 +36,8 @@ export class PolylineManager {
       strokeWeight: line.strokeWeight,
       visible: line.visible,
       zIndex: line.zIndex,
-      path: path
+      path: path,
+      icons: line.icons
     });
     this._polylines.set(line, polylinePromise);
   }
