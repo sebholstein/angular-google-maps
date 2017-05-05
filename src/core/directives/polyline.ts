@@ -43,7 +43,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   @Input() clickable: boolean = true;
 
   /**
-   * icons
+   * icons of the polyline
    */
   @Input() icons: IconSequence[] = null;
 
