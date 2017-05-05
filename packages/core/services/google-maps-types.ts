@@ -231,7 +231,7 @@ export interface GoogleSymbol {
   fillColor?: string;
   fillOpacity?: string;
   labelOrigin?: Point;
-  path?: string;
+  path?: string | number;
   rotation?: number;
   scale?: number;
   strokeColor?: string;
@@ -251,7 +251,7 @@ export interface PolylineOptions {
   draggable?: boolean;
   editable?: boolean;
   geodesic?: boolean;
-  icon?: Array<IconSequence>;
+  icons?: Array<IconSequence>;
   map?: GoogleMap;
   path?: Array<LatLng>|Array<LatLng|LatLngLiteral>;
   strokeColor?: string;

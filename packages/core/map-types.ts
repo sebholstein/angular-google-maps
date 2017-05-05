@@ -4,6 +4,7 @@ import {LatLngLiteral} from './services/google-maps-types';
 export {
   KmlMouseEvent,
   DataMouseEvent,
+  IconSequence,
   LatLngBounds,
   LatLngBoundsLiteral,
   LatLngLiteral,
