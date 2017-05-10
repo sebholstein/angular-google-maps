@@ -56,7 +56,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The label (a single uppercase character) for the marker.
    */
-  @Input() label: string;
+  @Input() label: string|mapTypes.MarkerLabel;
 
   /**
    * If true, the marker can be dragged. Default value is false.
@@ -67,7 +67,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Icon (the URL of the image) for the foreground.
    */
-  @Input() iconUrl: string;
+  @Input() icon: string|mapTypes.Icon|mapTypes.GoogleSymbol;
 
   /**
    * If true, the marker is visible
