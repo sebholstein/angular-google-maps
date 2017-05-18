@@ -44,6 +44,7 @@ export interface MarkerOptions {
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
+  optimized?: boolean;
 }
 
 export interface MarkerLabel {

@@ -93,6 +93,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Input() zIndex: number = 1;
 
   /**
+   * Marker optimize flag. If it is false then it prevent dublicate rendering.
+   * Default it is true
+   */
+   @Input() optimized: boolean = true;
+
+  /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
