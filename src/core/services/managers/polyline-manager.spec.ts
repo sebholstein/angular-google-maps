@@ -37,7 +37,8 @@ describe('PolylineManager', () => {
                strokeWeight: undefined,
                visible: true,
                zIndex: undefined,
-               path: []
+               path: [],
+               icons: undefined
              });
            }));
   });

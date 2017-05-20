@@ -45,7 +45,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * icons of the polyline
    */
-  @Input() icons: IconSequence[] = null;
+  @Input() icons: IconSequence[] = undefined;
 
   /**
    * If set to true, the user can drag this shape over the map. The geodesic property defines the
