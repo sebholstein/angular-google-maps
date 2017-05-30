@@ -1,4 +1,4 @@
-Thank for a grat work node by SebastianM, future modifications by Y.Kotliar
+Thank for a great work node by SebastianM, future modifications by Y.Kotliar
 <a name="1.0.0-beta.0"></a>
 # [1.0.0-beta.0 - green-zebra](https://github.com/SebastianM/angular-google-maps/compare/0.17.0...1.0.0-beta.0) (2017-04-09)
 
