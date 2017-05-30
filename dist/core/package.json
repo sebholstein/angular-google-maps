@@ -4,7 +4,7 @@
   "description": "Angular 2+ components for Google Maps",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SebastianM/angular-google-maps.git"
+    "url": "https://github.com/eug17/angular-google-maps.git"
   },
   "keywords": [
     "angular",

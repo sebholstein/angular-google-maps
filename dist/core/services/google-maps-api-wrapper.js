@@ -10,6 +10,7 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         this._loader = _loader;
         this._zone = _zone;
+        this._trafficLayerExist = false;
         this._map =
             new Promise(function (resolve) { _this._mapResolver = resolve; });
     }
@@ -92,6 +93,18 @@ var GoogleMapsAPIWrapper = (function () {
     };
     GoogleMapsAPIWrapper.prototype.fitBounds = function (latLng) {
         return this._map.then(function (map) { return map.fitBounds(latLng); });
+    };
+    GoogleMapsAPIWrapper.prototype.handleTrafficLayer = function (handle) {
+        var _this = this;
+        if (!handle && this._trafficLayerExist) {
+            this._trafficLayer.setMap(null);
+            this._trafficLayerExist = false;
+        }
+        if (!this._trafficLayerExist && handle) {
+            this._trafficLayer = new google.maps.TrafficLayer();
+            this._map.then(function (map) { return _this._trafficLayer.setMap(map); });
+            this._trafficLayerExist = true;
+        }
     };
     GoogleMapsAPIWrapper.prototype.panToBounds = function (latLng) {
         return this._map.then(function (map) { return map.panToBounds(latLng); });

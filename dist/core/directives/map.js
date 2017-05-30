@@ -95,6 +95,18 @@ var AgmMap = (function () {
          */
         this.fitBounds = null;
         /**
+         * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
+         */
+        this.fitPoints = null;
+        /**
+         * Sets the viewport to contain the given Array each time when fitPoints is changed.
+         */
+        this.fitMultiple = false;
+        /**
+         * Sets the viewport to contain the given Array each time when fitPoints is changed.
+         */
+        this.trafficLayer = false;
+        /**
          * The initial enabled/disabled state of the Scale control. This is disabled by default.
          */
         this.scaleControl = false;
@@ -169,6 +181,7 @@ var AgmMap = (function () {
          * You get the google.maps.Map instance as a result of this EventEmitter.
          */
         this.mapReady = new EventEmitter();
+        this.bounds = this._mapsWrapper.createLatLngBounds();
     }
     /** @internal */
     AgmMap.prototype.ngOnInit = function () {
@@ -258,6 +271,20 @@ var AgmMap = (function () {
         });
     };
     AgmMap.prototype._updatePosition = function (changes) {
+        if (changes['trafficLayer']) {
+            this.trafficLayer = changes['trafficLayer'].currentValue;
+            if (!this.trafficLayer) {
+                this._mapsWrapper.handleTrafficLayer(false);
+            }
+            else {
+                this._mapsWrapper.handleTrafficLayer(true);
+            }
+        }
+        if (changes['fitPoints'] && this.fitPoints != null) {
+            console.log('fitPoints changes', changes);
+            this.fitPoints = changes['fitPoints'].currentValue;
+            this._fitPoints();
+        }
         if (changes['latitude'] == null && changes['longitude'] == null &&
             changes['fitBounds'] == null) {
             // no position update needed
@@ -284,6 +311,16 @@ var AgmMap = (function () {
         else {
             this._mapsWrapper.setCenter(newCenter);
         }
+    };
+    AgmMap.prototype._fitPoints = function () {
+        this.bounds = this._mapsWrapper.createLatLngBounds();
+        console.log(this.bounds);
+        for (var _i = 0, _a = this.fitPoints; _i < _a.length; _i++) {
+            var m = _a[_i];
+            this.bounds.extend(m);
+        }
+        this._mapsWrapper.fitBounds(this.bounds);
+        this._mapsWrapper.panToBounds(this.bounds);
     };
     AgmMap.prototype._fitBounds = function () {
         if (this.usePanning) {
@@ -395,6 +432,9 @@ AgmMap.propDecorators = {
     'streetViewControl': [{ type: Input },],
     'streetViewControlOptions': [{ type: Input },],
     'fitBounds': [{ type: Input },],
+    'fitPoints': [{ type: Input },],
+    'fitMultiple': [{ type: Input },],
+    'trafficLayer': [{ type: Input },],
     'scaleControl': [{ type: Input },],
     'scaleControlOptions': [{ type: Input },],
     'mapTypeControl': [{ type: Input },],

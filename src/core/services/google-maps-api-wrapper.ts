@@ -18,6 +18,8 @@ declare var google: any;
 export class GoogleMapsAPIWrapper {
   private _map: Promise<mapTypes.GoogleMap>;
   private _mapResolver: (value?: mapTypes.GoogleMap) => void;
+  private _trafficLayerExist: boolean = false;
+  private _trafficLayer: any;
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
@@ -116,6 +118,18 @@ export class GoogleMapsAPIWrapper {
 
   fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral): Promise<void> {
     return this._map.then((map) => map.fitBounds(latLng));
+  }
+
+  handleTrafficLayer(handle: boolean) {
+    if (!handle && this._trafficLayerExist) {
+      this._trafficLayer.setMap(null);
+      this._trafficLayerExist = false;
+    }
+    if (!this._trafficLayerExist && handle) {
+      this._trafficLayer = new google.maps.TrafficLayer();
+      this._map.then((map) => this._trafficLayer.setMap(map));
+      this._trafficLayerExist = true;
+    }
   }
 
   panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral): Promise<void> {

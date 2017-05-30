@@ -13,6 +13,8 @@ export declare class GoogleMapsAPIWrapper {
     private _zone;
     private _map;
     private _mapResolver;
+    private _trafficLayerExist;
+    private _trafficLayer;
     constructor(_loader: MapsAPILoader, _zone: NgZone);
     createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void>;
     setMapOptions(options: mapTypes.MapOptions): void;
@@ -39,6 +41,7 @@ export declare class GoogleMapsAPIWrapper {
     getCenter(): Promise<mapTypes.LatLng>;
     panTo(latLng: mapTypes.LatLng | mapTypes.LatLngLiteral): Promise<void>;
     fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral): Promise<void>;
+    handleTrafficLayer(handle: boolean): void;
     panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral): Promise<void>;
     createLatLngBounds(): Promise<void>;
     /**
