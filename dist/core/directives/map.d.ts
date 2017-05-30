@@ -1,7 +1,7 @@
 import { ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MouseEvent } from '../map-types';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
-import { FullscreenControlOptions, LatLngLiteral, MapTypeControlOptions, PanControlOptions, RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions } from '../services/google-maps-types';
+import { FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions, RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions } from '../services/google-maps-types';
 import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
 /**
  * AgmMap renders a Google Map.
@@ -126,6 +126,14 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      */
     fitBounds: LatLngBoundsLiteral | LatLngBounds;
     /**
+     * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
+     */
+    fitMarkers: Array<LatLng> | Array<LatLngLiteral>;
+    /**
+     * Sets the viewport to contain the given Array each time when fitMarkers is changed.
+     */
+    fitMultiple: boolean;
+    /**
      * The initial enabled/disabled state of the Scale control. This is disabled by default.
      */
     scaleControl: boolean;
@@ -224,6 +232,8 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      * You get the google.maps.Map instance as a result of this EventEmitter.
      */
     mapReady: EventEmitter<any>;
+    bounds: any;
+    fitOnce: boolean;
     constructor(_elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper);
     /** @internal */
     ngOnInit(): void;
@@ -240,6 +250,7 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
     triggerResize(recenter?: boolean): Promise<void>;
     private _updatePosition(changes);
     private _setCenter();
+    private _fitMarkers();
     private _fitBounds();
     private _handleMapCenterChange();
     private _handleBoundsChange();

@@ -95,6 +95,14 @@ var AgmMap = (function () {
          */
         this.fitBounds = null;
         /**
+         * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
+         */
+        this.fitMarkers = null;
+        /**
+         * Sets the viewport to contain the given Array each time when fitMarkers is changed.
+         */
+        this.fitMultiple = false;
+        /**
          * The initial enabled/disabled state of the Scale control. This is disabled by default.
          */
         this.scaleControl = false;
@@ -169,6 +177,8 @@ var AgmMap = (function () {
          * You get the google.maps.Map instance as a result of this EventEmitter.
          */
         this.mapReady = new EventEmitter();
+        this.fitOnce = false;
+        this.bounds = this._mapsWrapper.createLatLngBounds();
     }
     /** @internal */
     AgmMap.prototype.ngOnInit = function () {
@@ -268,6 +278,10 @@ var AgmMap = (function () {
             this._fitBounds();
             return;
         }
+        if (changes['fitMarkers'] && this.fitMarkers != null) {
+            this._fitMarkers();
+            return;
+        }
         if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
             return;
         }
@@ -283,6 +297,25 @@ var AgmMap = (function () {
         }
         else {
             this._mapsWrapper.setCenter(newCenter);
+        }
+    };
+    AgmMap.prototype._fitMarkers = function () {
+        if (!this.fitMultiple) {
+            for (var _i = 0, _a = this.fitMarkers; _i < _a.length; _i++) {
+                var m = _a[_i];
+                this.bounds.extend(m);
+            }
+            this._mapsWrapper.fitBounds(this.bounds);
+            this.fitMultiple = true;
+            this.fitOnce = true;
+        }
+        else if (this.fitMultiple && !this.fitOnce) {
+            this.bounds = this._mapsWrapper.createLatLngBounds();
+            for (var _b = 0, _c = this.fitMarkers; _b < _c.length; _b++) {
+                var m = _c[_b];
+                this.bounds.extend(m);
+            }
+            this._mapsWrapper.fitBounds(this.bounds);
         }
     };
     AgmMap.prototype._fitBounds = function () {
@@ -395,6 +428,8 @@ AgmMap.propDecorators = {
     'streetViewControl': [{ type: Input },],
     'streetViewControlOptions': [{ type: Input },],
     'fitBounds': [{ type: Input },],
+    'fitMarkers': [{ type: Input },],
+    'fitMultiple': [{ type: Input },],
     'scaleControl': [{ type: Input },],
     'scaleControlOptions': [{ type: Input },],
     'mapTypeControl': [{ type: Input },],
