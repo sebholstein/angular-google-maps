@@ -10,9 +10,9 @@ import {Marker} from './../google-maps-types';
 @Injectable()
 export class MarkerManager {
   private _markers: Map<AgmMarker, Promise<Marker>> =
-      new Map<AgmMarker, Promise<Marker>>();
+  new Map<AgmMarker, Promise<Marker>>();
 
-  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
+  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) { }
 
   deleteMarker(marker: AgmMarker): Promise<void> {
     const m = this._markers.get(marker);
@@ -30,7 +30,7 @@ export class MarkerManager {
 
   updateMarkerPosition(marker: AgmMarker): Promise<void> {
     return this._markers.get(marker).then(
-        (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
+      (m: Marker) => m.setPosition({ lat: marker.latitude, lng: marker.longitude }));
   }
 
   updateTitle(marker: AgmMarker): Promise<void> {
@@ -63,7 +63,7 @@ export class MarkerManager {
 
   addMarker(marker: AgmMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
-      position: {lat: marker.latitude, lng: marker.longitude},
+      position: { lat: marker.latitude, lng: marker.longitude },
       label: marker.label,
       draggable: marker.draggable,
       icon: marker.iconUrl,

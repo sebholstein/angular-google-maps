@@ -139,7 +139,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   /** @internal */
-  ngOnChanges(changes: {[key: string]: SimpleChange}) {
+  ngOnChanges(changes: { [key: string]: SimpleChange }) {
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
@@ -149,7 +149,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
       this._addEventListeners();
       return;
     }
-    if (changes['latitude'] || changes['longitude']) {
+    if (changes['latitude'] || changes['longitude'] || changes['rotate']) {
       this._markerManager.updateMarkerPosition(this);
     }
     if (changes['title']) {
@@ -185,24 +185,24 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     this._observableSubscriptions.push(cs);
 
     const ds =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-            });
+      this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+        .subscribe((e: mapTypes.MouseEvent) => {
+          this.dragEnd.emit(<MouseEvent>{ coords: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
+        });
     this._observableSubscriptions.push(ds);
 
     const mover =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.mouseOver.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-            });
+      this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
+        .subscribe((e: mapTypes.MouseEvent) => {
+          this.mouseOver.emit(<MouseEvent>{ coords: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
+        });
     this._observableSubscriptions.push(mover);
 
     const mout =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseout', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.mouseOut.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-            });
+      this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseout', this)
+        .subscribe((e: mapTypes.MouseEvent) => {
+          this.mouseOut.emit(<MouseEvent>{ coords: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
+        });
     this._observableSubscriptions.push(mout);
   }
 

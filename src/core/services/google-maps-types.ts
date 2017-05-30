@@ -3,15 +3,15 @@ export var google: any;
 export interface GoogleMap extends MVCObject {
   data?: Data;
   constructor(el: HTMLElement, opts?: MapOptions): void;
-  panTo(latLng: LatLng|LatLngLiteral): void;
+  panTo(latLng: LatLng | LatLngLiteral): void;
   setZoom(zoom: number): void;
   getCenter(): LatLng;
-  setCenter(latLng: LatLng|LatLngLiteral): void;
+  setCenter(latLng: LatLng | LatLngLiteral): void;
   getBounds(): LatLngBounds;
   getZoom(): number;
   setOptions(options: MapOptions): void;
-  panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
-  fitBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  panToBounds(latLngBounds: LatLngBounds | LatLngBoundsLiteral): void;
+  fitBounds(bounds: LatLngBounds | LatLngBoundsLiteral): void;
 }
 
 export interface LatLng {
@@ -23,9 +23,9 @@ export interface LatLng {
 export interface Marker extends MVCObject {
   constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
-  setPosition(latLng: LatLng|LatLngLiteral): void;
+  setPosition(latLng: LatLng | LatLngLiteral): void;
   setTitle(title: string): void;
-  setLabel(label: string|MarkerLabel): void;
+  setLabel(label: string | MarkerLabel): void;
   setDraggable(draggable: boolean): void;
   setIcon(icon: string): void;
   setOpacity(opacity: number): void;
@@ -35,10 +35,10 @@ export interface Marker extends MVCObject {
 }
 
 export interface MarkerOptions {
-  position: LatLng|LatLngLiteral;
+  position: LatLng | LatLngLiteral;
   title?: string;
   map?: GoogleMap;
-  label?: string|MarkerLabel;
+  label?: string | MarkerLabel;
   draggable?: boolean;
   icon?: string;
   opacity?: number;
@@ -62,7 +62,7 @@ export interface Circle extends MVCObject {
   getMap(): GoogleMap;
   getRadius(): number;
   getVisible(): boolean;
-  setCenter(center: LatLng|LatLngLiteral): void;
+  setCenter(center: LatLng | LatLngLiteral): void;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
@@ -72,7 +72,7 @@ export interface Circle extends MVCObject {
 }
 
 export interface CircleOptions {
-  center?: LatLng|LatLngLiteral;
+  center?: LatLng | LatLngLiteral;
   clickable?: boolean;
   draggable?: boolean;
   editable?: boolean;
@@ -82,7 +82,7 @@ export interface CircleOptions {
   radius?: number;
   strokeColor?: string;
   strokeOpacity?: number;
-  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokePosition?: 'CENTER' | 'INSIDE' | 'OUTSIDE';
   strokeWeight?: number;
   visible?: boolean;
   zIndex?: number;
@@ -90,18 +90,18 @@ export interface CircleOptions {
 
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
-  equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
+  equals(other: LatLngBounds | LatLngBoundsLiteral): boolean;
   extend(point: LatLng): void;
   getCenter(): LatLng;
   getNorthEast(): LatLng;
   getSouthWest(): LatLng;
-  intersects(other: LatLngBounds|LatLngBoundsLiteral): boolean;
+  intersects(other: LatLngBounds | LatLngBoundsLiteral): boolean;
   isEmpty(): boolean;
   toJSON(): LatLngBoundsLiteral;
   toSpan(): LatLng;
   toString(): string;
   toUrlValue(precision?: number): string;
-  union(other: LatLngBounds|LatLngBoundsLiteral): LatLngBounds;
+  union(other: LatLngBounds | LatLngBoundsLiteral): LatLngBounds;
 }
 
 export interface LatLngBoundsLiteral {
@@ -119,7 +119,7 @@ export interface LatLngLiteral {
 export interface MouseEvent { latLng: LatLng; }
 
 export interface MapOptions {
-  center?: LatLng|LatLngLiteral;
+  center?: LatLng | LatLngLiteral;
   zoom?: number;
   minZoom?: number;
   maxZoom?: number;
@@ -146,22 +146,22 @@ export interface MapOptions {
   rotateControlOptions?: RotateControlOptions;
   fullscreenControl?: boolean;
   fullscreenControlOptions?: FullscreenControlOptions;
-  mapTypeId?: string|MapTypeId;
+  mapTypeId?: string | MapTypeId;
   clickableIcons?: boolean;
-  gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  gestureHandling?: 'cooperative' | 'greedy' | 'none' | 'auto';
 }
 
 export interface MapTypeStyle {
-  elementType?: 'all'|'geometry'|'geometry.fill'|'geometry.stroke'|'labels'|'labels.icon'|
-      'labels.text'|'labels.text.fill'|'labels.text.stroke';
-  featureType?: 'administrative'|'administrative.country'|'administrative.land_parcel'|
-      'administrative.locality'|'administrative.neighborhood'|'administrative.province'|'all'|
-      'landscape'|'landscape.man_made'|'landscape.natural'|'landscape.natural.landcover'|
-      'landscape.natural.terrain'|'poi'|'poi.attraction'|'poi.business'|'poi.government'|
-      'poi.medical'|'poi.park'|'poi.place_of_worship'|'poi.school'|'poi.sports_complex'|'road'|
-      'road.arterial'|'road.highway'|'road.highway.controlled_access'|'road.local'|'transit'|
-      'transit.line'|'transit.station'|'transit.station.airport'|'transit.station.bus'|
-      'transit.station.rail'|'water';
+  elementType?: 'all' | 'geometry' | 'geometry.fill' | 'geometry.stroke' | 'labels' | 'labels.icon' |
+  'labels.text' | 'labels.text.fill' | 'labels.text.stroke';
+  featureType?: 'administrative' | 'administrative.country' | 'administrative.land_parcel' |
+  'administrative.locality' | 'administrative.neighborhood' | 'administrative.province' | 'all' |
+  'landscape' | 'landscape.man_made' | 'landscape.natural' | 'landscape.natural.landcover' |
+  'landscape.natural.terrain' | 'poi' | 'poi.attraction' | 'poi.business' | 'poi.government' |
+  'poi.medical' | 'poi.park' | 'poi.place_of_worship' | 'poi.school' | 'poi.sports_complex' | 'road' |
+  'road.arterial' | 'road.highway' | 'road.highway.controlled_access' | 'road.local' | 'transit' |
+  'transit.line' | 'transit.station' | 'transit.station.airport' | 'transit.station.bus' |
+  'transit.station.rail' | 'water';
   stylers: MapTypeStyler[];
 }
 
@@ -182,13 +182,13 @@ export interface MapTypeStyler {
 export interface InfoWindow extends MVCObject {
   constructor(opts?: InfoWindowOptions): void;
   close(): void;
-  getContent(): string|Node;
+  getContent(): string | Node;
   getPosition(): LatLng;
   getZIndex(): number;
   open(map?: GoogleMap, anchor?: MVCObject): void;
-  setContent(content: string|Node): void;
+  setContent(content: string | Node): void;
   setOptions(options: InfoWindowOptions): void;
-  setPosition(position: LatLng|LatLngLiteral): void;
+  setPosition(position: LatLng | LatLngLiteral): void;
   setZIndex(zIndex: number): void;
 }
 
@@ -205,11 +205,11 @@ export interface Size {
 }
 
 export interface InfoWindowOptions {
-  content?: string|Node;
+  content?: string | Node;
   disableAutoPan?: boolean;
   maxWidth?: number;
   pixelOffset?: Size;
-  position?: LatLng|LatLngLiteral;
+  position?: LatLng | LatLngLiteral;
   zIndex?: number;
 }
 
@@ -247,7 +247,7 @@ export interface PolylineOptions {
   geodesic?: boolean;
   icon?: Array<IconSequence>;
   map?: GoogleMap;
-  path?: Array<LatLng>|Array<LatLng|LatLngLiteral>;
+  path?: Array<LatLng> | Array<LatLng | LatLngLiteral>;
   strokeColor?: string;
   strokeOpacity?: number;
   strokeWeight?: number;
@@ -265,7 +265,7 @@ export interface Polyline extends MVCObject {
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
   setOptions(options: PolylineOptions): void;
-  setPath(path: Array<LatLng|LatLngLiteral>): void;
+  setPath(path: Array<LatLng | LatLngLiteral>): void;
   setVisible(visible: boolean): void;
 }
 
@@ -287,7 +287,7 @@ export interface PolygonOptions {
   geodesic?: boolean;
   icon?: Array<IconSequence>;
   map?: GoogleMap;
-  paths?: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>>;
+  paths?: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>>;
   strokeColor?: string;
   strokeOpacity?: number;
   strokeWeight?: number;
@@ -305,9 +305,9 @@ export interface Polygon extends MVCObject {
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
-  setPath(path: Array<LatLng>|Array<LatLng|LatLngLiteral>): void;
+  setPath(path: Array<LatLng> | Array<LatLng | LatLngLiteral>): void;
   setOptions(options: PolygonOptions): void;
-  setPaths(paths: Array<Array<LatLng|LatLngLiteral>>|Array<LatLng|LatLngLiteral>): void;
+  setPaths(paths: Array<Array<LatLng | LatLngLiteral>> | Array<LatLng | LatLngLiteral>): void;
   setVisible(visible: boolean): void;
 }
 
@@ -328,8 +328,8 @@ export interface KmlLayer extends MVCObject {
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerStatus
  */
 export type KmlLayerStatus = 'DOCUMENT_NOT_FOUND' |
-    'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' |
-    'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
+  'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' |
+  'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
 
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerMetadata
@@ -392,12 +392,12 @@ export interface Data extends MVCObject {
 }
 
 export interface Feature extends MVCObject {
-  id?: number|string|undefined;
+  id?: number | string | undefined;
   geometry: Geometry;
   properties: any;
 }
 
-export interface DataOptions{
+export interface DataOptions {
   controlPosition?: ControlPosition;
   controls?: string[];
   drawingMode?: string;
@@ -453,7 +453,7 @@ export enum MapTypeId {
 /** Options for the rendering of the map type control. */
 export interface MapTypeControlOptions {
   /** IDs of map types to show in the control. */
-  mapTypeIds?: (MapTypeId|string)[];
+  mapTypeIds?: (MapTypeId | string)[];
   /**
    * Position id. Used to specify the position of the control on the map.
    * The default position is TOP_RIGHT.
