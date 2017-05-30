@@ -461,14 +461,17 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
         this.bounds.extend(m);
       }
       this._mapsWrapper.fitBounds(this.bounds);
+      this._mapsWrapper.panToBounds(this.bounds);
       this.fitMultiple = true;
       this.fitOnce = true;
     } else if (this.fitMultiple && !this.fitOnce) {
       this.bounds = this._mapsWrapper.createLatLngBounds();
+      console.log(this.bounds);
       for (let m of this.fitMarkers) {
         this.bounds.extend(m);
       }
       this._mapsWrapper.fitBounds(this.bounds);
+      this._mapsWrapper.panToBounds(this.bounds);
     }
   }
 

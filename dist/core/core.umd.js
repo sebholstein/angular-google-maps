@@ -959,16 +959,19 @@ var AgmMap = (function () {
                 this.bounds.extend(m);
             }
             this._mapsWrapper.fitBounds(this.bounds);
+            this._mapsWrapper.panToBounds(this.bounds);
             this.fitMultiple = true;
             this.fitOnce = true;
         }
         else if (this.fitMultiple && !this.fitOnce) {
             this.bounds = this._mapsWrapper.createLatLngBounds();
+            console.log(this.bounds);
             for (var _b = 0, _c = this.fitMarkers; _b < _c.length; _b++) {
                 var m = _c[_b];
                 this.bounds.extend(m);
             }
             this._mapsWrapper.fitBounds(this.bounds);
+            this._mapsWrapper.panToBounds(this.bounds);
         }
     };
     AgmMap.prototype._fitBounds = function () {
