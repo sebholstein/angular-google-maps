@@ -52,6 +52,17 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
+   * Creates a google HTML marker with the map context
+   */
+  createHtmlMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
+    Promise<mapTypes.HTMLMarker> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      options.map = map;
+      return new google.maps.OverlayView();
+    });
+  }
+
+  /**
    * Creates a google.map.Circle for the current map.
    */
   createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle> {

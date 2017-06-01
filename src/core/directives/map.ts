@@ -461,7 +461,6 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
         this.bounds.extend(m);
       }
       this._mapsWrapper.fitBounds(this.bounds);
-      this._mapsWrapper.panToBounds(this.bounds);
       this.fitMultiple = true;
       this.fitOnce = true;
     } else if (this.fitMultiple && !this.fitOnce) {
@@ -471,7 +470,6 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
         this.bounds.extend(m);
       }
       this._mapsWrapper.fitBounds(this.bounds);
-      this._mapsWrapper.panToBounds(this.bounds);
     }
   }
 
