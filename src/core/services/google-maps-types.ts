@@ -54,23 +54,6 @@ export interface MarkerLabel {
   text: string;
 }
 
-export interface HTMLMarker extends MVCObject {
-  onAdd(): void;
-  draw(): void;
-  onRemove(): void;
-  getProjection(): void;
-  setMap(map: GoogleMap): void;
-  getPanes(): void;
-  // position: LatLng | LatLngLiteral;
-  div?: HTMLElement;
-  // innerHTML?: string;
-  // styleWidth?: number;
-  // styleHeight?: number;
-  // backgroundColor?: string;
-  // className?: string;
-  // borderRadius?: number;
-}
-
 export interface Circle extends MVCObject {
   getBounds(): LatLngBounds;
   getCenter(): LatLng;
