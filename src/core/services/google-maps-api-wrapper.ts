@@ -114,6 +114,10 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map) => map.panTo(latLng));
   }
 
+  panBy(x: number, y: number): Promise<void> {
+    return this._map.then((map) => map.panBy(x, y));
+  }
+
   fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
     return this._map.then((map) => map.fitBounds(latLng));
   }
