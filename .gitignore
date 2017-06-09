@@ -10,3 +10,4 @@ npm-debug.log
 *.ngfactory.ts
 coverage/
 .idea/
+.DS_Store

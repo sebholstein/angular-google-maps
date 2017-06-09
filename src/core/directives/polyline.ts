@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
+import { PolyMouseEvent, IconSequence } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
 import { AgmPolylinePoint } from './polyline-point';
 
@@ -41,6 +41,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
    * Indicates whether this Polyline handles mouse events. Defaults to true.
    */
   @Input() clickable: boolean = true;
+
+  /**
+   * icons of the polyline
+   */
+  @Input() icons: IconSequence[] = undefined;
 
   /**
    * If set to true, the user can drag this shape over the map. The geodesic property defines the
