@@ -1,6 +1,49 @@
 import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
+
 import {ClusterManager} from '../services/managers/cluster-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
+
+export interface IClusterStyle {
+  /**
+   * The image url.
+   */
+  url:string
+
+  /**
+   * The image height.
+   */
+  height:number
+
+  /**
+   * The image width.
+   */
+  width:number
+
+  /**
+   * The anchor position of the label text.
+   */
+  anchor:number[]
+
+  /**
+   * The text color.
+   */
+  textColor:string
+
+  /**
+   * The text size.
+   */
+  textSize:number
+
+  /**
+   * The position of the backgound x, y.
+   */
+  backgroundPosition:string
+
+  /**
+   * The anchor position of the icon x, y.
+   */
+  iconAnchor:number[]
+}
 
 /**
  * AgmCluster clusters map marker if they are near together
@@ -62,7 +105,7 @@ export class AgmCluster implements OnDestroy, OnChanges, OnInit {
   /**
    * An object that has style properties.
    */
-  @Input() styles: Object;
+  @Input() styles: IClusterStyle;
 
   @Input() imagePath: string;
   @Input() imageExtension: string;
