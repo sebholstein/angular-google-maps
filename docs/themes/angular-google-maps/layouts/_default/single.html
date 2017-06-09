@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="mdl-js">
+	<head>
+		{{ partial "head.html" . }}
+	</head>
+	<body>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      {{ partial "header.html" . }}
+      
+      <div class="android-content mdl-layout__content">
+        <div class="content-grid mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col">
+            <div class="content-sidebar">
+                <section>
+                  <h5 class="section-title">General</h5>
+                  <ul>
+                    <li><a href="/guides/getting-started">Getting started</a></li>
+                  </ul>
+                </section>
+
+              </div>
+          </div>
+          <div class="mdl-cell mdl-cell--10-col page-content-cell">
+            <div class="page-title">
+              <h1>{{ .Title }}</h1>
+            </div>
+            <div class="page-content">
+              {{ .Content }}
+            </div>
+          </div>
+        </div>
+        {{ partial "footer.html" . }}
+      </div>
+      
+    </div>
+	</body>
+</html>
+
+
+

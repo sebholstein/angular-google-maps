@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="mdl-js">
+	<head>
+		{{ partial "head.html" . }}
+	</head>
+	<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      {{ partial "header.html" . }}
+
+      <div class="android-content mdl-layout__content">
+        <a name="top"></a>
+        <div class="agm-teaser mdl-typography--text-center">
+					<img src="/images/schield.png" alt="" class="agm-logo">
+          <div class="logo-font android-slogan">Angular Google Maps (AGM)</div>
+          <div class="logo-font android-sub-slogan">Angular 2+ components for Google Maps</div>
+        </div>
+        <div class="homepage-example-code">
+          <h2>Really easy to get started!</h2>
+					<pre><code>
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, Component } from '@angular/core';
+
+import { AgmCoreModule } from '@agm/core';
+
+@Component({
+  selector: 'app-root',
+  styles: [`
+    agm-map {
+      height: 300px;
+    }
+  `],
+  template: `
+  &lt;agm-map [latitude]=&quot;lat&quot; [longitude]=&quot;lng&quot;&gt;&lt;/agm-map&gt;
+  `
+})
+export class AppComponent {
+  lat: number = 51.678418;
+  lng: number = 7.809007;
+}
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
+    })
+  ],
+  declarations: [ AppComponent ],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+						</code></pre>
+        </div>
+        <div class="android-wear-section">
+          <div class="android-wear-band">
+            <div class="android-wear-band-text">
+              <div class="mdl-typography--display-2 mdl-typography--font-thin">Want to contribute? Found a bug?</div>
+              <p class="mdl-typography--headline mdl-typography--font-thin">
+                Contributions and Bug reports are very welcome! We accept Pull Requests on Github.
+              </p>
+              <p>
+                <a class="mdl-typography--font-regular mdl-typography--text-uppercase android-alt-link" href="https://github.com/SebastianM/angular-google-maps">
+                  Project on Github<i class="material-icons">chevron_right</i>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="android-more-section">
+          <div class="android-section-title mdl-typography--display-1-color-contrast">Companies using it...</div>
+          <div class="android-card-container mdl-grid">
+            <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+              <div class="mdl-card__media">
+                <img src="http://placehold.it/760x528">
+              </div>
+              <div class="mdl-card__title">
+                 <h4 class="mdl-card__title-text">Your company name here</h4>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <span class="mdl-typography--font-light mdl-typography--subhead">You're using AGM at your company? Cool! <a href="mailto:info@sebastian-mueller-net">Send a mail</a> with a Logo and a text and we list you here!</span>
+              </div>
+            </div>
+
+            <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+              <div class="mdl-card__media">
+                <img src="http://placehold.it/760x528">
+              </div>
+              <div class="mdl-card__title">
+                 <h4 class="mdl-card__title-text">Your company name here</h4>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <span class="mdl-typography--font-light mdl-typography--subhead">You're using AGM at your company? Cool! <a href="mailto:info@sebastian-mueller-net">Send a mail</a> with a Logo and a text and we list you here!</span>
+              </div>
+            </div>
+
+            <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+              <div class="mdl-card__media">
+                <img src="http://placehold.it/760x528">
+              </div>
+              <div class="mdl-card__title">
+                 <h4 class="mdl-card__title-text">Your company name here</h4>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <span class="mdl-typography--font-light mdl-typography--subhead">You're using AGM at your company? Cool! <a href="mailto:info@sebastian-mueller-net">Send a mail</a> with a Logo and a text and we list you here!</span>
+              </div>
+            </div>
+
+            <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+              <div class="mdl-card__media">
+                <img src="http://placehold.it/760x528">
+              </div>
+              <div class="mdl-card__title">
+                 <h4 class="mdl-card__title-text">Your company name here</h4>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <span class="mdl-typography--font-light mdl-typography--subhead">You're using AGM at your company? Cool! <a href="mailto:info@sebastian-mueller-net">Send a mail</a> with a Logo and a text and we list you here!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{ partial "footer.html" . }}
+      </div>
+    </div>
+	</body>
+</html>
+

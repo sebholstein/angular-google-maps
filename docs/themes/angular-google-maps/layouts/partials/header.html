@@ -1,0 +1,36 @@
+<div class="android-header mdl-layout__header mdl-layout__header--waterfall">
+  <!-- <div class="mdl-layout__header-row black">
+    <a href="https://twitter.com/Sebamueller">Twitter</a> - <a href="https://github.com/SebastianM/angular-google-maps">Code on Github</a>
+  </div> -->
+  <div class="mdl-layout__header-row">
+    <span class="agm-title mdl-layout-title">
+      <h1><a href="/">Angular Google Maps (AGM)</a></h1>
+    </span>
+    <!-- Add spacer, to align navigation to the right in desktop -->
+    <div class="android-header-spacer mdl-layout-spacer"></div>
+    <!-- Navigation -->
+    <div class="android-navigation-container">
+      <nav class="android-navigation mdl-navigation">
+        <a class="mdl-navigation__link mdl-typography--text-uppercase{{ if eq .Path "" }} active{{ end }}" href="/">Home</a>
+        <a class="mdl-navigation__link mdl-typography--text-uppercase{{ if eq .Path "guides/getting-started.md" }} active{{ end }}" href="/guides/getting-started/">Getting started</a>
+        <a class="mdl-navigation__link mdl-typography--text-uppercase{{ if eq .Path "guides.md" }} active{{ end }}" href="/guides/">Guides</a>
+        <a class="mdl-navigation__link mdl-typography--text-uppercase{{ if eq .Path "api-docs/" }} active{{ end }}" href="/api-docs/">API Docs</a>
+        <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://github.com/SebastianM/angular-google-maps">Github Project</a>
+        <a class="mdl-navigation__link mdl-typography--text-uppercase" href="https://gitter.im/SebastianM/angular2-google-maps">Chat</a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="android-drawer mdl-layout__drawer">
+  <span class="mdl-layout-title">
+    AGM
+  </span>
+  <nav class="mdl-navigation">
+    <a class="mdl-navigation__link" href="/">Home</a>
+    <a class="mdl-navigation__link" href="/guides/getting-started">Getting started</a>
+    <a class="mdl-navigation__link" href="/guides">Guides</a>
+    <a class="mdl-navigation__link" href="/api-docs">API Docs</a>
+    <a class="mdl-navigation__link" href="https://gitter.im/SebastianM/angular2-google-maps">Chat</a>
+  </nav>
+</div>
