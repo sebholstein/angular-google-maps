@@ -2,26 +2,79 @@ import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@ang
 import {ClusterManager} from '../services/managers/cluster-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
 
+/**
+ * AgmCluster clusters map marker if they are near together
+ *
+ * ### Example
+ * ```typescript
+ * import { Component } from '@angular/core';
+ *
+ * @Component({
+ *  selector: 'my-map-cmp',
+ *  styles: [`
+ *    .agm-map-container {
+ *      height: 300px;
+ *    }
+ * `],
+ *  template: `
+ *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+ *      <agm-cluster>
+ *        <agm-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
+ *        </agm-marker>
+ *        <agm-marker [latitude]="lat2" [longitude]="lng2" [label]="'N'">
+ *        </agm-marker>
+ *      </agm-cluster>
+ *    </agm-map>
+ *  `
+ * })
+ * ```
+ */
 @Directive({
   selector: 'agm-cluster',
   providers: [ClusterManager, {provide: MarkerManager, useExisting: ClusterManager}]
 })
 export class AgmCluster implements OnDestroy, OnChanges, OnInit {
+  /**
+   * The grid size of a cluster in pixels
+   */
   @Input() gridSize: number;
+
+  /**
+   * The maximum zoom level that a marker can be part of a cluster.
+   */
   @Input() maxZoom: number;
+
+  /**
+   * Whether the default behaviour of clicking on a cluster is to zoom into it.
+   */
   @Input() zoomOnClick: boolean;
+
+  /**
+   * Whether the center of each cluster should be the average of all markers in the cluster.
+   */
   @Input() averageCenter: boolean;
+
+  /**
+   * The minimum number of markers to be in a cluster before the markers are hidden and a count is shown.
+   */
   @Input() minimumClusterSize: number;
+
+  /**
+   * An object that has style properties.
+   */
   @Input() styles: Object;
+
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
   constructor(private cluster: ClusterManager) {}
 
+  /** @internal */
   ngOnDestroy() {
     this.cluster.clearMarkers();
   }
 
+  /** @internal */
   ngOnChanges(changes:{[key: string]: SimpleChange}) {
     if(changes['gridSize']) {
       this.cluster.setGridSize(this);
@@ -52,6 +105,7 @@ export class AgmCluster implements OnDestroy, OnChanges, OnInit {
     }
   }
 
+  /** @internal */
   ngOnInit() {
     this.cluster.init({
       gridSize: this.gridSize,
