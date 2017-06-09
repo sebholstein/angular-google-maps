@@ -8,6 +8,7 @@ import {AgmPolyline} from './directives/polyline';
 import {AgmPolylinePoint} from './directives/polyline-point';
 import {AgmKmlLayer} from './directives/kml-layer';
 import {AgmDataLayer} from './directives/data-layer';
+import { GoogleMapsAPIWrapper } from './services/google-maps-api-wrapper';
 import {LazyMapsAPILoader} from './services/maps-api-loader/lazy-maps-api-loader';
 import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
@@ -37,6 +38,7 @@ export class AgmCoreModule {
     return {
       ngModule: AgmCoreModule,
       providers: [
+        GoogleMapsAPIWrapper,
         ...BROWSER_GLOBALS_PROVIDERS, {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
         {provide: LAZY_MAPS_API_CONFIG, useValue: lazyMapsAPILoaderConfig}
       ],
