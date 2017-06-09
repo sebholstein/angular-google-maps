@@ -30,7 +30,11 @@
     "postngc:esm": "mkdir -p dist/ && cp -R .tmp/esm/src/* dist/ && rimraf src/**/*.ngfactory.ts",
     "test": "karma start",
     "test:watch": "karma start --no-single-run --auto-watch",
-    "ci": "npm run build && npm run test"
+    "ci": "npm run build && npm run test",
+    "docs:clean": "rimraf docs/public",
+    "docs:hugo": "cd docs && hugo",
+    "docs": "npm run docs:hugo && npm run apidocs:core",
+    "apidocs:core": "compodoc -p tsconfig.json --name AgmCoreModule --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
   },
   "author": "Sebastian Müller <info@sebastian-mueller.net>",
   "license": "MIT",
@@ -43,15 +47,16 @@
     "@angular/core": "^4.0.0 || ^2.0.0"
   },
   "devDependencies": {
-    "@angular/common": "^4.0.0",
-    "@angular/core": "^4.0.0",
     "@angular/animations": "^4.0.0",
+    "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/platform-server": "^4.0.0",
     "@angular/tsc-wrapped": "4.0.0",
+    "@compodoc/compodoc": "^1.0.0-beta.9",
     "@ngtools/webpack": "1.3.0",
     "@types/jasmine": "2.5.46",
     "angular2-template-loader": "^0.6.2",
