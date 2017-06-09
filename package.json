@@ -1,5 +1,5 @@
 {
-  "name": "@agm/dummy",
+  "name": "@agm/_dev",
   "private": true,
   "version": "1.0.0-beta.0",
   "description": "Angular 2+ components for Google Maps",
@@ -25,8 +25,9 @@
     "packagejson": "node ./scripts/create-package-json.js",
     "copyassets": "node ./scripts/copy-package-assets.js",
     "scripts": "npm run ngc:esm && npm run bundle",
-    "bundle": "npm run bundle:umd:core",
+    "bundle": "npm run bundle:umd:core && npm run bundle:umd:jsmarkerclusterer",
     "bundle:umd:core": "rollup -c rollup.core.config.js",
+    "bundle:umd:jsmarkerclusterer": "rollup -c rollup.js-marker-clusterer.config.js",
     "ngc:esm": "ngc -p tsconfig.json",
     "clang:format": "clang-format --glob=packages/**/*.ts -i",
     "postngc:esm": "mkdir -p dist/ && cp -R .tmp/esm/* dist/ && rimraf packages/**/*.ngfactory.ts",
@@ -35,9 +36,10 @@
     "ci": "npm run build && npm run test",
     "docs:clean": "rimraf docs/public",
     "docs:hugo": "cd docs && hugo",
-    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy",
+    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy && npm run apidocs:jsmarkerclusterer",
     "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
-    "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
+    "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
+    "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
   },
   "author": "Sebastian Müller <info@sebastian-mueller.net>",
   "license": "MIT",
@@ -73,6 +75,7 @@
     "html-webpack-plugin": "^2.8.1",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jasmine-core": "2.5.0",
+    "js-marker-clusterer": "^1.0.0",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "2.0.0",
     "karma-coverage": "^1.1.1",

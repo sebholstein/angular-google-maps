@@ -5,6 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const packages = require('./packages');
 
+const rootPkgJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+
 packages.forEach(function(pkgName) {
   let basePkgJson;
   if (fs.existsSync(`./packages/${pkgName}/package.tpl.json`)) {
@@ -15,6 +17,9 @@ packages.forEach(function(pkgName) {
 
   // define the package name
   basePkgJson.name = `@agm/${pkgName}`
+
+  // update version
+  basePkgJson.version = rootPkgJson.version;
 
   // remove scripts
   delete basePkgJson.scripts;

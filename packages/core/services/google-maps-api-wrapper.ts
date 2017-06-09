@@ -39,10 +39,12 @@ export class GoogleMapsAPIWrapper {
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
+  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}, addToMap: boolean = true):
       Promise<mapTypes.Marker> {
     return this._map.then((map: mapTypes.GoogleMap) => {
-      options.map = map;
+      if (addToMap) {
+        options.map = map;
+      }
       return new google.maps.Marker(options);
     });
   }
