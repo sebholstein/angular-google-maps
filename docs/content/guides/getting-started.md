@@ -106,7 +106,7 @@ Open the file `src/app/app.component.html` and paste the following content:
 <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
 <agm-map [latitude]="lat" [longitude]="lng">
-  <agm-map-marker [latitude]="lat" [longitude]="lng"></agm-map-marker>
+  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 </agm-map>
 ```
 
