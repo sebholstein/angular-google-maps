@@ -6,7 +6,7 @@ import {MarkerManager} from '../services/managers/marker-manager';
 import {IClusterOptions, IClusterStyle} from '../services/google-maps-types';
 
 /**
- * AgmCluster clusters map marker if they are near together
+ * AgmMarkerCluster clusters map marker if they are near together
  *
  * ### Example
  * ```typescript
@@ -36,7 +36,7 @@ import {IClusterOptions, IClusterStyle} from '../services/google-maps-types';
   selector: 'agm-cluster',
   providers: [ClusterManager, {provide: MarkerManager, useExisting: ClusterManager}]
 })
-export class AgmCluster implements OnDestroy, OnChanges, OnInit, IClusterOptions {
+export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, IClusterOptions {
   /**
    * The grid size of a cluster in pixels
    */

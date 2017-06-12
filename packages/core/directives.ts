@@ -7,4 +7,4 @@ export {AgmMarker} from './directives/marker';
 export {AgmPolygon} from './directives/polygon';
 export {AgmPolyline} from './directives/polyline';
 export {AgmPolylinePoint} from './directives/polyline-point';
-export {AgmCluster} from './directives/cluster';
+export {AgmMarkerCluster} from './directives/cluster';

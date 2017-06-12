@@ -5,7 +5,7 @@ import 'js-marker-clusterer';
 import {MarkerManager} from './marker-manager';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
 import {AgmMarker} from './../../directives/marker';
-import {AgmCluster} from './../../directives/cluster';
+import {AgmMarkerCluster} from './../../directives/cluster';
 // tslint:disable-next-line: no-use-before-declare
 import {Marker, IMarkerClusterer, IClusterOptions} from '../google-maps-types';
 
@@ -133,25 +133,25 @@ export class ClusterManager extends MarkerManager {
     });
   }
 
-  setGridSize(c: AgmCluster): void {
+  setGridSize(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       cluster.setGridSize(c.gridSize);
     });
   }
 
-  setMaxZoom(c: AgmCluster): void {
+  setMaxZoom(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       cluster.setMaxZoom(c.maxZoom);
     });
   }
 
-  setStyles(c: AgmCluster): void {
+  setStyles(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       cluster.setStyles(c.styles);
     });
   }
 
-  setZoomOnClick(c: AgmCluster): void {
+  setZoomOnClick(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       if (c.zoomOnClick !== undefined) {
         cluster.zoomOnClick_ = c.zoomOnClick;
@@ -159,7 +159,7 @@ export class ClusterManager extends MarkerManager {
     });
   }
 
-  setAverageCenter(c: AgmCluster): void {
+  setAverageCenter(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       if (c.averageCenter !== undefined) {
         cluster.averageCenter_ = c.averageCenter;
@@ -167,7 +167,7 @@ export class ClusterManager extends MarkerManager {
     });
   }
 
-  setImagePath(c: AgmCluster): void {
+  setImagePath(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       if (c.imagePath !== undefined) {
         cluster.imagePath_ = c.imagePath;
@@ -175,7 +175,7 @@ export class ClusterManager extends MarkerManager {
     });
   }
 
-  setMinimumClusterSize(c: AgmCluster): void {
+  setMinimumClusterSize(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       if (c.minimumClusterSize !== undefined) {
         cluster.minimumClusterSize_ = c.minimumClusterSize;
@@ -183,7 +183,7 @@ export class ClusterManager extends MarkerManager {
     });
   }
 
-  setImageExtension(c: AgmCluster): void {
+  setImageExtension(c: AgmMarkerCluster): void {
     this._deferred.promise.then(cluster => {
       if (c.imageExtension !== undefined) {
         cluster.imageExtension_ = c.imageExtension;
