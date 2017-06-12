@@ -73,7 +73,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * If set to true, the user can edit this shape by dragging the control
    * points shown at the vertices and on each segment. Defaults to false.
    */
-  editable: boolean = false;
+  @Input() editable: boolean = false;
 
   /**
    * The fill color. All CSS3 colors are supported except for extended
