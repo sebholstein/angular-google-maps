@@ -4,6 +4,7 @@ export interface GoogleMap extends MVCObject {
   data?: Data;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
+  panBy(x: number, y: number): void;
   setZoom(zoom: number): void;
   getCenter(): LatLng;
   setCenter(latLng: LatLng|LatLngLiteral): void;

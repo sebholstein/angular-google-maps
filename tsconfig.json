@@ -24,6 +24,9 @@
         "debug": false,
         "skipMetadataEmit": false
     },
+    "exclude": [
+        ".tmp"
+    ],
     "include": [
         "src/**/*"
     ]
