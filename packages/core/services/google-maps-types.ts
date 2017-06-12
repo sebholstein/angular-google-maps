@@ -550,13 +550,13 @@ export interface CalculatorResult {
 
 export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult;
 
-export interface MarkerClusterer {
+export interface IMarkerClusterer {
   zoomOnClick_: boolean;
   averageCenter_: boolean;
   imagePath_: string;
   minimumClusterSize_: number;
   imageExtension_: string;
-  new(map: GoogleMap, marker: Marker[], options: IClusterOptions): MarkerClusterer;
+  new(map: GoogleMap, marker: Marker[], options: IClusterOptions): IMarkerClusterer;
   addMarker(marker: Marker, noDraw?: boolean): void;
   addMarkers(markers: Marker[], noDraw?: boolean): void;
   clearMarkers(): void;

@@ -10,6 +10,7 @@ export default {
     '@angular/compiler': 'ng.compiler',
     '@angular/platform-browser': 'ng.platformBrowser',
     '@angular/platform-browser-dynamic': 'ng.platformBrowserDynamic',
+    'js-marker-clusterer': 'MarkerClusterer',
     'rxjs/Subject': 'Rx',
     'rxjs/observable/PromiseObservable': 'Rx',
     'rxjs/operator/toPromise': 'Rx.Observable.prototype',

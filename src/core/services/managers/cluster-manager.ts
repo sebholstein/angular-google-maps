@@ -7,9 +7,9 @@ import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
 import {AgmMarker} from './../../directives/marker';
 import {AgmCluster} from './../../directives/cluster';
 // tslint:disable-next-line: no-use-before-declare
-import {Marker, MarkerClusterer, IClusterOptions} from '../google-maps-types';
+import {Marker, IMarkerClusterer, IClusterOptions} from '../google-maps-types';
 
-declare var MarkerClusterer: MarkerClusterer;
+declare var MarkerClusterer: IMarkerClusterer;
 
 class Deferred<T> {
   private _promise: Promise<T>;
@@ -71,11 +71,11 @@ class Deferred<T> {
 
 @Injectable()
 export class ClusterManager extends MarkerManager {
-  private _deferred: Deferred<MarkerClusterer>;
+  private _deferred: Deferred<IMarkerClusterer>;
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {
     super(_mapsWrapper, _zone);
-    this._deferred = new Deferred<MarkerClusterer>();
+    this._deferred = new Deferred<IMarkerClusterer>();
   }
 
   init(options: IClusterOptions): void {
@@ -87,7 +87,7 @@ export class ClusterManager extends MarkerManager {
   }
 
   addMarker(marker: AgmMarker): void {
-    const clusterPromise: Promise<MarkerClusterer> = this._deferred.promise;
+    const clusterPromise: Promise<IMarkerClusterer> = this._deferred.promise;
     const markerPromise = this._mapsWrapper
       .createMarker({
         position: {
