@@ -542,3 +542,116 @@ export interface FullscreenControlOptions {
    */
   position?: ControlPosition;
 }
+
+export interface CalculatorResult {
+  text: string;
+  index: number;
+}
+
+export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult
+
+export interface MarkerClusterer {
+  addMarker(marker:Marker, opt_nodraw?:boolean):void;
+  addMarkers(markers:Marker[], opt_nodraw?:boolean):void;
+  clearMarkers():void;
+  getCalculator(): CalculateFunction;
+  getExtendedBounds(bounds:LatLngBounds):LatLngBounds;
+  getGridSize(): number;
+  getMap() : GoogleMap;
+  getMarkers(): Marker[];
+  getStyles(): IClusterStyle;
+  getTotalClusters(): number;
+  getTotalMarkers(): Marker[];
+  isZoomOnClick(): boolean;
+  redraw(): void;
+  removeMarker(marker: Marker): boolean;
+  resetViewport(): void;
+  setCalculator(calculator: CalculateFunction): void;
+  setGridSize(size:number):void;
+  setMap(map:GoogleMap):void;
+  setMaxZoom(maxZoom:number):void;
+  setStyles(styles:IClusterStyle):void;
+  zoomOnClick_:boolean;
+  averageCenter_:boolean;
+  imagePath_:string;
+  minimumClusterSize_:number;
+  imageExtension_:string;
+}
+
+export interface IClusterOptions {
+  /**
+   * The grid size of a cluster in pixels.
+   */
+  gridSize?:number
+
+  /**
+   * The maximum zoom level that a marker can be part of a cluster.
+   */
+  maxZoom?:number
+
+  /**
+   * Whether the default behaviour of clicking on a cluster is to zoom into it.
+   */
+  zoomOnClick?:boolean
+
+  /**
+   * Whether the center of each cluster should be the average of all markers in the cluster.
+   */
+  averageCenter?:boolean
+
+  /**
+   * The minimum number of markers to be in a cluster before the markers are hidden and a count is shown.
+   */
+  minimumClusterSize?:number
+
+  /**
+   * An object that has style properties.
+   */
+  styles?:IClusterStyle
+
+  imagePath?:string
+  imageExtension?:string
+}
+
+
+export interface IClusterStyle {
+  /**
+   * The image url.
+   */
+  url?:string
+
+  /**
+   * The image height.
+   */
+  height?:number
+
+  /**
+   * The image width.
+   */
+  width?:number
+
+  /**
+   * The anchor position of the label text.
+   */
+  anchor?:[number,number]
+
+  /**
+   * The text color.
+   */
+  textColor?:string
+
+  /**
+   * The text size.
+   */
+  textSize?:number
+
+  /**
+   * The position of the backgound x, y.
+   */
+  backgroundPosition?:string
+
+  /**
+   * The anchor position of the icon x, y.
+   */
+  iconAnchor?:[number,number]
+}

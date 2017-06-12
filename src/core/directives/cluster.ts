@@ -3,47 +3,8 @@ import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@ang
 import {ClusterManager} from '../services/managers/cluster-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
 
-export interface IClusterStyle {
-  /**
-   * The image url.
-   */
-  url:string
+import {IClusterOptions, IClusterStyle} from '../services/google-maps-types';
 
-  /**
-   * The image height.
-   */
-  height:number
-
-  /**
-   * The image width.
-   */
-  width:number
-
-  /**
-   * The anchor position of the label text.
-   */
-  anchor:number[]
-
-  /**
-   * The text color.
-   */
-  textColor:string
-
-  /**
-   * The text size.
-   */
-  textSize:number
-
-  /**
-   * The position of the backgound x, y.
-   */
-  backgroundPosition:string
-
-  /**
-   * The anchor position of the icon x, y.
-   */
-  iconAnchor:number[]
-}
 
 /**
  * AgmCluster clusters map marker if they are near together
@@ -76,7 +37,7 @@ export interface IClusterStyle {
   selector: 'agm-cluster',
   providers: [ClusterManager, {provide: MarkerManager, useExisting: ClusterManager}]
 })
-export class AgmCluster implements OnDestroy, OnChanges, OnInit {
+export class AgmCluster implements OnDestroy, OnChanges, OnInit, IClusterOptions {
   /**
    * The grid size of a cluster in pixels
    */
