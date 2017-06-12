@@ -548,16 +548,22 @@ export interface CalculatorResult {
   index: number;
 }
 
-export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult
+export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult;
 
 export interface MarkerClusterer {
-  addMarker(marker:Marker, opt_nodraw?:boolean):void;
-  addMarkers(markers:Marker[], opt_nodraw?:boolean):void;
-  clearMarkers():void;
+  zoomOnClick_: boolean;
+  averageCenter_: boolean;
+  imagePath_: string;
+  minimumClusterSize_: number;
+  imageExtension_: string;
+  new(map: GoogleMap, marker: Marker[], options: IClusterOptions): MarkerClusterer;
+  addMarker(marker: Marker, noDraw?: boolean): void;
+  addMarkers(markers: Marker[], noDraw?: boolean): void;
+  clearMarkers(): void;
   getCalculator(): CalculateFunction;
-  getExtendedBounds(bounds:LatLngBounds):LatLngBounds;
+  getExtendedBounds(bounds: LatLngBounds): LatLngBounds;
   getGridSize(): number;
-  getMap() : GoogleMap;
+  getMap(): GoogleMap;
   getMarkers(): Marker[];
   getStyles(): IClusterStyle;
   getTotalClusters(): number;
@@ -567,91 +573,85 @@ export interface MarkerClusterer {
   removeMarker(marker: Marker): boolean;
   resetViewport(): void;
   setCalculator(calculator: CalculateFunction): void;
-  setGridSize(size:number):void;
-  setMap(map:GoogleMap):void;
-  setMaxZoom(maxZoom:number):void;
-  setStyles(styles:IClusterStyle):void;
-  zoomOnClick_:boolean;
-  averageCenter_:boolean;
-  imagePath_:string;
-  minimumClusterSize_:number;
-  imageExtension_:string;
+  setGridSize(size: number): void;
+  setMap(map: GoogleMap): void;
+  setMaxZoom(maxZoom: number): void;
+  setStyles(styles: IClusterStyle): void;
 }
 
 export interface IClusterOptions {
   /**
    * The grid size of a cluster in pixels.
    */
-  gridSize?:number
+  gridSize?: number;
 
   /**
    * The maximum zoom level that a marker can be part of a cluster.
    */
-  maxZoom?:number
+  maxZoom?: number;
 
   /**
    * Whether the default behaviour of clicking on a cluster is to zoom into it.
    */
-  zoomOnClick?:boolean
+  zoomOnClick?: boolean;
 
   /**
    * Whether the center of each cluster should be the average of all markers in the cluster.
    */
-  averageCenter?:boolean
+  averageCenter?: boolean;
 
   /**
    * The minimum number of markers to be in a cluster before the markers are hidden and a count is shown.
    */
-  minimumClusterSize?:number
+  minimumClusterSize?: number;
 
   /**
    * An object that has style properties.
    */
-  styles?:IClusterStyle
+  styles?: IClusterStyle;
 
-  imagePath?:string
-  imageExtension?:string
+  imagePath?: string;
+  imageExtension?: string;
 }
-
 
 export interface IClusterStyle {
   /**
    * The image url.
    */
-  url?:string
+  url?: string;
 
   /**
    * The image height.
    */
-  height?:number
+  height?: number;
 
   /**
    * The image width.
    */
-  width?:number
+  width?: number;
 
   /**
    * The anchor position of the label text.
    */
-  anchor?:[number,number]
+  anchor?: [number, number];
 
   /**
    * The text color.
    */
-  textColor?:string
+  textColor?: string;
 
   /**
    * The text size.
    */
-  textSize?:number
+  textSize?: number;
 
   /**
    * The position of the backgound x, y.
    */
-  backgroundPosition?:string
+  backgroundPosition?: string;
 
   /**
    * The anchor position of the icon x, y.
    */
-  iconAnchor?:[number,number]
+  iconAnchor?: [number, number];
 }

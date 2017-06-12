@@ -5,7 +5,6 @@ import {MarkerManager} from '../services/managers/marker-manager';
 
 import {IClusterOptions, IClusterStyle} from '../services/google-maps-types';
 
-
 /**
  * AgmCluster clusters map marker if they are near together
  *
@@ -79,8 +78,8 @@ export class AgmCluster implements OnDestroy, OnChanges, OnInit, IClusterOptions
   }
 
   /** @internal */
-  ngOnChanges(changes:{[key: string]: SimpleChange}) {
-    if(changes['gridSize']) {
+  ngOnChanges(changes: {[key: string]: SimpleChange }) {
+    if (changes['gridSize']) {
       this.cluster.setGridSize(this);
     }
     if (changes['maxZoom']) {

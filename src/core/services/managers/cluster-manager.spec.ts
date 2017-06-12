@@ -23,12 +23,12 @@ describe('ClusterManager', () => {
     it('should call the mapsApiWrapper when creating a new marker',
        inject(
            [ClusterManager, GoogleMapsAPIWrapper],
-           (ClusterManager: ClusterManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new AgmMarker(ClusterManager);
+           (clusterManager: ClusterManager, apiWrapper: GoogleMapsAPIWrapper) => {
+             const newMarker = new AgmMarker(clusterManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
-             ClusterManager.addMarker(newMarker);
+             clusterManager.addMarker(newMarker);
 
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
                position: {lat: 34.4, lng: 22.3},
@@ -47,8 +47,8 @@ describe('ClusterManager', () => {
     it('should set the map to null when deleting a existing marker',
        inject(
            [ClusterManager, GoogleMapsAPIWrapper],
-           (ClusterManager: ClusterManager, apiWrapper: GoogleMapsAPIWrapper) => {
-             const newMarker = new AgmMarker(ClusterManager);
+           (clusterManager: ClusterManager, apiWrapper: GoogleMapsAPIWrapper) => {
+             const newMarker = new AgmMarker(clusterManager);
              newMarker.latitude = 34.4;
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
@@ -56,8 +56,8 @@ describe('ClusterManager', () => {
              const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap']);
              (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
 
-             ClusterManager.addMarker(newMarker);
-             ClusterManager.deleteMarker(newMarker).then(
+             clusterManager.addMarker(newMarker);
+             clusterManager.deleteMarker(newMarker).then(
                  () => { expect(markerInstance.setMap).toHaveBeenCalledWith(null); });
            }));
   });
