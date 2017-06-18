@@ -93,6 +93,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Input() zIndex: number = 1;
 
   /**
+   * If true, the marker can be clicked. Default value is true.
+   */
+  // tslint:disable-next-line:no-input-rename
+  @Input('markerClickable') clickable: boolean = true;
+
+  /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
@@ -172,6 +178,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
     if (changes['zIndex']) {
       this._markerManager.updateZIndex(this);
+    }
+    if (changes['clickable']) {
+      this._markerManager.updateClickable(this);
     }
   }
 
