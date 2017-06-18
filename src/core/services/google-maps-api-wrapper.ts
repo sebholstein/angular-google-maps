@@ -78,6 +78,17 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
+   * Creates a new google.map.Data layer for the current map
+   */
+  createDataLayer(options?: mapTypes.DataOptions): Promise<mapTypes.Data> {
+    return this._map.then(m => {
+      let data = new google.maps.Data(options);
+      data.setMap(m);
+      return data;
+    });
+  }
+
+  /**
    * Determines if given coordinates are insite a Polygon path.
    */
   containsLocation(latLng: mapTypes.LatLngLiteral, polygon: mapTypes.Polygon): Promise<boolean> {

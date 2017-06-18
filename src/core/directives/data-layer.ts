@@ -214,7 +214,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * The geoJson to be displayed
    */
-  @Input() geoJson: Object | null = null;
+  @Input() geoJson: Object | string | null = null;
 
   /**
    * The layer's style function.
