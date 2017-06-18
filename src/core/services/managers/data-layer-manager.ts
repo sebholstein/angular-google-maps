@@ -22,15 +22,14 @@ export class DataLayerManager {
    * Adds a new Data Layer to the map.
    */
   addDataLayer(layer: AgmDataLayer) {
-    const newLayer = this._wrapper.getNativeMap().then(m => {
-      var dataLayer = new google.maps.Data(<DataOptions>{
-        map: m,
-        style: layer.style
-      });
+    const newLayer = this._wrapper.createDataLayer(<DataOptions>{
+      style: layer.style
+    })
+    .then(d => {
       if (layer.geoJson) {
-        dataLayer.features = dataLayer.addGeoJson(layer.geoJson);
+        this.getDataFeatures(d, layer.geoJson).then(features => d.features = features);
       }
-      return dataLayer;
+      return d;
     });
     this._layers.set(layer, newLayer);
   }
@@ -42,7 +41,7 @@ export class DataLayerManager {
     });
   }
 
-  updateGeoJson(layer: AgmDataLayer, geoJson: Object) {
+  updateGeoJson(layer: AgmDataLayer, geoJson: Object | string) {
     this._layers.get(layer).then(l => {
       l.forEach(function (feature: Feature) {
         l.remove(feature);
@@ -52,7 +51,7 @@ export class DataLayerManager {
           l.features.splice(index, 1);
         }
       });
-      l.features = l.addGeoJson(geoJson);
+      this.getDataFeatures(l, geoJson).then(features => l.features = features);
     });
   }
 
@@ -75,5 +74,27 @@ export class DataLayerManager {
         d.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
+  }
+
+  /**
+   * Extract features from a geoJson using google.maps Data Class
+   * @param d : google.maps.Data class instance
+   * @param geoJson : url or geojson object
+   */
+  getDataFeatures(d: Data, geoJson: Object | string): Promise<Feature[]> {
+    return new Promise<Feature[]>((resolve, reject) => {
+        if (typeof geoJson === 'object') {
+          try {
+            const features = d.addGeoJson(geoJson);
+            resolve(features);
+          } catch (e) {
+            reject(e);
+          }
+        } else if (typeof geoJson === 'string') {
+          d.loadGeoJson(geoJson, null, resolve);
+        } else {
+          reject(`Impossible to extract features from geoJson: wrong argument type`);
+        }
+      });
   }
 }

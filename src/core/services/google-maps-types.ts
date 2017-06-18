@@ -389,6 +389,7 @@ export interface Data extends MVCObject {
   */
   setStyle(style: () => void): void;
   forEach(callback: (feature: Feature) => void): void;
+  loadGeoJson(url: string, options?: GeoJsonOptions, callback?: (feats: Feature[]) => void): void;
   /* tslint:enable */
 }
 
