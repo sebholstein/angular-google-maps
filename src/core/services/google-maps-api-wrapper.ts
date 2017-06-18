@@ -57,6 +57,11 @@ export class GoogleMapsAPIWrapper {
   createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle> {
     return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
+
+      if (typeof options.strokePosition === 'string') {
+        options.strokePosition = google.maps.StrokePosition[options.strokePosition];
+      }
+
       return new google.maps.Circle(options);
     });
   }
