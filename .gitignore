@@ -1,9 +1,9 @@
 node_modules/
 dist
 docs_generated
-src/**/*.js
-src/**/*.map
-src/**/*.ngfactory.js
+packages/**/*.js
+packages/**/*.map
+packages/**/*.ngfactory.js
 .tmp
 test-built
 npm-debug.log

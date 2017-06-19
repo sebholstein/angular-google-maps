@@ -16,7 +16,7 @@ require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 
-var ctx = require.context('./src', true, /\.spec\.ts/);
+var ctx = require.context('./packages', true, /\.spec\.ts/);
 ctx.keys().forEach(ctx);
 
 var testing = require('@angular/core/testing');

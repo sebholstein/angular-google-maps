@@ -7,7 +7,12 @@ const path = require('path');
 const pkgNames = ['core'];
 
 pkgNames.forEach(function(pkgName) {
-  const basePkgJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+  let basePkgJson;
+  if (fs.existsSync(`./packages/${pkgName}/package.tpl.json`)) {
+    basePkgJson = JSON.parse(fs.readFileSync(`./packages/${pkgName}/package.tpl.json`, 'utf8'));
+  } else {
+    basePkgJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+  }
 
   // define the package name
   basePkgJson.name = `@agm/${pkgName}`

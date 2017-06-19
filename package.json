@@ -1,5 +1,6 @@
 {
-  "name": "@agm/core-src",
+  "name": "@agm/dummy",
+  "private": true,
   "version": "1.0.0-beta.0",
   "description": "Angular 2+ components for Google Maps",
   "repository": {
@@ -17,17 +18,18 @@
     "angular2"
   ],
   "scripts": {
-    "clean": "rimraf dist && rimraf .tmp && mkdir dist && mkdir .tmp && rimraf 'src/**/*.ngfactory.ts'",
+    "clean": "rimraf dist && rimraf .tmp && mkdir dist && mkdir .tmp && rimraf 'packages/**/*.ngfactory.ts'",
     "prebuild": "npm run clean",
     "build": "npm run lint && npm run scripts && npm run packagejson && npm run copyassets",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint": "tslint -c tslint.json 'packages/**/*.ts'",
     "packagejson": "node ./scripts/create-package-json.js",
     "copyassets": "cp -R assets/release/* dist/core && cp LICENSE dist/core",
-    "scripts": "npm run ngc:esm && npm run bundle:umd",
-    "bundle:umd": "rollup -c rollup.config.js",
+    "scripts": "npm run ngc:esm && npm run bundle",
+    "bundle": "npm run bundle:umd:core",
+    "bundle:umd:core": "rollup -c rollup.core.config.js",
     "ngc:esm": "ngc -p tsconfig.json",
-    "clang:format": "clang-format --glob=src/**/*.ts -i",
-    "postngc:esm": "mkdir -p dist/ && cp -R .tmp/esm/src/* dist/ && rimraf src/**/*.ngfactory.ts",
+    "clang:format": "clang-format --glob=packages/**/*.ts -i",
+    "postngc:esm": "mkdir -p dist/ && cp -R .tmp/esm/* dist/ && rimraf packages/**/*.ngfactory.ts",
     "test": "karma start",
     "test:watch": "karma start --no-single-run --auto-watch",
     "ci": "npm run build && npm run test",

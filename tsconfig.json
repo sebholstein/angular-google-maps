@@ -6,7 +6,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "outDir": ".tmp/esm",
-        "rootDir": ".",
+        "baseUrl": ".",
         "sourceMap": true,
         "removeComments": false,
         "moduleResolution": "node",
@@ -17,7 +17,10 @@
         ],
         "types": [
             "jasmine"
-        ]
+        ],
+        "paths": {
+            "@agm/*": ["./packages/*"]
+        }
     },
     "angularCompilerOptions": {
         "genDir": ".tmp",
@@ -28,6 +31,6 @@
         ".tmp"
     ],
     "include": [
-        "src/**/*"
+        "packages/**/*"
     ]
 }
