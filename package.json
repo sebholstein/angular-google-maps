@@ -23,7 +23,7 @@
     "build": "npm run lint && npm run scripts && npm run packagejson && npm run copyassets",
     "lint": "tslint -c tslint.json 'packages/**/*.ts'",
     "packagejson": "node ./scripts/create-package-json.js",
-    "copyassets": "cp -R assets/release/* dist/core && cp LICENSE dist/core",
+    "copyassets": "node ./scripts/copy-package-assets.js",
     "scripts": "npm run ngc:esm && npm run bundle",
     "bundle": "npm run bundle:umd:core",
     "bundle:umd:core": "rollup -c rollup.core.config.js",

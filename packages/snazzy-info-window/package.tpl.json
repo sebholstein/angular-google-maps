@@ -1,6 +1,7 @@
 {
   "name": "@agm/snazzy-info-window",
-  "version": "1.0.0-beta.1",
+  "version": "INSERT_HERE_VIA_BUILD_PROCESS",
+  "private": true,
   "description": "Angular Google Maps (AGM) package for Snazzy Info Window support",
   "repository": {
     "type": "git",
