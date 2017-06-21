@@ -77,7 +77,6 @@
       "check-module",
       "check-type"
     ],
-    "directive-selector": [true, "element", "agm", "kebab-case"],
     "component-selector": [true, "element", "agm", "kebab-case"],
     "use-input-property-decorator": false,
     "use-output-property-decorator": false,

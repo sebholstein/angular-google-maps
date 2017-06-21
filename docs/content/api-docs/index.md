@@ -6,4 +6,7 @@ title = "API Docs for Angular Google Maps"
 
 **Here you find the API docs for the @agm Packages:**
 
-* [@agm/core - Provides components and services for the official Google Maps API v3](./agm-core/modules/AgmCoreModule.html)
+* [@agm/core](./agm-core/modules/AgmCoreModule.html)  
+  Provides Angular integration solutions for the official Google Maps Core API v3
+* [@agm/snazzy-info-window](./agm-snazzy-info-window/modules/AgmSnazzyInfoWindowModule.html)  
+  Styled Info Windows with [Snazzy Info Window](https://github.com/atmist/snazzy-info-window#html-structure)

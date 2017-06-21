@@ -1,7 +1,7 @@
 // Turn on full stack traces in errors to help debugging
 Error.stackTraceLimit=Infinity;
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 100;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 require('core-js/client/shim');
 require('reflect-metadata');

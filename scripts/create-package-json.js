@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const pkgNames = ['core'];
+const pkgNames = ['core', 'snazzy-info-window'];
 
 pkgNames.forEach(function(pkgName) {
   let basePkgJson;
