@@ -35,8 +35,9 @@
     "ci": "npm run build && npm run test",
     "docs:clean": "rimraf docs/public",
     "docs:hugo": "cd docs && hugo",
-    "docs": "npm run docs:hugo && npm run apidocs:core",
-    "apidocs:core": "compodoc -p tsconfig.json --name AgmCoreModule --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
+    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy",
+    "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
+    "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
   },
   "author": "Sebastian Müller <info@sebastian-mueller.net>",
   "license": "MIT",
