@@ -1,9 +1,9 @@
 import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
 
 import {ClusterManager} from '../services/managers/cluster-manager';
-import {MarkerManager} from '../services/managers/marker-manager';
+import {MarkerManager} from '../../core/services/managers/marker-manager';
 
-import {IClusterOptions, IClusterStyle} from '../services/google-maps-types';
+import {IClusterOptions, IClusterStyle} from '../services/google-clusterer-types';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together

@@ -1,9 +1,9 @@
 import {NgZone} from '@angular/core';
 import {TestBed, async, inject} from '@angular/core/testing';
 
-import {AgmMarker} from './../../directives/marker';
-import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {Marker} from './../google-maps-types';
+import {AgmMarker} from '../../../core/directives/marker';
+import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
+import {Marker} from '../../../core/services/google-maps-types';
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -38,7 +38,8 @@ describe('ClusterManager', () => {
                opacity: 1,
                visible: true,
                zIndex: 1,
-               title: undefined
+               title: undefined,
+               clickable: true
              }, false);
            }));
   });
@@ -84,7 +85,8 @@ describe('ClusterManager', () => {
                opacity: 1,
                visible: true,
                zIndex: 1,
-               title: undefined
+               title: undefined,
+               clickable: true
              }, false);
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
@@ -116,7 +118,8 @@ describe('ClusterManager', () => {
                visible: true,
                opacity: 1,
                zIndex: 1,
-               title: undefined
+               title: undefined,
+               clickable: true
              }, false);
              const opacity = 0.4;
              newMarker.opacity = opacity;
@@ -149,7 +152,8 @@ describe('ClusterManager', () => {
                visible: false,
                opacity: 1,
                zIndex: 1,
-               title: undefined
+               title: undefined,
+               clickable: true
              }, false);
              newMarker.visible = true;
              return markerManager.updateVisible(newMarker).then(
@@ -180,7 +184,8 @@ describe('ClusterManager', () => {
                visible: false,
                opacity: 1,
                zIndex: 1,
-               title: undefined
+               title: undefined,
+               clickable: true
              }, false);
              const zIndex = 10;
              newMarker.zIndex = zIndex;

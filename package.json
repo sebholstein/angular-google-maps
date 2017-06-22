@@ -47,8 +47,7 @@
   "homepage": "https://angular-maps.com",
   "peerDependencies": {
     "@angular/common": "^4.0.0 || ^2.0.0",
-    "@angular/core": "^4.0.0 || ^2.0.0",
-    "js-marker-clusterer": "^1.0.0"
+    "@angular/core": "^4.0.0 || ^2.0.0"
   },
   "devDependencies": {
     "@angular/animations": "^4.0.0",

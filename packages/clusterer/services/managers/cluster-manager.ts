@@ -2,12 +2,13 @@ import {Injectable, NgZone} from '@angular/core';
 
 import 'js-marker-clusterer';
 
-import {MarkerManager} from './marker-manager';
-import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {AgmMarker} from './../../directives/marker';
+import {MarkerManager} from '../../../core/services/managers/marker-manager';
+import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
+import {AgmMarker} from '../../../core/directives/marker';
 import {AgmMarkerCluster} from './../../directives/cluster';
 // tslint:disable-next-line: no-use-before-declare
-import {Marker, IMarkerClusterer, IClusterOptions} from '../google-maps-types';
+import {Marker} from '../../../core/services/google-maps-types';
+import {IMarkerClusterer, IClusterOptions} from '../google-clusterer-types';
 
 declare var MarkerClusterer: IMarkerClusterer;
 
@@ -100,7 +101,8 @@ export class ClusterManager extends MarkerManager {
         opacity: marker.opacity,
         visible: marker.visible,
         zIndex: marker.zIndex,
-        title: marker.title
+        title: marker.title,
+        clickable: marker.clickable,
       }, false);
 
     Promise
