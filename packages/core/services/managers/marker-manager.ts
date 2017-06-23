@@ -9,10 +9,10 @@ import {Marker} from './../google-maps-types';
 
 @Injectable()
 export class MarkerManager {
-  private _markers: Map<AgmMarker, Promise<Marker>> =
+  protected _markers: Map<AgmMarker, Promise<Marker>> =
       new Map<AgmMarker, Promise<Marker>>();
 
-  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
+  constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {}
 
   deleteMarker(marker: AgmMarker): Promise<void> {
     const m = this._markers.get(marker);

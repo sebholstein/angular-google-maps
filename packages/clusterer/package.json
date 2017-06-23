@@ -1,0 +1,6 @@
+{
+  "name": "@agm/clusterer-src",
+  "dependencies": {
+    "@agm/core": "file:../core"
+  }
+}
