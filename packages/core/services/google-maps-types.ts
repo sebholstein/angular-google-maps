@@ -419,20 +419,20 @@ export interface GeoJsonOptions {
 }
 
 export interface StylingOptions {
-  clickable: boolean;
-  cursor: string;
-  draggable: boolean;
-  editable: boolean;
-  fillColor: string;
-  fillOpacity: number;
-  icon: string;
-  shape: any;
-  strokeColor: string;
-  strokeOpacity: number;
-  strokeWeight: number;
-  title: string;
-  visible: boolean;
-  zIndex: number;
+  clickable?: boolean;
+  cursor?: string;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  icon?: string;
+  shape?: any;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokeWeight?: number;
+  title?: string;
+  visible?: boolean;
+  zIndex?: number;
 }
 
 export interface Geometry {
