@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { DataMouseEvent, DataOptions } from './../services/google-maps-types';
+import {DataMouseEvent, DataOptions, Feature, StylingOptions} from './../services/google-maps-types';
 import { DataLayerManager } from './../services/managers/data-layer-manager';
 
 let layerId = 0;
@@ -219,7 +219,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * The layer's style function.
    */
-  @Input() style: () => void;
+  @Input() style: (feature: Feature) => StylingOptions|StylingOptions;
 
   constructor(private _manager: DataLayerManager) { }
 

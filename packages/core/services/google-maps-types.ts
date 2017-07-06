@@ -407,7 +407,7 @@ export interface DataOptions{
   drawingMode?: string;
   featureFactory?: (geometry: Geometry) => Feature;
   map?: GoogleMap;
-  style?: () => void;
+  style?: (feature: Feature) => StylingOptions|StylingOptions;
 }
 
 export interface DataMouseEvent extends MouseEvent {
