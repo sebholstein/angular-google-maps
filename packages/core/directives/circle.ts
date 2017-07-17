@@ -152,7 +152,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
 
   private static _mapOptions: string[] = [
     'fillColor', 'fillOpacity', 'strokeColor', 'strokeOpacity', 'strokePosition', 'strokeWeight',
-    'visible', 'zIndex'
+    'visible', 'zIndex', 'clickable'
   ];
 
   private _eventSubscriptions: Subscription[] = [];
