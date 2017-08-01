@@ -184,10 +184,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
    */
-  @Input() fitMarkers: Array<LatLng> | Array<LatLngLiteral> = null;
+  @Input() fitPoints: Array<LatLng> | Array<LatLngLiteral> = null;
 
   /**
-   * Sets the viewport to contain the given Array each time when fitMarkers is changed.
+   * Sets the viewport to contain the given Array each time when fitPoints is changed.
    */
   @Input() fitMultiple: boolean = false;
 
@@ -321,7 +321,6 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
   bounds: any;
-  fitOnce: boolean = false;
 
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {
     this.bounds = this._mapsWrapper.createLatLngBounds();
@@ -432,8 +431,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       return;
     }
 
-    if (changes['fitMarkers'] && this.fitMarkers != null) {
-      this._fitMarkers();
+    if (changes['fitPoints'] && this.fitPoints != null) {
+      this._fitPoints();
       return;
     }
 
@@ -455,24 +454,14 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  private _fitMarkers() {
-    if (!this.fitMultiple) {
-      for (let m of this.fitMarkers) {
-        this.bounds.extend(m);
-      }
-      this._mapsWrapper.fitBounds(this.bounds);
-      this._mapsWrapper.panToBounds(this.bounds);
-      this.fitMultiple = true;
-      this.fitOnce = true;
-    } else if (this.fitMultiple && !this.fitOnce) {
-      this.bounds = this._mapsWrapper.createLatLngBounds();
-      console.log(this.bounds);
-      for (let m of this.fitMarkers) {
-        this.bounds.extend(m);
-      }
-      this._mapsWrapper.fitBounds(this.bounds);
-      this._mapsWrapper.panToBounds(this.bounds);
+  private _fitPoints() {
+    this.bounds = this._mapsWrapper.createLatLngBounds();
+    console.log(this.bounds);
+    for (let m of this.fitPoints) {
+      this.bounds.extend(m);
     }
+    this._mapsWrapper.fitBounds(this.bounds);
+    this._mapsWrapper.panToBounds(this.bounds);
   }
 
   private _fitBounds() {

@@ -128,9 +128,9 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
     /**
      * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
      */
-    fitMarkers: Array<LatLng> | Array<LatLngLiteral>;
+    fitPoints: Array<LatLng> | Array<LatLngLiteral>;
     /**
-     * Sets the viewport to contain the given Array each time when fitMarkers is changed.
+     * Sets the viewport to contain the given Array each time when fitPoints is changed.
      */
     fitMultiple: boolean;
     /**
@@ -233,7 +233,6 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      */
     mapReady: EventEmitter<any>;
     bounds: any;
-    fitOnce: boolean;
     constructor(_elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper);
     /** @internal */
     ngOnInit(): void;
@@ -250,7 +249,7 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
     triggerResize(recenter?: boolean): Promise<void>;
     private _updatePosition(changes);
     private _setCenter();
-    private _fitMarkers();
+    private _fitPoints();
     private _fitBounds();
     private _handleMapCenterChange();
     private _handleBoundsChange();

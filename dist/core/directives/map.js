@@ -97,9 +97,9 @@ var AgmMap = (function () {
         /**
          * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
          */
-        this.fitMarkers = null;
+        this.fitPoints = null;
         /**
-         * Sets the viewport to contain the given Array each time when fitMarkers is changed.
+         * Sets the viewport to contain the given Array each time when fitPoints is changed.
          */
         this.fitMultiple = false;
         /**
@@ -177,7 +177,6 @@ var AgmMap = (function () {
          * You get the google.maps.Map instance as a result of this EventEmitter.
          */
         this.mapReady = new EventEmitter();
-        this.fitOnce = false;
         this.bounds = this._mapsWrapper.createLatLngBounds();
     }
     /** @internal */
@@ -278,8 +277,8 @@ var AgmMap = (function () {
             this._fitBounds();
             return;
         }
-        if (changes['fitMarkers'] && this.fitMarkers != null) {
-            this._fitMarkers();
+        if (changes['fitPoints'] && this.fitPoints != null) {
+            this._fitPoints();
             return;
         }
         if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
@@ -299,27 +298,15 @@ var AgmMap = (function () {
             this._mapsWrapper.setCenter(newCenter);
         }
     };
-    AgmMap.prototype._fitMarkers = function () {
-        if (!this.fitMultiple) {
-            for (var _i = 0, _a = this.fitMarkers; _i < _a.length; _i++) {
-                var m = _a[_i];
-                this.bounds.extend(m);
-            }
-            this._mapsWrapper.fitBounds(this.bounds);
-            this._mapsWrapper.panToBounds(this.bounds);
-            this.fitMultiple = true;
-            this.fitOnce = true;
+    AgmMap.prototype._fitPoints = function () {
+        this.bounds = this._mapsWrapper.createLatLngBounds();
+        console.log(this.bounds);
+        for (var _i = 0, _a = this.fitPoints; _i < _a.length; _i++) {
+            var m = _a[_i];
+            this.bounds.extend(m);
         }
-        else if (this.fitMultiple && !this.fitOnce) {
-            this.bounds = this._mapsWrapper.createLatLngBounds();
-            console.log(this.bounds);
-            for (var _b = 0, _c = this.fitMarkers; _b < _c.length; _b++) {
-                var m = _c[_b];
-                this.bounds.extend(m);
-            }
-            this._mapsWrapper.fitBounds(this.bounds);
-            this._mapsWrapper.panToBounds(this.bounds);
-        }
+        this._mapsWrapper.fitBounds(this.bounds);
+        this._mapsWrapper.panToBounds(this.bounds);
     };
     AgmMap.prototype._fitBounds = function () {
         if (this.usePanning) {
@@ -431,7 +418,7 @@ AgmMap.propDecorators = {
     'streetViewControl': [{ type: Input },],
     'streetViewControlOptions': [{ type: Input },],
     'fitBounds': [{ type: Input },],
-    'fitMarkers': [{ type: Input },],
+    'fitPoints': [{ type: Input },],
     'fitMultiple': [{ type: Input },],
     'scaleControl': [{ type: Input },],
     'scaleControlOptions': [{ type: Input },],
