@@ -424,7 +424,6 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       console.log('fitPoints changes', changes);
       this.fitPoints = changes['fitPoints'].currentValue;
       this._fitPoints();
-      return;
     }
 
     if (changes['latitude'] == null && changes['longitude'] == null &&
