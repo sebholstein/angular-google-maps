@@ -419,6 +419,14 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _updatePosition(changes: SimpleChanges) {
+
+    if (changes['fitPoints'] && this.fitPoints != null) {
+      console.log('fitPoints changes', changes);
+      this.fitPoints = changes['fitPoints'].currentValue;
+      this._fitPoints();
+      return;
+    }
+
     if (changes['latitude'] == null && changes['longitude'] == null &&
       changes['fitBounds'] == null) {
       // no position update needed
@@ -428,13 +436,6 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     // we prefer fitBounds in changes
     if (changes['fitBounds'] && this.fitBounds != null) {
       this._fitBounds();
-      return;
-    }
-
-    if (changes['fitPoints'] && this.fitPoints != null) {
-      console.log('fitPoints changes', changes);
-      this.fitPoints = changes['fitPoints'].currentValue;
-      this._fitPoints();
       return;
     }
 

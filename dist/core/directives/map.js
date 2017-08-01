@@ -267,6 +267,12 @@ var AgmMap = (function () {
         });
     };
     AgmMap.prototype._updatePosition = function (changes) {
+        if (changes['fitPoints'] && this.fitPoints != null) {
+            console.log('fitPoints changes', changes);
+            this.fitPoints = changes['fitPoints'].currentValue;
+            this._fitPoints();
+            return;
+        }
         if (changes['latitude'] == null && changes['longitude'] == null &&
             changes['fitBounds'] == null) {
             // no position update needed
@@ -275,12 +281,6 @@ var AgmMap = (function () {
         // we prefer fitBounds in changes
         if (changes['fitBounds'] && this.fitBounds != null) {
             this._fitBounds();
-            return;
-        }
-        if (changes['fitPoints'] && this.fitPoints != null) {
-            console.log('fitPoints changes', changes);
-            this.fitPoints = changes['fitPoints'].currentValue;
-            this._fitPoints();
             return;
         }
         if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
