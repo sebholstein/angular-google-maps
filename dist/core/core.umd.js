@@ -932,12 +932,10 @@ var AgmMap = (function () {
         }
         if (changes['fitPoints'] && this.fitPoints != null) {
             console.log('fitPoints changes', changes);
+            this.fitPoints = changes['fitPoints'].currentValue;
             this._fitPoints();
             return;
         }
-        // if(changes['fitMultiple'] && changes['fitPoints'] && this.fitPoints != null){
-        //     if()
-        // }
         if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
             return;
         }
