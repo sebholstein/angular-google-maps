@@ -134,6 +134,10 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      */
     fitMultiple: boolean;
     /**
+     * Sets the viewport to contain the given Array each time when fitPoints is changed.
+     */
+    trafficLayer: boolean;
+    /**
      * The initial enabled/disabled state of the Scale control. This is disabled by default.
      */
     scaleControl: boolean;

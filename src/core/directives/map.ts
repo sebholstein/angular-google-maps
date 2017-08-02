@@ -192,6 +192,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() fitMultiple: boolean = false;
 
   /**
+   * Sets the viewport to contain the given Array each time when fitPoints is changed.
+   */
+  @Input() trafficLayer: boolean = false;
+
+  /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
    */
   @Input() scaleControl: boolean = false;
@@ -419,6 +424,16 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _updatePosition(changes: SimpleChanges) {
+
+    if (changes['trafficLayer']) {
+      this.trafficLayer = changes['trafficLayer'].currentValue;
+      if (!this.trafficLayer) {
+        this._mapsWrapper.handleTrafficLayer(false);
+      } else {
+        this._mapsWrapper.handleTrafficLayer(true);
+      }
+
+    }
 
     if (changes['fitPoints'] && this.fitPoints != null) {
       console.log('fitPoints changes', changes);

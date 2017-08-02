@@ -24,6 +24,7 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         this._loader = _loader;
         this._zone = _zone;
+        this._trafficLayerExist = false;
         this._map =
             new Promise(function (resolve) { _this._mapResolver = resolve; });
     }
@@ -106,6 +107,17 @@ var GoogleMapsAPIWrapper = (function () {
     };
     GoogleMapsAPIWrapper.prototype.fitBounds = function (latLng) {
         return this._map.then(function (map) { return map.fitBounds(latLng); });
+    };
+    GoogleMapsAPIWrapper.prototype.handleTrafficLayer = function (handle) {
+        var _this = this;
+        if (!handle && this._trafficLayerExist) {
+            this._trafficLayer.setMap(null);
+        }
+        if (!this._trafficLayerExist && handle) {
+            this._trafficLayer = new google.maps.TrafficLayer();
+            this._map.then(function (map) { return _this._trafficLayer.setMap(map); });
+            this._trafficLayerExist = true;
+        }
     };
     GoogleMapsAPIWrapper.prototype.panToBounds = function (latLng) {
         return this._map.then(function (map) { return map.panToBounds(latLng); });
@@ -756,6 +768,10 @@ var AgmMap = (function () {
          */
         this.fitMultiple = false;
         /**
+         * Sets the viewport to contain the given Array each time when fitPoints is changed.
+         */
+        this.trafficLayer = false;
+        /**
          * The initial enabled/disabled state of the Scale control. This is disabled by default.
          */
         this.scaleControl = false;
@@ -920,6 +936,15 @@ var AgmMap = (function () {
         });
     };
     AgmMap.prototype._updatePosition = function (changes) {
+        if (changes['trafficLayer']) {
+            this.trafficLayer = changes['trafficLayer'].currentValue;
+            if (!this.trafficLayer) {
+                this._mapsWrapper.handleTrafficLayer(false);
+            }
+            else {
+                this._mapsWrapper.handleTrafficLayer(true);
+            }
+        }
         if (changes['fitPoints'] && this.fitPoints != null) {
             console.log('fitPoints changes', changes);
             this.fitPoints = changes['fitPoints'].currentValue;
@@ -1073,6 +1098,7 @@ AgmMap.propDecorators = {
     'fitBounds': [{ type: _angular_core.Input },],
     'fitPoints': [{ type: _angular_core.Input },],
     'fitMultiple': [{ type: _angular_core.Input },],
+    'trafficLayer': [{ type: _angular_core.Input },],
     'scaleControl': [{ type: _angular_core.Input },],
     'scaleControlOptions': [{ type: _angular_core.Input },],
     'mapTypeControl': [{ type: _angular_core.Input },],
