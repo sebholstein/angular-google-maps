@@ -121,10 +121,6 @@ export class GoogleMapsAPIWrapper {
   }
 
   handleTrafficLayer(handle: boolean) {
-    console.log('handle', handle);
-    console.log('this._trafficLayerExist', this._trafficLayerExist);
-    console.log('this._trafficLayer', this._trafficLayer);
-
     if (!handle && this._trafficLayerExist) {
       this._trafficLayer.setMap(null);
       this._trafficLayerExist = false;

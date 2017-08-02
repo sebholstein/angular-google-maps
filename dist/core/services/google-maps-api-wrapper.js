@@ -96,9 +96,6 @@ var GoogleMapsAPIWrapper = (function () {
     };
     GoogleMapsAPIWrapper.prototype.handleTrafficLayer = function (handle) {
         var _this = this;
-        console.log('handle', handle);
-        console.log('this._trafficLayerExist', this._trafficLayerExist);
-        console.log('this._trafficLayer', this._trafficLayer);
         if (!handle && this._trafficLayerExist) {
             this._trafficLayer.setMap(null);
             this._trafficLayerExist = false;
