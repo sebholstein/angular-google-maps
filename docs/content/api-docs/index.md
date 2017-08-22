@@ -10,5 +10,5 @@ title = "API Docs for Angular Google Maps"
   Provides Angular integration solutions for the official Google Maps Core API v3
 * [@agm/snazzy-info-window](./agm-snazzy-info-window/modules/AgmSnazzyInfoWindowModule.html)  
   Styled Info Windows with [Snazzy Info Window](https://github.com/atmist/snazzy-info-window)
-* [@agm/js-marker-clusterer](./js-marker-clusterer/modules/AgmJsMarkerClusterer.html)  
+* [@agm/js-marker-clusterer](./js-marker-clusterer/modules/AgmJsMarkerClustererModule.html)  
   Clustered markers with [googlemaps/js-marker-clusterer](https://github.com/googlemaps/js-marker-clusterer)
