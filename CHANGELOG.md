@@ -1,5 +1,5 @@
 <a name="1.0.0-beta.1"></a>
-# [1.0.0-beta.1 diamond-compressor](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.0...1.0.0-beta.1) (2017-08-22)
+# [1.0.0-beta.1 - diamond-compressor](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.0...1.0.0-beta.1) (2017-08-22)
 
 
 ### Bug Fixes
