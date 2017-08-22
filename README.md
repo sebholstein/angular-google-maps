@@ -15,7 +15,7 @@ New package name: `@agm/core`
 
 ----
 
-[Website](https://angular-maps.com/) | [Demo](http://plnkr.co/edit/YX7W20?p=preview) | [Chat](https://gitter.im/SebastianM/angular2-google-maps) | [API Documentation](https://angular-maps.com/docs/api/latest/ts/) | [Twitter](https://twitter.com/Sebamueller)
+[Website](https://angular-maps.com/) | [Demo](http://plnkr.co/edit/YX7W20?p=preview) | [Chat](https://gitter.im/SebastianM/angular2-google-maps) | [API Documentation](https://angular-maps.com/api-docs/) | [Twitter](https://twitter.com/Sebamueller)
 
 -----
 
