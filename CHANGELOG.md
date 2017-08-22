@@ -1,3 +1,28 @@
+<a name="1.0.0-beta.1"></a>
+# [1.0.0-beta.1 diamond-compressor](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.0...1.0.0-beta.1) (2017-08-22)
+
+
+### Bug Fixes
+
+* **AgmCircle:** clickable input ([7468bb4](https://github.com/SebastianM/angular-google-maps/commit/7468bb4))
+* **AgmPolygon:** fix editable input ([4b1b42d](https://github.com/SebastianM/angular-google-maps/commit/4b1b42d)), closes [#990](https://github.com/SebastianM/angular-google-maps/issues/990)
+* **AgmPolyline:** fix doubleclick output ([4caeb0d](https://github.com/SebastianM/angular-google-maps/commit/4caeb0d)), closes [#1041](https://github.com/SebastianM/angular-google-maps/issues/1041)
+
+
+### Features
+
+Two new NPM packages!
+
+@agm/snazzy-info-window
+@agm/js-marker-clusterer
+
+* add clustered markers support ([5cbc515](https://github.com/SebastianM/angular-google-maps/commit/5cbc515)), closes [#1044](https://github.com/SebastianM/angular-google-maps/issues/1044)
+* support snazzy-info-window ([1205c96](https://github.com/SebastianM/angular-google-maps/commit/1205c96))
+* **AgmDataLayer:** add loadGeoJson method ([128c8f3](https://github.com/SebastianM/angular-google-maps/commit/128c8f3)), closes [#1003](https://github.com/SebastianM/angular-google-maps/issues/1003)
+* **AgmMap:** recentering for triggerResize ([faea24d](https://github.com/SebastianM/angular-google-maps/commit/faea24d)), closes [#789](https://github.com/SebastianM/angular-google-maps/issues/789) [#976](https://github.com/SebastianM/angular-google-maps/issues/976)
+* **AgmMarker:** add clickable support ([fec8b01](https://github.com/SebastianM/angular-google-maps/commit/fec8b01)), closes [#994](https://github.com/SebastianM/angular-google-maps/issues/994)
+* **GoogleMapsAPIWrapper:** add panBy method ([1afb152](https://github.com/SebastianM/angular-google-maps/commit/1afb152))
+
 <a name="1.0.0-beta.0"></a>
 # [1.0.0-beta.0 - green-zebra](https://github.com/SebastianM/angular-google-maps/compare/0.17.0...1.0.0-beta.0) (2017-04-09)
 
