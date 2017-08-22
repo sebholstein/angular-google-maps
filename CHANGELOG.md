@@ -13,8 +13,8 @@
 
 Two new NPM packages!
 
-@agm/snazzy-info-window
-@agm/js-marker-clusterer
+* @agm/snazzy-info-window for Snazzy Info Window support with AGM
+* @agm/js-marker-clusterer for clustered markers support with AGM
 
 * add clustered markers support ([5cbc515](https://github.com/SebastianM/angular-google-maps/commit/5cbc515)), closes [#1044](https://github.com/SebastianM/angular-google-maps/issues/1044)
 * support snazzy-info-window ([1205c96](https://github.com/SebastianM/angular-google-maps/commit/1205c96))
