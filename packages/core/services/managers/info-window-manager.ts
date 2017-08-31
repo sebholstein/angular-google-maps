@@ -67,6 +67,7 @@ export class InfoWindowManager {
       content: infoWindow.content,
       maxWidth: infoWindow.maxWidth,
       zIndex: infoWindow.zIndex,
+      disableAutoPan: infoWindow.disableAutoPan
     };
     if (typeof infoWindow.latitude === 'number' && typeof infoWindow.longitude === 'number') {
       options.position = {lat: infoWindow.latitude, lng: infoWindow.longitude};
