@@ -327,6 +327,24 @@ export interface KmlLayer extends MVCObject {
   setZIndex(zIndex: number): void;
 }
 
+export interface GroundOverlay extends MVCObject {
+  constructor(
+      url: string, bounds: LatLngBounds|LatLngBoundsLiteral, options?: GroundOverlayOptions): void;
+
+  getBounds(): LatLngBounds;
+  getMap(): GoogleMap;
+  getOpacity(): number;
+  getUrl(): string;
+  setMap(map: GoogleMap): void;
+  setOpacity(opacity: number): void;
+}
+
+export interface GroundOverlayOptions {
+  clickable?: boolean;
+  map?: GoogleMap;
+  opacity?: number;
+}
+
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerStatus
  */

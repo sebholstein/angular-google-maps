@@ -13,6 +13,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import {GroundOverlayManager} from './../services/managers/ground-overlay-manager';
 
 /**
  * AgmMap renders a Google Map.
@@ -41,7 +42,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager, KmlLayerManager, DataLayerManager
+    PolygonManager, KmlLayerManager, DataLayerManager, GroundOverlayManager
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
