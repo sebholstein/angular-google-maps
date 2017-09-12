@@ -14,6 +14,11 @@ import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
 
+interface Emitter {
+  emit(value: any): void;
+}
+type Event = {name: string, emitter: Emitter};
+
 /**
  * AgmMap renders a Google Map.
  * **Important note**: To be able see a map in the browser, you have to define a height for the
@@ -300,6 +305,21 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Output() idle: EventEmitter<void> = new EventEmitter<void>();
 
   /**
+   * This event is fired when the user is dragging the map.
+   */
+  @Output() drag: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
+   * This event is fired when the user begins to drag the map.
+   */
+  @Output() dragStart: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
+   * This event is fired when the user stopped dragging the map.
+   */
+  @Output() dragEnd: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
    * This event is fired when the zoom level has changed.
    */
   @Output() zoomChange: EventEmitter<number> = new EventEmitter<number>();
@@ -359,8 +379,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
+    this._handleMapEventsWithoutParams();
     this._handleBoundsChange();
-    this._handleIdleEvent();
   }
 
   /** @internal */
@@ -472,22 +492,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._observableSubscriptions.push(s);
   }
 
-  private _handleIdleEvent() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
-        () => { this.idle.emit(void 0); });
-    this._observableSubscriptions.push(s);
-  }
-
   private _handleMapMouseEvents() {
-    interface Emitter {
-      emit(value: any): void;
-    }
-    type Event = {name: string, emitter: Emitter};
-
     const events: Event[] = [
       {name: 'click', emitter: this.mapClick},
       {name: 'rightclick', emitter: this.mapRightClick},
-      {name: 'dblclick', emitter: this.mapDblClick},
+      {name: 'dblclick', emitter: this.mapDblClick}
     ];
 
     events.forEach((e: Event) => {
@@ -496,6 +505,22 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
             const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
             e.emitter.emit(value);
           });
+      this._observableSubscriptions.push(s);
+    });
+  }
+
+  private _handleMapEventsWithoutParams() {
+    const events: Event[] = [
+      {name: 'idle', emitter: this.idle},
+      {name: 'drag', emitter: this.drag},
+      {name: 'dragstart', emitter: this.dragStart},
+      {name: 'dragend', emitter: this.dragEnd}
+    ];
+
+    events.forEach((e: Event) => {
+      const s = this._mapsWrapper.subscribeToMapEvent<void>(e.name).subscribe(
+        () => e.emitter.emit(void 0)
+      );
       this._observableSubscriptions.push(s);
     });
   }
