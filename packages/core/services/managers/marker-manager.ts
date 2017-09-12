@@ -65,6 +65,10 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setClickable(marker.clickable));
   }
 
+  updateShape(marker: AgmMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => m.setShape(marker.shape));
+  }
+
   addMarker(marker: AgmMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
@@ -75,7 +79,8 @@ export class MarkerManager {
       visible: marker.visible,
       zIndex: marker.zIndex,
       title: marker.title,
-      clickable: marker.clickable
+      clickable: marker.clickable,
+      shape: marker.shape
     });
     this._markers.set(marker, markerPromise);
   }

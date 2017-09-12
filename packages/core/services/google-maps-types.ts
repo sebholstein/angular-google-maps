@@ -29,6 +29,7 @@ export interface Marker extends MVCObject {
   setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
   setIcon(icon: string): void;
+  setShape(shape: MarkerShape): void;
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   setZIndex(zIndex: number): void;
@@ -47,6 +48,7 @@ export interface MarkerOptions {
   visible?: boolean;
   zIndex?: number;
   clickable: boolean;
+  shape?: MarkerShape;
 }
 
 export interface MarkerLabel {
@@ -55,6 +57,11 @@ export interface MarkerLabel {
   fontSize: string;
   fontWeight: string;
   text: string;
+}
+
+export interface MarkerShape {
+  type: 'circle' | 'poly' | 'rect';
+  coords: number[];
 }
 
 export interface Circle extends MVCObject {

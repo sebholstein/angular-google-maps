@@ -99,6 +99,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Input('markerClickable') clickable: boolean = true;
 
   /**
+   * If set, the only the specified area can be clicked. Default value is undefined, which allows you to click the entire image.
+   */
+  // tslint:disable-next-line:no-input-rename
+  @Input() shape: mapTypes.MarkerShape;
+
+  /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
@@ -181,6 +187,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
     if (changes['clickable']) {
       this._markerManager.updateClickable(this);
+    }
+    if (changes['shape']) {
+      this._markerManager.updateShape(this);
     }
   }
 
