@@ -1,4 +1,4 @@
-import {Inject, Injectable, OpaqueToken} from '@angular/core';
+import {Inject, Injectable, InjectionToken} from '@angular/core';
 
 import {DocumentRef, WindowRef} from '../../utils/browser-globals';
 
@@ -14,7 +14,7 @@ export enum GoogleMapsScriptProtocol {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export const LAZY_MAPS_API_CONFIG = new OpaqueToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+export const LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
 
 /**
  * Configuration for the {@link LazyMapsAPILoader}.
@@ -105,9 +105,13 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => { resolve(); };
+      (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
+        resolve();
+      };
 
-      script.onerror = (error: Event) => { reject(error); };
+      script.onerror = (error: Event) => {
+        reject(error);
+      };
     });
 
     this._documentRef.getNativeDocument().body.appendChild(script);
@@ -142,24 +146,25 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       region: this._config.region,
       language: this._config.language
     };
-    const params: string =
-        Object.keys(queryParams)
-            .filter((k: string) => queryParams[k] != null)
-            .filter((k: string) => {
-              // remove empty arrays
-              return !Array.isArray(queryParams[k]) ||
-                  (Array.isArray(queryParams[k]) && queryParams[k].length > 0);
-            })
-            .map((k: string) => {
-              // join arrays as comma seperated strings
-              let i = queryParams[k];
-              if (Array.isArray(i)) {
-                return {key: k, value: i.join(',')};
-              }
-              return {key: k, value: queryParams[k]};
-            })
-            .map((entry: {key: string, value: string}) => { return `${entry.key}=${entry.value}`; })
-            .join('&');
+    const params: string = Object.keys(queryParams)
+                               .filter((k: string) => queryParams[k] != null)
+                               .filter((k: string) => {
+                                 // remove empty arrays
+                                 return !Array.isArray(queryParams[k]) ||
+                                     (Array.isArray(queryParams[k]) && queryParams[k].length > 0);
+                               })
+                               .map((k: string) => {
+                                 // join arrays as comma seperated strings
+                                 let i = queryParams[k];
+                                 if (Array.isArray(i)) {
+                                   return {key: k, value: i.join(',')};
+                                 }
+                                 return {key: k, value: queryParams[k]};
+                               })
+                               .map((entry: {key: string, value: string}) => {
+                                 return `${entry.key}=${entry.value}`;
+                               })
+                               .join('&');
     return `${protocol}//${hostAndPath}?${params}`;
   }
 }
