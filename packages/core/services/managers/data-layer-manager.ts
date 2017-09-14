@@ -58,10 +58,18 @@ export class DataLayerManager {
   setDataOptions(layer: AgmDataLayer, options: DataOptions)
   {
     this._layers.get(layer).then(l => {
-      l.setControlPosition(options.controlPosition);
-      l.setControls(options.controls);
-      l.setDrawingMode(options.drawingMode);
-      l.setStyle(options.style);
+      if (options.controlPosition) {
+        l.setControlPosition(options.controlPosition);
+      }
+      if (options.controls) {
+        l.setControls(options.controls);
+      }
+      if (options.drawingMode) {
+        l.setDrawingMode(options.drawingMode);
+      }
+      if (options.style) {
+        l.setStyle(options.style);
+      }
     });
   }
 
