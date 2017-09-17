@@ -300,6 +300,21 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Output() idle: EventEmitter<void> = new EventEmitter<void>();
 
   /**
+   * This event is fired when the user is dragging the map.
+   */
+  @Output() drag: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
+   * This event is fired when the user begins to drag the map.
+   */
+  @Output() dragStart: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
+   * This event is fired when the user stopped dragging the map.
+   */
+  @Output() dragEnd: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
    * This event is fired when the zoom level has changed.
    */
   @Output() zoomChange: EventEmitter<number> = new EventEmitter<number>();
@@ -361,6 +376,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapMouseEvents();
     this._handleBoundsChange();
     this._handleIdleEvent();
+    this._handleDragEvent();
+    this._handleDragStartEvent();
+    this._handleDragEndEvent();
   }
 
   /** @internal */
@@ -475,6 +493,24 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _handleIdleEvent() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
         () => { this.idle.emit(void 0); });
+    this._observableSubscriptions.push(s);
+  }
+
+  private _handleDragEvent() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('drag').subscribe(
+        () => { this.drag.emit(void 0); });
+    this._observableSubscriptions.push(s);
+  }
+
+  private _handleDragStartEvent() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('dragstart').subscribe(
+        () => { this.dragStart.emit(void 0); });
+    this._observableSubscriptions.push(s);
+  }
+
+  private _handleDragEndEvent() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('dragend').subscribe(
+        () => { this.dragEnd.emit(void 0); });
     this._observableSubscriptions.push(s);
   }
 
