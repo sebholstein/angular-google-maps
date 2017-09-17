@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "module": "es2015",
         "target": "es5",
         "noImplicitAny": true,
         "experimentalDecorators": true,
@@ -12,7 +11,7 @@
         "moduleResolution": "node",
         "declaration": true,
         "lib": [
-            "es2015",
+            "es2016",
             "dom"
         ],
         "types": [
