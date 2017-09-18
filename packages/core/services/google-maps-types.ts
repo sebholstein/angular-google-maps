@@ -428,18 +428,18 @@ export interface Geometry {
  * are added first are positioned closer to the edge of the map.
  */
 export enum ControlPosition {
-  BOTTOM_CENTER,
-  BOTTOM_LEFT,
-  BOTTOM_RIGHT,
-  LEFT_BOTTOM,
-  LEFT_CENTER,
-  LEFT_TOP,
-  RIGHT_BOTTOM,
-  RIGHT_CENTER,
-  RIGHT_TOP,
-  TOP_CENTER,
-  TOP_LEFT,
-  TOP_RIGHT
+ 	TOP_LEFT= 1,
+        TOP_CENTER = 2,
+        TOP_RIGHT = 3,
+        LEFT_CENTER = 4,
+        LEFT_TOP = 5,
+        LEFT_BOTTOM = 6,
+        RIGHT_TOP = 7,
+        RIGHT_CENTER = 8,
+        RIGHT_BOTTOM = 9,
+        BOTTOM_LEFT = 10,
+        BOTTOM_CENTER = 11,
+        BOTTOM_RIGHT = 12
 }
 
 export enum MapTypeId {
