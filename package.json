@@ -42,7 +42,7 @@
     "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
     "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
   },
-  "author": "Sebastian Müller <info@sebastian-mueller.net>",
+  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SebastianM/angular-google-maps/issues"
