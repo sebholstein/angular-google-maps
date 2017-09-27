@@ -84,6 +84,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   private _config: LazyMapsAPILoaderConfigLiteral;
   private _windowRef: WindowRef;
   private _documentRef: DocumentRef;
+  private _script: HTMLScriptElement;
 
   constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
     super();
@@ -97,25 +98,31 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return this._scriptLoadingPromise;
     }
 
-    const script = this._documentRef.getNativeDocument().createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.defer = true;
+    this._script = this._documentRef.getNativeDocument().createElement('script');
+    this._script.type = 'text/javascript';
+    this._script.async = true;
+    this._script.defer = true;
     const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
-    script.src = this._getScriptSrc(callbackName);
+    this._script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
       (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
         resolve();
       };
 
-      script.onerror = (error: Event) => {
+      this._script.onerror = (error: Event) => {
         reject(error);
       };
     });
 
-    this._documentRef.getNativeDocument().body.appendChild(script);
+    this._documentRef.getNativeDocument().body.appendChild(this._script);
     return this._scriptLoadingPromise;
+  }
+  reload(): Promise<void>{
+    this._script.remove();
+    delete this._script;
+    delete this._scriptLoadingPromise;
+    return this.load();
   }
 
   private _getScriptSrc(callbackName: string): string {
