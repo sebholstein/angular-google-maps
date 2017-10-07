@@ -267,9 +267,9 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
     }
 
     let dataOptions: DataOptions = {};
-    const optionKeys = Object.keys(changes).filter(
-      k => AgmDataLayer._dataOptionsAttributes.indexOf(k) !== -1);
-    optionKeys.forEach(k => (<any>dataOptions)[k] = changes[k].currentValue);
+
+    AgmDataLayer._dataOptionsAttributes.forEach(k => (<any>dataOptions)[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (<any>this)[k]);
+
     this._manager.setDataOptions(this, dataOptions);
   }
 }
