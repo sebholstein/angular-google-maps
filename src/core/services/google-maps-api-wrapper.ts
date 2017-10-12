@@ -1,11 +1,11 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 import * as mapTypes from './google-maps-types';
-import {Polyline} from './google-maps-types';
-import {PolylineOptions} from './google-maps-types';
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import { Polyline } from './google-maps-types';
+import { PolylineOptions } from './google-maps-types';
+import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;
@@ -20,6 +20,7 @@ export class GoogleMapsAPIWrapper {
   private _mapResolver: (value?: mapTypes.GoogleMap) => void;
   private _trafficLayerExist: boolean = false;
   private _trafficLayer: any;
+  private _drawingManager: any;
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
@@ -77,6 +78,50 @@ export class GoogleMapsAPIWrapper {
       polygon.setMap(map);
       return polygon;
     });
+  }
+
+  attachDrawingManager(controlPosition: mapTypes.ControlPosition = 9, drawingModes: mapTypes.DrawingModes = ['polygon'], polygonOptions: mapTypes.PolygonOptions, circleOptions?: mapTypes.DrawingCircleOptions, markerIcon: string = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png', ) {
+    return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
+
+      this._drawingManager = new google.maps.drawing.DrawingManager({
+        drawingMode: null,
+        drawingControl: true,
+        drawingControlOptions: {
+          position: google.maps.ControlPosition[mapTypes.ControlPosition[controlPosition]],
+          drawingModes: drawingModes
+        },
+        markerOptions: { icon: markerIcon },
+        circleOptions: circleOptions,
+        polygonOptions: polygonOptions
+      });
+      this._drawingManager.setMap(map);
+      return this._drawingManager;
+    });
+  }
+
+  attachPolygonListeners<T>(eventName: string): Observable<T> {
+    return Observable.create((observer: Observer<any>) => {
+      this._drawingManager.addListener(eventName, (polygon: any) => this._zone.run(() => observer.next(polygon)));
+    });
+  }
+
+  updateDrawingManagerOptions(drawingModes: mapTypes.DrawingModes = [], controlPosition: mapTypes.ControlPosition = 9) {
+    console.log('updateDrawingManagerOptions', this._drawingManager);
+    console.log('drawingModes', drawingModes);
+    if (drawingModes.length === 0) {
+      this._drawingManager.setMap(null);
+    } else {
+      this.getNativeMap().then((map: mapTypes.GoogleMap) => {
+        this._drawingManager.setOptions({
+          drawingMode: drawingModes[0],
+          drawingControlOptions: {
+            position: google.maps.ControlPosition[mapTypes.ControlPosition[controlPosition]],
+            drawingModes: drawingModes
+          }
+        });
+        this._drawingManager.setMap(map);
+      });
+    }
   }
 
   /**
@@ -137,7 +182,9 @@ export class GoogleMapsAPIWrapper {
   }
 
   createLatLngBounds(): Promise<void> {
-    return new google.maps.LatLngBounds();
+    return this.getNativeMap().then(() => {
+      return new google.maps.LatLngBounds();
+    });
   }
 
   /**
@@ -150,5 +197,33 @@ export class GoogleMapsAPIWrapper {
    */
   triggerMapEvent(eventName: string): Promise<void> {
     return this._map.then((m) => google.maps.event.trigger(m, eventName));
+  }
+
+  addExtraControll(control: mapTypes.ExtraControl) {
+    return this._map.then((map) => {
+      let _controlDiv = document.createElement('div');
+      let _controlUI = document.createElement('div');
+      _controlUI.className = control.class || 'control-ui';
+      _controlUI.style.textAlign = 'center';
+      _controlUI.title = control.title || 'Click to recenter the map';
+      _controlDiv.appendChild(_controlUI);
+      let _controlText = document.createElement('div');
+      _controlText.className = 'control-text';
+      _controlText.innerHTML = control.text || 'Center Map';
+      _controlUI.appendChild(_controlText);
+
+      let position = control.position as keyof typeof mapTypes.ControlPosition || 'TOP_CENTER';
+
+      const controllPosition = map.controls[google.maps.ControlPosition[position]].push(_controlDiv);
+
+      const observable = Observable.create((observer: Observer<any>) => {
+        _controlUI.addEventListener('click', () => {
+          this._zone.run(() => observer.next(control.type));
+        });
+      });
+
+      return { 'position': position, 'controllPosition': controllPosition, 'subscription': observable };
+
+    });
   }
 }

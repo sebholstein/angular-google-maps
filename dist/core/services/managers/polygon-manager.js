@@ -37,8 +37,11 @@ var PolygonManager = (function () {
     };
     PolygonManager.prototype.deletePolygon = function (paths) {
         var _this = this;
-        var m = this._polygons.get(paths);
+        var m = this._polygons.get(paths) || null;
         if (m == null) {
+            this._polygons.forEach(function (p) {
+                _this._polygons.delete(p);
+            });
             return Promise.resolve();
         }
         return m.then(function (l) {
@@ -55,6 +58,28 @@ var PolygonManager = (function () {
                 l.addListener(eventName, function (e) { return _this._zone.run(function () { return observer.next(e); }); });
             });
         });
+    };
+    PolygonManager.prototype.createPolyChangesObservable = function (eventName, path) {
+        var _this = this;
+        return Observable.create(function (observer) {
+            _this._polygons.get(path).then(function (l) {
+                l.getPaths().forEach(function (path) {
+                    google.maps.event.addListener(path, eventName, function () { return _this._zone.run(function () { return observer.next(_this.getBounds(l)); }); });
+                });
+            });
+        });
+    };
+    PolygonManager.prototype.getBounds = function (polygon) {
+        var bounds = [];
+        var length = polygon.getPath().getLength();
+        for (var i = 0; i < length; i++) {
+            var ln = {
+                lat: polygon.getPath().getAt(i).lat(),
+                lng: polygon.getPath().getAt(i).lng()
+            };
+            bounds.push(ln);
+        }
+        return bounds;
     };
     return PolygonManager;
 }());

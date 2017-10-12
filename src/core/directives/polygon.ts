@@ -73,7 +73,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * If set to true, the user can edit this shape by dragging the control
    * points shown at the vertices and on each segment. Defaults to false.
    */
-  editable: boolean = false;
+  @Input() editable: boolean = false;
 
   /**
    * The fill color. All CSS3 colors are supported except for extended
@@ -106,7 +106,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * Inserting or removing LatLngs from the Array will automatically update
    * the polygon on the map.
    */
-  @Input() paths: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>> = [];
+  @Input() paths: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>> = [];
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended
@@ -189,17 +189,22 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    */
   @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
+  /**
+   * This even is fired when the Polygon is right-clicked on.
+   */
+  @Output() changedShape: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
-    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex', 'draggable',
-    'editable', 'visible'
+    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex'
   ];
 
   private _id: string;
   private _polygonAddedToManager: boolean = false;
   private _subscriptions: Subscription[] = [];
+  // private _listeners: Subscription[] = [];
 
-  constructor(private _polygonManager: PolygonManager) {}
+  constructor(private _polygonManager: PolygonManager) { }
 
   /** @internal */
   ngAfterContentInit() {
@@ -215,6 +220,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     }
 
     this._polygonManager.setPolygonOptions(this, this._updatePolygonOptions(changes));
+    this._addEventListeners();
   }
 
   private _init() {
@@ -223,33 +229,48 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     this._addEventListeners();
   }
 
+  private _removeEventListeners() {
+    this._subscriptions.forEach((s) => s.unsubscribe());
+    this._subscriptions = [];
+  }
   private _addEventListeners() {
     const handlers = [
-      {name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev)},
-      {name: 'dbclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev)},
-      {name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev)},
-      {name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev)},
-      {name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev)},
-      {name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev)},
-      {name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev)},
-      {name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev)},
-      {name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev)},
-      {name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev)},
-      {name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev)},
+      { name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev) },
+      { name: 'dbclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev) },
+      { name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev) },
+      { name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev) },
+      { name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev) },
+      { name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev) },
+      { name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev) },
+      { name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev) },
+      { name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev) },
+      { name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev) },
     ];
     handlers.forEach((obj) => {
       const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
       this._subscriptions.push(os);
     });
+
+    const listeners = [
+      { name: 'insert_at', handler: (ev: PolyMouseEvent) => this.changedShape.emit(ev) },
+      { name: 'remove_at', handler: (ev: PolyMouseEvent) => this.changedShape.emit(ev) },
+      { name: 'set_at', handler: (ev: PolyMouseEvent) => this.changedShape.emit(ev) },
+      { name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev) },
+    ];
+    listeners.forEach((obj) => {
+      const lis = this._polygonManager.createPolyChangesObservable(obj.name, this).subscribe(obj.handler);
+      this._subscriptions.push(lis);
+    });
   }
 
   private _updatePolygonOptions(changes: SimpleChanges): PolygonOptions {
+    this._removeEventListeners();
     return Object.keys(changes)
-        .filter(k => AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
-        .reduce((obj: any, k: string) => {
-          obj[k] = changes[k].currentValue;
-          return obj;
-        }, {});
+      .filter(k => AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
+      .reduce((obj: any, k: string) => {
+        obj[k] = changes[k].currentValue;
+        return obj;
+      }, {});
   }
 
   /** @internal */
@@ -260,5 +281,6 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     this._polygonManager.deletePolygon(this);
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
+    // this._listeners.forEach((listeners) => s.unsubscribe());
   }
 }

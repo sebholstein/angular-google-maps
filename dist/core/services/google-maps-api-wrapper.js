@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import * as mapTypes from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
@@ -61,6 +62,55 @@ var GoogleMapsAPIWrapper = (function () {
             return polygon;
         });
     };
+    GoogleMapsAPIWrapper.prototype.attachDrawingManager = function (controlPosition, drawingModes, polygonOptions, circleOptions, markerIcon) {
+        var _this = this;
+        if (controlPosition === void 0) { controlPosition = 9; }
+        if (drawingModes === void 0) { drawingModes = ['polygon']; }
+        if (markerIcon === void 0) { markerIcon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'; }
+        return this.getNativeMap().then(function (map) {
+            _this._drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: null,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition[mapTypes.ControlPosition[controlPosition]],
+                    drawingModes: drawingModes
+                },
+                markerOptions: { icon: markerIcon },
+                circleOptions: circleOptions,
+                polygonOptions: polygonOptions
+            });
+            _this._drawingManager.setMap(map);
+            return _this._drawingManager;
+        });
+    };
+    GoogleMapsAPIWrapper.prototype.attachPolygonListeners = function (eventName) {
+        var _this = this;
+        return Observable.create(function (observer) {
+            _this._drawingManager.addListener(eventName, function (polygon) { return _this._zone.run(function () { return observer.next(polygon); }); });
+        });
+    };
+    GoogleMapsAPIWrapper.prototype.updateDrawingManagerOptions = function (drawingModes, controlPosition) {
+        var _this = this;
+        if (drawingModes === void 0) { drawingModes = []; }
+        if (controlPosition === void 0) { controlPosition = 9; }
+        console.log('updateDrawingManagerOptions', this._drawingManager);
+        console.log('drawingModes', drawingModes);
+        if (drawingModes.length === 0) {
+            this._drawingManager.setMap(null);
+        }
+        else {
+            this.getNativeMap().then(function (map) {
+                _this._drawingManager.setOptions({
+                    drawingMode: drawingModes[0],
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition[mapTypes.ControlPosition[controlPosition]],
+                        drawingModes: drawingModes
+                    }
+                });
+                _this._drawingManager.setMap(map);
+            });
+        }
+    };
     /**
      * Determines if given coordinates are insite a Polygon path.
      */
@@ -110,7 +160,9 @@ var GoogleMapsAPIWrapper = (function () {
         return this._map.then(function (map) { return map.panToBounds(latLng); });
     };
     GoogleMapsAPIWrapper.prototype.createLatLngBounds = function () {
-        return new google.maps.LatLngBounds();
+        return this.getNativeMap().then(function () {
+            return new google.maps.LatLngBounds();
+        });
     };
     /**
      * Returns the native Google Maps Map instance. Be careful when using this instance directly.
@@ -121,6 +173,29 @@ var GoogleMapsAPIWrapper = (function () {
      */
     GoogleMapsAPIWrapper.prototype.triggerMapEvent = function (eventName) {
         return this._map.then(function (m) { return google.maps.event.trigger(m, eventName); });
+    };
+    GoogleMapsAPIWrapper.prototype.addExtraControll = function (control) {
+        var _this = this;
+        return this._map.then(function (map) {
+            var _controlDiv = document.createElement('div');
+            var _controlUI = document.createElement('div');
+            _controlUI.className = control.class || 'control-ui';
+            _controlUI.style.textAlign = 'center';
+            _controlUI.title = control.title || 'Click to recenter the map';
+            _controlDiv.appendChild(_controlUI);
+            var _controlText = document.createElement('div');
+            _controlText.className = 'control-text';
+            _controlText.innerHTML = control.text || 'Center Map';
+            _controlUI.appendChild(_controlText);
+            var position = control.position || 'TOP_CENTER';
+            var controllPosition = map.controls[google.maps.ControlPosition[position]].push(_controlDiv);
+            var observable = Observable.create(function (observer) {
+                _controlUI.addEventListener('click', function () {
+                    _this._zone.run(function () { return observer.next(control.type); });
+                });
+            });
+            return { 'position': position, 'controllPosition': controllPosition, 'subscription': observable };
+        });
     };
     return GoogleMapsAPIWrapper;
 }());

@@ -1,18 +1,20 @@
 import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
-import {MouseEvent} from '../map-types';
-import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
-import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
-import {CircleManager} from '../services/managers/circle-manager';
-import {InfoWindowManager} from '../services/managers/info-window-manager';
-import {MarkerManager} from '../services/managers/marker-manager';
-import {PolygonManager} from '../services/managers/polygon-manager';
-import {PolylineManager} from '../services/managers/polyline-manager';
-import {KmlLayerManager} from './../services/managers/kml-layer-manager';
-import {DataLayerManager} from './../services/managers/data-layer-manager';
+import { MouseEvent } from '../map-types';
+import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
+import {
+  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions,
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions, ControlPosition, DrawingModes, ExtraControls, ExtraControl
+} from '../services/google-maps-types';
+import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
+import { CircleManager } from '../services/managers/circle-manager';
+import { InfoWindowManager } from '../services/managers/info-window-manager';
+import { MarkerManager } from '../services/managers/marker-manager';
+import { PolygonManager } from '../services/managers/polygon-manager';
+import { PolylineManager } from '../services/managers/polyline-manager';
+import { KmlLayerManager } from './../services/managers/kml-layer-manager';
+import { DataLayerManager } from './../services/managers/data-layer-manager';
 
 /**
  * AgmMap renders a Google Map.
@@ -50,7 +52,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   styles: [`
     .agm-map-container-inner {
       width: inherit;
-      height: inherit;
+      height: 100%;
     }
     .agm-map-content {
       display:none;
@@ -212,6 +214,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() mapTypeControl: boolean = false;
 
   /**
+   * The initial enabled/disabled state of the Map type control.
+   */
+  @Input() mapCustomControl: boolean = false;
+
+  /**
    * Options for the Map type control.
    */
   @Input() mapTypeControlOptions: MapTypeControlOptions;
@@ -268,6 +275,19 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() gestureHandling: 'cooperative' | 'greedy' | 'none' | 'auto' = 'auto';
 
   /**
+   * This setting controls apperance drawing Manager
+   */
+  @Input() drawingModes: DrawingModes = [];
+
+  /**
+   * This setting controls apperance drawing Manager controlls position
+   */
+  @Input() drawingManagerPosition: string = 'TOP_CENTER';
+  /**
+   * This setting controls apperance drawing Manager controlls position
+   */
+  @Input() extraControls: ExtraControls[] = [];
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -280,6 +300,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   ];
 
   private _observableSubscriptions: Subscription[] = [];
+  private _listeners: any = [];
+  private _polygons: any = [];
+  private _extraControls: any = {};
+  private _subscriptions: Subscription[] = [];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -325,10 +349,28 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
+  /**
+   * This event is fired when polygon drawing complete.
+   */
+  @Output() polygonComplete: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * This event is fired when polygon deleted.
+   */
+  @Output() polygonDeleted: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * This event is callBack on custom cotroll button
+   */
+  @Output() extraControlsAction: EventEmitter<any> = new EventEmitter<any>();
+
   bounds: any;
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {
-    this.bounds = this._mapsWrapper.createLatLngBounds();
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, private _polygonManager: PolygonManager) {
+    this._mapsWrapper.createLatLngBounds().then((bounds: any) => {
+      this.bounds = bounds;
+      console.log('this.bounds', this.bounds);
+    });
   }
 
   /** @internal */
@@ -380,12 +422,17 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapMouseEvents();
     this._handleBoundsChange();
     this._handleIdleEvent();
+    this._setDrawingManager();
   }
 
   /** @internal */
   ngOnDestroy() {
     // unsubscribe all registered observable subscriptions
     this._observableSubscriptions.forEach((s) => s.unsubscribe());
+    this._listeners.forEach((s: any) => {
+      s.remove();
+    });
+    this._drawingManagerRemovePolygonListeners();
   }
 
   /* @internal */
@@ -394,12 +441,69 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._updatePosition(changes);
   }
 
+  private _updateMapExtraControlls(_controls: ExtraControl[]) {
+    // console.log('controlls', _controls);
+    // console.log('controlls this', this);
+    // let keys = Object.keys(this._extraControls);
+    this._mapsWrapper.getNativeMap().then(() => {
+      //   console.log('map.controlls', map.controls);
+
+      for (let c of _controls) {
+        if (this._extraControls[c.type] === undefined) {
+          this._mapsWrapper.addExtraControll(c).then((_control: any) => {
+            // console.log('_control', _control);
+            const s = _control.subscription.subscribe((type: any) => {
+              if (type === 'centerMap') {
+                this._mapsWrapper.setCenter(c.coord);
+              }
+              if (type === 'removePolygon') {
+                // console.log('removePolygon');
+
+                // remove listeners and subscriptions
+                this._listeners.forEach((s: any) => {
+                  s.remove();
+                });
+                this._drawingManagerRemovePolygonListeners();
+                this._polygons.forEach((poly: any) => {
+                  //   poly.setMap(null);
+                  this._polygonManager.deletePolygon(poly);
+                });
+                this.polygonDeleted.emit();
+              }
+            });
+            // this._extraControls.push({ 'type': c.type, 'position': _control.position });
+            this._extraControls[c.type] = _control;
+            this._observableSubscriptions.push(s);
+          });
+        } else {
+          //   console.log('this._extraControls', this._extraControls);
+          //   console.log('map.controls', map.controls);
+          //   let position = c.position as keyof typeof ControlPosition || 'TOP_CENTER';
+          //   console.log('position', position);
+          //   //   map.controls[position].splice(this._extraControls[c.type], 1);
+        }
+      }
+    });
+
+  }
+
   private _updateMapOptionsChanges(changes: SimpleChanges) {
+    // console.log('changes', changes);
     let options: { [propName: string]: any } = {};
     let optionKeys =
       Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
+    if (changes['extraControls']) {
+      this._updateMapExtraControlls(changes['extraControls'].currentValue);
+    }
+    // console.log('drawingModes', changes);
+    if (changes['drawingModes'] && !changes['drawingModes'].firstChange) {
+      let position = this.drawingManagerPosition as keyof typeof ControlPosition;
+      let typedPosition = ControlPosition[position];
+      //   console.log('updateDrawingManagerOptions position', position);
+      this._mapsWrapper.updateDrawingManagerOptions(changes['drawingModes'].currentValue, typedPosition);
+    }
   }
 
   /**
@@ -436,7 +540,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     }
 
     if (changes['fitPoints'] && this.fitPoints != null) {
-      console.log('fitPoints changes', changes);
+      //   console.log('fitPoints changes', changes);
       this.fitPoints = changes['fitPoints'].currentValue;
       this._fitPoints();
     }
@@ -459,6 +563,47 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._setCenter();
   }
 
+  private _drawingManagerRemovePolygonListeners() {
+    this._subscriptions.forEach((s) => s.unsubscribe());
+    this._subscriptions = [];
+  }
+
+  private _setDrawingManager() {
+    // if (!this.drawingModes.length) {
+    //   return;
+    // }
+    let drawingCircleOptions = {
+      fillColor: '#ffff00',
+      fillOpacity: 1,
+      strokeWeight: 5,
+      clickable: false,
+      editable: true,
+      draggable: true,
+      zIndex: 1
+    };
+    let polygonOptions = {
+      fillColor: '#d75f8f',
+      fillOpacity: 0.5,
+      strokeOpacity: 0.5,
+      strokeWeight: 5,
+      clickable: true,
+      editable: true,
+      draggable: true,
+      zIndex: 1
+    };
+    let position = this.drawingManagerPosition as keyof typeof ControlPosition;
+    let typedPosition = ControlPosition[position];
+    this._mapsWrapper.attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions).then(() => {
+      const lis = this._mapsWrapper.attachPolygonListeners('polygoncomplete').subscribe((polygon: any) => {
+        polygon.paths = this._polygonManager.getBounds(polygon);
+        this.polygonComplete.emit(polygon.paths);
+        polygon.setMap(null);
+
+      });
+      this._listeners.push(lis);
+    });
+  }
+
   private _setCenter() {
     let newCenter = {
       lat: this.latitude,
@@ -472,13 +617,15 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _fitPoints() {
-    this.bounds = this._mapsWrapper.createLatLngBounds();
-    console.log(this.bounds);
-    for (let m of this.fitPoints) {
-      this.bounds.extend(m);
-    }
-    this._mapsWrapper.fitBounds(this.bounds);
-    this._mapsWrapper.panToBounds(this.bounds);
+    this._mapsWrapper.createLatLngBounds().then((bounds: any) => {
+      this.bounds = bounds;
+      for (let m of this.fitPoints) {
+        this.bounds.extend(m);
+      }
+      this._mapsWrapper.fitBounds(this.bounds);
+      this._mapsWrapper.panToBounds(this.bounds);
+      //   console.log(this.bounds);
+    });
   }
 
   private _fitBounds() {

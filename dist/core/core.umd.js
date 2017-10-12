@@ -4,6 +4,54 @@
 	(factory((global.ngmaps = global.ngmaps || {}, global.ngmaps.core = global.ngmaps.core || {}),global.ng.core,global.Rx));
 }(this, (function (exports,_angular_core,rxjs_Observable) { 'use strict';
 
+/**
+ * Identifiers used to specify the placement of controls on the map. Controls are
+ * positioned relative to other controls in the same layout position. Controls that
+ * are added first are positioned closer to the edge of the map.
+ */
+var ControlPosition;
+(function (ControlPosition) {
+    ControlPosition[ControlPosition["BOTTOM_CENTER"] = 0] = "BOTTOM_CENTER";
+    ControlPosition[ControlPosition["BOTTOM_LEFT"] = 1] = "BOTTOM_LEFT";
+    ControlPosition[ControlPosition["BOTTOM_RIGHT"] = 2] = "BOTTOM_RIGHT";
+    ControlPosition[ControlPosition["LEFT_BOTTOM"] = 3] = "LEFT_BOTTOM";
+    ControlPosition[ControlPosition["LEFT_CENTER"] = 4] = "LEFT_CENTER";
+    ControlPosition[ControlPosition["LEFT_TOP"] = 5] = "LEFT_TOP";
+    ControlPosition[ControlPosition["RIGHT_BOTTOM"] = 6] = "RIGHT_BOTTOM";
+    ControlPosition[ControlPosition["RIGHT_CENTER"] = 7] = "RIGHT_CENTER";
+    ControlPosition[ControlPosition["RIGHT_TOP"] = 8] = "RIGHT_TOP";
+    ControlPosition[ControlPosition["TOP_CENTER"] = 9] = "TOP_CENTER";
+    ControlPosition[ControlPosition["TOP_LEFT"] = 10] = "TOP_LEFT";
+    ControlPosition[ControlPosition["TOP_RIGHT"] = 11] = "TOP_RIGHT";
+})(ControlPosition || (ControlPosition = {}));
+var MapTypeId;
+(function (MapTypeId) {
+    /** This map type displays a transparent layer of major streets on satellite images. */
+    MapTypeId[MapTypeId["HYBRID"] = 0] = "HYBRID";
+    /** This map type displays a normal street map. */
+    MapTypeId[MapTypeId["ROADMAP"] = 1] = "ROADMAP";
+    /** This map type displays satellite images. */
+    MapTypeId[MapTypeId["SATELLITE"] = 2] = "SATELLITE";
+    /** This map type displays maps with physical features such as terrain and vegetation. */
+    MapTypeId[MapTypeId["TERRAIN"] = 3] = "TERRAIN";
+})(MapTypeId || (MapTypeId = {}));
+var MapTypeControlStyle;
+(function (MapTypeControlStyle) {
+    MapTypeControlStyle[MapTypeControlStyle["DEFAULT"] = 0] = "DEFAULT";
+    MapTypeControlStyle[MapTypeControlStyle["DROPDOWN_MENU"] = 1] = "DROPDOWN_MENU";
+    MapTypeControlStyle[MapTypeControlStyle["HORIZONTAL_BAR"] = 2] = "HORIZONTAL_BAR";
+})(MapTypeControlStyle || (MapTypeControlStyle = {}));
+var ScaleControlStyle;
+(function (ScaleControlStyle) {
+    ScaleControlStyle[ScaleControlStyle["DEFAULT"] = 0] = "DEFAULT";
+})(ScaleControlStyle || (ScaleControlStyle = {}));
+var ZoomControlStyle;
+(function (ZoomControlStyle) {
+    ZoomControlStyle[ZoomControlStyle["DEFAULT"] = 0] = "DEFAULT";
+    ZoomControlStyle[ZoomControlStyle["LARGE"] = 1] = "LARGE";
+    ZoomControlStyle[ZoomControlStyle["SMALL"] = 2] = "SMALL";
+})(ZoomControlStyle || (ZoomControlStyle = {}));
+
 var MapsAPILoader = (function () {
     function MapsAPILoader() {
     }
@@ -75,6 +123,55 @@ var GoogleMapsAPIWrapper = (function () {
             return polygon;
         });
     };
+    GoogleMapsAPIWrapper.prototype.attachDrawingManager = function (controlPosition, drawingModes, polygonOptions, circleOptions, markerIcon) {
+        var _this = this;
+        if (controlPosition === void 0) { controlPosition = 9; }
+        if (drawingModes === void 0) { drawingModes = ['polygon']; }
+        if (markerIcon === void 0) { markerIcon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'; }
+        return this.getNativeMap().then(function (map) {
+            _this._drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: null,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition[ControlPosition[controlPosition]],
+                    drawingModes: drawingModes
+                },
+                markerOptions: { icon: markerIcon },
+                circleOptions: circleOptions,
+                polygonOptions: polygonOptions
+            });
+            _this._drawingManager.setMap(map);
+            return _this._drawingManager;
+        });
+    };
+    GoogleMapsAPIWrapper.prototype.attachPolygonListeners = function (eventName) {
+        var _this = this;
+        return rxjs_Observable.Observable.create(function (observer) {
+            _this._drawingManager.addListener(eventName, function (polygon) { return _this._zone.run(function () { return observer.next(polygon); }); });
+        });
+    };
+    GoogleMapsAPIWrapper.prototype.updateDrawingManagerOptions = function (drawingModes, controlPosition) {
+        var _this = this;
+        if (drawingModes === void 0) { drawingModes = []; }
+        if (controlPosition === void 0) { controlPosition = 9; }
+        console.log('updateDrawingManagerOptions', this._drawingManager);
+        console.log('drawingModes', drawingModes);
+        if (drawingModes.length === 0) {
+            this._drawingManager.setMap(null);
+        }
+        else {
+            this.getNativeMap().then(function (map) {
+                _this._drawingManager.setOptions({
+                    drawingMode: drawingModes[0],
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition[ControlPosition[controlPosition]],
+                        drawingModes: drawingModes
+                    }
+                });
+                _this._drawingManager.setMap(map);
+            });
+        }
+    };
     /**
      * Determines if given coordinates are insite a Polygon path.
      */
@@ -124,7 +221,9 @@ var GoogleMapsAPIWrapper = (function () {
         return this._map.then(function (map) { return map.panToBounds(latLng); });
     };
     GoogleMapsAPIWrapper.prototype.createLatLngBounds = function () {
-        return new google.maps.LatLngBounds();
+        return this.getNativeMap().then(function () {
+            return new google.maps.LatLngBounds();
+        });
     };
     /**
      * Returns the native Google Maps Map instance. Be careful when using this instance directly.
@@ -135,6 +234,29 @@ var GoogleMapsAPIWrapper = (function () {
      */
     GoogleMapsAPIWrapper.prototype.triggerMapEvent = function (eventName) {
         return this._map.then(function (m) { return google.maps.event.trigger(m, eventName); });
+    };
+    GoogleMapsAPIWrapper.prototype.addExtraControll = function (control) {
+        var _this = this;
+        return this._map.then(function (map) {
+            var _controlDiv = document.createElement('div');
+            var _controlUI = document.createElement('div');
+            _controlUI.className = control.class || 'control-ui';
+            _controlUI.style.textAlign = 'center';
+            _controlUI.title = control.title || 'Click to recenter the map';
+            _controlDiv.appendChild(_controlUI);
+            var _controlText = document.createElement('div');
+            _controlText.className = 'control-text';
+            _controlText.innerHTML = control.text || 'Center Map';
+            _controlUI.appendChild(_controlText);
+            var position = control.position || 'TOP_CENTER';
+            var controllPosition = map.controls[google.maps.ControlPosition[position]].push(_controlDiv);
+            var observable = rxjs_Observable.Observable.create(function (observer) {
+                _controlUI.addEventListener('click', function () {
+                    _this._zone.run(function () { return observer.next(control.type); });
+                });
+            });
+            return { 'position': position, 'controllPosition': controllPosition, 'subscription': observable };
+        });
     };
     return GoogleMapsAPIWrapper;
 }());
@@ -439,8 +561,11 @@ var PolygonManager = (function () {
     };
     PolygonManager.prototype.deletePolygon = function (paths) {
         var _this = this;
-        var m = this._polygons.get(paths);
+        var m = this._polygons.get(paths) || null;
         if (m == null) {
+            this._polygons.forEach(function (p) {
+                _this._polygons.delete(p);
+            });
             return Promise.resolve();
         }
         return m.then(function (l) {
@@ -457,6 +582,28 @@ var PolygonManager = (function () {
                 l.addListener(eventName, function (e) { return _this._zone.run(function () { return observer.next(e); }); });
             });
         });
+    };
+    PolygonManager.prototype.createPolyChangesObservable = function (eventName, path) {
+        var _this = this;
+        return rxjs_Observable.Observable.create(function (observer) {
+            _this._polygons.get(path).then(function (l) {
+                l.getPaths().forEach(function (path) {
+                    google.maps.event.addListener(path, eventName, function () { return _this._zone.run(function () { return observer.next(_this.getBounds(l)); }); });
+                });
+            });
+        });
+    };
+    PolygonManager.prototype.getBounds = function (polygon) {
+        var bounds = [];
+        var length = polygon.getPath().getLength();
+        for (var i = 0; i < length; i++) {
+            var ln = {
+                lat: polygon.getPath().getAt(i).lat(),
+                lng: polygon.getPath().getAt(i).lng()
+            };
+            bounds.push(ln);
+        }
+        return bounds;
     };
     return PolygonManager;
 }());
@@ -697,9 +844,11 @@ DataLayerManager.ctorParameters = function () { return [
  * ```
  */
 var AgmMap = (function () {
-    function AgmMap(_elem, _mapsWrapper) {
+    function AgmMap(_elem, _mapsWrapper, _polygonManager) {
+        var _this = this;
         this._elem = _elem;
         this._mapsWrapper = _mapsWrapper;
+        this._polygonManager = _polygonManager;
         /**
          * The longitude that defines the center of the map.
          */
@@ -781,6 +930,10 @@ var AgmMap = (function () {
          */
         this.mapTypeControl = false;
         /**
+         * The initial enabled/disabled state of the Map type control.
+         */
+        this.mapCustomControl = false;
+        /**
          * The initial enabled/disabled state of the Pan control.
          */
         this.panControl = false;
@@ -810,7 +963,23 @@ var AgmMap = (function () {
          * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
          */
         this.gestureHandling = 'auto';
+        /**
+         * This setting controls apperance drawing Manager
+         */
+        this.drawingModes = [];
+        /**
+         * This setting controls apperance drawing Manager controlls position
+         */
+        this.drawingManagerPosition = 'TOP_CENTER';
+        /**
+         * This setting controls apperance drawing Manager controlls position
+         */
+        this.extraControls = [];
         this._observableSubscriptions = [];
+        this._listeners = [];
+        this._polygons = [];
+        this._extraControls = {};
+        this._subscriptions = [];
         /**
          * This event emitter gets emitted when the user clicks on the map (but not when they click on a
          * marker or infoWindow).
@@ -847,7 +1016,22 @@ var AgmMap = (function () {
          * You get the google.maps.Map instance as a result of this EventEmitter.
          */
         this.mapReady = new _angular_core.EventEmitter();
-        this.bounds = this._mapsWrapper.createLatLngBounds();
+        /**
+         * This event is fired when polygon drawing complete.
+         */
+        this.polygonComplete = new _angular_core.EventEmitter();
+        /**
+         * This event is fired when polygon deleted.
+         */
+        this.polygonDeleted = new _angular_core.EventEmitter();
+        /**
+         * This event is callBack on custom cotroll button
+         */
+        this.extraControlsAction = new _angular_core.EventEmitter();
+        this._mapsWrapper.createLatLngBounds().then(function (bounds) {
+            _this.bounds = bounds;
+            console.log('this.bounds', _this.bounds);
+        });
     }
     /** @internal */
     AgmMap.prototype.ngOnInit = function () {
@@ -897,22 +1081,86 @@ var AgmMap = (function () {
         this._handleMapMouseEvents();
         this._handleBoundsChange();
         this._handleIdleEvent();
+        this._setDrawingManager();
     };
     /** @internal */
     AgmMap.prototype.ngOnDestroy = function () {
         // unsubscribe all registered observable subscriptions
         this._observableSubscriptions.forEach(function (s) { return s.unsubscribe(); });
+        this._listeners.forEach(function (s) {
+            s.remove();
+        });
+        this._drawingManagerRemovePolygonListeners();
     };
     /* @internal */
     AgmMap.prototype.ngOnChanges = function (changes) {
         this._updateMapOptionsChanges(changes);
         this._updatePosition(changes);
     };
+    AgmMap.prototype._updateMapExtraControlls = function (_controls) {
+        var _this = this;
+        // console.log('controlls', _controls);
+        // console.log('controlls this', this);
+        // let keys = Object.keys(this._extraControls);
+        this._mapsWrapper.getNativeMap().then(function () {
+            //   console.log('map.controlls', map.controls);
+            var _loop_1 = function (c) {
+                if (_this._extraControls[c.type] === undefined) {
+                    _this._mapsWrapper.addExtraControll(c).then(function (_control) {
+                        // console.log('_control', _control);
+                        var s = _control.subscription.subscribe(function (type) {
+                            if (type === 'centerMap') {
+                                _this._mapsWrapper.setCenter(c.coord);
+                            }
+                            if (type === 'removePolygon') {
+                                // console.log('removePolygon');
+                                // remove listeners and subscriptions
+                                _this._listeners.forEach(function (s) {
+                                    s.remove();
+                                });
+                                _this._drawingManagerRemovePolygonListeners();
+                                _this._polygons.forEach(function (poly) {
+                                    //   poly.setMap(null);
+                                    _this._polygonManager.deletePolygon(poly);
+                                });
+                                _this.polygonDeleted.emit();
+                            }
+                        });
+                        // this._extraControls.push({ 'type': c.type, 'position': _control.position });
+                        _this._extraControls[c.type] = _control;
+                        _this._observableSubscriptions.push(s);
+                    });
+                }
+                else {
+                    //   console.log('this._extraControls', this._extraControls);
+                    //   console.log('map.controls', map.controls);
+                    //   let position = c.position as keyof typeof ControlPosition || 'TOP_CENTER';
+                    //   console.log('position', position);
+                    //   //   map.controls[position].splice(this._extraControls[c.type], 1);
+                }
+            };
+            for (var _i = 0, _controls_1 = _controls; _i < _controls_1.length; _i++) {
+                var c = _controls_1[_i];
+                _loop_1(c);
+            }
+        });
+    };
     AgmMap.prototype._updateMapOptionsChanges = function (changes) {
+        // console.log('changes', changes);
         var options = {};
         var optionKeys = Object.keys(changes).filter(function (k) { return AgmMap._mapOptionsAttributes.indexOf(k) !== -1; });
         optionKeys.forEach(function (k) { options[k] = changes[k].currentValue; });
         this._mapsWrapper.setMapOptions(options);
+        if (changes['extraControls']) {
+            this._updateMapExtraControlls(changes['extraControls'].currentValue);
+        }
+        // console.log('drawingModes', changes);
+        if (changes['drawingModes'] && !changes['drawingModes'].firstChange) {
+            var position = this.drawingManagerPosition;
+            var typedPosition = ControlPosition[position];
+            //   console.log('updateDrawingManagerOptions position', position);
+            this._mapsWrapper.updateDrawingManagerOptions(changes['drawingModes'].currentValue, typedPosition);
+        }
     };
     /**
      * Triggers a resize event on the google map instance.
@@ -947,7 +1195,7 @@ var AgmMap = (function () {
             }
         }
         if (changes['fitPoints'] && this.fitPoints != null) {
-            console.log('fitPoints changes', changes);
+            //   console.log('fitPoints changes', changes);
             this.fitPoints = changes['fitPoints'].currentValue;
             this._fitPoints();
         }
@@ -966,6 +1214,45 @@ var AgmMap = (function () {
         }
         this._setCenter();
     };
+    AgmMap.prototype._drawingManagerRemovePolygonListeners = function () {
+        this._subscriptions.forEach(function (s) { return s.unsubscribe(); });
+        this._subscriptions = [];
+    };
+    AgmMap.prototype._setDrawingManager = function () {
+        var _this = this;
+        // if (!this.drawingModes.length) {
+        //   return;
+        // }
+        var drawingCircleOptions = {
+            fillColor: '#ffff00',
+            fillOpacity: 1,
+            strokeWeight: 5,
+            clickable: false,
+            editable: true,
+            draggable: true,
+            zIndex: 1
+        };
+        var polygonOptions = {
+            fillColor: '#d75f8f',
+            fillOpacity: 0.5,
+            strokeOpacity: 0.5,
+            strokeWeight: 5,
+            clickable: true,
+            editable: true,
+            draggable: true,
+            zIndex: 1
+        };
+        var position = this.drawingManagerPosition;
+        var typedPosition = ControlPosition[position];
+        this._mapsWrapper.attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions).then(function () {
+            var lis = _this._mapsWrapper.attachPolygonListeners('polygoncomplete').subscribe(function (polygon) {
+                polygon.paths = _this._polygonManager.getBounds(polygon);
+                _this.polygonComplete.emit(polygon.paths);
+                polygon.setMap(null);
+            });
+            _this._listeners.push(lis);
+        });
+    };
     AgmMap.prototype._setCenter = function () {
         var newCenter = {
             lat: this.latitude,
@@ -979,14 +1266,17 @@ var AgmMap = (function () {
         }
     };
     AgmMap.prototype._fitPoints = function () {
-        this.bounds = this._mapsWrapper.createLatLngBounds();
-        console.log(this.bounds);
-        for (var _i = 0, _a = this.fitPoints; _i < _a.length; _i++) {
-            var m = _a[_i];
-            this.bounds.extend(m);
-        }
-        this._mapsWrapper.fitBounds(this.bounds);
-        this._mapsWrapper.panToBounds(this.bounds);
+        var _this = this;
+        this._mapsWrapper.createLatLngBounds().then(function (bounds) {
+            _this.bounds = bounds;
+            for (var _i = 0, _a = _this.fitPoints; _i < _a.length; _i++) {
+                var m = _a[_i];
+                _this.bounds.extend(m);
+            }
+            _this._mapsWrapper.fitBounds(_this.bounds);
+            _this._mapsWrapper.panToBounds(_this.bounds);
+            //   console.log(this.bounds);
+        });
     };
     AgmMap.prototype._fitBounds = function () {
         if (this.usePanning) {
@@ -1067,7 +1357,7 @@ AgmMap.decorators = [
                     // todo: deprecated - we will remove it with the next version
                     '[class.sebm-google-map-container]': 'true'
                 },
-                styles: ["\n    .agm-map-container-inner {\n      width: inherit;\n      height: inherit;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "],
+                styles: ["\n    .agm-map-container-inner {\n      width: inherit;\n      height: 100%;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "],
                 template: "\n    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>\n    <div class='agm-map-content'>\n      <ng-content></ng-content>\n    </div>\n  "
             },] },
 ];
@@ -1075,6 +1365,7 @@ AgmMap.decorators = [
 AgmMap.ctorParameters = function () { return [
     { type: _angular_core.ElementRef, },
     { type: GoogleMapsAPIWrapper, },
+    { type: PolygonManager, },
 ]; };
 AgmMap.propDecorators = {
     'longitude': [{ type: _angular_core.Input },],
@@ -1103,6 +1394,7 @@ AgmMap.propDecorators = {
     'scaleControl': [{ type: _angular_core.Input },],
     'scaleControlOptions': [{ type: _angular_core.Input },],
     'mapTypeControl': [{ type: _angular_core.Input },],
+    'mapCustomControl': [{ type: _angular_core.Input },],
     'mapTypeControlOptions': [{ type: _angular_core.Input },],
     'panControl': [{ type: _angular_core.Input },],
     'panControlOptions': [{ type: _angular_core.Input },],
@@ -1113,6 +1405,9 @@ AgmMap.propDecorators = {
     'mapTypeId': [{ type: _angular_core.Input },],
     'clickableIcons': [{ type: _angular_core.Input },],
     'gestureHandling': [{ type: _angular_core.Input },],
+    'drawingModes': [{ type: _angular_core.Input },],
+    'drawingManagerPosition': [{ type: _angular_core.Input },],
+    'extraControls': [{ type: _angular_core.Input },],
     'mapClick': [{ type: _angular_core.Output },],
     'mapRightClick': [{ type: _angular_core.Output },],
     'mapDblClick': [{ type: _angular_core.Output },],
@@ -1121,6 +1416,9 @@ AgmMap.propDecorators = {
     'idle': [{ type: _angular_core.Output },],
     'zoomChange': [{ type: _angular_core.Output },],
     'mapReady': [{ type: _angular_core.Output },],
+    'polygonComplete': [{ type: _angular_core.Output },],
+    'polygonDeleted': [{ type: _angular_core.Output },],
+    'extraControlsAction': [{ type: _angular_core.Output },],
 };
 
 var AgmCircle = (function () {
@@ -2086,6 +2384,7 @@ AgmMarker.propDecorators = {
  * ```
  */
 var AgmPolygon = (function () {
+    // private _listeners: Subscription[] = [];
     function AgmPolygon(_polygonManager) {
         this._polygonManager = _polygonManager;
         /**
@@ -2167,6 +2466,10 @@ var AgmPolygon = (function () {
          * This even is fired when the Polygon is right-clicked on.
          */
         this.polyRightClick = new _angular_core.EventEmitter();
+        /**
+         * This even is fired when the Polygon is right-clicked on.
+         */
+        this.changedShape = new _angular_core.EventEmitter();
         this._polygonAddedToManager = false;
         this._subscriptions = [];
     }
@@ -2182,11 +2485,16 @@ var AgmPolygon = (function () {
             return;
         }
         this._polygonManager.setPolygonOptions(this, this._updatePolygonOptions(changes));
+        this._addEventListeners();
     };
     AgmPolygon.prototype._init = function () {
         this._polygonManager.addPolygon(this);
         this._polygonAddedToManager = true;
         this._addEventListeners();
+    };
+    AgmPolygon.prototype._removeEventListeners = function () {
+        this._subscriptions.forEach(function (s) { return s.unsubscribe(); });
+        this._subscriptions = [];
     };
     AgmPolygon.prototype._addEventListeners = function () {
         var _this = this;
@@ -2194,7 +2502,6 @@ var AgmPolygon = (function () {
             { name: 'click', handler: function (ev) { return _this.polyClick.emit(ev); } },
             { name: 'dbclick', handler: function (ev) { return _this.polyDblClick.emit(ev); } },
             { name: 'drag', handler: function (ev) { return _this.polyDrag.emit(ev); } },
-            { name: 'dragend', handler: function (ev) { return _this.polyDragEnd.emit(ev); } },
             { name: 'dragstart', handler: function (ev) { return _this.polyDragStart.emit(ev); } },
             { name: 'mousedown', handler: function (ev) { return _this.polyMouseDown.emit(ev); } },
             { name: 'mousemove', handler: function (ev) { return _this.polyMouseMove.emit(ev); } },
@@ -2207,8 +2514,19 @@ var AgmPolygon = (function () {
             var os = _this._polygonManager.createEventObservable(obj.name, _this).subscribe(obj.handler);
             _this._subscriptions.push(os);
         });
+        var listeners = [
+            { name: 'insert_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
+            { name: 'remove_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
+            { name: 'set_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
+            { name: 'dragend', handler: function (ev) { return _this.polyDragEnd.emit(ev); } },
+        ];
+        listeners.forEach(function (obj) {
+            var lis = _this._polygonManager.createPolyChangesObservable(obj.name, _this).subscribe(obj.handler);
+            _this._subscriptions.push(lis);
+        });
     };
     AgmPolygon.prototype._updatePolygonOptions = function (changes) {
+        this._removeEventListeners();
         return Object.keys(changes)
             .filter(function (k) { return AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1; })
             .reduce(function (obj, k) {
@@ -2223,13 +2541,13 @@ var AgmPolygon = (function () {
         this._polygonManager.deletePolygon(this);
         // unsubscribe all registered observable subscriptions
         this._subscriptions.forEach(function (s) { return s.unsubscribe(); });
+        // this._listeners.forEach((listeners) => s.unsubscribe());
     };
     return AgmPolygon;
 }());
 AgmPolygon._polygonOptionsAttributes = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
-    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex', 'draggable',
-    'editable', 'visible'
+    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex'
 ];
 AgmPolygon.decorators = [
     { type: _angular_core.Directive, args: [{
@@ -2243,6 +2561,7 @@ AgmPolygon.ctorParameters = function () { return [
 AgmPolygon.propDecorators = {
     'clickable': [{ type: _angular_core.Input },],
     'draggable': [{ type: _angular_core.Input, args: ['polyDraggable',] },],
+    'editable': [{ type: _angular_core.Input },],
     'fillColor': [{ type: _angular_core.Input },],
     'fillOpacity': [{ type: _angular_core.Input },],
     'geodesic': [{ type: _angular_core.Input },],
@@ -2263,6 +2582,7 @@ AgmPolygon.propDecorators = {
     'polyMouseOver': [{ type: _angular_core.Output },],
     'polyMouseUp': [{ type: _angular_core.Output },],
     'polyRightClick': [{ type: _angular_core.Output },],
+    'changedShape': [{ type: _angular_core.Output },],
 };
 
 /**

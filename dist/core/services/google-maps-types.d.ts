@@ -1,6 +1,7 @@
 export declare var google: any;
 export interface GoogleMap extends MVCObject {
     data?: Data;
+    controls?: any;
     constructor(el: HTMLElement, opts?: MapOptions): void;
     panTo(latLng: LatLng | LatLngLiteral): void;
     setZoom(zoom: number): void;
@@ -270,7 +271,7 @@ export interface Polygon extends MVCObject {
     getDraggable(): boolean;
     getEditable(): boolean;
     getMap(): GoogleMap;
-    getPath(): Array<LatLng>;
+    getPath(): any;
     getPaths(): Array<Array<LatLng>>;
     getVisible(): boolean;
     setDraggable(draggable: boolean): void;
@@ -395,6 +396,33 @@ export declare enum MapTypeId {
     SATELLITE = 2,
     /** This map type displays maps with physical features such as terrain and vegetation. */
     TERRAIN = 3,
+}
+export interface DrawingModes {
+    [index: number]: 'marker' | 'circle' | 'polygon' | 'polyline' | 'rectangle';
+    length: number;
+}
+export interface ExtraControl {
+    title?: string;
+    text?: string;
+    type: 'centerMap' | 'removePolygon';
+    position: string;
+    class?: string;
+    coord?: {
+        lat: number;
+        lng: number;
+    };
+    iconUrl?: string;
+}
+export interface ExtraControls {
+    [index: number]: ExtraControl;
+}
+export interface DrawingCircleOptions {
+    fillColor: string;
+    fillOpacity: number;
+    strokeWeight: number;
+    clickable: boolean;
+    editable: boolean;
+    zIndex: number;
 }
 /***** Controls *****/
 /** Options for the rendering of the map type control. */

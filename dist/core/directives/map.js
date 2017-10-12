@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
+import { ControlPosition } from '../services/google-maps-types';
 import { CircleManager } from '../services/managers/circle-manager';
 import { InfoWindowManager } from '../services/managers/info-window-manager';
 import { MarkerManager } from '../services/managers/marker-manager';
@@ -31,9 +32,11 @@ import { DataLayerManager } from './../services/managers/data-layer-manager';
  * ```
  */
 var AgmMap = (function () {
-    function AgmMap(_elem, _mapsWrapper) {
+    function AgmMap(_elem, _mapsWrapper, _polygonManager) {
+        var _this = this;
         this._elem = _elem;
         this._mapsWrapper = _mapsWrapper;
+        this._polygonManager = _polygonManager;
         /**
          * The longitude that defines the center of the map.
          */
@@ -115,6 +118,10 @@ var AgmMap = (function () {
          */
         this.mapTypeControl = false;
         /**
+         * The initial enabled/disabled state of the Map type control.
+         */
+        this.mapCustomControl = false;
+        /**
          * The initial enabled/disabled state of the Pan control.
          */
         this.panControl = false;
@@ -144,7 +151,23 @@ var AgmMap = (function () {
          * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
          */
         this.gestureHandling = 'auto';
+        /**
+         * This setting controls apperance drawing Manager
+         */
+        this.drawingModes = [];
+        /**
+         * This setting controls apperance drawing Manager controlls position
+         */
+        this.drawingManagerPosition = 'TOP_CENTER';
+        /**
+         * This setting controls apperance drawing Manager controlls position
+         */
+        this.extraControls = [];
         this._observableSubscriptions = [];
+        this._listeners = [];
+        this._polygons = [];
+        this._extraControls = {};
+        this._subscriptions = [];
         /**
          * This event emitter gets emitted when the user clicks on the map (but not when they click on a
          * marker or infoWindow).
@@ -181,7 +204,22 @@ var AgmMap = (function () {
          * You get the google.maps.Map instance as a result of this EventEmitter.
          */
         this.mapReady = new EventEmitter();
-        this.bounds = this._mapsWrapper.createLatLngBounds();
+        /**
+         * This event is fired when polygon drawing complete.
+         */
+        this.polygonComplete = new EventEmitter();
+        /**
+         * This event is fired when polygon deleted.
+         */
+        this.polygonDeleted = new EventEmitter();
+        /**
+         * This event is callBack on custom cotroll button
+         */
+        this.extraControlsAction = new EventEmitter();
+        this._mapsWrapper.createLatLngBounds().then(function (bounds) {
+            _this.bounds = bounds;
+            console.log('this.bounds', _this.bounds);
+        });
     }
     /** @internal */
     AgmMap.prototype.ngOnInit = function () {
@@ -231,22 +269,86 @@ var AgmMap = (function () {
         this._handleMapMouseEvents();
         this._handleBoundsChange();
         this._handleIdleEvent();
+        this._setDrawingManager();
     };
     /** @internal */
     AgmMap.prototype.ngOnDestroy = function () {
         // unsubscribe all registered observable subscriptions
         this._observableSubscriptions.forEach(function (s) { return s.unsubscribe(); });
+        this._listeners.forEach(function (s) {
+            s.remove();
+        });
+        this._drawingManagerRemovePolygonListeners();
     };
     /* @internal */
     AgmMap.prototype.ngOnChanges = function (changes) {
         this._updateMapOptionsChanges(changes);
         this._updatePosition(changes);
     };
+    AgmMap.prototype._updateMapExtraControlls = function (_controls) {
+        var _this = this;
+        // console.log('controlls', _controls);
+        // console.log('controlls this', this);
+        // let keys = Object.keys(this._extraControls);
+        this._mapsWrapper.getNativeMap().then(function () {
+            //   console.log('map.controlls', map.controls);
+            var _loop_1 = function (c) {
+                if (_this._extraControls[c.type] === undefined) {
+                    _this._mapsWrapper.addExtraControll(c).then(function (_control) {
+                        // console.log('_control', _control);
+                        var s = _control.subscription.subscribe(function (type) {
+                            if (type === 'centerMap') {
+                                _this._mapsWrapper.setCenter(c.coord);
+                            }
+                            if (type === 'removePolygon') {
+                                // console.log('removePolygon');
+                                // remove listeners and subscriptions
+                                _this._listeners.forEach(function (s) {
+                                    s.remove();
+                                });
+                                _this._drawingManagerRemovePolygonListeners();
+                                _this._polygons.forEach(function (poly) {
+                                    //   poly.setMap(null);
+                                    _this._polygonManager.deletePolygon(poly);
+                                });
+                                _this.polygonDeleted.emit();
+                            }
+                        });
+                        // this._extraControls.push({ 'type': c.type, 'position': _control.position });
+                        _this._extraControls[c.type] = _control;
+                        _this._observableSubscriptions.push(s);
+                    });
+                }
+                else {
+                    //   console.log('this._extraControls', this._extraControls);
+                    //   console.log('map.controls', map.controls);
+                    //   let position = c.position as keyof typeof ControlPosition || 'TOP_CENTER';
+                    //   console.log('position', position);
+                    //   //   map.controls[position].splice(this._extraControls[c.type], 1);
+                }
+            };
+            for (var _i = 0, _controls_1 = _controls; _i < _controls_1.length; _i++) {
+                var c = _controls_1[_i];
+                _loop_1(c);
+            }
+        });
+    };
     AgmMap.prototype._updateMapOptionsChanges = function (changes) {
+        // console.log('changes', changes);
         var options = {};
         var optionKeys = Object.keys(changes).filter(function (k) { return AgmMap._mapOptionsAttributes.indexOf(k) !== -1; });
         optionKeys.forEach(function (k) { options[k] = changes[k].currentValue; });
         this._mapsWrapper.setMapOptions(options);
+        if (changes['extraControls']) {
+            this._updateMapExtraControlls(changes['extraControls'].currentValue);
+        }
+        // console.log('drawingModes', changes);
+        if (changes['drawingModes'] && !changes['drawingModes'].firstChange) {
+            var position = this.drawingManagerPosition;
+            var typedPosition = ControlPosition[position];
+            //   console.log('updateDrawingManagerOptions position', position);
+            this._mapsWrapper.updateDrawingManagerOptions(changes['drawingModes'].currentValue, typedPosition);
+        }
     };
     /**
      * Triggers a resize event on the google map instance.
@@ -281,7 +383,7 @@ var AgmMap = (function () {
             }
         }
         if (changes['fitPoints'] && this.fitPoints != null) {
-            console.log('fitPoints changes', changes);
+            //   console.log('fitPoints changes', changes);
             this.fitPoints = changes['fitPoints'].currentValue;
             this._fitPoints();
         }
@@ -300,6 +402,45 @@ var AgmMap = (function () {
         }
         this._setCenter();
     };
+    AgmMap.prototype._drawingManagerRemovePolygonListeners = function () {
+        this._subscriptions.forEach(function (s) { return s.unsubscribe(); });
+        this._subscriptions = [];
+    };
+    AgmMap.prototype._setDrawingManager = function () {
+        var _this = this;
+        // if (!this.drawingModes.length) {
+        //   return;
+        // }
+        var drawingCircleOptions = {
+            fillColor: '#ffff00',
+            fillOpacity: 1,
+            strokeWeight: 5,
+            clickable: false,
+            editable: true,
+            draggable: true,
+            zIndex: 1
+        };
+        var polygonOptions = {
+            fillColor: '#d75f8f',
+            fillOpacity: 0.5,
+            strokeOpacity: 0.5,
+            strokeWeight: 5,
+            clickable: true,
+            editable: true,
+            draggable: true,
+            zIndex: 1
+        };
+        var position = this.drawingManagerPosition;
+        var typedPosition = ControlPosition[position];
+        this._mapsWrapper.attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions).then(function () {
+            var lis = _this._mapsWrapper.attachPolygonListeners('polygoncomplete').subscribe(function (polygon) {
+                polygon.paths = _this._polygonManager.getBounds(polygon);
+                _this.polygonComplete.emit(polygon.paths);
+                polygon.setMap(null);
+            });
+            _this._listeners.push(lis);
+        });
+    };
     AgmMap.prototype._setCenter = function () {
         var newCenter = {
             lat: this.latitude,
@@ -313,14 +454,17 @@ var AgmMap = (function () {
         }
     };
     AgmMap.prototype._fitPoints = function () {
-        this.bounds = this._mapsWrapper.createLatLngBounds();
-        console.log(this.bounds);
-        for (var _i = 0, _a = this.fitPoints; _i < _a.length; _i++) {
-            var m = _a[_i];
-            this.bounds.extend(m);
-        }
-        this._mapsWrapper.fitBounds(this.bounds);
-        this._mapsWrapper.panToBounds(this.bounds);
+        var _this = this;
+        this._mapsWrapper.createLatLngBounds().then(function (bounds) {
+            _this.bounds = bounds;
+            for (var _i = 0, _a = _this.fitPoints; _i < _a.length; _i++) {
+                var m = _a[_i];
+                _this.bounds.extend(m);
+            }
+            _this._mapsWrapper.fitBounds(_this.bounds);
+            _this._mapsWrapper.panToBounds(_this.bounds);
+            //   console.log(this.bounds);
+        });
     };
     AgmMap.prototype._fitBounds = function () {
         if (this.usePanning) {
@@ -402,7 +546,7 @@ AgmMap.decorators = [
                     // todo: deprecated - we will remove it with the next version
                     '[class.sebm-google-map-container]': 'true'
                 },
-                styles: ["\n    .agm-map-container-inner {\n      width: inherit;\n      height: inherit;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "],
+                styles: ["\n    .agm-map-container-inner {\n      width: inherit;\n      height: 100%;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "],
                 template: "\n    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>\n    <div class='agm-map-content'>\n      <ng-content></ng-content>\n    </div>\n  "
             },] },
 ];
@@ -410,6 +554,7 @@ AgmMap.decorators = [
 AgmMap.ctorParameters = function () { return [
     { type: ElementRef, },
     { type: GoogleMapsAPIWrapper, },
+    { type: PolygonManager, },
 ]; };
 AgmMap.propDecorators = {
     'longitude': [{ type: Input },],
@@ -438,6 +583,7 @@ AgmMap.propDecorators = {
     'scaleControl': [{ type: Input },],
     'scaleControlOptions': [{ type: Input },],
     'mapTypeControl': [{ type: Input },],
+    'mapCustomControl': [{ type: Input },],
     'mapTypeControlOptions': [{ type: Input },],
     'panControl': [{ type: Input },],
     'panControlOptions': [{ type: Input },],
@@ -448,6 +594,9 @@ AgmMap.propDecorators = {
     'mapTypeId': [{ type: Input },],
     'clickableIcons': [{ type: Input },],
     'gestureHandling': [{ type: Input },],
+    'drawingModes': [{ type: Input },],
+    'drawingManagerPosition': [{ type: Input },],
+    'extraControls': [{ type: Input },],
     'mapClick': [{ type: Output },],
     'mapRightClick': [{ type: Output },],
     'mapDblClick': [{ type: Output },],
@@ -456,5 +605,8 @@ AgmMap.propDecorators = {
     'idle': [{ type: Output },],
     'zoomChange': [{ type: Output },],
     'mapReady': [{ type: Output },],
+    'polygonComplete': [{ type: Output },],
+    'polygonDeleted': [{ type: Output },],
+    'extraControlsAction': [{ type: Output },],
 };
 //# sourceMappingURL=map.js.map

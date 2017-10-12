@@ -1,8 +1,9 @@
 import { ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MouseEvent } from '../map-types';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
-import { FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions, RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions } from '../services/google-maps-types';
+import { FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions, RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions, DrawingModes, ExtraControls } from '../services/google-maps-types';
 import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
+import { PolygonManager } from '../services/managers/polygon-manager';
 /**
  * AgmMap renders a Google Map.
  * **Important note**: To be able see a map in the browser, you have to define a height for the
@@ -29,6 +30,7 @@ import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/goo
 export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
     private _elem;
     private _mapsWrapper;
+    private _polygonManager;
     /**
      * The longitude that defines the center of the map.
      */
@@ -150,6 +152,10 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      */
     mapTypeControl: boolean;
     /**
+     * The initial enabled/disabled state of the Map type control.
+     */
+    mapCustomControl: boolean;
+    /**
      * Options for the Map type control.
      */
     mapTypeControlOptions: MapTypeControlOptions;
@@ -196,10 +202,26 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      */
     gestureHandling: 'cooperative' | 'greedy' | 'none' | 'auto';
     /**
+     * This setting controls apperance drawing Manager
+     */
+    drawingModes: DrawingModes;
+    /**
+     * This setting controls apperance drawing Manager controlls position
+     */
+    drawingManagerPosition: string;
+    /**
+     * This setting controls apperance drawing Manager controlls position
+     */
+    extraControls: ExtraControls[];
+    /**
      * Map option attributes that can change over time
      */
     private static _mapOptionsAttributes;
     private _observableSubscriptions;
+    private _listeners;
+    private _polygons;
+    private _extraControls;
+    private _subscriptions;
     /**
      * This event emitter gets emitted when the user clicks on the map (but not when they click on a
      * marker or infoWindow).
@@ -236,14 +258,27 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      * You get the google.maps.Map instance as a result of this EventEmitter.
      */
     mapReady: EventEmitter<any>;
+    /**
+     * This event is fired when polygon drawing complete.
+     */
+    polygonComplete: EventEmitter<any>;
+    /**
+     * This event is fired when polygon deleted.
+     */
+    polygonDeleted: EventEmitter<any>;
+    /**
+     * This event is callBack on custom cotroll button
+     */
+    extraControlsAction: EventEmitter<any>;
     bounds: any;
-    constructor(_elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper);
+    constructor(_elem: ElementRef, _mapsWrapper: GoogleMapsAPIWrapper, _polygonManager: PolygonManager);
     /** @internal */
     ngOnInit(): void;
     private _initMapInstance(el);
     /** @internal */
     ngOnDestroy(): void;
     ngOnChanges(changes: SimpleChanges): void;
+    private _updateMapExtraControlls(_controls);
     private _updateMapOptionsChanges(changes);
     /**
      * Triggers a resize event on the google map instance.
@@ -252,6 +287,8 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      */
     triggerResize(recenter?: boolean): Promise<void>;
     private _updatePosition(changes);
+    private _drawingManagerRemovePolygonListeners();
+    private _setDrawingManager();
     private _setCenter();
     private _fitPoints();
     private _fitBounds();
