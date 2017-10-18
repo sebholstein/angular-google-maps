@@ -7,6 +7,7 @@ import {FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, 
         RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
+import {RectangleManager} from '../services/managers/rectangle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 import {MarkerManager} from '../services/managers/marker-manager';
 import {PolygonManager} from '../services/managers/polygon-manager';
@@ -40,8 +41,8 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
 @Component({
   selector: 'agm-map',
   providers: [
-    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager, KmlLayerManager, DataLayerManager
+    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
+    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
