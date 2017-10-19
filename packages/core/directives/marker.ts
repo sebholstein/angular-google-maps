@@ -65,9 +65,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Input('markerDraggable') draggable: boolean = false;
 
   /**
-   * Icon (the URL of the image) for the foreground.
+   * Icon (the URL or a complex icon) for the foreground.
    */
-  @Input() iconUrl: string;
+  @Input() icon: mapTypes.Icon | string;
 
   /**
    * If true, the marker is visible
@@ -167,7 +167,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     if (changes['draggable']) {
       this._markerManager.updateDraggable(this);
     }
-    if (changes['iconUrl']) {
+    if (changes['icon']) {
       this._markerManager.updateIcon(this);
     }
     if (changes['opacity']) {
