@@ -1,4 +1,4 @@
-import {Directive, OnDestroy, OnChanges, Input} from '@angular/core';
+import {Directive, OnChanges, Input} from '@angular/core';
 
 import {ImageMapTypeManager} from '../services/managers/image-map-type-manager';
 import * as mapTypes from '../services/google-maps-types';
@@ -19,8 +19,8 @@ import * as mapTypes from '../services/google-maps-types';
  * `],
  *  template: `
  *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <agm-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
- *      </agm-marker>
+ *      <agm-image-map-type [mapLayerId]="'openstreetmap'" [options]=imageMapOptions>
+ *      </agm-image-map-type>
  *    </agm-map>
  *  `
  * })
@@ -29,14 +29,14 @@ import * as mapTypes from '../services/google-maps-types';
 @Directive({
   selector: 'agm-image-map-type'
 })
-export class AgmImageMapType implements OnDestroy, OnChanges {
+export class AgmImageMapType implements OnChanges {
   /**
-   *
+   * The options of google.maps.ImageMapType.
    */
   @Input() options: mapTypes.ImageMapTypeOptions;
 
   /**
-   *
+   * The mapLayerId that defines the name of new layer.
    */
   @Input() mapLayerId: string;
 
@@ -47,7 +47,4 @@ export class AgmImageMapType implements OnDestroy, OnChanges {
 
   /** @internal */
   toString(): string { return 'ImageMapType-' + this.mapLayerId.toString(); }
-
-  /** @internal */
-  ngOnDestroy() {}
 }
