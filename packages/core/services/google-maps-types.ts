@@ -1,7 +1,10 @@
 export var google: any;
 
 export interface GoogleMap extends MVCObject {
+  mapTypes: MapTypeRegistry;
   data?: Data;
+  mapTypeId?: string;
+  mapTypeControlOptions?: MapTypeControlOptions;
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   panBy(x: number, y: number): void;
@@ -541,4 +544,26 @@ export interface FullscreenControlOptions {
    * The default position is RIGHT_TOP.
    */
   position?: ControlPosition;
+}
+
+export interface MapTypeRegistry { set(id: string, mapType: any): void; }
+
+export interface ImageMapTypeCoord {
+  x: number;
+  y: number;
+}
+
+export interface ImageMapTypeTileSize {
+  height: number;
+  width: number;
+}
+
+export interface ImageMapTypeOptions {
+  tileSize?: ImageMapTypeTileSize;
+  maxZoom: number;
+  minZoom: number;
+  radius: number;
+  name: string;
+  alt?: string;
+  getTileUrl(coord: ImageMapTypeCoord, zoom: number): string;
 }

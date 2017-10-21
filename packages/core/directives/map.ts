@@ -13,6 +13,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import {ImageMapTypeManager} from '../services/managers/image-map-type-manager';
 
 /**
  * AgmMap renders a Google Map.
@@ -40,7 +41,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
 @Component({
   selector: 'agm-map',
   providers: [
-    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
+    GoogleMapsAPIWrapper, MarkerManager, ImageMapTypeManager, InfoWindowManager, CircleManager, PolylineManager,
     PolygonManager, KmlLayerManager, DataLayerManager
   ],
   host: {
