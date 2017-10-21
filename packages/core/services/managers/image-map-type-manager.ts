@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {ImageMapTypeOptions} from '../google-maps-types';
+import * as mapTypes from '../google-maps-types';
 
 @Injectable()
 export class ImageMapTypeManager {
@@ -10,7 +10,7 @@ export class ImageMapTypeManager {
 
   }
 
-  addMapType(id: string, options: ImageMapTypeOptions) {
+  addMapType(id: string, options: mapTypes.ImageMapTypeOptions) {
     this._mapsWrapper.setMapTypes(id, options);
   }
 
