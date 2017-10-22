@@ -3,6 +3,8 @@ import {AgmMap} from './directives/map';
 import {AgmCircle} from './directives/circle';
 import {AgmInfoWindow} from './directives/info-window';
 import {AgmMarker} from './directives/marker';
+import {AgmImageMapType} from './directives/image-map-type';
+import {AgmOverlay} from './directives/overlay';
 import {AgmPolygon} from './directives/polygon';
 import {AgmPolyline} from './directives/polyline';
 import {AgmPolylinePoint} from './directives/polyline-point';
@@ -20,7 +22,7 @@ export function coreDirectives() {
   return [
     AgmMap, AgmMarker, AgmInfoWindow, AgmCircle,
     AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
-    AgmDataLayer
+    AgmDataLayer, AgmImageMapType, AgmOverlay
   ];
 };
 
