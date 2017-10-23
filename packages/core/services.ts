@@ -2,6 +2,8 @@ export {GoogleMapsAPIWrapper} from './services/google-maps-api-wrapper';
 export {CircleManager} from './services/managers/circle-manager';
 export {InfoWindowManager} from './services/managers/info-window-manager';
 export {MarkerManager} from './services/managers/marker-manager';
+export {ImageMapTypeManager} from './services/managers/image-map-type-manager';
+export {OverlayManager} from './services/managers/overlay-manager';
 export {PolygonManager} from './services/managers/polygon-manager';
 export {PolylineManager} from './services/managers/polyline-manager';
 export {KmlLayerManager} from './services/managers/kml-layer-manager';

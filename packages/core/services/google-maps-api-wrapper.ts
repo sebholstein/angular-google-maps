@@ -150,4 +150,90 @@ export class GoogleMapsAPIWrapper {
   triggerMapEvent(eventName: string): Promise<void> {
     return this._map.then((m) => google.maps.event.trigger(m, eventName));
   }
+
+  setMapTypes(id: string, options: mapTypes.ImageMapTypeOptions): Promise<void> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let mapType = new google.maps.ImageMapType({
+          getTileUrl: options.getTileUrl,
+          tileSize: options.tileSize,
+          maxZoom: options.maxZoom,
+          minZoom: options.minZoom,
+          radius: options.radius,
+          name: options.name,
+          alt: options.alt
+      });
+      map.mapTypes.set(id, mapType);
+    });
+  }
+
+  USGSOverlay(bounds: number[], image: string) {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let overlay = new google.maps.OverlayView();
+      let boundsLatLng = new google.maps.LatLngBounds(
+        new google.maps.LatLng(bounds[0], bounds[1]),
+        new google.maps.LatLng(bounds[2], bounds[3])
+      );
+
+      // Initialize all properties.
+      overlay.bounds_ = boundsLatLng;
+      overlay.image_ = image;
+      overlay.map_ = map;
+
+      // Define a property to hold the image's div. We'll
+      // actually create this div upon receipt of the onAdd()
+      // method so we'll leave it null for now.
+      overlay.div_ = null;
+
+      overlay.setMap(map);
+
+      overlay.onAdd = function() {
+        let div = document.createElement('div');
+        div.style.borderStyle = 'none';
+        div.style.borderWidth = '0px';
+        div.style.position = 'absolute';
+
+        // Create the img element and attach it to the div.
+        let img = document.createElement('img');
+        img.src = this.image_;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.position = 'absolute';
+        div.appendChild(img);
+
+        overlay.div_ = div;
+
+        // Add the element to the "overlayLayer" pane.
+        let panes = overlay.getPanes();
+        panes.overlayLayer.appendChild(div);
+      };
+
+      overlay.draw = function() {
+
+        // We use the south-west and north-east
+        // coordinates of the overlay to peg it to the correct position and size.
+        // To do this, we need to retrieve the projection from the overlay.
+        let overlayProjection = overlay.getProjection();
+
+        // Retrieve the south-west and north-east coordinates of this overlay
+        // in LatLngs and convert them to pixel coordinates.
+        // We'll use these coordinates to resize the div.
+        let sw = overlayProjection.fromLatLngToDivPixel(overlay.bounds_.getSouthWest());
+        let ne = overlayProjection.fromLatLngToDivPixel(overlay.bounds_.getNorthEast());
+
+        // Resize the image's div to fit the indicated dimensions.
+        let div = overlay.div_;
+        div.style.left = sw.x + 'px';
+        div.style.top = ne.y + 'px';
+        div.style.width = (ne.x - sw.x) + 'px';
+        div.style.height = (sw.y - ne.y) + 'px';
+      };
+
+      overlay.onRemove = function() {
+        overlay.div_.parentNode.removeChild(overlay.div_);
+        overlay.div_ = null;
+      };
+
+      return overlay;
+    });
+  }
 }
