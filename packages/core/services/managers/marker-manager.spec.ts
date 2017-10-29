@@ -3,7 +3,7 @@ import {TestBed, async, inject} from '@angular/core/testing';
 
 import {AgmMarker} from './../../directives/marker';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {Marker} from './../google-maps-types';
+import {Marker, MarkerShape} from './../google-maps-types';
 import {MarkerManager} from './../managers/marker-manager';
 
 describe('MarkerManager', () => {
@@ -35,6 +35,7 @@ describe('MarkerManager', () => {
                label: 'A',
                draggable: false,
                icon: undefined,
+               shape: undefined,
                opacity: 1,
                visible: true,
                zIndex: 1,
@@ -82,6 +83,7 @@ describe('MarkerManager', () => {
                label: 'A',
                draggable: false,
                icon: undefined,
+               shape: undefined,
                opacity: 1,
                visible: true,
                zIndex: 1,
@@ -114,6 +116,7 @@ describe('MarkerManager', () => {
             label: 'A',
             draggable: false,
             icon: undefined,
+            shape: undefined,
             opacity: 1,
             visible: true,
             zIndex: 1,
@@ -132,6 +135,66 @@ describe('MarkerManager', () => {
           return markerManager.updateIcon(newMarker).then(
             () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(icon); });
         })));
+  });
+
+  describe('set shape', () => {
+    it('should set initial shape',
+      async(inject(
+          [MarkerManager, GoogleMapsAPIWrapper],
+          (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+            const testShape: MarkerShape = {
+              coords: [0, 0, 10, 0, 5, 10],
+              type: 'poly'
+            };
+
+            const newMarker = new AgmMarker(markerManager);
+            newMarker.latitude = 34.4;
+            newMarker.longitude = 22.3;
+            newMarker.label = 'A';
+            newMarker.shape = testShape;
+
+            const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setShape']);
+            (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+
+            markerManager.addMarker(newMarker);
+            expect(apiWrapper.createMarker).toHaveBeenCalledWith({
+              position: {lat: 34.4, lng: 22.3},
+              label: 'A',
+              draggable: false,
+              icon: undefined,
+              shape: testShape,
+              opacity: 1,
+              visible: true,
+              zIndex: 1,
+              title: undefined,
+              clickable: true
+            });
+
+          })));
+
+    it('should update shape via setShape method when the shape changes',
+       async(inject(
+           [MarkerManager, GoogleMapsAPIWrapper],
+           (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+             const newMarker = new AgmMarker(markerManager);
+             newMarker.latitude = 34.4;
+             newMarker.longitude = 22.3;
+             newMarker.label = 'A';
+
+             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setShape']);
+             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+
+             markerManager.addMarker(newMarker);
+             expect(apiWrapper.createMarker).toHaveBeenCalled();
+
+             const testShape = newMarker.shape = {
+               coords: [0, 0, 10, 0, 5, 10],
+               type: 'poly'
+             };
+
+             return markerManager.updateShape(newMarker).then(
+                 () => { expect(markerInstance.setShape).toHaveBeenCalledWith(testShape); });
+           })));
   });
 
   describe('set marker opacity', () => {
@@ -154,6 +217,7 @@ describe('MarkerManager', () => {
                label: 'A',
                draggable: false,
                icon: undefined,
+               shape: undefined,
                visible: true,
                opacity: 1,
                zIndex: 1,
@@ -188,6 +252,7 @@ describe('MarkerManager', () => {
                label: 'A',
                draggable: false,
                icon: undefined,
+               shape: undefined,
                visible: false,
                opacity: 1,
                zIndex: 1,
@@ -220,6 +285,7 @@ describe('MarkerManager', () => {
                label: 'A',
                draggable: false,
                icon: undefined,
+               shape: undefined,
                visible: false,
                opacity: 1,
                zIndex: 1,

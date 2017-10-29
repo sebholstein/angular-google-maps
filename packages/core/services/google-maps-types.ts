@@ -29,6 +29,7 @@ export interface Marker extends MVCObject {
   setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
   setIcon(icon: string|Icon): void;
+  setShape(shape: MarkerShape): void;
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   setZIndex(zIndex: number): void;
@@ -43,6 +44,7 @@ export interface MarkerOptions {
   label?: string|MarkerLabel;
   draggable?: boolean;
   icon?: string|Icon;
+  shape?: MarkerShape;
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
@@ -55,6 +57,22 @@ export interface MarkerLabel {
   fontSize: string;
   fontWeight: string;
   text: string;
+}
+
+/**
+ * The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found
+ * at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
+ * The coords attribute is an array of integers that specify the pixel position of the shape relative to the top-left corner of the target image.
+ * The coordinates depend on the value of type as follows:
+ *  - circle: coords is [x1,y1,r] where x1,y2 are the coordinates of the center of the circle,
+ *    and r is the radius of the circle.
+ *  - poly: coords is [x1,y1,x2,y2...xn,yn] where each x,y pair contains the coordinates of one vertex of the polygon.
+ *  - rect: coords is [x1,y1,x2,y2] where x1,y1 are the coordinates of the upper-left corner of the rectangle
+ *    and x2,y2 are the coordinates of the lower-right coordinates of the rectangle.
+ */
+export interface MarkerShape {
+  coords: number[];
+  type: string;
 }
 
 export interface Circle extends MVCObject {

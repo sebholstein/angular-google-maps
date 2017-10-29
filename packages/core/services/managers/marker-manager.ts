@@ -49,6 +49,10 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setIcon(marker.icon));
   }
 
+  updateShape(marker: AgmMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => m.setShape(marker.shape));
+  }
+
   updateOpacity(marker: AgmMarker): Promise<void> {
     return this._markers.get(marker).then((m: Marker) => m.setOpacity(marker.opacity));
   }
@@ -71,6 +75,7 @@ export class MarkerManager {
       label: marker.label,
       draggable: marker.draggable,
       icon: marker.icon,
+      shape: marker.shape,
       opacity: marker.opacity,
       visible: marker.visible,
       zIndex: marker.zIndex,

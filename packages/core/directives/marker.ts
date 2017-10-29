@@ -70,6 +70,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Input() icon: mapTypes.Icon | string;
 
   /**
+   * Image map region definition used for drag/click.
+   */
+  @Input() shape: mapTypes.MarkerShape;
+
+  /**
    * If true, the marker is visible
    */
   @Input() visible: boolean = true;
@@ -169,6 +174,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
     if (changes['icon']) {
       this._markerManager.updateIcon(this);
+    }
+    if (changes['shape']) {
+      this._markerManager.updateShape(this);
     }
     if (changes['opacity']) {
       this._markerManager.updateOpacity(this);
