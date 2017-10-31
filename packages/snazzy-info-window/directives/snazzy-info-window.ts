@@ -197,6 +197,7 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy {
           fontColor: this.fontColor,
           pointer: this.pointer,
           shadow: this.shadow,
+          closeOnMapClick: this.closeOnMapClick,
           openOnMarkerClick: this.openOnMarkerClick,
           closeWhenOthersOpen: this.closeWhenOthersOpen,
           showCloseButton: this.showCloseButton,
