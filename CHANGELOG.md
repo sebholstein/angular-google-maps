@@ -1,3 +1,27 @@
+<a name="1.0.0-beta.2"></a>
+# [1.0.0-beta.2 angular-five](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.1...1.0.0-beta.2) (2017-10-31)
+
+
+### Bug Fixes
+
+* **AgmInfoWindow:** disableAutoPan option ([bf99108](https://github.com/SebastianM/angular-google-maps/commit/bf99108))
+* **AgmMarkerCluster:** fixes info windows ([e547df8](https://github.com/SebastianM/angular-google-maps/commit/e547df8)), closes [#1126](https://github.com/SebastianM/angular-google-maps/issues/1126)
+* **ControlPosition:** correct enum values ([6081e57](https://github.com/SebastianM/angular-google-maps/commit/6081e57)), closes [#1105](https://github.com/SebastianM/angular-google-maps/issues/1105)
+* **datalayer:** smarter ngOnChanges ([91cff2a](https://github.com/SebastianM/angular-google-maps/commit/91cff2a)), closes [#1099](https://github.com/SebastianM/angular-google-maps/issues/1099)
+* **LazyMapsApiLoader:** Change OpaqueToken to InjectionToken ([f1163fd](https://github.com/SebastianM/angular-google-maps/commit/f1163fd))
+* **snazzy-info-window:** fix passing of closeOnMapClick param ([#1221](https://github.com/SebastianM/angular-google-maps/issues/1221)) ([305320a](https://github.com/SebastianM/angular-google-maps/commit/305320a)), closes [#1118](https://github.com/SebastianM/angular-google-maps/issues/1118)
+
+
+### Features
+
+* support for angular 4.x and 5.x ([4f2a750](https://github.com/SebastianM/angular-google-maps/commit/4f2a750))
+* **js-marker-clusterer:** support angular 4.x and 5.x ([b14a4c2](https://github.com/SebastianM/angular-google-maps/commit/b14a4c2))
+* **snazzy-info-window:** support angular 4.x and 5.x ([28c9646](https://github.com/SebastianM/angular-google-maps/commit/28c9646))
+
+### BREAKING CHANGES
+Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x. 
+
+
 <a name="1.0.0-beta.1"></a>
 # [1.0.0-beta.1 - diamond-compressor](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.0...1.0.0-beta.1) (2017-08-22)
 
