@@ -1,4 +1,4 @@
-import { Host, SkipSelf, AfterViewInit, EventEmitter, Input, SimpleChanges, ViewContainerRef, TemplateRef, Output, Optional, OnDestroy, ElementRef, Component, ViewChild, ContentChild } from '@angular/core';
+import { Host, SkipSelf, OnChanges, AfterViewInit, EventEmitter, Input, SimpleChanges, ViewContainerRef, TemplateRef, Output, Optional, OnDestroy, ElementRef, Component, ViewChild, ContentChild } from '@angular/core';
 import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager, MapsAPILoader } from '@agm/core';
 
 declare var System: any;
@@ -8,7 +8,7 @@ declare var System: any;
   selector: 'agm-snazzy-info-window',
   template: '<div #outerWrapper><div #viewContainer></div></div><ng-content></ng-content>'
 })
-export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy {
+export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges {
   /**
    * The latitude and longitude where the info window is anchored.
    * The offset will default to 0px when using this option. Only required/used if you are not using a agm-marker.
