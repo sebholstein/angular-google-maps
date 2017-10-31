@@ -4,12 +4,12 @@ import {Observer} from 'rxjs/Observer';
 
 import {AgmPolygon} from '../../directives/polygon';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {Polygon} from '../google-maps-types';
+import {Polygon, Polyline} from '../google-maps-types';
 
 @Injectable()
 export class PolygonManager {
-  private _polygons: Map<AgmPolygon, Promise<Polygon>> =
-      new Map<AgmPolygon, Promise<Polygon>>();
+  private _polygons: Map<AgmPolygon, Promise<Polygon | Polyline>> =
+      new Map<AgmPolygon, Promise<Polygon | Polyline>>();
 
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
