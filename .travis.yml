@@ -32,6 +32,7 @@ before_install:
 # - time npm i -g yarn --cache-min 999999999
 
 install:
+  - time npm prune
   - time npm install
 
 script:
