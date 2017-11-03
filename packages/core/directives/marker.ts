@@ -146,8 +146,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
 
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
-    if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
-      return;
+    if (typeof this.latitude !== 'number') {
+      this.latitude = Number(this.latitude);
+    }
+
+    if (typeof this.longitude !== 'number') {
+      this.longitude = Number(this.longitude);
     }
     if (!this._markerAddedToManger) {
       this._markerManager.addMarker(this);
