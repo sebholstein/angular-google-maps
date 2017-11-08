@@ -9,6 +9,7 @@ export interface GoogleMap extends MVCObject {
   getCenter(): LatLng;
   setCenter(latLng: LatLng|LatLngLiteral): void;
   getBounds(): LatLngBounds;
+  getMapTypeId(): MapTypeId;
   getZoom(): number;
   setOptions(options: MapOptions): void;
   panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
@@ -401,7 +402,7 @@ export interface Feature extends MVCObject {
   properties: any;
 }
 
-export interface DataOptions{
+export interface DataOptions {
   controlPosition?: ControlPosition;
   controls?: string[];
   drawingMode?: string;
