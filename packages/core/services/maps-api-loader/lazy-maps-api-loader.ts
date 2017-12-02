@@ -93,6 +93,12 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   }
 
   load(): Promise<void> {
+    const window = <any>this._windowRef.getNativeWindow();
+    if (window.google && window.google.maps) {
+      // Google maps already loaded on the page.
+      return Promise.resolve();
+    }
+
     if (this._scriptLoadingPromise) {
       return this._scriptLoadingPromise;
     }
