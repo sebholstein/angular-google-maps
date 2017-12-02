@@ -40,7 +40,7 @@ export class ClusterManager extends MarkerManager {
         },
         label: marker.label,
         draggable: marker.draggable,
-        icon: marker.iconUrl,
+        icon: marker.icon,
         opacity: marker.opacity,
         visible: marker.visible,
         zIndex: marker.zIndex,
@@ -64,6 +64,7 @@ export class ClusterManager extends MarkerManager {
     }
     return m.then((m: Marker) => {
       this._zone.run(() => {
+        m.setMap(null);
         this._clustererInstance.then(cluster => {
           cluster.removeMarker(m);
           this._markers.delete(marker);

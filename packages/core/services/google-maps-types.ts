@@ -29,7 +29,7 @@ export interface Marker extends MVCObject {
   setTitle(title: string): void;
   setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
-  setIcon(icon: string): void;
+  setIcon(icon: string|Icon): void;
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   setZIndex(zIndex: number): void;
@@ -43,7 +43,7 @@ export interface MarkerOptions {
   map?: GoogleMap;
   label?: string|MarkerLabel;
   draggable?: boolean;
-  icon?: string;
+  icon?: string|Icon;
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
@@ -84,6 +84,36 @@ export interface CircleOptions {
   fillOpacity?: number;
   map?: GoogleMap;
   radius?: number;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
+export interface Rectangle extends MVCObject {
+  getBounds(): LatLngBounds;
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getVisible(): boolean;
+  setBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: CircleOptions): void;
+  setVisible(visible: boolean): void;
+}
+
+export interface RectangleOptions {
+  bounds?: LatLngBounds|LatLngBoundsLiteral;
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  map?: GoogleMap;
   strokeColor?: string;
   strokeOpacity?: number;
   strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
@@ -203,9 +233,6 @@ export interface MapsEventListener { remove(): void; }
 export interface Size {
   height: number;
   width: number;
-  constructor(width: number, height: number, widthUnit?: string, heightUnit?: string): void;
-  equals(other: Size): boolean;
-  toString(): string;
 }
 
 export interface InfoWindowOptions {
@@ -220,8 +247,15 @@ export interface InfoWindowOptions {
 export interface Point {
   x: number;
   y: number;
-  equals(other: Point): boolean;
-  toString(): string;
+}
+
+export interface Icon {
+  anchor?: Point;
+  labelOrigin?: Point;
+  origin?: Point;
+  scaledSize?: Size;
+  size?: Size;
+  url: string;
 }
 
 export interface GoogleSymbol {
