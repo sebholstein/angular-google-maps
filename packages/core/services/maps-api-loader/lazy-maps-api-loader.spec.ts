@@ -80,4 +80,39 @@ describe('Service: LazyMapsAPILoader', () => {
       expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
     });
   });
+
+  it('should delete and re-create the default script URL', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
+        {provide: WindowRef, useValue: windowRef}, {provide: DocumentRef, useValue: documentRef}
+      ]
+    });
+
+    inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
+      interface Script {
+        src?: string;
+        async?: boolean;
+        defer?: boolean;
+        type?: string;
+        remove?: Function;
+      }
+      const scriptElem: Script = {};
+      (<jasmine.Spy>doc.createElement).and.returnValue(scriptElem);
+      doc.body = jasmine.createSpyObj('body', ['appendChild']);
+
+      loader.load();
+      expect(doc.createElement).toHaveBeenCalled();
+      expect(doc.createElement).toHaveBeenCalled();
+      expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
+      loader.reload();
+      expect(scriptElem.remove).toHaveBeenCalled();
+      expect(loader.load).toHaveBeenCalled();
+      expect(doc.createElement).toHaveBeenCalled();
+      expect(scriptElem.src).toContain('http://maps.googleapis.com/maps/api/js');
+      expect(scriptElem.src).toContain('v=3');
+      expect(scriptElem.src).toContain('callback=angular2GoogleMapsLazyMapsAPILoader');
+      expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
+    });
+  });
 });
