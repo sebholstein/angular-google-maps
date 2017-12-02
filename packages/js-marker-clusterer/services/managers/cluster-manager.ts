@@ -64,6 +64,7 @@ export class ClusterManager extends MarkerManager {
     }
     return m.then((m: Marker) => {
       this._zone.run(() => {
+        m.setMap(null);
         this._clustererInstance.then(cluster => {
           cluster.removeMarker(m);
           this._markers.delete(marker);
