@@ -45,7 +45,7 @@ export class PolygonManager {
 
   getPathForPolygon(polygon: AgmPolygon): Promise<Array<any>> {
     return this._polygons.get(polygon).then((polygon: any) => {
-      return polygon.getPath() ? polygon.getPath().getArray() : [];
+      return polygon.getPath().getArray();
     });
   }
 
