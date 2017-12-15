@@ -146,6 +146,6 @@ The command starts the following things:
 
 When you have problems setting up **Angular Google Maps (AGM)** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
 
-<a href="https://gitter.im/SebastianM/angular-google-maps" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<a href="https://gitter.im/SebastianM/angular2-google-maps" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Chat on Gitter
 </a>
