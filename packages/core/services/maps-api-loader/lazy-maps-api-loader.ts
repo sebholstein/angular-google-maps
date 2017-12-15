@@ -80,10 +80,10 @@ export interface LazyMapsAPILoaderConfigLiteral {
 
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
-  private _scriptLoadingPromise: Promise<void>;
-  private _config: LazyMapsAPILoaderConfigLiteral;
-  private _windowRef: WindowRef;
-  private _documentRef: DocumentRef;
+  protected _scriptLoadingPromise: Promise<void>;
+  protected _config: LazyMapsAPILoaderConfigLiteral;
+  protected _windowRef: WindowRef;
+  protected _documentRef: DocumentRef;
 
   constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
     super();
@@ -124,7 +124,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     return this._scriptLoadingPromise;
   }
 
-  private _getScriptSrc(callbackName: string): string {
+  protected _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =
         (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
     let protocol: string;
