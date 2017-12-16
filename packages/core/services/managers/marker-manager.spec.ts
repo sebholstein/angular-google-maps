@@ -89,7 +89,7 @@ describe('MarkerManager', () => {
                clickable: true
              });
              const iconUrl = 'http://angular-maps.com/icon.png';
-             newMarker.iconUrl = iconUrl;
+             newMarker.icon = iconUrl;
              return markerManager.updateIcon(newMarker).then(
                  () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
            })));
