@@ -3,8 +3,9 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions,
-        RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
+import {
+  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions,
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
@@ -295,6 +296,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Output() boundsChange: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
 
   /**
+   * This event is fired when the mapTypeId property changes.
+   */
+  @Output() mapTypeIdChange: EventEmitter<MapTypeId> = new EventEmitter<MapTypeId>();
+
+  /**
    * This event is fired when the map becomes idle after panning or zooming.
    */
   @Output() idle: EventEmitter<void> = new EventEmitter<void>();
@@ -360,6 +366,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
     this._handleBoundsChange();
+    this._handleMapTypeIdChange();
     this._handleIdleEvent();
   }
 
@@ -458,6 +465,14 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
       this._mapsWrapper.getBounds().then(
           (bounds: LatLngBounds) => { this.boundsChange.emit(bounds); });
+    });
+    this._observableSubscriptions.push(s);
+  }
+
+  private _handleMapTypeIdChange() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('maptypeid_changed').subscribe(() => {
+      this._mapsWrapper.getMapTypeId().then(
+          (mapTypeId: MapTypeId) => { this.mapTypeIdChange.emit(mapTypeId); });
     });
     this._observableSubscriptions.push(s);
   }

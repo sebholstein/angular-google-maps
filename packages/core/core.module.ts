@@ -22,7 +22,7 @@ export function coreDirectives() {
     AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
     AgmDataLayer
   ];
-};
+}
 
 /**
  * The angular-google-maps core module. Contains all Directives/Services/Pipes
