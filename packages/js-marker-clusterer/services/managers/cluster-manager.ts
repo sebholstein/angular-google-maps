@@ -40,7 +40,7 @@ export class ClusterManager extends MarkerManager {
         },
         label: marker.label,
         draggable: marker.draggable,
-        icon: marker.icon,
+        icon: marker.iconUrl,
         opacity: marker.opacity,
         visible: marker.visible,
         zIndex: marker.zIndex,
