@@ -13,7 +13,7 @@ const googleAnalytics = `
 </script>
 `
 
-glob(__dirname + '/../docs/public/api-docs/agm-*/*.html', null, (err, files) => {
+glob(__dirname + '/../docs/public/api-docs/agm-*/**/*.html', null, (err, files) => {
   if (err) {
     console.log(err);
     process.exit(3);
