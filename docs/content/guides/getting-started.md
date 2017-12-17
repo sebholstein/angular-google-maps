@@ -7,11 +7,11 @@ title = "Getting started with Angular Google Maps (AGM)"
 
 ## Playing with Angular Google Maps (AGM)
 
-If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
+If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Stackblitz. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
 
 
-<a href="http://plnkr.co/edit/YX7W20?p=preview" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  Play with angular-google-maps on Plunker
+<a href="https://stackblitz.com/edit/angular-google-maps-demo" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Play with AGM on Stackblitz.io
 </a>
 
 ## Getting started guide video
