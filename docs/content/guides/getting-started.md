@@ -14,6 +14,12 @@ If you just want to play with AGM and don't want to set up a full project with N
   Play with angular-google-maps on Plunker
 </a>
 
+## Getting started guide video
+
+There's also a really great video tutorial that follows exactly this guide. So if you prefer videos, we recommend watching this tutorial:
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lApggVS0icc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
 ## Setting up a basic project structure
 
 **If you're familiar with setting up Angular 2 projects with Angular CLI & TypeScript, you can skip this part and move on to this part:**
