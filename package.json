@@ -37,7 +37,8 @@
     "ci": "npm run build && npm run test",
     "docs:clean": "rimraf docs/public",
     "docs:hugo": "cd docs && hugo",
-    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy && npm run apidocs:jsmarkerclusterer",
+    "docs:injectga": "node scripts/inject-google-analytics.js",
+    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy && npm run apidocs:jsmarkerclusterer && npm run docs:injectga",
     "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
     "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
     "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
@@ -73,6 +74,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "copyfiles": "^1.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "glob": "^7.1.2",
     "html-webpack-plugin": "^2.8.1",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jasmine-core": "2.5.0",
