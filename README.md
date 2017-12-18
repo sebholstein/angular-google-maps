@@ -15,7 +15,7 @@ New package name: `@agm/core`
 
 ----
 
-[Website](https://angular-maps.com/) | [Demo](http://plnkr.co/edit/YX7W20?p=preview) | [Chat](https://gitter.im/SebastianM/angular2-google-maps) | [API Documentation](https://angular-maps.com/api-docs/) | [Twitter](https://twitter.com/Sebholstein)
+[Website](https://angular-maps.com/) | [Demo](https://stackblitz.com/edit/angular-google-maps-demo) | [Chat](https://gitter.im/SebastianM/angular2-google-maps) | [API Documentation](https://angular-maps.com/api-docs/) | [Twitter](https://twitter.com/Sebholstein)
 
 -----
 
@@ -31,7 +31,7 @@ New package name: `@agm/core`
 
 If you just want to play with AGM and don't want to set up a full project, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `AGM`:
 
-[&raquo; Play with Angular Google Maps on Plunker](http://plnkr.co/edit/YX7W20?p=preview)
+[&raquo; Play with Angular Google Maps on Stackblitz](https://stackblitz.com/edit/angular-google-maps-demo)
 
 ## Installation
 

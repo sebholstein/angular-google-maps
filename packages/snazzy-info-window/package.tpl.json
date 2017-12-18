@@ -15,14 +15,14 @@
     "google-maps",
     "agm"
   ],
-  "author": "Sebastian Müller",
+  "author": "Sebastian Holstein",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SebastianM/angular-google-maps/issues"
   },
   "peerDependencies": {
-    "@angular/core": "^4.0.0",
-    "@agm/core": "^1.0.0-beta.0",
+    "@angular/core": "^4.0.0 || ^5.0.0",
+    "@agm/core": "^1.0.0-beta.2",
     "snazzy-info-window": "^1.1.0"
   },
   "homepage": "https://github.com/SebastianM/angular-google-maps#readme"
