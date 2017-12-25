@@ -40,7 +40,7 @@ let markerId = 0;
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
     'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation'
   ],
-  outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
+  outputs: ['markerClick', 'dragEnd', 'dragStart', 'drag', 'mouseOver', 'mouseOut']
 })
 export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
@@ -118,6 +118,16 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
    * This event is fired when the user stops dragging the marker.
    */
   @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event is fired when the user starts dragging the marker.
+   */
+  @Output() dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event is fired when the user drags the marker.
+   */
+  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user mouses over the marker.
@@ -213,6 +223,20 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
               this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
             });
     this._observableSubscriptions.push(ds);
+
+    const dt =
+        this._markerManager.createEventObservable('dragstart', this)
+          .subscribe((e: mapTypes.MouseEvent) => {
+            this.dragStart.emit(<MouseEvent>{ coords: { lat: e.latLng.lat(), lng: e.latLng.lng()}});
+          });
+    this._observableSubscriptions.push(dt);
+
+    const dg =
+        this._markerManager.createEventObservable('drag', this)
+          .subscribe((e: mapTypes.MouseEvent) => {
+            this.drag.emit(<MouseEvent>{ coords: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
+         });
+    this._observableSubscriptions.push(dg);
 
     const mover =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
