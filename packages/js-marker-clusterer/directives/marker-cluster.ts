@@ -121,10 +121,12 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   }
 
   private _addEventListeners() {
-    const handlers = [{
-      name: 'clusterclick',
-      handler: (ev: mapTypes.MouseEvent) => this.clusterClick.emit(ev)
-    },];
+    const handlers = [
+      {
+        name: 'clusterclick',
+        handler: (ev: mapTypes.MouseEvent) => this.clusterClick.emit(ev)
+      },
+    ];
     handlers.forEach((obj) => {
       const os = this._clusterManager.createClusterEventObservable(obj.name, this).subscribe(obj.handler);
       this._observableSubscriptions.push(os);
