@@ -1,4 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 
 import 'js-marker-clusterer';
 
@@ -134,6 +136,14 @@ export class ClusterManager extends MarkerManager {
       if (c.imageExtension !== undefined) {
         cluster.imageExtension_ = c.imageExtension;
       }
+    });
+  }
+
+  createClusterEventObservable<T>(eventName: string, marker: AgmMarkerCluster): Observable<T> {
+    return Observable.create((observer: Observer<T>) => {
+      this._clustererInstance.then((m: MarkerClustererInstance) => {
+        m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+      });
     });
   }
 }
