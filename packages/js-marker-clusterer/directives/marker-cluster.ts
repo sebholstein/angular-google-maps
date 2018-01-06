@@ -9,7 +9,6 @@ import {MouseEvent} from '../../core/map-types';
 import * as mapTypes from '../../core/services/google-maps-types';
 import { Subscription }   from 'rxjs/Subscription';
 
-
 /**
  * AgmMarkerCluster clusters map marker if they are near together
  *

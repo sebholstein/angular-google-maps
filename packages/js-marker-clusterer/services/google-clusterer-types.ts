@@ -1,6 +1,5 @@
 import {Marker, GoogleMap, LatLngBounds, MVCObject} from '@agm/core/services/google-maps-types';
 
-
 export interface CalculatorResult {
   text: string;
   index: number;
