@@ -210,21 +210,21 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     const ds =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
             .subscribe((e: mapTypes.MouseEvent) => {
-              this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+              this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}, marker: this});
             });
     this._observableSubscriptions.push(ds);
 
     const mover =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
             .subscribe((e: mapTypes.MouseEvent) => {
-              this.mouseOver.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+              this.mouseOver.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}, marker: this});
             });
     this._observableSubscriptions.push(mover);
 
     const mout =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseout', this)
             .subscribe((e: mapTypes.MouseEvent) => {
-              this.mouseOut.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+              this.mouseOut.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}, marker: this});
             });
     this._observableSubscriptions.push(mout);
   }
