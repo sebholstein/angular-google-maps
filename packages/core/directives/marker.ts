@@ -8,6 +8,7 @@ import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
 
 import {AgmInfoWindow} from './info-window';
+import {MarkerLabel} from '@agm/core/services/google-maps-types';
 
 let markerId = 0;
 
@@ -61,7 +62,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The label (a single uppercase character) for the marker.
    */
-  @Input() label: string;
+  @Input() label: string | MarkerLabel;
 
   /**
    * If true, the marker can be dragged. Default value is false.
@@ -173,7 +174,14 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
       this._markerManager.updateTitle(this);
     }
     if (changes['label']) {
-      this._markerManager.updateLabel(this);
+      const nextLabel = changes['label'].currentValue;
+      const prevLabel = changes['label'].previousValue;
+      const isSimpleNextLabel = this.isString(nextLabel);
+      const canUpdateLabel = isSimpleNextLabel || !this.isSameObject(nextLabel, prevLabel);
+
+      if (canUpdateLabel) {
+        this._markerManager.updateLabel(this);
+      }
     }
     if (changes['draggable']) {
       this._markerManager.updateDraggable(this);
@@ -234,6 +242,37 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
 
   /** @internal */
   toString(): string { return 'AgmMarker-' + this._id.toString(); }
+
+  /** @internal */
+  isObject(item: any): boolean {
+    return Object.prototype.toString.call(item) === '[object Object]';
+  }
+
+  /** @internal */
+  isString(item: any): boolean {
+    return Object.prototype.toString.call(item) === '[object String]';
+  }
+
+  /** @internal */
+  isSameObject(first: any, second: any): boolean {
+    const isValidArgs = this.isObject(first) &&
+                        this.isObject(second);
+    let isSame = true;
+
+    if (isValidArgs) {
+      const firstObj = Object.keys(first);
+      const secondObj = Object.keys(second);
+
+      for (let i = 0; i < firstObj.length; i++) {
+        if (firstObj[i] !== secondObj[i]) {
+          isSame = false;
+          break;
+        }
+      }
+    }
+
+    return isSame;
+  }
 
   /** @internal */
   ngOnDestroy() {
