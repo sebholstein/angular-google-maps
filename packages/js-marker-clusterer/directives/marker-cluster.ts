@@ -1,9 +1,13 @@
-import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Directive, Input, Output, EventEmitter, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
 
 import {ClusterManager} from '../services/managers/cluster-manager';
 import {MarkerManager, InfoWindowManager} from '@agm/core';
 
 import {ClusterOptions, ClusterStyle} from '../services/google-clusterer-types';
+
+import {MouseEvent} from '../../core/map-types';
+import * as mapTypes from '../../core/services/google-maps-types';
+import { Subscription }   from 'rxjs/Subscription';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together
@@ -74,11 +78,15 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
+  @Output() clusterClick: EventEmitter<mapTypes.MouseEvent> = new EventEmitter<mapTypes.MouseEvent>();
+
+  private _observableSubscriptions: Subscription[] = [];
   constructor(private _clusterManager: ClusterManager) {}
 
   /** @internal */
   ngOnDestroy() {
     this._clusterManager.clearMarkers();
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
   }
 
   /** @internal */
@@ -112,8 +120,22 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     }
   }
 
+  private _addEventListeners() {
+    const handlers = [
+      {
+        name: 'clusterclick',
+        handler: (ev: mapTypes.MouseEvent) => this.clusterClick.emit(ev)
+      },
+    ];
+    handlers.forEach((obj) => {
+      const os = this._clusterManager.createClusterEventObservable(obj.name, this).subscribe(obj.handler);
+      this._observableSubscriptions.push(os);
+    });
+  }
+
   /** @internal */
   ngOnInit() {
+    this._addEventListeners();
     this._clusterManager.init({
       gridSize: this.gridSize,
       maxZoom: this.maxZoom,

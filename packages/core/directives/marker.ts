@@ -1,4 +1,5 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
+import {
+  Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
   AfterContentInit, ContentChildren, QueryList, Input, Output
 } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
