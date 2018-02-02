@@ -8,6 +8,7 @@ import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
 
 import {AgmInfoWindow} from './info-window';
+import {MarkerLabel} from '../map-types';
 
 let markerId = 0;
 
@@ -61,7 +62,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The label (a single uppercase character) for the marker.
    */
-  @Input() label: string;
+  @Input() label: string | MarkerLabel;
 
   /**
    * If true, the marker can be dragged. Default value is false.
