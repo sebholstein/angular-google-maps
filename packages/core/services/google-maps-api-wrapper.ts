@@ -71,7 +71,7 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polyline> {
+  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polygon> {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
       let polygon = new google.maps.Polygon(options);
       polygon.setMap(map);
