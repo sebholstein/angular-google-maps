@@ -63,7 +63,7 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  createPolyline(options: PolylineOptions): Promise<Polyline> {
+  createPolyline(options: PolylineOptions): Promise<mapTypes.Polyline> {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
       let line = new google.maps.Polyline(options);
       line.setMap(map);
@@ -71,7 +71,7 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polyline> {
+  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polygon> {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
       let polygon = new google.maps.Polygon(options);
       polygon.setMap(map);
