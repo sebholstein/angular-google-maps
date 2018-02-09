@@ -1,8 +1,8 @@
-import {Inject, Injectable, OpaqueToken} from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 
-import {DocumentRef, WindowRef} from '../../utils/browser-globals';
+import { DocumentRef, WindowRef } from '../../utils/browser-globals';
 
-import {MapsAPILoader} from './maps-api-loader';
+import { MapsAPILoader } from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
   HTTP = 1,
@@ -14,7 +14,7 @@ export enum GoogleMapsScriptProtocol {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export const LAZY_MAPS_API_CONFIG = new OpaqueToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+export const LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
 
 /**
  * Configuration for the {@link LazyMapsAPILoader}.
@@ -85,7 +85,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   private _windowRef: WindowRef;
   private _documentRef: DocumentRef;
 
-  constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
+  constructor( @Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -116,7 +116,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
   private _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =
-        (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
+      (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
     let protocol: string;
 
     switch (protocolType) {
@@ -132,7 +132,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     }
 
     const hostAndPath: string = this._config.hostAndPath || 'maps.googleapis.com/maps/api/js';
-    const queryParams: {[key: string]: string | Array<string>} = {
+    const queryParams: { [key: string]: string | Array<string> } = {
       v: this._config.apiVersion || '3',
       callback: callbackName,
       key: this._config.apiKey,
@@ -143,23 +143,23 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       language: this._config.language
     };
     const params: string =
-        Object.keys(queryParams)
-            .filter((k: string) => queryParams[k] != null)
-            .filter((k: string) => {
-              // remove empty arrays
-              return !Array.isArray(queryParams[k]) ||
-                  (Array.isArray(queryParams[k]) && queryParams[k].length > 0);
-            })
-            .map((k: string) => {
-              // join arrays as comma seperated strings
-              let i = queryParams[k];
-              if (Array.isArray(i)) {
-                return {key: k, value: i.join(',')};
-              }
-              return {key: k, value: queryParams[k]};
-            })
-            .map((entry: {key: string, value: string}) => { return `${entry.key}=${entry.value}`; })
-            .join('&');
+      Object.keys(queryParams)
+        .filter((k: string) => queryParams[k] != null)
+        .filter((k: string) => {
+          // remove empty arrays
+          return !Array.isArray(queryParams[k]) ||
+            (Array.isArray(queryParams[k]) && queryParams[k].length > 0);
+        })
+        .map((k: string) => {
+          // join arrays as comma seperated strings
+          let i = queryParams[k];
+          if (Array.isArray(i)) {
+            return { key: k, value: i.join(',') };
+          }
+          return { key: k, value: queryParams[k] };
+        })
+        .map((entry: { key: string, value: string }) => { return `${entry.key}=${entry.value}`; })
+        .join('&');
     return `${protocol}//${hostAndPath}?${params}`;
   }
 }

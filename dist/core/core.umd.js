@@ -127,7 +127,7 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         if (controlPosition === void 0) { controlPosition = 9; }
         if (drawingModes === void 0) { drawingModes = ['polygon']; }
-        if (markerIcon === void 0) { markerIcon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'; }
+        if (markerIcon === void 0) { markerIcon = null; }
         return this.getNativeMap().then(function (map) {
             _this._drawingManager = new google.maps.drawing.DrawingManager({
                 drawingMode: null,
@@ -2862,7 +2862,7 @@ var __extends = (window && window.__extends) || (function () {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-var LAZY_MAPS_API_CONFIG = new _angular_core.OpaqueToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+var LAZY_MAPS_API_CONFIG = new _angular_core.InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
 var LazyMapsAPILoader = (function (_super) {
     __extends(LazyMapsAPILoader, _super);
     function LazyMapsAPILoader(config, w, d) {

@@ -80,7 +80,7 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  attachDrawingManager(controlPosition: mapTypes.ControlPosition = 9, drawingModes: mapTypes.DrawingModes = ['polygon'], polygonOptions: mapTypes.PolygonOptions, circleOptions?: mapTypes.DrawingCircleOptions, markerIcon: string = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png', ) {
+  attachDrawingManager(controlPosition: mapTypes.ControlPosition = 9, drawingModes: mapTypes.DrawingModes = ['polygon'], polygonOptions: mapTypes.PolygonOptions, circleOptions?: mapTypes.DrawingCircleOptions, markerIcon: string = null, ) {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
 
       this._drawingManager = new google.maps.drawing.DrawingManager({

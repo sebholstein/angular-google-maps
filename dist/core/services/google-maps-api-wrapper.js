@@ -66,7 +66,7 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         if (controlPosition === void 0) { controlPosition = 9; }
         if (drawingModes === void 0) { drawingModes = ['polygon']; }
-        if (markerIcon === void 0) { markerIcon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'; }
+        if (markerIcon === void 0) { markerIcon = null; }
         return this.getNativeMap().then(function (map) {
             _this._drawingManager = new google.maps.drawing.DrawingManager({
                 drawingMode: null,

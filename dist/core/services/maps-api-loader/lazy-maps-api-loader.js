@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Inject, Injectable, OpaqueToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { DocumentRef, WindowRef } from '../../utils/browser-globals';
 import { MapsAPILoader } from './maps-api-loader';
 export var GoogleMapsScriptProtocol;
@@ -21,7 +21,7 @@ export var GoogleMapsScriptProtocol;
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export var LAZY_MAPS_API_CONFIG = new OpaqueToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+export var LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
 var LazyMapsAPILoader = (function (_super) {
     __extends(LazyMapsAPILoader, _super);
     function LazyMapsAPILoader(config, w, d) {
