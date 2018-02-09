@@ -1,7 +1,7 @@
 {
   "name": "@agm/_dev",
   "private": true,
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Angular 2+ components for Google Maps",
   "repository": {
     "type": "git",
@@ -37,7 +37,8 @@
     "ci": "npm run build && npm run test",
     "docs:clean": "rimraf docs/public",
     "docs:hugo": "cd docs && hugo",
-    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy && npm run apidocs:jsmarkerclusterer",
+    "docs:injectga": "node scripts/inject-google-analytics.js",
+    "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy && npm run apidocs:jsmarkerclusterer && npm run docs:injectga",
     "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
     "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
     "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
@@ -49,8 +50,8 @@
   },
   "homepage": "https://angular-maps.com",
   "peerDependencies": {
-    "@angular/common": "^4.0.0 || ^2.0.0",
-    "@angular/core": "^4.0.0 || ^2.0.0"
+    "@angular/common": "^4.0.0 || ^5.0.0",
+    "@angular/core": "^4.0.0 || ^5.0.0"
   },
   "devDependencies": {
     "@angular/animations": "^4.0.0",
@@ -68,11 +69,12 @@
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "3.1.2",
     "clang-format": "1.0.46",
-    "codelyzer": "3.0.0-beta.4",
+    "codelyzer": "^3.2.2",
     "conventional-changelog": "^1.1.0",
     "copy-webpack-plugin": "^4.0.1",
     "copyfiles": "^1.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "glob": "^7.1.2",
     "html-webpack-plugin": "^2.8.1",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jasmine-core": "2.5.0",
@@ -93,17 +95,17 @@
     "rollup": "0.41.6",
     "rxjs": "^5.2.0",
     "ts-helpers": "^1.1.2",
-    "tslint": "~4.5.1",
+    "tslint": "^5.8.0",
     "tslint-loader": "^3.4.3",
-    "typescript": "~2.2.0",
+    "typescript": "~2.3.0",
     "webpack": "2.3.3",
     "zone.js": "^0.8.4"
   },
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^4.0.0 || ^2.0.0",
-      "@angular/core": "^4.0.0 || ^2.0.0"
+      "@angular/common": "^4.0.0 || ^5.0.0",
+      "@angular/core": "^4.0.0 || ^5.0.0"
     }
   }
 }

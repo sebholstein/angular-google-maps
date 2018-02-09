@@ -12,5 +12,5 @@ export class NoOpMapsAPILoader implements MapsAPILoader {
           'Google Maps API not loaded on page. Make sure window.google.maps is available!');
     }
     return Promise.resolve();
-  };
+  }
 }

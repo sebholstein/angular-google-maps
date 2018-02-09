@@ -115,6 +115,10 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.getBounds());
   }
 
+  getMapTypeId(): Promise<mapTypes.MapTypeId> {
+    return this._map.then((map: mapTypes.GoogleMap) => map.getMapTypeId());
+  }
+
   setZoom(zoom: number): Promise<void> {
     return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
   }

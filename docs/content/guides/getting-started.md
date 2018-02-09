@@ -7,12 +7,18 @@ title = "Getting started with Angular Google Maps (AGM)"
 
 ## Playing with Angular Google Maps (AGM)
 
-If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
+If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Stackblitz. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
 
 
-<a href="http://plnkr.co/edit/YX7W20?p=preview" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  Play with angular-google-maps on Plunker
+<a href="https://stackblitz.com/edit/angular-google-maps-demo" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Play with AGM on Stackblitz.io
 </a>
+
+## Getting started guide video
+
+There's also a really great video tutorial that follows exactly this guide. So if you prefer videos, we recommend watching this tutorial:
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lApggVS0icc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 
 ## Setting up a basic project structure
 
@@ -146,6 +152,6 @@ The command starts the following things:
 
 When you have problems setting up **Angular Google Maps (AGM)** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
 
-<a href="https://gitter.im/SebastianM/angular-google-maps" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<a href="https://gitter.im/SebastianM/angular2-google-maps" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Chat on Gitter
 </a>

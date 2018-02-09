@@ -83,7 +83,7 @@ When you import the `AgmSnazzyInfoWindowModule`, you can use the `agmSnazzyInfoW
 
 This creates a basic stylable info window that opens when the user clicks on the marker and closes when another snazzy info window opens.
 
-## Using the directive as a standalone info winodw
+## Using the directive as a standalone info window
 
 
 ```html

@@ -39,7 +39,8 @@ describe('MarkerManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
            }));
   });
@@ -86,7 +87,8 @@ describe('MarkerManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
@@ -119,7 +121,8 @@ describe('MarkerManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              const opacity = 0.4;
              newMarker.opacity = opacity;
@@ -153,7 +156,8 @@ describe('MarkerManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              newMarker.visible = true;
              return markerManager.updateVisible(newMarker).then(
@@ -185,7 +189,8 @@ describe('MarkerManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              const zIndex = 10;
              newMarker.zIndex = zIndex;
