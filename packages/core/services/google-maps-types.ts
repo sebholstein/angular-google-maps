@@ -2,6 +2,7 @@ export var google: any;
 
 export interface GoogleMap extends MVCObject {
   data?: Data;
+  controls: MVCArray<Node>[];
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   panBy(x: number, y: number): void;
@@ -199,6 +200,8 @@ export interface InfoWindow extends MVCObject {
 }
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
+
+export interface MVCArray<T> extends MVCObject { push(elem: T): number; }
 
 export interface MapsEventListener { remove(): void; }
 
@@ -404,6 +407,15 @@ export interface Feature extends MVCObject {
   properties: any;
 }
 
+export interface SearchBox extends MVCObject {
+  setBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  getPlaces(): Array<PlaceResult>;
+}
+
+export interface SearchBoxOptions {
+  bounds?: LatLngBounds|LatLngBoundsLiteral;
+}
+
 export interface DataOptions {
   controlPosition?: ControlPosition;
   controls?: string[];
@@ -544,4 +556,84 @@ export interface FullscreenControlOptions {
    * The default position is RIGHT_TOP.
    */
   position?: ControlPosition;
+}
+
+export interface PlaceResult {
+  address_components: GeocoderAddressComponent[];
+  adr_address: string;
+  formatted_address: string;
+  formatted_phone_number: string;
+  geometry: PlaceGeometry;
+  html_attributions: string[];
+  icon: string;
+  id: string;
+  international_phone_number: string;
+  name: string;
+  opening_hours: OpeningHours;
+  permanently_closed: boolean;
+  photos: PlacePhoto[];
+  place_id: string;
+  price_level: number;
+  rating: number;
+  reviews: PlaceReview[];
+  types: string[];
+  url: string;
+  utc_offset: number;
+  vicinity: string;
+  website: string;
+}
+
+export interface GeocoderAddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
+export interface PlaceGeometry {
+  location: LatLng;
+  viewport: LatLngBounds;
+}
+
+export interface OpeningHours {
+  open_now: boolean;
+  periods: Array<OpeningPeriod>;
+  weekday_text: string[];
+}
+
+export interface OpeningPeriod {
+  open: OpeningHoursTime;
+  close?: OpeningHoursTime;
+}
+
+export interface OpeningHoursTime {
+  day: number;
+  hours: number;
+  minutes: number;
+  nextDate: number;
+  time: string;
+}
+
+export interface PlacePhoto {
+  height: number;
+  html_attributions: string[];
+  width: number;
+  getUrl(opts: PhotoOptions): string;
+}
+
+export interface PhotoOptions {
+  maxHeight?: number;
+  maxWidth?: number;
+}
+
+export interface PlaceReview {
+  aspects: Array<PlaceAspectRating>;
+  author_name: string;
+  author_url: string;
+  language: string;
+  text: string;
+}
+
+export interface PlaceAspectRating {
+  rating: number;
+  type: string;
 }

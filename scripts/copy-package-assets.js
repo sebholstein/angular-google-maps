@@ -2,7 +2,7 @@ const fs = require('fs');
 const packages = require('./packages');
 
 packages.forEach(pkgName => {
-  console.log(`Copy asstets for ${pkgName}`);
+  console.log(`Copy assets for ${pkgName}`);
   const readmeFile = `./packages/${pkgName}/README.md`;
   if (fs.existsSync(readmeFile)) {
     fs.writeFileSync(`dist/${pkgName}/README.md`, fs.readFileSync(readmeFile));
