@@ -20,61 +20,61 @@ export const LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY
  * Configuration for the {@link LazyMapsAPILoader}.
  */
 export interface LazyMapsAPILoaderConfigLiteral {
-  /**
-   * The Google Maps API Key (see:
-   * https://developers.google.com/maps/documentation/javascript/get-api-key)
-   */
+	/**
+	 * The Google Maps API Key (see:
+	 * https://developers.google.com/maps/documentation/javascript/get-api-key)
+	 */
   apiKey?: string;
 
-  /**
-   * The Google Maps client ID (for premium plans).
-   * When you have a Google Maps APIs Premium Plan license, you must authenticate
-   * your application with either an API key or a client ID.
-   * The Google Maps API will fail to load if both a client ID and an API key are included.
-   */
+	/**
+	 * The Google Maps client ID (for premium plans).
+	 * When you have a Google Maps APIs Premium Plan license, you must authenticate
+	 * your application with either an API key or a client ID.
+	 * The Google Maps API will fail to load if both a client ID and an API key are included.
+	 */
   clientId?: string;
 
-  /**
-   * The Google Maps channel name (for premium plans).
-   * A channel parameter is an optional parameter that allows you to track usage under your client
-   * ID by assigning a distinct channel to each of your applications.
-   */
+	/**
+	 * The Google Maps channel name (for premium plans).
+	 * A channel parameter is an optional parameter that allows you to track usage under your client
+	 * ID by assigning a distinct channel to each of your applications.
+	 */
   channel?: string;
 
-  /**
-   * Google Maps API version.
-   */
+	/**
+	 * Google Maps API version.
+	 */
   apiVersion?: string;
 
-  /**
-   * Host and Path used for the `<script>` tag.
-   */
+	/**
+	 * Host and Path used for the `<script>` tag.
+	 */
   hostAndPath?: string;
 
-  /**
-   * Protocol used for the `<script>` tag.
-   */
+	/**
+	 * Protocol used for the `<script>` tag.
+	 */
   protocol?: GoogleMapsScriptProtocol;
 
-  /**
-   * Defines which Google Maps libraries should get loaded.
-   */
+	/**
+	 * Defines which Google Maps libraries should get loaded.
+	 */
   libraries?: string[];
 
-  /**
-   * The default bias for the map behavior is US.
-   * If you wish to alter your application to serve different map tiles or bias the
-   * application, you can overwrite the default behavior (US) by defining a `region`.
-   * See https://developers.google.com/maps/documentation/javascript/basics#Region
-   */
+	/**
+	 * The default bias for the map behavior is US.
+	 * If you wish to alter your application to serve different map tiles or bias the
+	 * application, you can overwrite the default behavior (US) by defining a `region`.
+	 * See https://developers.google.com/maps/documentation/javascript/basics#Region
+	 */
   region?: string;
 
-  /**
-   * The Google Maps API uses the browser's preferred language when displaying
-   * textual information. If you wish to overwrite this behavior and force the API
-   * to use a given language, you can use this setting.
-   * See https://developers.google.com/maps/documentation/javascript/basics#Language
-   */
+	/**
+	 * The Google Maps API uses the browser's preferred language when displaying
+	 * textual information. If you wish to overwrite this behavior and force the API
+	 * to use a given language, you can use this setting.
+	 * See https://developers.google.com/maps/documentation/javascript/basics#Language
+	 */
   language?: string;
 }
 
@@ -112,6 +112,10 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
     this._documentRef.getNativeDocument().body.appendChild(script);
     return this._scriptLoadingPromise;
+  }
+
+  getLibraries() {
+    return this._config.libraries;
   }
 
   private _getScriptSrc(callbackName: string): string {

@@ -71,5 +71,6 @@ export declare class LazyMapsAPILoader extends MapsAPILoader {
     private _documentRef;
     constructor(config: any, w: WindowRef, d: DocumentRef);
     load(): Promise<void>;
+    getLibraries(): string[];
     private _getScriptSrc(callbackName);
 }

@@ -62,6 +62,12 @@ var GoogleMapsAPIWrapper = (function () {
             return polygon;
         });
     };
+    GoogleMapsAPIWrapper.prototype.getLibraries = function () {
+        var _this = this;
+        return new Promise(function (resolve) {
+            resolve(_this._loader.getLibraries());
+        });
+    };
     GoogleMapsAPIWrapper.prototype.attachDrawingManager = function (controlPosition, drawingModes, polygonOptions, circleOptions, markerIcon) {
         var _this = this;
         if (controlPosition === void 0) { controlPosition = 9; }

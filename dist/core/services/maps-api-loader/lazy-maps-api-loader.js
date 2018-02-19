@@ -49,6 +49,9 @@ var LazyMapsAPILoader = (function (_super) {
         this._documentRef.getNativeDocument().body.appendChild(script);
         return this._scriptLoadingPromise;
     };
+    LazyMapsAPILoader.prototype.getLibraries = function () {
+        return this._config.libraries;
+    };
     LazyMapsAPILoader.prototype._getScriptSrc = function (callbackName) {
         var protocolType = (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
         var protocol;

@@ -123,6 +123,12 @@ var GoogleMapsAPIWrapper = (function () {
             return polygon;
         });
     };
+    GoogleMapsAPIWrapper.prototype.getLibraries = function () {
+        var _this = this;
+        return new Promise(function (resolve) {
+            resolve(_this._loader.getLibraries());
+        });
+    };
     GoogleMapsAPIWrapper.prototype.attachDrawingManager = function (controlPosition, drawingModes, polygonOptions, circleOptions, markerIcon) {
         var _this = this;
         if (controlPosition === void 0) { controlPosition = 9; }
@@ -1081,7 +1087,12 @@ var AgmMap = (function () {
         this._handleMapMouseEvents();
         this._handleBoundsChange();
         this._handleIdleEvent();
-        this._setDrawingManager();
+        this._mapsWrapper.getLibraries().then(function (libs) {
+            console.log('libs', libs);
+            if (libs && libs.indexOf('drawing') > -1) {
+                _this._setDrawingManager();
+            }
+        });
     };
     /** @internal */
     AgmMap.prototype.ngOnDestroy = function () {
@@ -2890,6 +2901,9 @@ var LazyMapsAPILoader = (function (_super) {
         this._documentRef.getNativeDocument().body.appendChild(script);
         return this._scriptLoadingPromise;
     };
+    LazyMapsAPILoader.prototype.getLibraries = function () {
+        return this._config.libraries;
+    };
     LazyMapsAPILoader.prototype._getScriptSrc = function (callbackName) {
         var protocolType = (this._config && this._config.protocol) || exports.GoogleMapsScriptProtocol.HTTPS;
         var protocol;
@@ -2951,6 +2965,7 @@ LazyMapsAPILoader.ctorParameters = function () { return [
  * Tag.
  * It's important that the Google Maps API script gets loaded first on the page.
  */
+var LAZY_MAPS_API_CONFIG$1 = new _angular_core.InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
 var NoOpMapsAPILoader = (function () {
     function NoOpMapsAPILoader() {
     }
@@ -2961,6 +2976,9 @@ var NoOpMapsAPILoader = (function () {
         return Promise.resolve();
     };
     
+    NoOpMapsAPILoader.prototype.getLibraries = function () {
+        return LAZY_MAPS_API_CONFIG$1;
+    };
     return NoOpMapsAPILoader;
 }());
 

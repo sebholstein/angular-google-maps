@@ -1,13 +1,14 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
+import {
+  Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
   AfterContentInit, ContentChildren, QueryList, Input, Output
 } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
-import {MouseEvent} from '../map-types';
+import { MouseEvent } from '../map-types';
 import * as mapTypes from '../services/google-maps-types';
-import {MarkerManager} from '../services/managers/marker-manager';
+import { MarkerManager } from '../services/managers/marker-manager';
 
-import {AgmInfoWindow} from './info-window';
+import { AgmInfoWindow } from './info-window';
 
 let markerId = 0;
 

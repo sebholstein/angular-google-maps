@@ -66,230 +66,230 @@ import { DataLayerManager } from './../services/managers/data-layer-manager';
   `
 })
 export class AgmMap implements OnChanges, OnInit, OnDestroy {
-  /**
-   * The longitude that defines the center of the map.
-   */
+	/**
+	 * The longitude that defines the center of the map.
+	 */
   @Input() longitude: number = 0;
 
-  /**
-   * The latitude that defines the center of the map.
-   */
+	/**
+	 * The latitude that defines the center of the map.
+	 */
   @Input() latitude: number = 0;
 
-  /**
-   * The zoom level of the map. The default zoom level is 8.
-   */
+	/**
+	 * The zoom level of the map. The default zoom level is 8.
+	 */
   @Input() zoom: number = 8;
 
-  /**
-   * The minimal zoom level of the map allowed. When not provided, no restrictions to the zoom level
-   * are enforced.
-   */
+	/**
+	 * The minimal zoom level of the map allowed. When not provided, no restrictions to the zoom level
+	 * are enforced.
+	 */
   @Input() minZoom: number;
 
-  /**
-   * The maximal zoom level of the map allowed. When not provided, no restrictions to the zoom level
-   * are enforced.
-   */
+	/**
+	 * The maximal zoom level of the map allowed. When not provided, no restrictions to the zoom level
+	 * are enforced.
+	 */
   @Input() maxZoom: number;
 
-  /**
-   * Enables/disables if map is draggable.
-   */
+	/**
+	 * Enables/disables if map is draggable.
+	 */
   // tslint:disable-next-line:no-input-rename
   @Input('mapDraggable') draggable: boolean = true;
 
-  /**
-   * Enables/disables zoom and center on double click. Enabled by default.
-   */
+	/**
+	 * Enables/disables zoom and center on double click. Enabled by default.
+	 */
   @Input() disableDoubleClickZoom: boolean = false;
 
-  /**
-   * Enables/disables all default UI of the Google map. Please note: When the map is created, this
-   * value cannot get updated.
-   */
+	/**
+	 * Enables/disables all default UI of the Google map. Please note: When the map is created, this
+	 * value cannot get updated.
+	 */
   @Input() disableDefaultUI: boolean = false;
 
-  /**
-   * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
-   */
+	/**
+	 * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
+	 */
   @Input() scrollwheel: boolean = true;
 
-  /**
-   * Color used for the background of the Map div. This color will be visible when tiles have not
-   * yet loaded as the user pans. This option can only be set when the map is initialized.
-   */
+	/**
+	 * Color used for the background of the Map div. This color will be visible when tiles have not
+	 * yet loaded as the user pans. This option can only be set when the map is initialized.
+	 */
   @Input() backgroundColor: string;
 
-  /**
-   * The name or url of the cursor to display when mousing over a draggable map. This property uses
-   * the css  * cursor attribute to change the icon. As with the css property, you must specify at
-   * least one fallback cursor that is not a URL. For example:
-   * [draggableCursor]="'url(http://www.example.com/icon.png), auto;'"
-   */
+	/**
+	 * The name or url of the cursor to display when mousing over a draggable map. This property uses
+	 * the css  * cursor attribute to change the icon. As with the css property, you must specify at
+	 * least one fallback cursor that is not a URL. For example:
+	 * [draggableCursor]="'url(http://www.example.com/icon.png), auto;'"
+	 */
   @Input() draggableCursor: string;
 
-  /**
-   * The name or url of the cursor to display when the map is being dragged. This property uses the
-   * css cursor attribute to change the icon. As with the css property, you must specify at least
-   * one fallback cursor that is not a URL. For example:
-   * [draggingCursor]="'url(http://www.example.com/icon.png), auto;'"
-   */
+	/**
+	 * The name or url of the cursor to display when the map is being dragged. This property uses the
+	 * css cursor attribute to change the icon. As with the css property, you must specify at least
+	 * one fallback cursor that is not a URL. For example:
+	 * [draggingCursor]="'url(http://www.example.com/icon.png), auto;'"
+	 */
   @Input() draggingCursor: string;
 
-  /**
-   * If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are
-   * enabled by default.
-   */
+	/**
+	 * If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are
+	 * enabled by default.
+	 */
   @Input() keyboardShortcuts: boolean = true;
 
-  /**
-   * The enabled/disabled state of the Zoom control.
-   */
+	/**
+	 * The enabled/disabled state of the Zoom control.
+	 */
   @Input() zoomControl: boolean = true;
 
-  /**
-   * Options for the Zoom control.
-   */
+	/**
+	 * Options for the Zoom control.
+	 */
   @Input() zoomControlOptions: ZoomControlOptions;
 
-  /**
-   * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
-   * modes, these styles will only apply to labels and geometry.
-   */
+	/**
+	 * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
+	 * modes, these styles will only apply to labels and geometry.
+	 */
   @Input() styles: MapTypeStyle[] = [];
 
-  /**
-   * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
-   * used to
-   * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
-   */
+	/**
+	 * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
+	 * used to
+	 * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
+	 */
   @Input() usePanning: boolean = false;
 
-  /**
-   * The initial enabled/disabled state of the Street View Pegman control.
-   * This control is part of the default UI, and should be set to false when displaying a map type
-   * on which the Street View road overlay should not appear (e.g. a non-Earth map type).
-   */
+	/**
+	 * The initial enabled/disabled state of the Street View Pegman control.
+	 * This control is part of the default UI, and should be set to false when displaying a map type
+	 * on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+	 */
   @Input() streetViewControl: boolean = true;
 
-  /**
-   * Options for the Street View control.
-   */
+	/**
+	 * Options for the Street View control.
+	 */
   @Input() streetViewControlOptions: StreetViewControlOptions;
 
-  /**
-   * Sets the viewport to contain the given bounds.
-   */
+	/**
+	 * Sets the viewport to contain the given bounds.
+	 */
   @Input() fitBounds: LatLngBoundsLiteral | LatLngBounds = null;
 
-  /**
-   * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
-   */
+	/**
+	 * Sets the viewport to contain the given Array of LatLng | LatLngLiteral.
+	 */
   @Input() fitPoints: Array<LatLng> | Array<LatLngLiteral> = null;
 
-  /**
-   * Sets the viewport to contain the given Array each time when fitPoints is changed.
-   */
+	/**
+	 * Sets the viewport to contain the given Array each time when fitPoints is changed.
+	 */
   @Input() fitMultiple: boolean = false;
 
-  /**
-   * Sets the viewport to contain the given Array each time when fitPoints is changed.
-   */
+	/**
+	 * Sets the viewport to contain the given Array each time when fitPoints is changed.
+	 */
   @Input() trafficLayer: boolean = false;
 
-  /**
-   * The initial enabled/disabled state of the Scale control. This is disabled by default.
-   */
+	/**
+	 * The initial enabled/disabled state of the Scale control. This is disabled by default.
+	 */
   @Input() scaleControl: boolean = false;
 
-  /**
-   * Options for the scale control.
-   */
+	/**
+	 * Options for the scale control.
+	 */
   @Input() scaleControlOptions: ScaleControlOptions;
 
-  /**
-   * The initial enabled/disabled state of the Map type control.
-   */
+	/**
+	 * The initial enabled/disabled state of the Map type control.
+	 */
   @Input() mapTypeControl: boolean = false;
 
-  /**
-   * The initial enabled/disabled state of the Map type control.
-   */
+	/**
+	 * The initial enabled/disabled state of the Map type control.
+	 */
   @Input() mapCustomControl: boolean = false;
 
-  /**
-   * Options for the Map type control.
-   */
+	/**
+	 * Options for the Map type control.
+	 */
   @Input() mapTypeControlOptions: MapTypeControlOptions;
 
-  /**
-   * The initial enabled/disabled state of the Pan control.
-   */
+	/**
+	 * The initial enabled/disabled state of the Pan control.
+	 */
   @Input() panControl: boolean = false;
 
-  /**
-   * Options for the Pan control.
-   */
+	/**
+	 * Options for the Pan control.
+	 */
   @Input() panControlOptions: PanControlOptions;
 
-  /**
-   * The initial enabled/disabled state of the Rotate control.
-   */
+	/**
+	 * The initial enabled/disabled state of the Rotate control.
+	 */
   @Input() rotateControl: boolean = false;
 
-  /**
-   * Options for the Rotate control.
-   */
+	/**
+	 * Options for the Rotate control.
+	 */
   @Input() rotateControlOptions: RotateControlOptions;
 
-  /**
-   * The initial enabled/disabled state of the Fullscreen control.
-   */
+	/**
+	 * The initial enabled/disabled state of the Fullscreen control.
+	 */
   @Input() fullscreenControl: boolean = false;
 
-  /**
-   * Options for the Fullscreen control.
-   */
+	/**
+	 * Options for the Fullscreen control.
+	 */
   @Input() fullscreenControlOptions: FullscreenControlOptions;
 
-  /**
-   * The map mapTypeId. Defaults to 'roadmap'.
-   */
+	/**
+	 * The map mapTypeId. Defaults to 'roadmap'.
+	 */
   @Input() mapTypeId: 'roadmap' | 'hybrid' | 'satellite' | 'terrain' | string = 'roadmap';
 
-  /**
-   * When false, map icons are not clickable. A map icon represents a point of interest,
-   * also known as a POI. By default map icons are clickable.
-   */
+	/**
+	 * When false, map icons are not clickable. A map icon represents a point of interest,
+	 * also known as a POI. By default map icons are clickable.
+	 */
   @Input() clickableIcons: boolean = true;
 
-  /**
-   * This setting controls how gestures on the map are handled.
-   * Allowed values:
-   * - 'cooperative' (Two-finger touch gestures pan and zoom the map. One-finger touch gestures are not handled by the map.)
-   * - 'greedy'      (All touch gestures pan or zoom the map.)
-   * - 'none'        (The map cannot be panned or zoomed by user gestures.)
-   * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
-   */
+	/**
+	 * This setting controls how gestures on the map are handled.
+	 * Allowed values:
+	 * - 'cooperative' (Two-finger touch gestures pan and zoom the map. One-finger touch gestures are not handled by the map.)
+	 * - 'greedy'      (All touch gestures pan or zoom the map.)
+	 * - 'none'        (The map cannot be panned or zoomed by user gestures.)
+	 * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
+	 */
   @Input() gestureHandling: 'cooperative' | 'greedy' | 'none' | 'auto' = 'auto';
 
-  /**
-   * This setting controls apperance drawing Manager
-   */
+	/**
+	 * This setting controls apperance drawing Manager
+	 */
   @Input() drawingModes: DrawingModes = [];
 
-  /**
-   * This setting controls apperance drawing Manager controlls position
-   */
+	/**
+	 * This setting controls apperance drawing Manager controlls position
+	 */
   @Input() drawingManagerPosition: string = 'TOP_CENTER';
-  /**
-   * This setting controls apperance drawing Manager controlls position
-   */
+	/**
+	 * This setting controls apperance drawing Manager controlls position
+	 */
   @Input() extraControls: ExtraControls[] = [];
-  /**
-   * Map option attributes that can change over time
-   */
+	/**
+	 * Map option attributes that can change over time
+	 */
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
@@ -305,63 +305,63 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _extraControls: any = {};
   private _subscriptions: Subscription[] = [];
 
-  /**
-   * This event emitter gets emitted when the user clicks on the map (but not when they click on a
-   * marker or infoWindow).
-   */
+	/**
+	 * This event emitter gets emitted when the user clicks on the map (but not when they click on a
+	 * marker or infoWindow).
+	 */
   @Output() mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  /**
-   * This event emitter gets emitted when the user right-clicks on the map (but not when they click
-   * on a marker or infoWindow).
-   */
+	/**
+	 * This event emitter gets emitted when the user right-clicks on the map (but not when they click
+	 * on a marker or infoWindow).
+	 */
   @Output() mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  /**
-   * This event emitter gets emitted when the user double-clicks on the map (but not when they click
-   * on a marker or infoWindow).
-   */
+	/**
+	 * This event emitter gets emitted when the user double-clicks on the map (but not when they click
+	 * on a marker or infoWindow).
+	 */
   @Output() mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  /**
-   * This event emitter is fired when the map center changes.
-   */
+	/**
+	 * This event emitter is fired when the map center changes.
+	 */
   @Output() centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
-  /**
-   * This event is fired when the viewport bounds have changed.
-   */
+	/**
+	 * This event is fired when the viewport bounds have changed.
+	 */
   @Output() boundsChange: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
 
-  /**
-   * This event is fired when the map becomes idle after panning or zooming.
-   */
+	/**
+	 * This event is fired when the map becomes idle after panning or zooming.
+	 */
   @Output() idle: EventEmitter<void> = new EventEmitter<void>();
 
-  /**
-   * This event is fired when the zoom level has changed.
-   */
+	/**
+	 * This event is fired when the zoom level has changed.
+	 */
   @Output() zoomChange: EventEmitter<number> = new EventEmitter<number>();
 
-  /**
-   * This event is fired when the google map is fully initialized.
-   * You get the google.maps.Map instance as a result of this EventEmitter.
-   */
+	/**
+	 * This event is fired when the google map is fully initialized.
+	 * You get the google.maps.Map instance as a result of this EventEmitter.
+	 */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  /**
-   * This event is fired when polygon drawing complete.
-   */
+	/**
+	 * This event is fired when polygon drawing complete.
+	 */
   @Output() polygonComplete: EventEmitter<any> = new EventEmitter<any>();
 
-  /**
-   * This event is fired when polygon deleted.
-   */
+	/**
+	 * This event is fired when polygon deleted.
+	 */
   @Output() polygonDeleted: EventEmitter<any> = new EventEmitter<any>();
 
-  /**
-   * This event is callBack on custom cotroll button
-   */
+	/**
+	 * This event is callBack on custom cotroll button
+	 */
   @Output() extraControlsAction: EventEmitter<any> = new EventEmitter<any>();
 
   bounds: any;
@@ -422,7 +422,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapMouseEvents();
     this._handleBoundsChange();
     this._handleIdleEvent();
-    this._setDrawingManager();
+    this._mapsWrapper.getLibraries().then((libs: any) => {
+      console.log('libs', libs);
+      if (libs && libs.indexOf('drawing') > -1) {
+        this._setDrawingManager();
+      }
+    });
+
   }
 
   /** @internal */
@@ -506,11 +512,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Triggers a resize event on the google map instance.
-   * When recenter is true, the of the google map gets called with the current lat/lng values or fitBounds value to recenter the map.
-   * Returns a promise that gets resolved after the event was triggered.
-   */
+	/**
+	 * Triggers a resize event on the google map instance.
+	 * When recenter is true, the of the google map gets called with the current lat/lng values or fitBounds value to recenter the map.
+	 * Returns a promise that gets resolved after the event was triggered.
+	 */
   triggerResize(recenter: boolean = true): Promise<void> {
     // Note: When we would trigger the resize event and show the map in the same turn (which is a
     // common case for triggering a resize event), then the resize event would not

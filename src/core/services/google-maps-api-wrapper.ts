@@ -39,9 +39,9 @@ export class GoogleMapsAPIWrapper {
     this._map.then((m: mapTypes.GoogleMap) => { m.setOptions(options); });
   }
 
-  /**
-   * Creates a google map marker with the map context
-   */
+	/**
+	 * Creates a google map marker with the map context
+	 */
   createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
     Promise<mapTypes.Marker> {
     return this._map.then((map: mapTypes.GoogleMap) => {
@@ -54,9 +54,9 @@ export class GoogleMapsAPIWrapper {
     return this._map.then(() => { return new google.maps.InfoWindow(options); });
   }
 
-  /**
-   * Creates a google.map.Circle for the current map.
-   */
+	/**
+	 * Creates a google.map.Circle for the current map.
+	 */
   createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle> {
     return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
@@ -77,6 +77,12 @@ export class GoogleMapsAPIWrapper {
       let polygon = new google.maps.Polygon(options);
       polygon.setMap(map);
       return polygon;
+    });
+  }
+
+  getLibraries() {
+    return new Promise((resolve) => {
+      resolve(this._loader.getLibraries());
     });
   }
 
@@ -124,9 +130,9 @@ export class GoogleMapsAPIWrapper {
     }
   }
 
-  /**
-   * Determines if given coordinates are insite a Polygon path.
-   */
+	/**
+	 * Determines if given coordinates are insite a Polygon path.
+	 */
   containsLocation(latLng: mapTypes.LatLngLiteral, polygon: mapTypes.Polygon): Promise<boolean> {
     return google.maps.geometry.poly.containsLocation(latLng, polygon);
   }
@@ -187,14 +193,14 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  /**
-   * Returns the native Google Maps Map instance. Be careful when using this instance directly.
-   */
+	/**
+	 * Returns the native Google Maps Map instance. Be careful when using this instance directly.
+	 */
   getNativeMap(): Promise<mapTypes.GoogleMap> { return this._map; }
 
-  /**
-   * Triggers the given event name on the map instance.
-   */
+	/**
+	 * Triggers the given event name on the map instance.
+	 */
   triggerMapEvent(eventName: string): Promise<void> {
     return this._map.then((m) => google.maps.event.trigger(m, eventName));
   }

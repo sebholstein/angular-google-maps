@@ -30,6 +30,7 @@ export declare class GoogleMapsAPIWrapper {
     createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle>;
     createPolyline(options: PolylineOptions): Promise<Polyline>;
     createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polyline>;
+    getLibraries(): Promise<{}>;
     attachDrawingManager(controlPosition: mapTypes.ControlPosition, drawingModes: mapTypes.DrawingModes, polygonOptions: mapTypes.PolygonOptions, circleOptions?: mapTypes.DrawingCircleOptions, markerIcon?: string): Promise<any>;
     attachPolygonListeners<T>(eventName: string): Observable<T>;
     updateDrawingManagerOptions(drawingModes?: mapTypes.DrawingModes, controlPosition?: mapTypes.ControlPosition): void;

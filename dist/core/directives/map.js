@@ -269,7 +269,12 @@ var AgmMap = (function () {
         this._handleMapMouseEvents();
         this._handleBoundsChange();
         this._handleIdleEvent();
-        this._setDrawingManager();
+        this._mapsWrapper.getLibraries().then(function (libs) {
+            console.log('libs', libs);
+            if (libs && libs.indexOf('drawing') > -1) {
+                _this._setDrawingManager();
+            }
+        });
     };
     /** @internal */
     AgmMap.prototype.ngOnDestroy = function () {
