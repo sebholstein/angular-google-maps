@@ -6,9 +6,9 @@ Angular 2+ components for Google Maps. (Previously known as angular2-google-maps
 
 -----
 
-**CAUTION:** The project name has changed from `angular2-google-maps` maps to `AGM - Angular Google Maps` because [#itsJustAngular](http://angularjs.blogspot.de/2017/01/branding-guidelines-for-angular-and.html) and we want to support all upcomming Angular versions.
+**CAUTION:** The project name has changed from `angular2-google-maps` maps to `AGM - Angular Google Maps` because [#itsJustAngular](http://angularjs.blogspot.de/2017/01/branding-guidelines-for-angular-and.html) and we want to support all upcoming Angular versions.
 
-Old package name: `angular2-google-maps`  
+Old package name: `angular2-google-maps`
 New package name: `@agm/core`
 
 **==> Please see the [CHANGELOG.md](CHANGELOG.md) file for more migration details.**
