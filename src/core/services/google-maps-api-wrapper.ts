@@ -112,8 +112,9 @@ export class GoogleMapsAPIWrapper {
   }
 
   updateDrawingManagerOptions(drawingModes: mapTypes.DrawingModes = [], controlPosition: mapTypes.ControlPosition = 9) {
-    console.log('updateDrawingManagerOptions', this._drawingManager);
-    console.log('drawingModes', drawingModes);
+    if (!this._drawingManager) {
+      return;
+    }
     if (drawingModes.length === 0) {
       this._drawingManager.setMap(null);
     } else {

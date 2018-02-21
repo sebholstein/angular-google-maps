@@ -99,8 +99,9 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         if (drawingModes === void 0) { drawingModes = []; }
         if (controlPosition === void 0) { controlPosition = 9; }
-        console.log('updateDrawingManagerOptions', this._drawingManager);
-        console.log('drawingModes', drawingModes);
+        if (!this._drawingManager) {
+            return;
+        }
         if (drawingModes.length === 0) {
             this._drawingManager.setMap(null);
         }
