@@ -1,0 +1,29 @@
+{
+  "name": "@agm/places",
+  "version": "INSERT_HERE_VIA_BUILD_PROCESS",
+  "private": true,
+  "description": "Angular Google Maps (AGM) extension for places library",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebastianM/angular-google-maps.git"
+  },
+  "keywords": [
+    "angular-google-maps",
+    "angular",
+    "js-marker-clusterer",
+    "places",
+    "autocomplete",
+    "google-maps",
+    "agm"
+  ],
+  "author": "Daniel Schuba <daniel.schuba@kps.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+  },
+  "peerDependencies": {
+    "@angular/core": "^4.0.0 || ^5.0.0",
+    "@agm/core": "^1.0.0-beta.2"
+  },
+  "homepage": "https://github.com/SebastianM/angular-google-maps#readme"
+}

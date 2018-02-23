@@ -1,0 +1,6 @@
+{
+  "name": "@agm/places-src",
+  "dependencies": {
+    "@agm/core": "file:../core"
+  }
+}

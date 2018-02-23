@@ -11,29 +11,16 @@
         "removeComments": false,
         "moduleResolution": "node",
         "declaration": true,
-        "allowSyntheticDefaultImports": true,
         "lib": [
             "es2015",
-            "dom",
-            "esnext"
+            "dom"
         ],
         "types": [
-            "jest",
+            "jasmine",
             "googlemaps"
         ],
         "paths": {
-            "@agm/*": ["./packages/*"]
+            "@agm/*": ["../packages/*"]
         }
-    },
-    "angularCompilerOptions": {
-        "genDir": ".tmp",
-        "debug": false,
-        "skipMetadataEmit": false
-    },
-    "exclude": [
-        ".tmp"
-    ],
-    "include": [
-        "packages/**/*"
-    ]
+    }
 }
