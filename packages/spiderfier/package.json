@@ -1,0 +1,6 @@
+{
+  "name": "@agm/spider-src",
+  "dependencies": {
+    "@agm/core": "file:../core"
+  }
+}

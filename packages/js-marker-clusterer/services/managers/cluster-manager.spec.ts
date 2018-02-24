@@ -4,6 +4,7 @@ import {TestBed, async, inject} from '@angular/core/testing';
 import {AgmMarker} from '../../../core/directives/marker';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
 import {Marker} from '../../../core/services/google-maps-types';
+import {MarkerManager} from '../../../core/services/managers/marker-manager';
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -11,7 +12,12 @@ describe('ClusterManager', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
-        ClusterManager, {
+        {
+          provide: ClusterManager,
+          useFactory: (wrapper: GoogleMapsAPIWrapper, ngZone: NgZone) => new ClusterManager(wrapper, ngZone, new MarkerManager(wrapper, ngZone, null)),
+          deps: [GoogleMapsAPIWrapper, NgZone]
+        },
+        {
           provide: GoogleMapsAPIWrapper,
           useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
         }
@@ -39,7 +45,8 @@ describe('ClusterManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              }, false);
            }));
   });
@@ -86,7 +93,8 @@ describe('ClusterManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              }, false);
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
@@ -119,7 +127,8 @@ describe('ClusterManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              }, false);
              const opacity = 0.4;
              newMarker.opacity = opacity;
@@ -153,7 +162,8 @@ describe('ClusterManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              }, false);
              newMarker.visible = true;
              return markerManager.updateVisible(newMarker).then(
@@ -185,7 +195,8 @@ describe('ClusterManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              }, false);
              const zIndex = 10;
              newMarker.zIndex = zIndex;

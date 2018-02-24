@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Injectable, NgZone, SkipSelf} from '@angular/core';
 
 import 'js-marker-clusterer';
 
@@ -6,8 +6,7 @@ import {MarkerManager} from '../../../core/services/managers/marker-manager';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
 import {AgmMarker} from '../../../core/directives/marker';
 import {AgmMarkerCluster} from './../../directives/marker-cluster';
-import {Marker} from '@agm/core/services/google-maps-types';
-import {MarkerClustererInstance, ClusterOptions} from '../google-clusterer-types';
+import {ClusterOptions, MarkerClustererInstance} from '../google-clusterer-types';
 
 declare var MarkerClusterer: any;
 
@@ -16,8 +15,8 @@ export class ClusterManager extends MarkerManager {
   private _clustererInstance: Promise<MarkerClustererInstance>;
   private _resolver: Function;
 
-  constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {
-    super(_mapsWrapper, _zone);
+  constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone, @SkipSelf() protected _markerManager: MarkerManager) {
+    super(_mapsWrapper, _zone, _markerManager);
     this._clustererInstance = new Promise<MarkerClustererInstance>((resolver) => {
       this._resolver = resolver;
     });
@@ -31,51 +30,43 @@ export class ClusterManager extends MarkerManager {
   }
 
   addMarker(marker: AgmMarker): void {
-    const clusterPromise: Promise<MarkerClustererInstance> = this._clustererInstance;
-    const markerPromise = this._mapsWrapper
-      .createMarker({
-        position: {
-          lat: marker.latitude,
-          lng: marker.longitude
-        },
-        label: marker.label,
-        draggable: marker.draggable,
-        icon: marker.iconUrl,
-        opacity: marker.opacity,
-        visible: marker.visible,
-        zIndex: marker.zIndex,
-        title: marker.title,
-        clickable: marker.clickable,
-      }, false);
+    this._markerManager.addMarker(marker, false);
 
-    Promise
-      .all([clusterPromise, markerPromise])
-      .then(([cluster, marker]) => {
-        return cluster.addMarker(marker);
-      });
+    const markerPromise = this._markerManager.getNativeMarker(marker);
+
     this._markers.set(marker, markerPromise);
+
+    Promise.all([
+      this._clustererInstance,
+      markerPromise,
+    ]).then(([cluster, nativeMarker]) => {
+      cluster.addMarker(nativeMarker);
+    });
   }
 
   deleteMarker(marker: AgmMarker): Promise<void> {
-    const m = this._markers.get(marker);
-    if (m == null) {
-      // marker already deleted
-      return Promise.resolve();
-    }
-    return m.then((m: Marker) => {
-      this._zone.run(() => {
-        m.setMap(null);
-        this._clustererInstance.then(cluster => {
-          cluster.removeMarker(m);
-          this._markers.delete(marker);
-        });
-      });
+    return Promise.all([
+      this._clustererInstance,
+      this._markerManager.getNativeMarker(marker),
+    ]).then(([cluster, nativeMarker]) => {
+      if (this._markers.has(marker)) {
+        cluster.removeMarker(nativeMarker);
+
+        this._markers.delete(marker);
+
+        return this._markerManager.deleteMarker(marker);
+      }
     });
   }
 
   clearMarkers(): Promise<void> {
     return this._clustererInstance.then(cluster => {
       cluster.clearMarkers();
+
+      const markers = Array.from(this._markers.keys());
+      this._markers.clear();
+
+      return this._markerManager.deleteMarkers(markers);
     });
   }
 
