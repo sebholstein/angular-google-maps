@@ -37,6 +37,18 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
+   * Creates a google map drawing manager with the map context
+   */
+  createDrawingManager(options: mapTypes.DrawingManagerOptions = <mapTypes.DrawingManagerOptions>{}, addToMap: boolean = true): Promise<mapTypes.DrawingManager> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      if (addToMap) {
+        options.map = map;
+      }
+      return new google.maps.drawing.DrawingManager(options);
+    });
+  }
+
+  /**
    * Creates a google map marker with the map context
    */
   createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}, addToMap: boolean = true):

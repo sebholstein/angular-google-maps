@@ -22,6 +22,34 @@ export interface LatLng {
   lng(): number;
 }
 
+export interface DrawingManager extends MVCObject {
+  constructor(options?: DrawingManagerOptions): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: DrawingManagerOptions): void;
+}
+
+export interface DrawingManagerOptions {
+  map?: GoogleMap;
+  drawingMode?: string;
+  drawingControl?: boolean;
+  drawingControlOptions?: DrawingControlOptions;
+  circleOptions?: CircleOptions;
+  markerOptions?: MarkerOptions;
+  polylineOptions?: PolylineOptions;
+  polygonOptions?: PolygonOptions;
+  rectangleOptions?: RectangleOptions;
+}
+
+export interface DrawingControlOptions {
+  position?: number;
+  drawingModes?: string[];
+}
+
+export interface Overlay {
+  type: string;
+  overlay: Marker|Circle|Polyline|Polygon|Rectangle;
+}
+
 export interface Marker extends MVCObject {
   constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
@@ -58,6 +86,42 @@ export interface MarkerLabel {
   fontSize: string;
   fontWeight: string;
   text: string;
+}
+
+export interface Rectangle extends MVCObject {
+  getBounds(): LatLngBounds;
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getVisible(): boolean;
+  setBounds(bounds: RectangleBounds): void;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: CircleOptions): void;
+  setVisible(visible: boolean): void;
+}
+
+export interface RectangleOptions {
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  map?: GoogleMap;
+  bounds?: RectangleBounds;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
+export interface RectangleBounds {
+  north: number;
+  south: number;
+  east: number;
+  west: number;
 }
 
 export interface Circle extends MVCObject {
