@@ -1,10 +1,8 @@
 import {NgZone} from '@angular/core';
-import {TestBed, async, inject} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 
-import {AgmMarker} from '../../../core/directives/marker';
-import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {Marker} from '../../../core/services/google-maps-types';
-import {MarkerManager} from '../../../core/services/managers/marker-manager';
+import {AgmMarker, GoogleMapsAPIWrapper, MarkerManager} from '@agm/core';
+import {Marker} from '@agm/core/services/google-maps-types';
 import {SpiderManager} from './spider-manager';
 
 describe('SpiderManager', () => {
@@ -66,7 +64,9 @@ describe('SpiderManager', () => {
 
           spiderManager.addMarker(newMarker);
           spiderManager.deleteMarker(newMarker).then(
-            () => { expect(markerInstance.setMap).toHaveBeenCalledWith(null); });
+            () => {
+              expect(markerInstance.setMap).toHaveBeenCalledWith(null);
+            });
         }));
   });
 
@@ -99,7 +99,9 @@ describe('SpiderManager', () => {
           const iconUrl = 'http://angular-maps.com/icon.png';
           newMarker.iconUrl = iconUrl;
           return markerManager.updateIcon(newMarker).then(
-            () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
+            () => {
+              expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl);
+            });
         })));
   });
 
@@ -133,7 +135,9 @@ describe('SpiderManager', () => {
           const opacity = 0.4;
           newMarker.opacity = opacity;
           return markerManager.updateOpacity(newMarker).then(
-            () => { expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity); });
+            () => {
+              expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity);
+            });
         })));
   });
 
@@ -167,7 +171,9 @@ describe('SpiderManager', () => {
           }, false);
           newMarker.visible = true;
           return markerManager.updateVisible(newMarker).then(
-            () => { expect(markerInstance.setVisible).toHaveBeenCalledWith(true); });
+            () => {
+              expect(markerInstance.setVisible).toHaveBeenCalledWith(true);
+            });
         })));
   });
 
@@ -201,7 +207,9 @@ describe('SpiderManager', () => {
           const zIndex = 10;
           newMarker.zIndex = zIndex;
           return markerManager.updateZIndex(newMarker).then(
-            () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
+            () => {
+              expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex);
+            });
         })));
   });
 });

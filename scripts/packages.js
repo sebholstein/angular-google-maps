@@ -3,7 +3,7 @@ const packages = [
   'core',
   'snazzy-info-window',
   'js-marker-clusterer',
-  'spiderfier',
+  'marker-spiderfier',
 ];
 
 module.exports = packages;

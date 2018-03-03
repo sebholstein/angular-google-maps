@@ -1,5 +1,5 @@
 {
-  "name": "@agm/spider-src",
+  "name": "@agm/marker-spiderfier-src",
   "dependencies": {
     "@agm/core": "file:../core"
   }

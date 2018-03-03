@@ -2,17 +2,17 @@
 
 -----
 
-this package levereges the [npm-overlapping-marker-spiderfier][npm-overlapping-marker-spiderfier] to add spiderfy
-support to [AGM][agm].
+This package leverages the [ts-overlapping-marker-spiderfier][ts-overlapping-marker-spiderfier] package
+to add spiderfy support to [AGM][agm].
 
 ## Installation
 
-@agm/js-marker-spider has a peer depedency on [npm-overlapping-marker-spiderfier][npm-overlapping-marker-spiderfier]
+@agm/js-marker-spider has a peer depedency on [ts-overlapping-marker-spiderfier@1.0.2][ts-overlapping-marker-spiderfier]
 
 ```shell
-npm install npm-overlapping-marker-spiderfier @agm/js-marker-spider --save
+npm install ts-overlapping-marker-spiderfier@1.0.2 @agm/js-marker-spider --save
 # or
-yarn add npm-overlapping-marker-spiderfier @agm/js-marker-spider
+yarn add ts-overlapping-marker-spiderfier@1.0.2 @agm/js-marker-spider
 ```
 
 ## Usage
@@ -56,5 +56,5 @@ yarn add npm-overlapping-marker-spiderfier @agm/js-marker-spider
     ```
 
 
-[npm-overlapping-marker-spiderfier]: https://github.com/jawj/OverlappingMarkerSpiderfier
+[ts-overlapping-marker-spiderfier]: https://www.npmjs.com/package/ts-overlapping-marker-spiderfier
 [agm]: https://angular-maps.com/

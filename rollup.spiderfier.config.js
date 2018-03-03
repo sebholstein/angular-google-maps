@@ -1,6 +1,6 @@
 export default {
-  entry: 'dist/spiderfier/index.js',
-  dest: 'dist/spiderfier/spiderfier.umd.js',
+  entry: 'dist/marker-spiderfier/index.js',
+  dest: 'dist/marker-spiderfier/spiderfier.umd.js',
   format: 'umd',
   moduleName: 'ngmaps.spiderfier',
   sourceMap: true,

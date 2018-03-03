@@ -2,9 +2,7 @@ import {Injectable, NgZone, SkipSelf} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {OverlappingMarkerSpiderfier} from 'ts-overlapping-marker-spiderfier';
 
-import {MarkerManager} from '../../../core/services/managers/marker-manager';
-import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {AgmMarker} from '../../../core/directives/marker';
+import {AgmMarker, GoogleMapsAPIWrapper, MarkerManager} from '@agm/core';
 import {AgmMarkerSpider} from '../../directives/marker-spider';
 import {MarkerSpiderInstance, SpiderOptions} from '../google-spider-types';
 

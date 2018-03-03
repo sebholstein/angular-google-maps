@@ -1,4 +1,5 @@
 import {LegColorOptions, SpiderOptions} from 'ts-overlapping-marker-spiderfier';
+import {Marker} from '@agm/core/services/google-maps-types';
 
 export interface MarkerSpiderInstance extends SpiderOptions {
   legColors: LegColorOptions;
@@ -16,6 +17,16 @@ export interface MarkerSpiderInstance extends SpiderOptions {
   unspiderfy(): MarkerSpiderInstance;
   markersNearMarker(marker: google.maps.Marker, firstOnly?: boolean): google.maps.Marker[];
   markersNearAnyOtherMarker(): google.maps.Marker[];
+}
+
+export interface FormatEvent {
+  marker: Marker;
+  status: string;
+}
+
+export interface SpiderfyEvent {
+  changedMarkers: Marker[];
+  unchangedMarkers: Marker[];
 }
 
 export {SpiderOptions, LegColorOptions} from 'ts-overlapping-marker-spiderfier';

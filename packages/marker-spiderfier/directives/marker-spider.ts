@@ -7,14 +7,14 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange
+  SimpleChanges
 } from '@angular/core';
 
-import {SpiderManager} from '../services/managers/spider-manager';
 import {InfoWindowManager, MarkerManager} from '@agm/core';
-import {Marker} from '../../core/services/google-maps-types';
+import {Marker} from '@agm/core/services/google-maps-types';
+import {SpiderManager} from '../services/managers/spider-manager';
 
-import {LegColorOptions, SpiderOptions} from '../services/google-spider-types';
+import {FormatEvent, LegColorOptions, SpiderfyEvent, SpiderOptions} from '../services/google-spider-types';
 
 /**
  * AgmMarkerSpider spiderfies map marker if they are near together
@@ -125,17 +125,17 @@ export class AgmMarkerSpider implements OnDestroy, OnChanges, OnInit, SpiderOpti
   /**
    * Triggers when a marker is formatted, can be used to style the icon
    */
-  @Output() format: EventEmitter<{ marker: Marker, status: string }> = new EventEmitter<{ marker: Marker, status: string }>();
+  @Output() format: EventEmitter<FormatEvent> = new EventEmitter<FormatEvent>();
 
   /**
    * Triggers when markers are spiderfied (expanded)
    */
-  @Output() spiderfy: EventEmitter<{ changedMarkers: Marker[], unchangedMarkers: Marker[] }> = new EventEmitter<{ changedMarkers: Marker[], unchangedMarkers: Marker[] }>();
+  @Output() spiderfy: EventEmitter<SpiderfyEvent> = new EventEmitter<SpiderfyEvent>();
 
   /**
    * Triggers when markers are unspiderfied (collapsed)
    */
-  @Output() unspiderfy: EventEmitter<{ changedMarkers: Marker[], unchangedMarkers: Marker[] }> = new EventEmitter<{ changedMarkers: Marker[], unchangedMarkers: Marker[] }>();
+  @Output() unspiderfy: EventEmitter<SpiderfyEvent> = new EventEmitter<SpiderfyEvent>();
 
   constructor(private _spiderManager: SpiderManager, private _ngZone: NgZone) {
   }
@@ -146,7 +146,7 @@ export class AgmMarkerSpider implements OnDestroy, OnChanges, OnInit, SpiderOpti
   }
 
   /** @internal */
-  ngOnChanges(changes: { [key: string]: SimpleChange }) {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['legColors']) {
       this._spiderManager.setLegColors(this);
     }
