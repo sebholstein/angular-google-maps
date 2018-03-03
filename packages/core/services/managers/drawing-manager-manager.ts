@@ -12,7 +12,8 @@ declare var google: any;
 @Injectable()
 export class DrawingManagerManager {
 
-  protected _drawingManager: Promise<DrawingManager>;
+  protected _drawingManagers: Map<AgmDrawingManager, Promise<DrawingManager>> =
+    new Map<AgmDrawingManager, Promise<DrawingManager>>();
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {}
 
@@ -27,55 +28,57 @@ export class DrawingManagerManager {
       polygonOptions: drawingManager.polygonOptions,
       rectangleOptions: drawingManager.rectangleOptions,
     });
-    this._drawingManager = drawingManagerPromise;
+    this._drawingManagers.set(drawingManager, drawingManagerPromise);
   }
 
   deleteDrawingManager(drawingManager: AgmDrawingManager): Promise<void> {
-    const dm = this._drawingManager;
+    const dm = this._drawingManagers.get(drawingManager);
     if (!dm) {
       return Promise.resolve();
     }
     return dm.then((dm: DrawingManager) => {
-      dm.setMap(null);
-      delete this._drawingManager;
+      return this._zone.run(() => {
+        dm.setMap(null);
+        this._drawingManagers.delete(drawingManager);
+      });
     });
   }
 
   updateDrawingMode(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({drawingMode: drawingManager.drawingMode}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({drawingMode: drawingManager.drawingMode}));
   }
 
   updateDrawingControl(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({drawingControl: drawingManager.drawingControl}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({drawingControl: drawingManager.drawingControl}));
   }
 
   updateDrawingControlOptions(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({drawingControlOptions: drawingManager.drawingControlOptions}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({drawingControlOptions: drawingManager.drawingControlOptions}));
   }
 
   updateCircleOptions(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({circleOptions: drawingManager.circleOptions}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({circleOptions: drawingManager.circleOptions}));
   }
 
   updateMarkerOptions(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({markerOptions: drawingManager.markerOptions}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({markerOptions: drawingManager.markerOptions}));
   }
 
   updatePolylineOptions(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({polylineOptions: drawingManager.polylineOptions}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({polylineOptions: drawingManager.polylineOptions}));
   }
 
   updatePolygonOptions(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({polygonOptions: drawingManager.polygonOptions}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({polygonOptions: drawingManager.polygonOptions}));
   }
 
   updateRectangleOptions(drawingManager: AgmDrawingManager): Promise<void> {
-    return this._drawingManager.then((dm: DrawingManager) => dm.setOptions({rectangleOptions: drawingManager.rectangleOptions}));
+    return this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => dm.setOptions({rectangleOptions: drawingManager.rectangleOptions}));
   }
 
-  createEventObservable<T>(eventName: string): Observable<T> {
+  createEventObservable<T>(eventName: string, drawingManager: AgmDrawingManager): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
-      this._drawingManager.then((dm: DrawingManager) => {
+      this._drawingManagers.get(drawingManager).then((dm: DrawingManager) => {
         dm.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });

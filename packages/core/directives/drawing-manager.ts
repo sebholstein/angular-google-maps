@@ -6,6 +6,8 @@ import {Subscription} from 'rxjs/Subscription';
 import * as mapTypes from '../services/google-maps-types';
 import {DrawingManagerManager} from '../services/managers/drawing-manager-manager';
 
+let drawingManagerId = 0;
+
 /**
  * AgmDrawingManager renders a map drawing manager inside a {@link AgmMap}.
  *
@@ -114,9 +116,12 @@ export class AgmDrawingManager implements OnDestroy, OnChanges {
   @Output() rectangleComplete: EventEmitter<mapTypes.Rectangle> = new EventEmitter<mapTypes.Rectangle>();
 
   private _drawingManagerAddedToManager: boolean = false;
+  private _id: string;
   private _observableSubscriptions: Subscription[] = [];
 
-  constructor(private _drawingManagerManager: DrawingManagerManager) {}
+  constructor(private _drawingManagerManager: DrawingManagerManager) {
+    this._id = (drawingManagerId++).toString();
+  }
 
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
@@ -156,47 +161,53 @@ export class AgmDrawingManager implements OnDestroy, OnChanges {
 
   private _addEventListeners() {
     const overlayComplete =
-      this._drawingManagerManager.createEventObservable<mapTypes.Overlay>('overlaycomplete')
+      this._drawingManagerManager.createEventObservable<mapTypes.Overlay>('overlaycomplete', this)
           .subscribe((e: mapTypes.Overlay) => {
             this.overlayComplete.emit(<mapTypes.Overlay>e);
           });
     this._observableSubscriptions.push(overlayComplete);
 
     const circleComplete =
-      this._drawingManagerManager.createEventObservable<mapTypes.Circle>('circlecomplete')
+      this._drawingManagerManager.createEventObservable<mapTypes.Circle>('circlecomplete', this)
           .subscribe((e: mapTypes.Circle) => {
             this.circleComplete.emit(<mapTypes.Circle>e);
           });
     this._observableSubscriptions.push(circleComplete);
 
     const markerComplete =
-      this._drawingManagerManager.createEventObservable<mapTypes.Marker>('markercomplete')
+      this._drawingManagerManager.createEventObservable<mapTypes.Marker>('markercomplete', this)
           .subscribe((e: mapTypes.Marker) => {
             this.markerComplete.emit(<mapTypes.Marker>e);
           });
     this._observableSubscriptions.push(markerComplete);
 
     const polylineComplete =
-      this._drawingManagerManager.createEventObservable<mapTypes.Polyline>('polylinecomplete')
+      this._drawingManagerManager.createEventObservable<mapTypes.Polyline>('polylinecomplete', this)
           .subscribe((e: mapTypes.Polyline) => {
             this.polylineComplete.emit(<mapTypes.Polyline>e);
           });
     this._observableSubscriptions.push(polylineComplete);
 
     const polygonComplete =
-      this._drawingManagerManager.createEventObservable<mapTypes.Polygon>('polygoncomplete')
+      this._drawingManagerManager.createEventObservable<mapTypes.Polygon>('polygoncomplete', this)
           .subscribe((e: mapTypes.Polygon) => {
             this.polygonComplete.emit(<mapTypes.Polygon>e);
           });
     this._observableSubscriptions.push(polygonComplete);
 
     const rectangleComplete =
-      this._drawingManagerManager.createEventObservable<mapTypes.Rectangle>('rectanglecomplete')
+      this._drawingManagerManager.createEventObservable<mapTypes.Rectangle>('rectanglecomplete', this)
           .subscribe((e: mapTypes.Rectangle) => {
             this.rectangleComplete.emit(<mapTypes.Rectangle>e);
           });
     this._observableSubscriptions.push(rectangleComplete);
   }
+
+  /** @internal */
+  id(): string { return this._id; }
+
+  /** @internal */
+  toString(): string { return 'AgmDrawingManager-' + this._id.toString(); }
 
   /** @internal */
   ngOnDestroy() {
