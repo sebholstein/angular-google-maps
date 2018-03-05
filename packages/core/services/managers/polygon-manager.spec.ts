@@ -44,6 +44,22 @@ describe('PolygonManager', () => {
            }));
   });
 
+  describe('Get polygon paths', () => {
+    it('should call getPaths of a given polygon',
+      inject(
+        [PolygonManager, GoogleMapsAPIWrapper],
+        (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
+        const newPolygon = new AgmPolygon(polygonManager);
+        const polygonInstance: Polygon = jasmine.createSpyObj('Polygon', ['getPaths']);
+        (<any>apiWrapper.createPolygon).and.returnValue(Promise.resolve(polygonInstance));
+
+        polygonManager.addPolygon(newPolygon);
+        polygonManager.getPathsForPolygon(newPolygon).then(() => {
+          expect(polygonInstance.getPaths).toHaveBeenCalled();
+          });
+      }));
+  });
+
   describe('Delete a polygon', () => {
     it('should set the map to null when deleting a existing polygon',
        inject(

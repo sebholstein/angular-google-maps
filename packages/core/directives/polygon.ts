@@ -189,6 +189,11 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    */
   @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
+  /**
+   * This event is fired when the polygon is changed or destroyed.
+   */
+  @Output() polyPointChange: EventEmitter<any> = new EventEmitter<any>();
+
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
     'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex', 'draggable',
@@ -215,6 +220,14 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     }
 
     this._polygonManager.setPolygonOptions(this, this._updatePolygonOptions(changes));
+
+    this.getPolygonPath().then((paths) => {
+      this.polyPointChange.emit({paths: paths});
+    });
+  }
+
+  getPolygonPath(): Promise<Array<any>> {
+    return this._polygonManager.getPathsForPolygon(this);
   }
 
   private _init() {
@@ -258,6 +271,9 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /** @internal */
   ngOnDestroy() {
     this._polygonManager.deletePolygon(this);
+    this.getPolygonPath().then((paths) => {
+      this.polyPointChange.emit({paths: paths});
+    });
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
