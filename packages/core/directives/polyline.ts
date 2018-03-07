@@ -88,10 +88,9 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
    */
   @Input() zIndex: number;
 
-
   /**
-  * Icon style array.
-  */
+   * Icon style array.
+   */
   @Input() icons: IconSequence[] = [];
 
   /**
