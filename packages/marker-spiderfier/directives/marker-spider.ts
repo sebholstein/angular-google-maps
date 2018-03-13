@@ -209,18 +209,21 @@ export class AgmMarkerSpider implements OnDestroy, OnChanges, OnInit, SpiderOpti
       legWeight: this.legWeight,
     });
 
-    this._spiderManager.instance.then(spider => {
-      spider.addListener('format', (marker: Marker, status: string) => this._ngZone.run(() => this.format.emit({
+    this._spiderManager.instance.then(spiderfier => {
+      spiderfier.addListener('format', (marker: Marker, status: string) => this._ngZone.run(() => this.format.emit({
         marker,
-        status
+        status,
+        spiderfier
       })));
-      spider.addListener('spiderfy', (changedMarkers: Marker[], unchangedMarkers: Marker[]) => this._ngZone.run(() => this.spiderfy.emit({
+      spiderfier.addListener('spiderfy', (changedMarkers: Marker[], unchangedMarkers: Marker[]) => this._ngZone.run(() => this.spiderfy.emit({
         changedMarkers,
-        unchangedMarkers
+        unchangedMarkers,
+        spiderfier
       })));
-      spider.addListener('unspiderfy', (changedMarkers: Marker[], unchangedMarkers: Marker[]) => this._ngZone.run(() => this.unspiderfy.emit({
+      spiderfier.addListener('unspiderfy', (changedMarkers: Marker[], unchangedMarkers: Marker[]) => this._ngZone.run(() => this.unspiderfy.emit({
         changedMarkers,
-        unchangedMarkers
+        unchangedMarkers,
+        spiderfier
       })));
     });
   }
