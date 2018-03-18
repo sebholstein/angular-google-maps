@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {Inject, Injectable, InjectionToken, Optional} from '@angular/core';
 
 import {DocumentRef, WindowRef} from '../../utils/browser-globals';
 
@@ -14,7 +14,7 @@ export enum GoogleMapsScriptProtocol {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export const LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+export const LAZY_MAPS_API_CONFIG = new InjectionToken<LazyMapsAPILoaderConfigLiteral>('angular-google-maps LAZY_MAPS_API_CONFIG');
 
 /**
  * Configuration for the {@link LazyMapsAPILoader}.
@@ -84,8 +84,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   protected _config: LazyMapsAPILoaderConfigLiteral;
   protected _windowRef: WindowRef;
   protected _documentRef: DocumentRef;
+  protected readonly _SCRIPT_ID: string = 'agmGoogleMapsApiScript';
 
-  constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
+  constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -99,6 +100,11 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return Promise.resolve();
     }
 
+    if (this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID)) {
+      // this can happen in HMR situations or Stackblitz.io editors.
+      return Promise.resolve();
+    }
+
     if (this._scriptLoadingPromise) {
       return this._scriptLoadingPromise;
     }
@@ -107,7 +113,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
+    script.id = this._SCRIPT_ID;
+    const callbackName: string = `agmLazyMapsAPILoader`;
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {

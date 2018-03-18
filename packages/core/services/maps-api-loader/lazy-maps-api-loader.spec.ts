@@ -8,46 +8,66 @@ import {MapsAPILoader} from './maps-api-loader';
 describe('Service: LazyMapsAPILoader', () => {
   let documentRef: DocumentRef;
   let doc: any;
-  let windowRef: any;
+  let windowRef: WindowRef;
+  let windowObj: any;
 
   beforeEach(() => {
-    doc = jasmine.createSpyObj<DocumentRef>('Document', ['createElement']);
+    doc = jasmine.createSpyObj<DocumentRef>('Document', ['createElement', 'getElementById']);
+    (<jasmine.Spy>doc.getElementById).and.returnValue(null);
+    doc.body = jasmine.createSpyObj('body', ['appendChild']);
     documentRef = jasmine.createSpyObj<DocumentRef>('Document', ['getNativeDocument']);
-    (<any>documentRef.getNativeDocument).and.returnValue(doc);
-    windowRef = {};
-  });
+    (<jasmine.Spy>documentRef.getNativeDocument).and.returnValue(doc);
 
-  it('should create the default script URL', () => {
+    windowRef = jasmine.createSpyObj<WindowRef>('windowRef', ['getNativeWindow']);
+    windowObj = {};
+    (<jasmine.Spy>windowRef.getNativeWindow).and.returnValue(windowObj);
+
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
-        {provide: WindowRef, useValue: windowRef}, {provide: DocumentRef, useValue: documentRef}
+        {provide: WindowRef, useValue: windowRef},
+        {provide: DocumentRef, useValue: documentRef}
       ]
     });
+  });
 
-    inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
+  it('should create the default script URL', inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
       interface Script {
         src?: string;
         async?: boolean;
         defer?: boolean;
         type?: string;
+        id?: string;
       }
       const scriptElem: Script = {};
       (<jasmine.Spy>doc.createElement).and.returnValue(scriptElem);
-      doc.body = jasmine.createSpyObj('body', ['appendChild']);
 
       loader.load();
-      expect(doc.createElement).toHaveBeenCalled();
+      expect(doc.createElement).toHaveBeenCalledWith('script');
       expect(scriptElem.type).toEqual('text/javascript');
       expect(scriptElem.async).toEqual(true);
       expect(scriptElem.defer).toEqual(true);
       expect(scriptElem.src).toBeDefined();
+      expect(scriptElem.id).toEqual('agmGoogleMapsApiScript');
       expect(scriptElem.src).toContain('https://maps.googleapis.com/maps/api/js');
       expect(scriptElem.src).toContain('v=3');
-      expect(scriptElem.src).toContain('callback=angular2GoogleMapsLazyMapsAPILoader');
+      expect(scriptElem.src).toContain('callback=agmLazyMapsAPILoader');
       expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
-    });
-  });
+  }));
+
+  it('should not append a second script to body when theres already one with the fixed ID', inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
+      (<jasmine.Spy>doc.getElementById).and.returnValue(document.createElement('script'));
+      loader.load();
+      expect(doc.body.appendChild).not.toHaveBeenCalledWith();
+  }));
+
+  it('should not append a second script to body when window.google.maps is defined', inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
+    windowObj.google = {
+      maps: {}
+    };
+    loader.load();
+    expect(doc.body.appendChild).not.toHaveBeenCalledWith();
+  }));
 
   it('should load the script via http when provided', () => {
     const lazyLoadingConf:
@@ -56,7 +76,8 @@ describe('Service: LazyMapsAPILoader', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
-        {provide: WindowRef, useValue: windowRef}, {provide: DocumentRef, useValue: documentRef},
+        {provide: WindowRef, useValue: windowRef},
+        {provide: DocumentRef, useValue: documentRef},
         {provide: LAZY_MAPS_API_CONFIG, useValue: lazyLoadingConf}
       ]
     });
@@ -70,13 +91,10 @@ describe('Service: LazyMapsAPILoader', () => {
       }
       const scriptElem: Script = {};
       (<jasmine.Spy>doc.createElement).and.returnValue(scriptElem);
-      doc.body = jasmine.createSpyObj('body', ['appendChild']);
 
       loader.load();
       expect(doc.createElement).toHaveBeenCalled();
       expect(scriptElem.src).toContain('http://maps.googleapis.com/maps/api/js');
-      expect(scriptElem.src).toContain('v=3');
-      expect(scriptElem.src).toContain('callback=angular2GoogleMapsLazyMapsAPILoader');
       expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
     });
   });
