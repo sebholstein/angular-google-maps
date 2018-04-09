@@ -25,11 +25,13 @@ export class GoogleMapsAPIWrapper {
   }
 
   createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
-    return this._loader.load().then(() => {
-      const map = new google.maps.Map(el, mapOptions);
-      this._mapResolver(<mapTypes.GoogleMap>map);
-      return;
-    });
+    return this.zone.runOutsideAngular( () => {
+      return this._loader.load().then(() => {
+        const map = new google.maps.Map(el, mapOptions);
+        this._mapResolver(<mapTypes.GoogleMap>map);
+        return;
+      });
+    });                                                                       
   }
 
   setMapOptions(options: mapTypes.MapOptions) {
