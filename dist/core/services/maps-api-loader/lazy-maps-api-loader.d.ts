@@ -65,7 +65,6 @@ export interface LazyMapsAPILoaderConfigLiteral {
     language?: string;
 }
 export declare class LazyMapsAPILoader extends MapsAPILoader {
-    protected _scriptLoadingPromise: Promise<void>;
     protected _config: LazyMapsAPILoaderConfigLiteral;
     protected _windowRef: WindowRef;
     protected _documentRef: DocumentRef;

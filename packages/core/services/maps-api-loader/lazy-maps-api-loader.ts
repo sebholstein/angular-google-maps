@@ -80,7 +80,6 @@ export interface LazyMapsAPILoaderConfigLiteral {
 
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
-  protected _scriptLoadingPromise: Promise<void>;
   protected _config: LazyMapsAPILoaderConfigLiteral;
   protected _windowRef: WindowRef;
   protected _documentRef: DocumentRef;
@@ -96,40 +95,35 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   load(): Promise<void> {
     const window = <any>this._windowRef.getNativeWindow();
     if (window.google && window.google.maps) {
-      // Google maps already loaded on the page.
-      return Promise.resolve();
+        // Google maps already loaded on the page.
+        return Promise.resolve();
     }
 
-    if (this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID)) {
-      // this can happen in HMR situations or Stackblitz.io editors.
-      return Promise.resolve();
+    if (window.__scriptLoadingPromise) {
+        return window.__scriptLoadingPromise;
     }
 
-    if (this._scriptLoadingPromise) {
-      return this._scriptLoadingPromise;
-    }
-
+    const callbackName: string = `agmLazyMapsAPILoader`;
     const script = this._documentRef.getNativeDocument().createElement('script');
+    window.__scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
+        (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
+            resolve();
+        };
+
+        script.onerror = (error: Event) => {
+            reject(error);
+        };
+    });
+
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
     script.id = this._SCRIPT_ID;
-    const callbackName: string = `agmLazyMapsAPILoader`;
     script.src = this._getScriptSrc(callbackName);
 
-    this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
-        resolve();
-      };
-
-      script.onerror = (error: Event) => {
-        reject(error);
-      };
-    });
-
     this._documentRef.getNativeDocument().body.appendChild(script);
-    return this._scriptLoadingPromise;
-  }
+    return window.__scriptLoadingPromise;
+}
 
   protected _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =
