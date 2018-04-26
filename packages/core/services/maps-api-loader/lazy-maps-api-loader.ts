@@ -95,8 +95,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   load(): Promise<void> {
     const window = <any>this._windowRef.getNativeWindow();
     if (window.google && window.google.maps) {
-      // Google maps already loaded on the page.
-      return Promise.resolve();
+        // Google maps already loaded on the page.
+        return Promise.resolve();
     }
 
     if (window._scriptLoadingPromise) {
@@ -107,6 +107,16 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       // this can happen in HMR situations or Stackblitz.io editors.
       return Promise.resolve();
     }
+                  
+    window.__scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
+        (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
+            resolve();
+        };
+
+        script.onerror = (error: Event) => {
+            reject(error);
+        };
+    });
 
     const script = this._documentRef.getNativeDocument().createElement('script');
     script.type = 'text/javascript';
@@ -116,19 +126,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const callbackName: string = `agmLazyMapsAPILoader`;
     script.src = this._getScriptSrc(callbackName);
 
-    window._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
-        resolve();
-      };
-
-      script.onerror = (error: Event) => {
-        reject(error);
-      };
-    });
-
     this._documentRef.getNativeDocument().body.appendChild(script);
     return window._scriptLoadingPromise;
-  }
+}
 
   protected _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =

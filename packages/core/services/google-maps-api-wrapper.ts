@@ -127,6 +127,10 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
 
+  getControls(): Promise<mapTypes.MVCArray<Node>[]> {
+    return this._map.then((map: mapTypes.GoogleMap) => map.controls);
+  }
+
   panTo(latLng: mapTypes.LatLng|mapTypes.LatLngLiteral): Promise<void> {
     return this._map.then((map) => map.panTo(latLng));
   }
