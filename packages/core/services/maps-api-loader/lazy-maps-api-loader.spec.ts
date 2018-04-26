@@ -69,6 +69,17 @@ describe('Service: LazyMapsAPILoader', () => {
     expect(doc.body.appendChild).not.toHaveBeenCalledWith();
   }));
 
+  it('should not append a second script to body when the script loading request is processing',
+      inject([MapsAPILoader, WindowRef, DocumentRef],
+      (loader: LazyMapsAPILoader, windowRed: WindowRef, documentRef: DocumentRef) => {
+    (<jasmine.Spy>doc.getElementById).and.returnValue(null);
+    (<jasmine.Spy>doc.createElement).and.returnValue({});
+    loader.load();
+    const secondLoader = new LazyMapsAPILoader(null, windowRef, documentRef);
+    secondLoader.load();
+    expect(doc.body.appendChild).toHaveBeenCalledTimes(1);
+}));
+
   it('should load the script via http when provided', () => {
     const lazyLoadingConf:
         LazyMapsAPILoaderConfigLiteral = {protocol: GoogleMapsScriptProtocol.HTTP};

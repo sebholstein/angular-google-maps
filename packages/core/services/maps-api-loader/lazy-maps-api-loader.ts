@@ -80,7 +80,6 @@ export interface LazyMapsAPILoaderConfigLiteral {
 
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
-  protected _scriptLoadingPromise: Promise<void>;
   protected _config: LazyMapsAPILoaderConfigLiteral;
   protected _windowRef: WindowRef;
   protected _documentRef: DocumentRef;
@@ -100,13 +99,13 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return Promise.resolve();
     }
 
+    if (window._scriptLoadingPromise) {
+      return window._scriptLoadingPromise;
+    }
+
     if (this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID)) {
       // this can happen in HMR situations or Stackblitz.io editors.
       return Promise.resolve();
-    }
-
-    if (this._scriptLoadingPromise) {
-      return this._scriptLoadingPromise;
     }
 
     const script = this._documentRef.getNativeDocument().createElement('script');
@@ -117,7 +116,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const callbackName: string = `agmLazyMapsAPILoader`;
     script.src = this._getScriptSrc(callbackName);
 
-    this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
+    window._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
       (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
         resolve();
       };
@@ -128,7 +127,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     });
 
     this._documentRef.getNativeDocument().body.appendChild(script);
-    return this._scriptLoadingPromise;
+    return window._scriptLoadingPromise;
   }
 
   protected _getScriptSrc(callbackName: string): string {
