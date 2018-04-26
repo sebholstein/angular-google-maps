@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/SebastianM/angular-google-maps.git"
   },
+  "main": "./dist/core/core.umd.js",
+  "module": "./dist/core/core.module.js",
+  "typings": "./dist/core/core.module.d.ts",
   "keywords": [
     "angular",
     "ng",
