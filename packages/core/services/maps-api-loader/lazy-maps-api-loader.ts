@@ -85,6 +85,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   protected _windowRef: WindowRef;
   protected _documentRef: DocumentRef;
   protected readonly _SCRIPT_ID: string = 'agmGoogleMapsApiScript';
+  protected readonly callbackName: string = `agmLazyMapsAPILoader`;
 
   constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
     super();
@@ -100,12 +101,14 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return Promise.resolve();
     }
 
-    if (this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID)) {
-      // this can happen in HMR situations or Stackblitz.io editors.
-      return Promise.resolve();
+    if (this._scriptLoadingPromise) {
+      return this._scriptLoadingPromise;
     }
 
-    if (this._scriptLoadingPromise) {
+    // this can happen in HMR situations or Stackblitz.io editors.
+    const scriptOnPage = this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID);
+    if (scriptOnPage) {
+      this._assignScriptLoadingPromise(scriptOnPage);
       return this._scriptLoadingPromise;
     }
 
@@ -114,21 +117,22 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.async = true;
     script.defer = true;
     script.id = this._SCRIPT_ID;
-    const callbackName: string = `agmLazyMapsAPILoader`;
-    script.src = this._getScriptSrc(callbackName);
+    script.src = this._getScriptSrc(this.callbackName);
+    this._assignScriptLoadingPromise(script);
+    this._documentRef.getNativeDocument().body.appendChild(script);
+    return this._scriptLoadingPromise;
+  }
 
+  private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
+      (<any>this._windowRef.getNativeWindow())[this.callbackName] = () => {
         resolve();
       };
 
-      script.onerror = (error: Event) => {
+      scriptElem.onerror = (error: Event) => {
         reject(error);
       };
     });
-
-    this._documentRef.getNativeDocument().body.appendChild(script);
-    return this._scriptLoadingPromise;
   }
 
   protected _getScriptSrc(callbackName: string): string {
