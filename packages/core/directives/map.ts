@@ -14,6 +14,9 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import {FitBoundsService} from '../services/fit-bounds';
+
+declare var google: any;
 
 /**
  * AgmMap renders a Google Map.
@@ -42,7 +45,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager, KmlLayerManager, DataLayerManager
+    PolygonManager, KmlLayerManager, DataLayerManager, FitBoundsService
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
@@ -179,8 +182,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * Sets the viewport to contain the given bounds.
+   * If this option to `true`, the bounds get automatically computed from all elements that use the {@link AgmFitBounds} directive.
    */
-  @Input() fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
+  @Input() fitBounds: LatLngBoundsLiteral|LatLngBounds|boolean = false;
 
   /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
@@ -266,6 +270,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   ];
 
   private _observableSubscriptions: Subscription[] = [];
+  private _fitBoundsSubscription: Subscription;
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -316,7 +321,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService) {}
 
   /** @internal */
   ngOnInit() {
@@ -377,6 +382,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
     // remove all listeners from the map instance
     this._mapsWrapper.clearInstanceListeners();
+    if (this._fitBoundsSubscription) {
+      this._fitBoundsSubscription.unsubscribe();
+    }
   }
 
   /* @internal */
@@ -416,13 +424,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _updatePosition(changes: SimpleChanges) {
     if (changes['latitude'] == null && changes['longitude'] == null &&
-        changes['fitBounds'] == null) {
+        !changes['fitBounds']) {
       // no position update needed
       return;
     }
 
     // we prefer fitBounds in changes
-    if (changes['fitBounds'] && this.fitBounds != null) {
+    if ('fitBounds' in changes) {
       this._fitBounds();
       return;
     }
@@ -446,11 +454,42 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _fitBounds() {
-    if (this.usePanning) {
-      this._mapsWrapper.panToBounds(this.fitBounds);
+    switch (this.fitBounds) {
+      case true:
+        this._subscribeToFitBoundsUpdates();
+      break;
+      case false:
+        if (this._fitBoundsSubscription) {
+          this._fitBoundsSubscription.unsubscribe();
+        }
+       break;
+       default:
+       this._updateBounds(this.fitBounds);
+    }
+  }
+
+  private _subscribeToFitBoundsUpdates() {
+    this._fitBoundsSubscription = this._fitBoundsService.bounds$.subscribe(b => this._updateBounds(b));
+  }
+
+  protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
+    if (this._isLatLngBoundsLiteral(bounds)) {
+      const newBounds = <LatLngBounds>google.maps.LatLngBounds();
+      newBounds.union(bounds);
+      bounds = newBounds;
+    }
+    if (bounds.isEmpty()) {
       return;
     }
-    this._mapsWrapper.fitBounds(this.fitBounds);
+    if (this.usePanning) {
+      this._mapsWrapper.panToBounds(bounds);
+      return;
+    }
+    this._mapsWrapper.fitBounds(bounds);
+  }
+
+  private _isLatLngBoundsLiteral(bounds: LatLngBounds|LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
+    return (<any>bounds).extend === undefined;
   }
 
   private _handleMapCenterChange() {
