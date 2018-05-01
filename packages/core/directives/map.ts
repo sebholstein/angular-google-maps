@@ -14,6 +14,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import {SearchBoxManager} from '../services/managers/search-box-manager';
 
 /**
  * AgmMap renders a Google Map.
@@ -42,7 +43,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-    PolygonManager, KmlLayerManager, DataLayerManager
+    PolygonManager, KmlLayerManager, DataLayerManager, SearchBoxManager
   ],
   host: {
     // todo: deprecated - we will remove it with the next version

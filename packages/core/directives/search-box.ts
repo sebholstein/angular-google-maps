@@ -3,7 +3,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -11,16 +10,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {
-  ControlPosition,
-  SearchBox,
-  LatLngBounds,
-  LatLngBoundsLiteral,
-  MVCArray
-} from '../services/google-maps-types';
-import {Observable} from 'rxjs/Observable';
-import {PlaceResult} from '@agm/core/services/google-maps-types';
-import {Observer} from 'rxjs/Observer';
+import * as mapTypes from '../services/google-maps-types';
+import {SearchBoxManager} from '../services/managers/search-box-manager';
 
 declare var google: any;
 
@@ -58,7 +49,7 @@ declare var google: any;
   ]
 })
 export class AgmSearchBox implements OnInit, OnChanges {
-  private searchBox: SearchBox;
+  private searchBox: mapTypes.SearchBox;
   /**
    * @internal
    */
@@ -71,7 +62,7 @@ export class AgmSearchBox implements OnInit, OnChanges {
    * Position in which the control is going to placed
    * This input is required otherwise the box won't be added to the map
    */
-  @Input() position: ControlPosition;
+  @Input() position: mapTypes.ControlPosition;
   /**
    * Will automatically center the map to the clicked result
    */
@@ -79,16 +70,18 @@ export class AgmSearchBox implements OnInit, OnChanges {
   /**
    * The area towards which to bias query predictions. Predictions are biased towards, but not restricted to, queries targeting these bounds.
    */
-  @Input() bounds: LatLngBounds | LatLngBoundsLiteral;
+  @Input() bounds: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral;
   /**
    * This event is fired when the user selects a query, will return the places matching that query.
    */
-  @Output() placesChange: EventEmitter<Array<PlaceResult>> = new EventEmitter();
-  constructor(private gmapsApi: GoogleMapsAPIWrapper, private _zone: NgZone) {}
+  @Output() placesChange: EventEmitter<Array<mapTypes.PlaceResult>> = new EventEmitter<Array<mapTypes.PlaceResult>>();
+
+  constructor(private gmapsApi: GoogleMapsAPIWrapper, private _manager: SearchBoxManager) {}
+
   /** @internal */
   ngOnInit(): void {
     this.gmapsApi.getNativeMap().then(map => {
-      this.createEventObservable().subscribe(() => {
+      this._manager.createEventObservable(this).subscribe(() => {
         this.placesChange.emit(this.getSearchBoxEl().getPlaces());
         if (this.autoBoundResults) {
           this.autoBound();
@@ -96,14 +89,7 @@ export class AgmSearchBox implements OnInit, OnChanges {
       });
     });
   }
-  /** @internal */
-  createEventObservable<T>(): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
-      this.getSearchBoxEl().addListener('places_changed', (e: T) => {
-        this._zone.run(() => observer.next(e));
-      });
-    });
-  }
+
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
     this.gmapsApi.getNativeMap().then(map => {
@@ -115,8 +101,9 @@ export class AgmSearchBox implements OnInit, OnChanges {
       }
     });
   }
+
   /** @internal */
-  getSearchBoxEl(): SearchBox {
+  getSearchBoxEl(): mapTypes.SearchBox {
     if (this.searchBox === undefined) {
       this.searchBox = new google.maps.places.SearchBox(this.panel.nativeElement, {
         bounds: this.bounds
@@ -124,14 +111,16 @@ export class AgmSearchBox implements OnInit, OnChanges {
     }
     return this.searchBox;
   }
+
   /** @internal */
-  updatePosition(position: ControlPosition) {
+  updatePosition(position: mapTypes.ControlPosition) {
     if (position) {
-      this.gmapsApi.getControls().then((controls: MVCArray<Node>[]) => {
+      this.gmapsApi.getControls().then((controls: mapTypes.MVCArray<Node>[]) => {
         controls[position].push(this.panel.nativeElement);
       });
     }
   }
+
   /** @internal */
   autoBound() {
     const places = this.getSearchBoxEl().getPlaces();
@@ -142,7 +131,7 @@ export class AgmSearchBox implements OnInit, OnChanges {
 
     // For each place, get the icon, name and location.
     const bounds = new google.maps.LatLngBounds();
-    places.forEach((place: PlaceResult) => {
+    places.forEach((place: mapTypes.PlaceResult) => {
       if (!place.geometry) {
         console.log('Place does not contain a geometry');
         return;
