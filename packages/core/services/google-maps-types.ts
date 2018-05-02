@@ -36,6 +36,7 @@ export interface Marker extends MVCObject {
   setAnimation(animation: any): void;
   getLabel(): MarkerLabel;
   setClickable(clickable: boolean): void;
+  setOptions(options: any): void;
 }
 
 export interface MarkerOptions {
@@ -50,6 +51,10 @@ export interface MarkerOptions {
   zIndex?: number;
   clickable: boolean;
   animation?: any;
+  labelContent?: string;
+  labelAnchor?: Point;
+  labelClass?: string;
+  labelInBackground?: boolean;
 }
 
 export interface MarkerLabel {

@@ -39,7 +39,8 @@ let markerId = 0;
   selector: 'agm-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation'
+    'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation', 'markerWithLabel',
+    'labelContent', 'labelAnchor', 'labelClass', 'labelInBackground'
   ],
   outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
 })
@@ -63,6 +64,31 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
    * The label (a single uppercase character) for the marker.
    */
   @Input() label: string | MarkerLabel;
+
+  /**
+   * Use MarkerWithLabel API from googlemaps/v3-utility-library
+   */
+  @Input() markerWithLabel: boolean = false;
+
+  /**
+   * Label content (text or HTML Node)
+   */
+  @Input() labelContent: string;
+
+  /**
+   * Label position
+   */
+  @Input() labelAnchor: mapTypes.Point;
+
+  /**
+   * Class name for label element
+   */
+  @Input() labelClass: string;
+
+  /**
+   * Draw label in background/foreground of its marker
+   */
+  @Input() labelInBackground: boolean;
 
   /**
    * If true, the marker can be dragged. Default value is false.
@@ -175,6 +201,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
     if (changes['label']) {
       this._markerManager.updateLabel(this);
+    }
+    if (changes['labelContent']) {
+      this._markerManager.updateLabelContent(this);
+    }
+    if (changes['labelClass']) {
+      this._markerManager.updateLabelClass(this);
     }
     if (changes['draggable']) {
       this._markerManager.updateDraggable(this);
