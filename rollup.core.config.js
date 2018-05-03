@@ -11,6 +11,7 @@ export default {
     '@angular/platform-browser': 'ng.platformBrowser',
     '@angular/platform-browser-dynamic': 'ng.platformBrowserDynamic',
     'js-marker-clusterer': 'MarkerClusterer',
+    'markerwithlabel': 'MarkerWithLabel',
     'rxjs/Subject': 'Rx',
     'rxjs/observable/PromiseObservable': 'Rx',
     'rxjs/operator/toPromise': 'Rx.Observable.prototype',
@@ -18,5 +19,5 @@ export default {
     'rxjs/Rx': 'Rx'
   },
   context: 'window',
-  external: ['rxjs', '@angular/core', 'rxjs/Observable', 'js-marker-clusterer']
+  external: ['rxjs', '@angular/core', 'rxjs/Observable', 'js-marker-clusterer', 'markerwithlabel']
 }

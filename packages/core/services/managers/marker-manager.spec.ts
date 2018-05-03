@@ -3,7 +3,7 @@ import {TestBed, async, inject} from '@angular/core/testing';
 
 import {AgmMarker} from './../../directives/marker';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {Marker} from './../google-maps-types';
+import {Marker, Point} from './../google-maps-types';
 import {MarkerManager} from './../managers/marker-manager';
 
 describe('MarkerManager', () => {
@@ -13,7 +13,7 @@ describe('MarkerManager', () => {
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
         MarkerManager, {
           provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
+          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker', 'createMarkerWithLabel'])
         }
       ]
     });
@@ -41,6 +41,38 @@ describe('MarkerManager', () => {
                title: undefined,
                clickable: true,
                animation: undefined
+             });
+           }));
+  });
+
+  describe('Create a new marker with label', () => {
+    it('should call the mapsApiWrapper when creating a new marker with label',
+       inject(
+           [MarkerManager, GoogleMapsAPIWrapper],
+           (markerManager: MarkerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+             const newMarker = new AgmMarker(markerManager);
+             newMarker.latitude = 34.4;
+             newMarker.longitude = 22.3;
+             newMarker.labelContent = 'A';
+             newMarker.labelClass = 'marker-class';
+             newMarker.labelInBackground = false;
+             newMarker.markerWithLabel = true;
+             markerManager.addMarker(newMarker);
+
+             expect(apiWrapper.createMarkerWithLabel).toHaveBeenCalledWith({
+               position: {lat: 34.4, lng: 22.3},
+               draggable: false,
+               icon: undefined,
+               opacity: 1,
+               visible: true,
+               zIndex: 1,
+               title: undefined,
+               clickable: true,
+               animation: undefined,
+               labelContent: 'A',
+               labelClass: 'marker-class',
+               labelInBackground: false,
+               labelAnchor: undefined
              });
            }));
   });

@@ -9,6 +9,7 @@ import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;
+declare var require: any;
 
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
@@ -18,6 +19,7 @@ declare var google: any;
 export class GoogleMapsAPIWrapper {
   private _map: Promise<mapTypes.GoogleMap>;
   private _mapResolver: (value?: mapTypes.GoogleMap) => void;
+  private _markerWithLabel: any;
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
@@ -27,6 +29,7 @@ export class GoogleMapsAPIWrapper {
   createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
     return this._loader.load().then(() => {
       const map = new google.maps.Map(el, mapOptions);
+      this._markerWithLabel = require('markerwithlabel')(google.maps);
       this._mapResolver(<mapTypes.GoogleMap>map);
       return;
     });
@@ -46,6 +49,16 @@ export class GoogleMapsAPIWrapper {
         options.map = map;
       }
       return new google.maps.Marker(options);
+    });
+  }
+
+  createMarkerWithLabel(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}, addToMap: boolean = true):
+      Promise<mapTypes.Marker> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      if (addToMap) {
+        options.map = map;
+      }
+      return new this._markerWithLabel(options);
     });
   }
 

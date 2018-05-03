@@ -18,5 +18,5 @@ export default {
     '@agm/core': 'ngmaps.core'
   },
   context: 'window',
-  external: ['rxjs', '@angular/core', 'rxjs/Observable', '@agm/core', 'js-marker-clusterer']
+  external: ['rxjs', '@angular/core', 'rxjs/Observable', '@agm/core', 'js-marker-clusterer', 'markerwithlabel']
 }

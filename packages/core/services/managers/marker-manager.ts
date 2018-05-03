@@ -5,7 +5,7 @@ import {Observer} from 'rxjs/Observer';
 import {AgmMarker} from './../../directives/marker';
 
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {Marker} from './../google-maps-types';
+import {Marker, MarkerOptions} from './../google-maps-types';
 
 declare var google: any;
 
@@ -43,6 +43,14 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => { m.setLabel(marker.label); });
   }
 
+  updateLabelContent(marker: AgmMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => { m.setOptions({labelContent: marker.labelContent }); });
+  }
+
+  updateLabelClass(marker: AgmMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => { m.setOptions({labelClass: marker.labelClass}); });
+  }
+
   updateDraggable(marker: AgmMarker): Promise<void> {
     return this._markers.get(marker).then((m: Marker) => m.setDraggable(marker.draggable));
   }
@@ -78,19 +86,27 @@ export class MarkerManager {
   }
 
   addMarker(marker: AgmMarker) {
-    const markerPromise = this._mapsWrapper.createMarker({
+    let markerPromise: Promise<Marker>;
+    let markerOptions: MarkerOptions = {
       position: {lat: marker.latitude, lng: marker.longitude},
-      label: marker.label,
-      draggable: marker.draggable,
-      icon: marker.iconUrl,
-      opacity: marker.opacity,
-      visible: marker.visible,
-      zIndex: marker.zIndex,
-      title: marker.title,
-      clickable: marker.clickable,
-      animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] : marker.animation
-    });
-
+        draggable: marker.draggable,
+        icon: marker.iconUrl,
+        opacity: marker.opacity,
+        visible: marker.visible,
+        zIndex: marker.zIndex,
+        title: marker.title,
+        clickable: marker.clickable,
+        animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] : marker.animation,
+    };
+    if (marker.markerWithLabel) {
+      let {labelContent, labelClass, labelAnchor, labelInBackground} = marker;
+      Object.assign(markerOptions, {labelContent, labelClass, labelAnchor, labelInBackground});
+      markerPromise = this._mapsWrapper.createMarkerWithLabel(markerOptions);
+    } else {
+      let {label} = marker;
+      Object.assign(markerOptions, {label});
+      markerPromise = this._mapsWrapper.createMarker(markerOptions);
+    }
     this._markers.set(marker, markerPromise);
   }
 
