@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import * as mapTypes from './google-maps-types';
 import {Polyline} from './google-maps-types';
@@ -100,7 +99,7 @@ export class GoogleMapsAPIWrapper {
   }
 
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
-    return Observable.create((observer: Observer<E>) => {
+    return new Observable((observer: Observer<E>) => {
       this._map.then((m: mapTypes.GoogleMap) => {
         m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); });
       });

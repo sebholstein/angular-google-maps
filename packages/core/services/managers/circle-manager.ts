@@ -1,7 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import {AgmCircle} from '../../directives/circle';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
@@ -80,7 +79,7 @@ export class CircleManager {
   }
 
   createEventObservable<T>(eventName: string, circle: AgmCircle): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((observer: Observer<T>) => {
       let listener: mapTypes.MapsEventListener = null;
       this._circles.get(circle).then((c) => {
         listener = c.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));

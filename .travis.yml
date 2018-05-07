@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-- '7'
+- '10'
 
 env:
   global:
@@ -32,8 +32,7 @@ before_install:
 # - time npm i -g yarn --cache-min 999999999
 
 install:
-  - time npm prune
-  - time npm install
+  - time yarn
 
 script:
   - npm run ci

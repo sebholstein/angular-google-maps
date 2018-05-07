@@ -1,5 +1,5 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { PolyMouseEvent } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
