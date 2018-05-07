@@ -1,7 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import {AgmCircle} from '../../directives/circle';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';

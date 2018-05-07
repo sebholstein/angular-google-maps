@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
