@@ -2,6 +2,7 @@ export var google: any;
 
 export interface GoogleMap extends MVCObject {
   data?: Data;
+  controls: MVCArray<Node>[];
   constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   panBy(x: number, y: number): void;
@@ -199,6 +200,8 @@ export interface InfoWindow extends MVCObject {
 }
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
+
+export interface MVCArray<T> extends MVCObject { push(elem: T): number; }
 
 export interface MapsEventListener { remove(): void; }
 
