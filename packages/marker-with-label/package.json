@@ -1,0 +1,6 @@
+{
+  "name": "@agm/markerwithlabel-src",
+  "dependencies": {
+    "@agm/core": "file:../core"
+  }
+}

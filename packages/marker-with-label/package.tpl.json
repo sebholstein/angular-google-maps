@@ -1,0 +1,28 @@
+{
+    "name": "@agm/marker-with-label",
+    "version": "INSERT_HERE_VIA_BUILD_PROCESS",
+    "private": true,
+    "description": "Angular Google Maps (AGM) extension for markerwithlabel support",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/SebastianM/angular-google-maps.git"
+    },
+    "keywords": [
+      "angular-google-maps",
+      "angular",
+      "markerwithlabel",
+      "google-maps",
+      "agm"
+    ],
+    "author": "Felix Piskunov <felix.piskunov@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/SebastianM/angular-google-maps/issues"
+    },
+    "peerDependencies": {
+      "@angular/core": "^5.0.0 || ^6.0.0",
+      "@agm/core": "^1.0.0-beta.3",
+      "markerwithlabel": "^2.0.1"
+    },
+    "homepage": "https://github.com/SebastianM/angular-google-maps#readme"
+  }

@@ -12,3 +12,4 @@ coverage/
 .idea/
 .DS_Store
 docs/public
+.vscode/
