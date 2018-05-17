@@ -374,6 +374,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   ngOnDestroy() {
     // unsubscribe all registered observable subscriptions
     this._observableSubscriptions.forEach((s) => s.unsubscribe());
+
+    // remove all listeners from the map instance
+    this._mapsWrapper.clearInstanceListeners();
   }
 
   /* @internal */
