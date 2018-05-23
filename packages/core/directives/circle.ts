@@ -1,5 +1,5 @@
 import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Input, Output} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
 import {LatLng, LatLngBounds, LatLngLiteral} from '../services/google-maps-types';
