@@ -225,7 +225,7 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges 
             lng: this.longitude
           };
         }
-        this._nativeSnazzyInfoWindow = new elems[0](options);
+        this._nativeSnazzyInfoWindow = new elems[0].default(options);
       });
       this._snazzyInfoWindowInitialized.then(() => {
         if (this.isOpen) {
