@@ -107,6 +107,12 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
+  clearInstanceListeners() {
+    this._map.then((map: mapTypes.GoogleMap) => {
+      google.maps.event.clearInstanceListeners(map);
+    });
+  }
+
   setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
     return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng));
   }
