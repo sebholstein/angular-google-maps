@@ -1,7 +1,7 @@
 import { Host, SkipSelf, OnChanges, AfterViewInit, EventEmitter, Input, SimpleChanges, ViewContainerRef, TemplateRef, Output, Optional, OnDestroy, ElementRef, Component, ViewChild, ContentChild } from '@angular/core';
 import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager, MapsAPILoader } from '@agm/core';
 
-declare var System: any;
+declare var require: any;
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -181,7 +181,7 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges 
   ngAfterViewInit() {
     const m = this._manager != null ? this._manager.getNativeMarker(this._marker) : null;
     this._snazzyInfoWindowInitialized = this._loader.load()
-      .then(() => System.import('snazzy-info-window'))
+      .then(() => require('snazzy-info-window'))
       .then((module: any) => Promise.all([module, m, this._wrapper.getNativeMap()]))
       .then((elems) => {
         const options: any = {

@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 import {KmlMouseEvent} from './../services/google-maps-types';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
