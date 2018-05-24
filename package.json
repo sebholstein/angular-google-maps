@@ -38,9 +38,9 @@
     "docs:hugo": "cd docs && hugo",
     "docs:injectga": "node scripts/inject-google-analytics.js",
     "docs": "npm run docs:hugo && npm run apidocs:core && npm run apidocs:snazzy && npm run apidocs:jsmarkerclusterer",
-    "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
-    "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage",
-    "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --disablePrivateOrInternalSupport --hideGenerator --disableCoverage"
+    "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/  --hideGenerator --disableCoverage",
+    "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --hideGenerator --disableCoverage",
+    "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --hideGenerator --disableCoverage"
   },
   "author": "Sebastian Holstein <info@sebastian-holstein.de>",
   "license": "MIT",
