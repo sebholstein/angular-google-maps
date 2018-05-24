@@ -1,3 +1,31 @@
+<a name="1.0.0-beta.3"></a>
+# [1.0.0-beta.3 orange-disk](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.2...1.0.0-beta.3) (2018-05-24)
+
+
+### Bug Fixes
+
+* **AgmMap:** memory leak when map gets destroyed ([6006617](https://github.com/SebastianM/angular-google-maps/commit/6006617))
+* **AgmPolygon:** createPolygon type fix ([2563cae](https://github.com/SebastianM/angular-google-maps/commit/2563cae))
+* **Lazy Loading:** check if google maps script was already loaded ([e513c57](https://github.com/SebastianM/angular-google-maps/commit/e513c57)), closes [#692](https://github.com/SebastianM/angular-google-maps/issues/692)
+* **LazyMapsAPILoader:** multiple google maps api scripts on page ([07de5a4](https://github.com/SebastianM/angular-google-maps/commit/07de5a4)), closes [#315](https://github.com/SebastianM/angular-google-maps/issues/315) [#775](https://github.com/SebastianM/angular-google-maps/issues/775) [#1260](https://github.com/SebastianM/angular-google-maps/issues/1260)
+
+
+### Features
+
+* **all packages**: Support angular 6 ([44fba48](https://github.com/SebastianM/angular-google-maps/commit/44fba48))
+* **AgmMap:** EventEmitter for maptypeid_changed event ([f9c23aa](https://github.com/SebastianM/angular-google-maps/commit/f9c23aa))
+* **AgmMarker:** add animation field to markers ([c57ab39](https://github.com/SebastianM/angular-google-maps/commit/c57ab39)), closes [#580](https://github.com/SebastianM/angular-google-maps/issues/580) [#852](https://github.com/SebastianM/angular-google-maps/issues/852)
+* **AgmMarker:** allow objects as label ([658de77](https://github.com/SebastianM/angular-google-maps/commit/658de77))
+
+
+### Performance Improvements
+
+* **AgmMap:** run resolve outside angular zone ([078c2a5](https://github.com/SebastianM/angular-google-maps/commit/078c2a5))
+
+### BREAKING CHANGES
+
+Angular 4.x is not officially supported anymore. Please update to Angular 5.x or 6.x.
+
 <a name="1.0.0-beta.2"></a>
 # [1.0.0-beta.2 angular-five](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.1...1.0.0-beta.2) (2017-10-31)
 
