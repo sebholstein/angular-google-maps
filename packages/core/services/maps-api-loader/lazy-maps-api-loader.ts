@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {Inject, Injectable, InjectionToken, Optional} from '@angular/core';
 
 import {DocumentRef, WindowRef} from '../../utils/browser-globals';
 
@@ -14,7 +14,7 @@ export enum GoogleMapsScriptProtocol {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export const LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+export const LAZY_MAPS_API_CONFIG = new InjectionToken<LazyMapsAPILoaderConfigLiteral>('angular-google-maps LAZY_MAPS_API_CONFIG');
 
 /**
  * Configuration for the {@link LazyMapsAPILoader}.
@@ -84,8 +84,10 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   protected _config: LazyMapsAPILoaderConfigLiteral;
   protected _windowRef: WindowRef;
   protected _documentRef: DocumentRef;
+  protected readonly _SCRIPT_ID: string = 'agmGoogleMapsApiScript';
+  protected readonly callbackName: string = `agmLazyMapsAPILoader`;
 
-  constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
+  constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -103,25 +105,34 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return this._scriptLoadingPromise;
     }
 
+    // this can happen in HMR situations or Stackblitz.io editors.
+    const scriptOnPage = this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID);
+    if (scriptOnPage) {
+      this._assignScriptLoadingPromise(scriptOnPage);
+      return this._scriptLoadingPromise;
+    }
+
     const script = this._documentRef.getNativeDocument().createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
-    script.src = this._getScriptSrc(callbackName);
+    script.id = this._SCRIPT_ID;
+    script.src = this._getScriptSrc(this.callbackName);
+    this._assignScriptLoadingPromise(script);
+    this._documentRef.getNativeDocument().body.appendChild(script);
+    return this._scriptLoadingPromise;
+  }
 
+  private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
+      (<any>this._windowRef.getNativeWindow())[this.callbackName] = () => {
         resolve();
       };
 
-      script.onerror = (error: Event) => {
+      scriptElem.onerror = (error: Event) => {
         reject(error);
       };
     });
-
-    this._documentRef.getNativeDocument().body.appendChild(script);
-    return this._scriptLoadingPromise;
   }
 
   protected _getScriptSrc(callbackName: string): string {

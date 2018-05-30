@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import * as mapTypes from './google-maps-types';
 import {Polyline} from './google-maps-types';
@@ -25,10 +24,12 @@ export class GoogleMapsAPIWrapper {
   }
 
   createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
-    return this._loader.load().then(() => {
-      const map = new google.maps.Map(el, mapOptions);
-      this._mapResolver(<mapTypes.GoogleMap>map);
-      return;
+    return this._zone.runOutsideAngular( () => {
+      return this._loader.load().then(() => {
+        const map = new google.maps.Map(el, mapOptions);
+        this._mapResolver(<mapTypes.GoogleMap>map);
+        return;
+      });
     });
   }
 
@@ -71,7 +72,7 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polyline> {
+  createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polygon> {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
       let polygon = new google.maps.Polygon(options);
       polygon.setMap(map);
@@ -98,10 +99,16 @@ export class GoogleMapsAPIWrapper {
   }
 
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
-    return Observable.create((observer: Observer<E>) => {
+    return new Observable((observer: Observer<E>) => {
       this._map.then((m: mapTypes.GoogleMap) => {
         m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); });
       });
+    });
+  }
+
+  clearInstanceListeners() {
+    this._map.then((map: mapTypes.GoogleMap) => {
+      google.maps.event.clearInstanceListeners(map);
     });
   }
 

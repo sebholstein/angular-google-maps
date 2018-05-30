@@ -33,6 +33,6 @@ packages.forEach(function(pkgName) {
   // remove dependencies for safety reasons as we use peerDependencies
   basePkgJson.dependencies = {};
 
-  const filepath = path.join(__dirname, `../dist/${pkgName}/package.json`);
+  const filepath = path.join(__dirname, `../dist/packages/${pkgName}/package.json`);
   fs.writeFileSync(filepath, JSON.stringify(basePkgJson, null, 2), 'utf-8');
 });

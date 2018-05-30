@@ -4,9 +4,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 // Webpack Plugins
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
@@ -60,11 +58,6 @@ module.exports = function makeWebpackConfig() {
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
   };
 
-  var atlOptions = '';
-  if (isTest && !isTestWatch) {
-    // awesome-typescript-loader needs to output inlineSourceMap for code coverage to work with source maps.
-    atlOptions = 'inlineSourceMap=true&sourceMap=false';
-  }
 
   /**
    * Loaders
@@ -75,11 +68,8 @@ module.exports = function makeWebpackConfig() {
   config.module = {
     rules: [
       // Support for .ts files.
-      {
-        test: /\.ts$/,
-        loaders: ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader'],
-        exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
-      },
+      // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+      { test: /\.tsx?$/, loader: 'ts-loader' },
 
       // copy those assets to output
       {
@@ -90,27 +80,8 @@ module.exports = function makeWebpackConfig() {
       // Support for *.json files.
       {test: /\.json$/, loader: 'json-loader'},
 
-      // Support for CSS as raw text
-      // use 'null' loader in test mode (https://github.com/webpack/null-loader)
-      // all css in packages/style will be bundled in an external css file
-      {
-        test: /\.css$/,
-        exclude: root('packages', 'app'),
-        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader']})
-      },
       // all css required in src/app files will be merged in js files
       {test: /\.css$/, include: root('packages', 'app'), loader: 'raw-loader!postcss-loader'},
-
-      // support for .scss files
-      // use 'null' loader in test mode (https://github.com/webpack/null-loader)
-      // all css in packages/style will be bundled in an external css file
-      {
-        test: /\.(scss|sass)$/,
-        exclude: root('packages', 'app'),
-        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']})
-      },
-      // all css required in packages/app files will be merged in js files
-      {test: /\.(scss|sass)$/, exclude: root('packages', 'style'), loader: 'raw-loader!postcss-loader!sass-loader'},
 
       // support for .html as raw text
       // todo: change the loader to something that adds a hash to images

@@ -11,9 +11,11 @@
         "removeComments": false,
         "moduleResolution": "node",
         "declaration": true,
+        "allowSyntheticDefaultImports": true,
         "lib": [
             "es2015",
-            "dom"
+            "dom",
+            "esnext"
         ],
         "types": [
             "jasmine"
