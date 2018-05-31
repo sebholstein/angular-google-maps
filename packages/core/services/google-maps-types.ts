@@ -251,7 +251,7 @@ export interface PolylineOptions {
   draggable?: boolean;
   editable?: boolean;
   geodesic?: boolean;
-  icon?: Array<IconSequence>;
+  icons?: Array<IconSequence>;
   map?: GoogleMap;
   path?: Array<LatLng>|Array<LatLng|LatLngLiteral>;
   strokeColor?: string;
