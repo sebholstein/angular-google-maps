@@ -12,16 +12,21 @@ describe('Service: LazyMapsAPILoader', () => {
   let windowObj: any;
 
   beforeEach(() => {
-    doc = jasmine.createSpyObj<DocumentRef>('Document', ['createElement', 'getElementById']);
-    (<jasmine.Spy>doc.getElementById).and.returnValue(null);
-    doc.body = jasmine.createSpyObj('body', ['appendChild']);
-    documentRef = jasmine.createSpyObj<DocumentRef>('Document', ['getNativeDocument']);
-    (<jasmine.Spy>documentRef.getNativeDocument).and.returnValue(doc);
+    doc = {
+      createElement: jest.fn(),
+      getElementById: jest.fn().mockReturnValue(null),
+      body: {
+        appendChild: jest.fn()
+      }
+    };
+    documentRef = <DocumentRef>{
+      getNativeDocument: jest.fn().mockReturnValue(doc),
+    };
 
-    windowRef = jasmine.createSpyObj<WindowRef>('windowRef', ['getNativeWindow']);
     windowObj = {};
-    (<jasmine.Spy>windowRef.getNativeWindow).and.returnValue(windowObj);
-
+    windowRef = <WindowRef>{
+      getNativeWindow: jest.fn().mockReturnValue(windowObj)
+    };
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
@@ -40,7 +45,7 @@ describe('Service: LazyMapsAPILoader', () => {
         id?: string;
       }
       const scriptElem: Script = {};
-      (<jasmine.Spy>doc.createElement).and.returnValue(scriptElem);
+      (<jest.Mock>doc.createElement).mockReturnValue(scriptElem);
 
       loader.load();
       expect(doc.createElement).toHaveBeenCalledWith('script');
@@ -56,7 +61,7 @@ describe('Service: LazyMapsAPILoader', () => {
   }));
 
   it('should not append a second script to body when theres already one with the fixed ID', inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
-      (<jasmine.Spy>doc.getElementById).and.returnValue(document.createElement('script'));
+      (<jest.Mock>doc.getElementById).mockReturnValue(document.createElement('script'));
       loader.load();
       expect(doc.body.appendChild).not.toHaveBeenCalledWith();
   }));
@@ -90,7 +95,7 @@ describe('Service: LazyMapsAPILoader', () => {
         type?: string;
       }
       const scriptElem: Script = {};
-      (<jasmine.Spy>doc.createElement).and.returnValue(scriptElem);
+      (<jest.Mock>doc.createElement).mockReturnValue(scriptElem);
 
       loader.load();
       expect(doc.createElement).toHaveBeenCalled();
