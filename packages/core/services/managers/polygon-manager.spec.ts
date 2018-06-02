@@ -13,7 +13,9 @@ describe('PolygonManager', () => {
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
         PolygonManager, AgmPolygon, {
           provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createPolygon'])
+          useValue: {
+            createPolygon: jest.fn()
+          }
         }
       ]
     });
@@ -51,8 +53,10 @@ describe('PolygonManager', () => {
            (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
              const newPolygon = new AgmPolygon(polygonManager);
 
-             const polygonInstance: Polygon = jasmine.createSpyObj('Polygon', ['setMap']);
-             (<any>apiWrapper.createPolygon).and.returnValue(Promise.resolve(polygonInstance));
+             const polygonInstance: any = {
+              setMap: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createPolygon).mockReturnValue(Promise.resolve(polygonInstance));
 
              polygonManager.addPolygon(newPolygon);
              polygonManager.deletePolygon(newPolygon).then(() => {
