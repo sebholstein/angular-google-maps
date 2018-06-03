@@ -1,4 +1,4 @@
-import {Directive, OnChanges, Input} from '@angular/core';
+import {Directive, OnChanges, OnDestroy, Input} from '@angular/core';
 
 import {OverlayManager} from '../services/managers/overlay-manager';
 
@@ -28,7 +28,7 @@ import {OverlayManager} from '../services/managers/overlay-manager';
 @Directive({
   selector: 'agm-overlay'
 })
-export class AgmOverlay implements OnChanges {
+export class AgmOverlay implements OnChanges, OnDestroy {
   overlay: any;
   /**
    * The options of google.maps.ImageMapType.
