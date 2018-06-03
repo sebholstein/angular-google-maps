@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { DataMouseEvent, DataOptions } from './../services/google-maps-types';
 import { DataLayerManager } from './../services/managers/data-layer-manager';

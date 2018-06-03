@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
@@ -376,6 +376,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   ngOnDestroy() {
     // unsubscribe all registered observable subscriptions
     this._observableSubscriptions.forEach((s) => s.unsubscribe());
+
+    // remove all listeners from the map instance
+    this._mapsWrapper.clearInstanceListeners();
   }
 
   /* @internal */
