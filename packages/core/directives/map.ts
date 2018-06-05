@@ -469,7 +469,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _subscribeToFitBoundsUpdates() {
-    this._fitBoundsSubscription = this._fitBoundsService.bounds$.subscribe(b => this._updateBounds(b));
+    this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => this._updateBounds(b));
   }
 
   protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
