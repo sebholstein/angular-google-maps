@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import {AgmPolyline} from '../../directives/polyline';
 import {AgmPolylinePoint} from '../../directives/polyline-point';
@@ -66,7 +65,7 @@ export class PolylineManager {
   }
 
   createEventObservable<T>(eventName: string, line: AgmPolyline): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((observer: Observer<T>) => {
       this._polylines.get(line).then((l: Polyline) => {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });

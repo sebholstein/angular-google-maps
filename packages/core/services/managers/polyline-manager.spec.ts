@@ -13,7 +13,9 @@ describe('PolylineManager', () => {
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
         PolylineManager, {
           provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createPolyline'])
+          useValue: {
+            createPolyline: jest.fn()
+          }
         }
       ]
     });
@@ -49,8 +51,10 @@ describe('PolylineManager', () => {
            (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
              const newPolyline = new AgmPolyline(polylineManager);
 
-             const polylineInstance: Polyline = jasmine.createSpyObj('Polyline', ['setMap']);
-             (<any>apiWrapper.createPolyline).and.returnValue(Promise.resolve(polylineInstance));
+             const polylineInstance: Partial<Polyline> = {
+              setMap: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(polylineInstance));
 
              polylineManager.addPolyline(newPolyline);
              polylineManager.deletePolyline(newPolyline).then(() => {
