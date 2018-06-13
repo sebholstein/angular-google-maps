@@ -164,6 +164,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     if (typeof this.longitude === 'string') {
       this.longitude = Number(this.longitude);
     }
+    if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
+      return;
+    }
     if (!this._markerAddedToManger) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
