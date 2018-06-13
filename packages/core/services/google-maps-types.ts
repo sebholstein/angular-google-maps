@@ -201,7 +201,12 @@ export interface InfoWindow extends MVCObject {
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
 
-export interface MVCArray<T> extends MVCObject { push(elem: T): number; }
+export interface MVCArray<T> extends MVCObject {
+  push(elem: T): number;
+  getAt(i: number): T;
+  removeAt(i: number): T;
+  forEach(callback: (elem: any, i: number) => void): void;
+}
 
 export interface MapsEventListener { remove(): void; }
 
