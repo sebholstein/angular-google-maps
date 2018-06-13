@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import {AgmPolygon} from '../../directives/polygon';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
@@ -57,7 +56,7 @@ export class PolygonManager {
   }
 
   createEventObservable<T>(eventName: string, path: AgmPolygon): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((observer: Observer<T>) => {
       this._polygons.get(path).then((l: Polygon) => {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
