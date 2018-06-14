@@ -1,4 +1,4 @@
-import { Observable ,  Observer } from 'rxjs';
+import { Observable , Observer  } from 'rxjs';
 import {Injectable, NgZone} from '@angular/core';
 
 import {AgmInfoWindow} from '../../directives/info-window';

@@ -9,6 +9,7 @@ import {MarkerManager} from '../services/managers/marker-manager';
 
 import {AgmInfoWindow} from './info-window';
 import {MarkerLabel} from '../map-types';
+import {GoogleSymbol} from '../services/google-maps-types';
 
 let markerId = 0;
 
@@ -73,7 +74,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Icon (the URL of the image) for the foreground.
    */
-  @Input() iconUrl: string;
+  @Input() icon: string | GoogleSymbol;
 
   /**
    * If true, the marker is visible

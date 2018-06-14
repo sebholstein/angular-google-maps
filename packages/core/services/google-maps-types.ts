@@ -29,7 +29,7 @@ export interface Marker extends MVCObject {
   setTitle(title: string): void;
   setLabel(label: string|MarkerLabel): void;
   setDraggable(draggable: boolean): void;
-  setIcon(icon: string): void;
+  setIcon(icon: string|GoogleSymbol): void;
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   setZIndex(zIndex: number): void;
@@ -44,12 +44,20 @@ export interface MarkerOptions {
   map?: GoogleMap;
   label?: string|MarkerLabel;
   draggable?: boolean;
-  icon?: string;
+  icon?: string|GoogleSymbol;
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
   clickable: boolean;
   animation?: any;
+}
+
+export enum SymbolPath {
+  BACKWARD_CLOSED_ARROW,
+  BACKWARD_OPEN_ARROW,
+  CIRCLE,
+  FORWARD_CLOSED_ARROW,
+  FORWARD_OPEN_ARROW
 }
 
 export interface MarkerLabel {
@@ -58,6 +66,13 @@ export interface MarkerLabel {
   fontSize: string;
   fontWeight: string;
   text: string;
+}
+
+export interface Size {
+  width: number;
+  height: number;
+  widthUnit?: string;
+  heightUnit?: string;
 }
 
 export interface Circle extends MVCObject {
@@ -229,9 +244,9 @@ export interface Point {
 export interface GoogleSymbol {
   anchor?: Point;
   fillColor?: string;
-  fillOpacity?: string;
+  fillOpacity?: number;
   labelOrigin?: Point;
-  path?: string;
+  path?: string|SymbolPath;
   rotation?: number;
   scale?: number;
   strokeColor?: string;

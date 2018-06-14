@@ -3,7 +3,7 @@ import {TestBed, async, inject} from '@angular/core/testing';
 
 import {AgmMarker} from '../../../core/directives/marker';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {Marker} from '../../../core/services/google-maps-types';
+import {GoogleSymbol, SymbolPath} from '../../../core/services/google-maps-types';
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -96,10 +96,46 @@ describe('ClusterManager', () => {
                clickable: true
              }, false);
              const iconUrl = 'http://angular-maps.com/icon.png';
-             newMarker.iconUrl = iconUrl;
+             newMarker.icon = iconUrl;
              return markerManager.updateIcon(newMarker).then(
                  () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
            })));
+
+           it('should update that marker via setIcon method when the marker icon changes',
+           async(inject(
+               [ClusterManager, GoogleMapsAPIWrapper],
+               (markerManager: ClusterManager, apiWrapper: GoogleMapsAPIWrapper) => {
+                 const newMarker = new AgmMarker(markerManager);
+                 newMarker.latitude = 34.4;
+                 newMarker.longitude = 22.3;
+                 newMarker.label = 'A';
+
+                 const markerInstance: any = {
+                  setMap: jest.fn(),
+                  setIcon: jest.fn()
+                 };
+                 (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+
+                 markerManager.addMarker(newMarker);
+                 expect(apiWrapper.createMarker).toHaveBeenCalledWith({
+                   position: {lat: 34.4, lng: 22.3},
+                   label: 'A',
+                   draggable: false,
+                   icon: undefined,
+                   opacity: 1,
+                   visible: true,
+                   zIndex: 1,
+                   title: undefined,
+                   clickable: true
+                 }, false);
+                 const icon: GoogleSymbol = {
+                  path: SymbolPath.FORWARD_OPEN_ARROW,
+                  rotation: 45
+                };
+                newMarker.icon = icon;
+                 return markerManager.updateIcon(newMarker).then(
+                     () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(icon); });
+               })));
   });
 
   describe('set marker opacity', () => {
