@@ -103,4 +103,4 @@ There a two ways to style the snazzy info window:
 
 ### Styling via Angular Inputs
 
-There a several inputs that you can use for styling. [Check out the docs of the `agmSnazzyInfoWindow` directive here](https://angular-maps.com/api-docs/agm-snazzy-info-window/modules/AgmSnazzyInfoWindowModule.html). 
+There a several inputs that you can use for styling. [Check out the docs of the `agmSnazzyInfoWindow` directive here](https://angular-maps.com/api-docs/agm-snazzy-info-window/components/AgmSnazzyInfoWindow.html). 
