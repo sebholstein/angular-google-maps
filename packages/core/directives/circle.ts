@@ -220,12 +220,18 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
           this._manager.createEventObservable<MapMouseEvent>(eventName, this).subscribe((value) => {
             switch (eventName) {
               case 'radius_changed':
-                this._manager.getRadius(this).then((radius) => eventEmitter.emit(radius));
+              if (this.editable){
+                this._manager.getRadius(this).then(
+                  (radius) =>
+                  eventEmitter.emit(radius));
+              }
                 break;
               case 'center_changed':
+              if (this.draggable){
                 this._manager.getCenter(this).then(
-                    (center) =>
-                        eventEmitter.emit(<LatLngLiteral>{lat: center.lat(), lng: center.lng()}));
+                  (center) =>
+                      eventEmitter.emit(<LatLngLiteral>{lat: center.lat(), lng: center.lng()}));
+              }
                 break;
               default:
                 eventEmitter.emit(
