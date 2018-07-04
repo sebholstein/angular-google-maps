@@ -1,6 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {AgmMap} from './directives/map';
 import {AgmCircle} from './directives/circle';
+import {AgmRectangle} from './directives/rectangle';
 import {AgmInfoWindow} from './directives/info-window';
 import {AgmMarker} from './directives/marker';
 import {AgmPolygon} from './directives/polygon';
@@ -18,7 +19,7 @@ import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
  */
 export function coreDirectives() {
   return [
-    AgmMap, AgmMarker, AgmInfoWindow, AgmCircle,
+    AgmMap, AgmMarker, AgmInfoWindow, AgmCircle, AgmRectangle,
     AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
     AgmDataLayer
   ];
