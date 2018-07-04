@@ -64,6 +64,16 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
+  /**
+   * Creates a google.map.Rectangle for the current map.
+   */
+  createRectangle(options: mapTypes.RectangleOptions): Promise<mapTypes.Rectangle> {
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      options.map = map;
+      return new google.maps.Rectangle(options);
+    });
+  }
+
   createPolyline(options: PolylineOptions): Promise<Polyline> {
     return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
       let line = new google.maps.Polyline(options);
