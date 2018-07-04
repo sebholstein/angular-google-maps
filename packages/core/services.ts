@@ -1,5 +1,6 @@
 export {GoogleMapsAPIWrapper} from './services/google-maps-api-wrapper';
 export {CircleManager} from './services/managers/circle-manager';
+export {RectangleManager} from './services/managers/rectangle-manager';
 export {InfoWindowManager} from './services/managers/info-window-manager';
 export {MarkerManager} from './services/managers/marker-manager';
 export {PolygonManager} from './services/managers/polygon-manager';
