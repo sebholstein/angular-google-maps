@@ -163,6 +163,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
 
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
+    if (typeof this.latitude === 'string') {
+      this.latitude = Number(this.latitude);
+    }
+    if (typeof this.longitude === 'string') {
+      this.longitude = Number(this.longitude);
+    }
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
