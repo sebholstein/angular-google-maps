@@ -116,6 +116,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
 
   /**
+   * This event is fired when the user rightclicks on the marker.
+   */
+  @Output() markerRightClick: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
    * This event is fired when the user stops dragging the marker.
    */
   @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
@@ -213,6 +218,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
       this.markerClick.emit(null);
     });
     this._observableSubscriptions.push(cs);
+
+    const rc = this._markerManager.createEventObservable('rightclick', this).subscribe(() => {
+      this.markerRightClick.emit(null);
+    });
+    this._observableSubscriptions.push(rc);
 
     const ds =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
