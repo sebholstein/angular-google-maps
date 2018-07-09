@@ -22,11 +22,11 @@ export class FusionTablesLayerManager {
    */
   addFusionTablesLayer(layer: AgmFusionTablesLayer) {
     const newLayer = this._wrapper.createFusionTablesLayer(layer.options);
-    this._layers.set(layer, newLayer);
+    return this._layers.set(layer, newLayer);
   }
 
   deleteFusionTablesLayer(layer: AgmFusionTablesLayer) {
-    this._layers.get(layer).then(l => {
+    return this._layers.get(layer).then(l => {
       l.setMap(null);
       this._layers.delete(layer);
     });
