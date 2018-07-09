@@ -105,7 +105,6 @@ export class GoogleMapsAPIWrapper {
    * Creates a new google.map.FusionTablesLayer for the current map
    */
   createFusionTablesLayer(options?: mapTypes.FusionTablesLayerOptions): Promise<mapTypes.FusionTablesLayer> {
-    console.log('createFusionTablesLayer', options);
     return this._map.then(m => {
       let layer = new google.maps.FusionTablesLayer(options);
       layer.setMap(m);

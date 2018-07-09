@@ -4,12 +4,9 @@ import {Subscription} from 'rxjs';
 import {FusionTablesLayerOptions, FusionTablesMouseEvent} from './../services/google-maps-types';
 import {FusionTablesLayerManager} from './../services/managers/fusion-tables-layer-manager';
 
-let layerId = 0;
-
 @Directive({selector: 'agm-fusion-tables-layer'})
 export class AgmFusionTablesLayer implements OnInit, OnDestroy, OnChanges {
   private _addedToManager: boolean = false;
-  private _id: string = (layerId++).toString();
   private _subscriptions: Subscription[] = [];
 
   /**
@@ -42,16 +39,6 @@ export class AgmFusionTablesLayer implements OnInit, OnDestroy, OnChanges {
       const os = this._manager.createEventObservable(obj.name, this).subscribe(obj.handler);
       this._subscriptions.push(os);
     });
-  }
-
-  /** @internal */
-  id(): string {
-    return this._id;
-  }
-
-  /** @internal */
-  toString(): string {
-    return `AgmFusionTablesLayer-${this._id.toString()}`;
   }
 
   /** @internal */
