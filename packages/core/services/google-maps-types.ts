@@ -428,6 +428,61 @@ export interface Data extends MVCObject {
   /* tslint:enable */
 }
 
+export interface FusionTablesLayer extends MVCObject {
+  getMap(): GoogleMap;
+  setMap(map: GoogleMap): void;
+  setOptions(options: FusionTablesLayerOptions): void;
+}
+
+export interface FusionTablesLayerOptions {
+  clickable?: boolean;
+  heatmap?: FusionTablesHeatmap;
+  map?: GoogleMap;
+  query?: FusionTablesQuery;
+  styles?: FusionTablesStyle[];
+  suppressInfoWindows?: boolean;
+}
+
+export interface FusionTablesHeatmap {
+  enabled?: boolean;
+}
+
+export interface FusionTablesQuery {
+  from: string;
+  limit?: number;
+  offset?: number;
+  orderBy?: string;
+  select?: string;
+  where?: string;
+}
+
+export interface FusionTablesStyle {
+  markerOptions?: FusionTablesMarkerOptions;
+  polygonOptions?: FusionTablesPolygonOptions;
+  polylineOptions?: FusionTablesPolylineOptions;
+  where?: string;
+}
+
+export interface FusionTablesMarkerOptions {
+  iconName: string;
+}
+
+export type FusionTablesPolygonOptions = Pick<PolygonOptions, 'fillColor' | 'fillOpacity' | 'strokeColor'| 'strokeOpacity' | 'strokeWeight'>;
+
+export type FusionTablesPolylineOptions = Pick<PolylineOptions,  'strokeColor'| 'strokeOpacity' | 'strokeWeight'>;
+
+export interface FusionTablesMouseEvent {
+  infoWindowHtml?: string;
+  latLng?: LatLng;
+  pixelOffset?: Size;
+  row?: FusionTablesCell;
+}
+
+export interface FusionTablesCell {
+  columnName?: string;
+  value?: string;
+}
+
 export interface Feature extends MVCObject {
   id?: number|string|undefined;
   geometry: Geometry;
