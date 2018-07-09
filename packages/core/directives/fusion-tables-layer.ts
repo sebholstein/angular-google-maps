@@ -66,5 +66,10 @@ export class AgmFusionTablesLayer implements OnInit, OnDestroy, OnChanges {
     if (!this._addedToManager) {
       return;
     }
+
+    const optionsChange = changes['options'];
+    if (optionsChange) {
+      this._manager.updateFusionTablesLayerOptions(this, optionsChange.currentValue);
+    }
   }
 }

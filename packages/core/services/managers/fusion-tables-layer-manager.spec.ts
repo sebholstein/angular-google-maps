@@ -64,6 +64,40 @@ describe('FusionTablesLayerManager', () => {
            }));
   });
 
+  describe('Updates options for an existing fusion table layer', () => {
+    it('should setOptions on the layer',
+       inject(
+           [FusionTablesLayerManager, GoogleMapsAPIWrapper],
+           (manager: FusionTablesLayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+             const newLayer = new AgmFusionTablesLayer(manager);
+             newLayer.options = {
+               query: {
+                 from: '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ',
+               },
+             };
+             const layerInstance: any = {setOptions: jest.fn()};
+             (<jest.Mock>apiWrapper.createFusionTablesLayer)
+                 .mockReturnValue(Promise.resolve(layerInstance));
+
+             manager.addFusionTablesLayer(newLayer);
+             manager
+                 .updateFusionTablesLayerOptions(newLayer, {
+                   query: {from: '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ'},
+                   styles: [
+                     {polygonOptions: {fillColor: '#00FF00', fillOpacity: 0.3}},
+                   ],
+                 })
+                 .then(() => {
+                   expect(layerInstance.setOptions).toHaveBeenCalledWith({
+                     query: {from: '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ'},
+                     styles: [
+                       {polygonOptions: {fillColor: '#00FF00', fillOpacity: 0.3}},
+                     ],
+                   });
+                 });
+           }));
+  });
+
   describe('Create event listener for a layer', () => {
     it('should add a listener on the layer',
        inject(
