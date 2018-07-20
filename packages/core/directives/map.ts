@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output, HostBinding } from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
