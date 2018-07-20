@@ -65,7 +65,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Passes true is class is sebm-google-map-container
    */
-    @HostBinding('class.sebm-google-map-container') isMapContainer: boolean = true;
+  @HostBinding('class.sebm-google-map-container') isMapContainer: boolean = true;
   /**
    * The longitude that defines the center of the map.
    */
