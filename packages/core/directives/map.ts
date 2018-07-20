@@ -62,8 +62,10 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   `
 })
 export class AgmMap implements OnChanges, OnInit, OnDestroy {
-
-    @HostBinding('class.sebm-google-map-container') isMapContainer: boolean = true;
+  /**
+   * Passes true is class is sebm-google-map-container
+   */
+  @HostBinding('class.sebm-google-map-container') isMapContainer: boolean = true;
   /**
    * The longitude that defines the center of the map.
    */
