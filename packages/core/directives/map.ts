@@ -45,10 +45,6 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
     PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager
   ],
-  host: {
-    // todo: deprecated - we will remove it with the next version
-    '[class.sebm-google-map-container]': 'true'
-  },
   styles: [`
     .agm-map-container-inner {
       width: inherit;
@@ -66,6 +62,8 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   `
 })
 export class AgmMap implements OnChanges, OnInit, OnDestroy {
+
+    @HostBinding('class.sebm-google-map-container') mapContainer = true;
   /**
    * The longitude that defines the center of the map.
    */
@@ -257,7 +255,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] = [
+  private _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
@@ -389,7 +387,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _updateMapOptionsChanges(changes: SimpleChanges) {
     let options: {[propName: string]: any} = {};
     let optionKeys =
-        Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
+        Object.keys(changes).filter(k => this._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
   }
