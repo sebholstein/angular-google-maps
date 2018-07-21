@@ -1,11 +1,11 @@
 {
   "name": "@agme/_dev",
   "private": true,
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.5",
   "description": "Angular components for Google Maps Extended",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SebastianM/angular-google-maps.git"
+    "url": "https://github.com/wdunn001/angular-google-maps.git"
   },
   "keywords": [
     "angular",
