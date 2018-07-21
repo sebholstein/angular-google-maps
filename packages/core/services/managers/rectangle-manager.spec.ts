@@ -3,7 +3,6 @@ import { TestBed, async, inject } from '@angular/core/testing';
 
 import { AgmRectangle } from './../../directives/rectangle';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
-import { Rectangle } from './../google-maps-types';
 import { RectangleManager } from './../managers/rectangle-manager';
 
 describe('RectangleManager', () => {
@@ -102,7 +101,7 @@ describe('RectangleManager', () => {
           newRectangle.south = 89.2;
           newRectangle.west = 52.6;
 
-          const rectangleInstance: Rectangle = <any>{
+          const rectangleInstance: google.maps.Rectangle = <any>{
             setMap: jest.fn(),
             setBounds: jest.fn()
           };

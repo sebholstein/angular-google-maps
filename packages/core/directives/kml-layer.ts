@@ -1,7 +1,5 @@
 import { Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
 import {Subscription} from 'rxjs';
-
-import {KmlMouseEvent} from './../services/google-maps-types';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 
 let layerId = 0;
@@ -52,7 +50,7 @@ export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * This event is fired when a feature in the layer is clicked.
    */
-  @Output() layerClick: EventEmitter<KmlMouseEvent> = new EventEmitter<KmlMouseEvent>();
+  @Output() layerClick: EventEmitter<google.maps.KmlMouseEvent> = new EventEmitter<google.maps.KmlMouseEvent>();
 
   /**
    * This event is fired when the KML layers default viewport has changed.
@@ -98,7 +96,7 @@ export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
 
   private _addEventListeners() {
     const listeners = [
-      {name: 'click', handler: (ev: KmlMouseEvent) => this.layerClick.emit(ev)},
+      {name: 'click', handler: (ev: google.maps.KmlMouseEvent) => this.layerClick.emit(ev)},
       {name: 'defaultviewport_changed', handler: () => this.defaultViewportChange.emit()},
       {name: 'status_changed', handler: () => this.statusChange.emit()},
     ];

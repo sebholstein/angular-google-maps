@@ -1,9 +1,5 @@
 import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Input, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
-
-import {MouseEvent} from '../map-types';
-import {LatLng, LatLngBounds, LatLngLiteral} from '../services/google-maps-types';
-import {MouseEvent as MapMouseEvent} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 
 @Directive({
@@ -86,7 +82,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * This event is fired when the circle's center is changed.
    */
-  @Output() centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
+  @Output() centerChange: EventEmitter<google.maps.LatLngLiteral> = new EventEmitter<google.maps.LatLngLiteral>();
 
   /**
    * This event emitter gets emitted when the user clicks on the circle.
@@ -217,7 +213,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
 
     events.forEach((eventEmitter, eventName) => {
       this._eventSubscriptions.push(
-          this._manager.createEventObservable<MapMouseEvent>(eventName, this).subscribe((value) => {
+          this._manager.createEventObservable<google.maps.MouseEvent>(eventName, this).subscribe((e) => {
             switch (eventName) {
               case 'radius_changed':
                 this._manager.getRadius(this).then((radius) => eventEmitter.emit(radius));
@@ -225,11 +221,10 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
               case 'center_changed':
                 this._manager.getCenter(this).then(
                     (center) =>
-                        eventEmitter.emit(<LatLngLiteral>{lat: center.lat(), lng: center.lng()}));
+                        eventEmitter.emit(<google.maps.LatLngLiteral>{lat: center.lat(), lng: center.lng()}));
                 break;
               default:
-                eventEmitter.emit(
-                    <MouseEvent>{coords: {lat: value.latLng.lat(), lng: value.latLng.lng()}});
+                eventEmitter.emit(e);
             }
           }));
     });
@@ -245,7 +240,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * Gets the LatLngBounds of this Circle.
    */
-  getBounds(): Promise<LatLngBounds> { return this._manager.getBounds(this); }
+  getBounds(): Promise<google.maps.LatLngBounds> { return this._manager.getBounds(this); }
 
-  getCenter(): Promise<LatLng> { return this._manager.getCenter(this); }
+  getCenter(): Promise<google.maps.LatLng> { return this._manager.getCenter(this); }
 }

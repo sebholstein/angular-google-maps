@@ -64,6 +64,7 @@
     "@angular/tsc-wrapped": "4.4.6",
     "@compodoc/compodoc": "^1.0.0-beta.9",
     "@ngtools/webpack": "6.0.0",
+    "@types/googlemaps": "^3.30.11",
     "@types/jest": "^23.0.0",
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "^5.0.0",

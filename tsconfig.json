@@ -18,7 +18,8 @@
             "esnext"
         ],
         "types": [
-            "jest"
+            "jest",
+            "googlemaps"
         ],
         "paths": {
             "@agm/*": ["./packages/*"]

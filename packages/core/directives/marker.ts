@@ -2,14 +2,8 @@ import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
   AfterContentInit, ContentChildren, QueryList, Input, Output
 } from '@angular/core';
 import {Subscription} from 'rxjs';
-
-import {MouseEvent} from '../map-types';
-import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
-
 import {AgmInfoWindow} from './info-window';
-import {MarkerLabel} from '../map-types';
-
 let markerId = 0;
 
 /**
@@ -62,7 +56,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The label (a single uppercase character) for the marker.
    */
-  @Input() label: string | MarkerLabel;
+  @Input() label: string | google.maps.MarkerLabel;
 
   /**
    * If true, the marker can be dragged. Default value is false.
@@ -123,17 +117,17 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is fired when the user stops dragging the marker.
    */
-  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user mouses over the marker.
    */
-  @Output() mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOver: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user mouses outside the marker.
    */
-  @Output() mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOut: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * @internal
@@ -225,23 +219,23 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     this._observableSubscriptions.push(rc);
 
     const ds =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+        this._markerManager.createEventObservable<google.maps.MouseEvent>('dragend', this)
+            .subscribe((e: google.maps.MouseEvent) => {
+              this.dragEnd.emit(e);
             });
     this._observableSubscriptions.push(ds);
 
     const mover =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.mouseOver.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+        this._markerManager.createEventObservable<google.maps.MouseEvent>('mouseover', this)
+            .subscribe((e: google.maps.MouseEvent) => {
+              this.mouseOver.emit(e);
             });
     this._observableSubscriptions.push(mover);
 
     const mout =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseout', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.mouseOut.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+        this._markerManager.createEventObservable<google.maps.MouseEvent>('mouseout', this)
+            .subscribe((e: google.maps.MouseEvent) => {
+              this.mouseOut.emit(e);
             });
     this._observableSubscriptions.push(mout);
   }

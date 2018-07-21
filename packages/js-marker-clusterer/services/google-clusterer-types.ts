@@ -1,11 +1,9 @@
-import {Marker, GoogleMap, LatLngBounds} from '@agm/core/services/google-maps-types';
-
 export interface CalculatorResult {
   text: string;
   index: number;
 }
 
-export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult;
+export type CalculateFunction = (marker: google.maps.Marker[], count: number) => CalculatorResult;
 
 export interface MarkerClustererInstance {
   zoomOnClick_: boolean;
@@ -13,25 +11,25 @@ export interface MarkerClustererInstance {
   imagePath_: string;
   minimumClusterSize_: number;
   imageExtension_: string;
-  new(map: GoogleMap, marker: Marker[], options: ClusterOptions): MarkerClustererInstance;
-  addMarker(marker: Marker, noDraw?: boolean): void;
-  addMarkers(markers: Marker[], noDraw?: boolean): void;
+  new(map: google.maps.Map , marker: google.maps.Marker[], options: ClusterOptions): MarkerClustererInstance;
+  addMarker(marker: google.maps.Marker, noDraw?: boolean): void;
+  addMarkers(markers: google.maps.Marker[], noDraw?: boolean): void;
   clearMarkers(): void;
   getCalculator(): CalculateFunction;
-  getExtendedBounds(bounds: LatLngBounds): LatLngBounds;
+  getExtendedBounds(bounds: google.maps.LatLngBounds): google.maps.LatLngBounds;
   getGridSize(): number;
-  getMap(): GoogleMap;
-  getMarkers(): Marker[];
+  getMap(): google.maps.Map;
+  getMarkers(): google.maps.Marker[];
   getStyles(): ClusterStyle;
   getTotalClusters(): number;
-  getTotalMarkers(): Marker[];
+  getTotalMarkers(): google.maps.Marker[];
   isZoomOnClick(): boolean;
   redraw(): void;
-  removeMarker(marker: Marker): boolean;
+  removeMarker(marker: google.maps.Marker): boolean;
   resetViewport(): void;
   setCalculator(calculator: CalculateFunction): void;
   setGridSize(size: number): void;
-  setMap(map: GoogleMap): void;
+  setMap(map: google.maps.Map): void;
   setMaxZoom(maxZoom: number): void;
   setStyles(styles: ClusterStyle): void;
 }
