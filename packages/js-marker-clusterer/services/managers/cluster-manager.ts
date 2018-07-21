@@ -6,7 +6,6 @@ import {MarkerManager} from '../../../core/services/managers/marker-manager';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
 import {AgmMarker} from '../../../core/directives/marker';
 import {AgmMarkerCluster} from './../../directives/marker-cluster';
-import {Marker} from '@agm/core/services/google-maps-types';
 import {MarkerClustererInstance, ClusterOptions} from '../google-clusterer-types';
 
 declare var MarkerClusterer: any;
@@ -62,7 +61,7 @@ export class ClusterManager extends MarkerManager {
       // marker already deleted
       return Promise.resolve();
     }
-    return m.then((m: Marker) => {
+    return m.then((m: google.maps.Marker) => {
       this._zone.run(() => {
         m.setMap(null);
         this._clustererInstance.then(cluster => {

@@ -1,16 +1,11 @@
 import {Injectable, NgZone} from '@angular/core';
-
-import {Observable} from 'rxjs';
-import {Observer} from 'rxjs';
-
+import {Observable, Observer} from 'rxjs';
 import {AgmRectangle} from '../../directives/rectangle';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import * as mapTypes from '../google-maps-types';
-
 @Injectable()
 export class RectangleManager {
-  private _rectangles: Map<AgmRectangle, Promise<mapTypes.Rectangle>> =
-      new Map<AgmRectangle, Promise<mapTypes.Rectangle>>();
+  private _rectangles: Map<AgmRectangle, Promise<google.maps.Rectangle>> =
+      new Map<AgmRectangle, Promise<google.maps.Rectangle>>();
 
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
@@ -29,7 +24,7 @@ export class RectangleManager {
       fillOpacity: rectangle.fillOpacity,
       strokeColor: rectangle.strokeColor,
       strokeOpacity: rectangle.strokeOpacity,
-      strokePosition: rectangle.strokePosition,
+      strokePosition: google.maps.StrokePosition[rectangle.strokePosition],
       strokeWeight: rectangle.strokeWeight,
       visible: rectangle.visible,
       zIndex: rectangle.zIndex
@@ -46,11 +41,11 @@ export class RectangleManager {
     });
   }
 
-  setOptions(rectangle: AgmRectangle, options: mapTypes.RectangleOptions): Promise<void> {
+  setOptions(rectangle: AgmRectangle, options: google.maps.RectangleOptions): Promise<void> {
     return this._rectangles.get(rectangle).then((r) => r.setOptions(options));
   }
 
-  getBounds(rectangle: AgmRectangle): Promise<mapTypes.LatLngBounds> {
+  getBounds(rectangle: AgmRectangle): Promise<google.maps.LatLngBounds> {
     return this._rectangles.get(rectangle).then((r) => r.getBounds());
   }
 
@@ -85,7 +80,7 @@ export class RectangleManager {
 
   createEventObservable<T>(eventName: string, rectangle: AgmRectangle): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
-      let listener: mapTypes.MapsEventListener = null;
+      let listener: google.maps.MapsEventListener = null;
       this._rectangles.get(rectangle).then((r) => {
         listener = r.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });

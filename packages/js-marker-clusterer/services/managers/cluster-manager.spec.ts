@@ -3,7 +3,6 @@ import {TestBed, async, inject} from '@angular/core/testing';
 
 import {AgmMarker} from '../../../core/directives/marker';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {Marker} from '../../../core/services/google-maps-types';
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
