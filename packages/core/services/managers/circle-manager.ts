@@ -21,7 +21,7 @@ export class CircleManager {
       radius: circle.radius,
       strokeColor: circle.strokeColor,
       strokeOpacity: circle.strokeOpacity,
-      strokePosition: google.maps.StrokePosition[circle.strokePosition],
+      strokePosition: circle._strokePosition,
       strokeWeight: circle.strokeWeight,
       visible: circle.visible,
       zIndex: circle.zIndex

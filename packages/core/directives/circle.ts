@@ -1,6 +1,7 @@
 import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Input, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {CircleManager} from '../services/managers/circle-manager';
+import { inject } from '@angular/core/testing';
 
 @Directive({
   selector: 'agm-circle'
@@ -62,8 +63,46 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
    * The stroke position. Defaults to CENTER.
    * This property is not supported on Internet Explorer 8 and earlier.
    */
-  @Input() strokePosition: 'CENTER'|'INSIDE'|'OUTSIDE' = 'CENTER';
+  @Input()
+  set strokePosition( strokePosition: 'CENTER'|'INSIDE'|'OUTSIDE') {
+    switch (strokePosition) {
+      case 'CENTER': {
+        this._strokePosition = google.maps.StrokePosition.CENTER;
+        break;
+      }
+      case 'INSIDE': {
+        this._strokePosition = google.maps.StrokePosition.INSIDE;
+        break;
+      }
+      case 'OUTSIDE': {
+        this._strokePosition = google.maps.StrokePosition.OUTSIDE;
+        break;
+      }
+      default: {
+        this._strokePosition = google.maps.StrokePosition.CENTER;
+      }
 
+    }
+  }
+  get strokePosition() {
+    switch (this._strokePosition) {
+      case google.maps.StrokePosition.CENTER: {
+        return 'CENTER';
+      }
+      case google.maps.StrokePosition.INSIDE: {
+        return 'INSIDE';
+      }
+      case google.maps.StrokePosition.OUTSIDE: {
+        return 'OUTSIDE';
+      }
+
+      default: {
+        return null;
+      }
+
+    }
+  }
+  _strokePosition: google.maps.StrokePosition;
   /**
    * The stroke width in pixels.
    */

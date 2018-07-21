@@ -231,7 +231,52 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The map mapTypeId. Defaults to 'roadmap'.
    */
-  @Input() mapTypeId:  'ROADMAP'|'HYBRID'|'SATELLITE'|'TERRAIN' = 'ROADMAP';
+  @Input()
+  set mapTypeId( mapTypeId: 'ROADMAP'|'HYBRID'|'SATELLITE'|'TERRAIN') {
+    switch (mapTypeId) {
+      case 'ROADMAP': {
+        this._mapTypeId = google.maps.MapTypeId.ROADMAP;
+        break;
+      }
+      case 'HYBRID': {
+        this._mapTypeId = google.maps.MapTypeId.HYBRID;
+        break;
+      }
+      case 'SATELLITE': {
+        this._mapTypeId = google.maps.MapTypeId.SATELLITE;
+        break;
+      }
+      case 'TERRAIN': {
+        this._mapTypeId = google.maps.MapTypeId.TERRAIN;
+        break;
+      }
+      default: {
+        this._mapTypeId = google.maps.MapTypeId.ROADMAP;
+      }
+
+    }
+  }
+  get mapTypeId() {
+    switch (this._mapTypeId) {
+      case google.maps.MapTypeId.ROADMAP: {
+        return 'ROADMAP';
+      }
+      case google.maps.MapTypeId.HYBRID: {
+        return 'HYBRID';
+      }
+      case google.maps.MapTypeId.SATELLITE: {
+        return 'SATELLITE';
+      }
+      case google.maps.MapTypeId.TERRAIN: {
+        return 'TERRAIN';
+      }
+      default: {
+        return null;
+      }
+
+    }
+  }
+  _mapTypeId: google.maps.MapTypeId = google.maps.MapTypeId.ROADMAP;
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
@@ -350,7 +395,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
-      mapTypeId: google.maps.MapTypeId[this.mapTypeId],
+      mapTypeId: this._mapTypeId,
       clickableIcons: this.clickableIcons,
       gestureHandling: this.gestureHandling
     })
