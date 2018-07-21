@@ -124,7 +124,7 @@ describe('RectangleManager', () => {
             fillOpacity: undefined,
             strokeColor: undefined,
             strokeOpacity: undefined,
-            strokePosition: 'CENTER',
+            strokePosition: google.maps.StrokePosition['CENTER'],
             strokeWeight: 0,
             visible: true,
             zIndex: undefined
