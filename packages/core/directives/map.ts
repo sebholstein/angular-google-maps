@@ -276,7 +276,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
     }
   }
-  _mapTypeId: google.maps.MapTypeId = google.maps.MapTypeId.ROADMAP;
+  _mapTypeId: google.maps.MapTypeId;
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
