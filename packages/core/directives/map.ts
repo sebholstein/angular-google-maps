@@ -231,7 +231,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The map mapTypeId. Defaults to 'roadmap'.
    */
-  @Input() mapTypeId: google.maps.MapTypeId;
+  @Input() mapTypeId:  'ROADMAP'|'HYBRID'|'SATELLITE'|'TERRAIN' = 'ROADMAP';
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
@@ -350,7 +350,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
-      mapTypeId: this.mapTypeId,
+      mapTypeId: google.maps.MapTypeId[this.mapTypeId],
       clickableIcons: this.clickableIcons,
       gestureHandling: this.gestureHandling
     })
