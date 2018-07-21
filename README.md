@@ -1,20 +1,12 @@
 [![AGM - Angular Google Maps](assets/images/angular-google-maps-logo.png)](https://angular-maps.com/)
 
-# AGM - Angular Google Maps
+# AGM - Angular Google Maps Extensible
 
-Angular 2+ components for Google Maps. (Previously known as angular2-google-maps)
-
------
-
-[Website](https://angular-maps.com/) | [Demo](https://stackblitz.com/edit/angular-google-maps-demo) | [Twitter](https://twitter.com/Sebholstein) | [Chat](https://discord.gg/XAr2ACE) | [API Documentation](https://angular-maps.com/api-docs/)
-
------
-
-[![Build Status](https://travis-ci.org/SebastianM/angular-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular-google-maps) [![Questions?: join the chat](https://img.shields.io/badge/questions%3F-join%20the%20chat-blue.svg)](https://discord.gg/XAr2ACE) [![npm version](https://badge.fury.io/js/%40agm%2Fcore.svg)](https://www.npmjs.com/package/@agm/core) ![supported angular versions: 5+](https://img.shields.io/badge/supported%20angular%20versions-5+-green.svg)
+Angular components for Google Maps. (Previously known as angular2-google-maps) extensible version this version uses the google maps @types files instead of custom class/interfaces allowing you to easily extend it with features that may not already exist.
 
 ## Packages
 
-This project is a mono repo and hosts multiple packages:
+This project is a mono repo and hosts extensible variants of multiple packages:
 
 | Package                               | Downloads                                                                                                                                         |
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -31,7 +23,7 @@ If you just want to play with AGM and don't want to set up a full project, you c
 
 ## Installation
 
-`AGM` gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.  
+`AGM` gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.
 You can install the package with the following command:
 
 ```shell

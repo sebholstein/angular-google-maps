@@ -1,8 +1,8 @@
 {
-  "name": "@agm/_dev",
+  "name": "@agme/_dev",
   "private": true,
   "version": "1.0.0-beta.3",
-  "description": "Angular components for Google Maps",
+  "description": "Angular components for Google Maps Extended",
   "repository": {
     "type": "git",
     "url": "https://github.com/SebastianM/angular-google-maps.git"
@@ -42,15 +42,16 @@
     "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --hideGenerator --disableCoverage",
     "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --hideGenerator --disableCoverage"
   },
-  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
+  "author": "Sebastian Holstein <info@sebastian-holstein.de> && William Dunn<wdunn001@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+    "url": "https://github.com/wdunn001/angular-google-maps/issues"
   },
   "homepage": "https://angular-maps.com",
   "peerDependencies": {
     "@angular/common": "^5.0.0 || ^6.0.0",
-    "@angular/core": "^5.0.0 || ^6.0.0"
+    "@angular/core": "^5.0.0 || ^6.0.0",
+    "@types/googlemaps": "^3.30.11"
   },
   "devDependencies": {
     "@angular/animations": "^6.0.0",

@@ -16,7 +16,7 @@ packages.forEach(function(pkgName) {
   }
 
   // define the package name
-  basePkgJson.name = `@agm/${pkgName}`
+  basePkgJson.name = `@agme/${pkgName}`
 
   // update version
   basePkgJson.version = rootPkgJson.version;
@@ -29,7 +29,7 @@ packages.forEach(function(pkgName) {
 
   // remove the private option
   delete basePkgJson.private;
-  
+
   // remove dependencies for safety reasons as we use peerDependencies
   basePkgJson.dependencies = {};
 
