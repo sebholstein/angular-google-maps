@@ -27,10 +27,85 @@ If you just want to play with AGM and don't want to set up a full project, you c
 You can install the package with the following command:
 
 ```shell
-npm install @agm/core
+npm install @types/googlemaps
+
+npm install @agme/core
 ```
 
 You should also checkout the [Getting started](https://angular-maps.com/guides/getting-started/) guide for further information.
+
+## Extending
+
+```shell
+//extend map
+import { Component, OnInit, ElementRef } from '@angular/core';
+import {  GoogleMapsAPIWrapperExtendedService } from './GoogleMapsAPIWrapperExtendedService'; // you will need to make this
+import {
+  MarkerManager,
+  InfoWindowManager,
+  CircleManager,
+  PolylineManager,
+  PolygonManager,
+  KmlLayerManager,
+  DataLayerManager
+} from '@agme/core';
+import { AgmMap } from '@agme/core';
+
+@Component({
+  selector: 'sp-extended-map',
+  providers: [
+    GoogleMapsAPIWrapperExtendedService,
+    MarkerManager,
+    InfoWindowManager,
+    CircleManager,
+    PolylineManager,
+    PolygonManager,
+    KmlLayerManager,
+    DataLayerManager
+  ],
+  styles: [
+    `
+      .agm-map-container-inner {
+        width: inherit;
+        height: inherit;
+      }
+      .agm-map-content {
+        display: none;
+      }
+    `
+  ],
+  template: `
+    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>
+    <div class='agm-map-content'>
+      <ng-content></ng-content>
+    </div>
+  `
+})
+export class ExtendedmapComponent extends AgmMap
+  implements OnInit {
+
+    constructor(  _elem: ElementRef,  _mapsWrapper: GoogleMapsAPIWrapper) {super(_elem, _mapsWrapper); }
+  ngOnInit() {
+    super.ngOnInit();
+  }
+}
+
+//extended api wrapper
+import { Injectable, NgZone } from '@angular/core';
+import { GoogleMapsAPIWrapper, MapsAPILoader } from '@agme/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GoogleMapsAPIWrapperExtendedService extends GoogleMapsAPIWrapper {
+
+  constructor(_loader: MapsAPILoader, _zone: NgZone) {
+    super(_loader, _zone);
+  }
+}
+
+```
+you can now add custom functions and so forth.
 
 ## Contributions
 
