@@ -8,10 +8,10 @@ import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
  */
 @Injectable()
 export class GoogleMapsAPIWrapper {
-  _map: Promise<google.maps.Map>;
-  _mapResolver: (value?: google.maps.Map) => void;
+  protected _map: Promise<google.maps.Map>;
+  protected _mapResolver: (value?: google.maps.Map) => void;
 
-  constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
+  constructor(protected _loader: MapsAPILoader, protected _zone: NgZone) {
     this._map =
         new Promise<google.maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });
   }
