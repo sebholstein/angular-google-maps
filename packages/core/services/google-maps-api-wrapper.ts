@@ -164,4 +164,17 @@ export class GoogleMapsAPIWrapper {
   triggerMapEvent(eventName: string): Promise<void> {
     return this._map.then((m) => google.maps.event.trigger(m, eventName));
   }
+
+  getProjection(): Promise<google.maps.Projection> {
+    return this._map.then((map: google.maps.Map) => map.getProjection());
+  }
+
+  fromLatLngToPoint(latLng: google.maps.LatLng, point?: google.maps.Point): Promise<google.maps.Point> {
+    return this._map.then((map: google.maps.Map) => map.getProjection().fromLatLngToPoint(latLng, point));
+  }
+
+  fromPointToLatLng(pixel: google.maps.Point, noWrap?: boolean): Promise<google.maps.LatLng> {
+    return this._map.then((map: google.maps.Map) => map.getProjection().fromPointToLatLng(pixel, noWrap));
+  }
+
 }

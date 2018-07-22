@@ -276,7 +276,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
     }
   }
-  _mapTypeId: google.maps.MapTypeId;
+  protected _mapTypeId: google.maps.MapTypeId;
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
@@ -293,6 +293,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
    */
   @Input() gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
+
+  /**
+   * The heading for aerial imagery in degrees measured clockwise from cardinal
+   * direction North. Headings are snapped to the nearest available angle for
+   * which imagery is available.
+   */
+  @Input() heading: number;
 
   /**
    * Map option attributes that can change over time
@@ -335,6 +342,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * This event is fired when the viewport bounds have changed.
    */
   @Output() boundsChange: EventEmitter<google.maps.LatLngBounds> = new EventEmitter<google.maps.LatLngBounds>();
+
+  @Output() projectionChange: EventEmitter<google.maps.Projection> = new EventEmitter<google.maps.Projection>();
 
   /**
    * This event is fired when the mapTypeId property changes.
@@ -397,7 +406,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       fullscreenControlOptions: this.fullscreenControlOptions,
       mapTypeId: this._mapTypeId,
       clickableIcons: this.clickableIcons,
-      gestureHandling: this.gestureHandling
+      gestureHandling: this.gestureHandling,
+      heading: this.heading
     })
       .then(() => this._mapsWrapper.getNativeMap())
       .then(map => this.mapReady.emit(map));
@@ -407,6 +417,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
     this._handleBoundsChange();
+    this._handleProjectionChange();
     this._handleMapTypeIdChange();
     this._handleIdleEvent();
   }
@@ -509,6 +520,14 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
       this._mapsWrapper.getBounds().then(
           (bounds: google.maps.LatLngBounds) => { this.boundsChange.emit(bounds); });
+    });
+    this._observableSubscriptions.push(s);
+  }
+
+  protected _handleProjectionChange() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('projection_changed').subscribe(() => {
+      this._mapsWrapper.getProjection().then(
+          (projection: google.maps.Projection) => { this.projectionChange.emit(projection); });
     });
     this._observableSubscriptions.push(s);
   }
