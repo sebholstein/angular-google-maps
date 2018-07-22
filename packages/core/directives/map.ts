@@ -10,6 +10,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import { HeatmapLayerManager } from '../services/managers/heatmap-layer-manager';
 
 /**
  * AgmMap renders a Google Map.
@@ -38,7 +39,7 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
-    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager
+    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, HeatmapLayerManager
   ],
   styles: [`
     .agm-map-container-inner {

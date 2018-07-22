@@ -27,9 +27,9 @@ If you just want to play with AGM and don't want to set up a full project, you c
 You can install the package with the following command:
 
 ```shell
-npm install @types/googlemaps
+npm install --save-dev @types/googlemaps
 
-npm install @agme/core
+npm install --save @agme/core
 ```
 
 You should also checkout the [Getting started](https://angular-maps.com/guides/getting-started/) guide for further information.
