@@ -1,4 +1,4 @@
-# AGM - Angular Google Maps Extendable
+# AGME - Angular Google Maps Extendable
 
 Angular components for Google Maps. (Previously known as angular2-google-maps) Extended version this version uses the google maps @types files instead of custom class/interfaces allowing you to easily extend it with features that may not already exist. This version is probrably not needed for most people and adds features less commonly used.
 
