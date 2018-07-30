@@ -1,5 +1,5 @@
 {
-  "name": "@agm/core-src",
+  "name": "@agm/core",
   "version": "1.0.0-beta.0",
   "description": "Angular 2+ components for Google Maps",
   "repository": {
