@@ -1,8 +1,22 @@
-import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges, Input, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import {
+  AfterContentInit,
+  Directive,
+  EventEmitter,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  Input,
+  Output
+} from "@angular/core";
+import { Subscription } from "rxjs/Subscription";
 
-import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
-import { PolygonManager } from '../services/managers/polygon-manager';
+import {
+  LatLng,
+  LatLngLiteral,
+  PolyMouseEvent,
+  PolygonOptions
+} from "../services/google-maps-types";
+import { PolygonManager } from "../services/managers/polygon-manager";
 
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
@@ -54,7 +68,7 @@ import { PolygonManager } from '../services/managers/polygon-manager';
  * ```
  */
 @Directive({
-  selector: 'agm-polygon'
+  selector: "agm-polygon"
 })
 export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
@@ -67,7 +81,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * property defines the mode of dragging. Defaults to false.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('polyDraggable') draggable: boolean = false;
+  @Input("polyDraggable") draggable: boolean = false;
 
   /**
    * If set to true, the user can edit this shape by dragging the control
@@ -106,7 +120,10 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * Inserting or removing LatLngs from the Array will automatically update
    * the polygon on the map.
    */
-  @Input() paths: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>> = [];
+  @Input()
+  paths:
+    | Array<LatLng | LatLngLiteral>
+    | Array<Array<LatLng | LatLngLiteral>> = [];
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended
@@ -137,74 +154,119 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is fired when the DOM click event is fired on the Polygon.
    */
-  @Output() polyClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM dblclick event is fired on the Polygon.
    */
-  @Output() polyDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is repeatedly fired while the user drags the polygon.
    */
-  @Output() polyDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output()
+  polyDrag: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the polygon.
    */
-  @Output() polyDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output()
+  polyDragEnd: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is fired when the user starts dragging the polygon.
    */
-  @Output() polyDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output()
+  polyDragStart: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the Polygon.
    */
-  @Output() polyMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the Polygon.
    */
-  @Output() polyMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is fired on Polygon mouseout.
    */
-  @Output() polyMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is fired on Polygon mouseover.
    */
-  @Output() polyMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This event is fired whe the DOM mouseup event is fired on the Polygon
    */
-  @Output() polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This even is fired when the Polygon is right-clicked on.
    */
-  @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   /**
    * This even is fired when the Polygon is right-clicked on.
    */
-  @Output() changedShape: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output()
+  changedShape: EventEmitter<PolyMouseEvent> = new EventEmitter<
+    PolyMouseEvent
+  >();
 
   private static _polygonOptionsAttributes: Array<string> = [
-    'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
-    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex'
+    "clickable",
+    "draggable",
+    "editable",
+    "fillColor",
+    "fillOpacity",
+    "geodesic",
+    "icon",
+    "map",
+    "paths",
+    "strokeColor",
+    "strokeOpacity",
+    "strokeWeight",
+    "visible",
+    "zIndex"
   ];
 
   private _id: string;
   private _polygonAddedToManager: boolean = false;
+  private _isDragging: boolean = false;
   private _subscriptions: Subscription[] = [];
   // private _listeners: Subscription[] = [];
 
-  constructor(private _polygonManager: PolygonManager) { }
+  constructor(private _polygonManager: PolygonManager) {}
 
   /** @internal */
   ngAfterContentInit() {
@@ -219,7 +281,10 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
       return;
     }
 
-    this._polygonManager.setPolygonOptions(this, this._updatePolygonOptions(changes));
+    this._polygonManager.setPolygonOptions(
+      this,
+      this._updatePolygonOptions(changes)
+    );
     this._addEventListeners();
   }
 
@@ -230,37 +295,111 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   private _removeEventListeners() {
-    this._subscriptions.forEach((s) => s.unsubscribe());
+    this._subscriptions.forEach(s => s.unsubscribe());
     this._subscriptions = [];
   }
   private _addEventListeners() {
     const handlers = [
-      { name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev) },
-      { name: 'dbclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev) },
-      { name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev) },
-      { name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev) },
-      { name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev) },
-      { name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev) },
-      { name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev) },
-      { name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev) },
-      { name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev) },
-      { name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev) },
+      {
+        name: "click",
+        handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev)
+      },
+      {
+        name: "dbclick",
+        handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev)
+      },
+      {
+        name: "mousedown",
+        handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev)
+      },
+      {
+        name: "mousemove",
+        handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev)
+      },
+      {
+        name: "mouseout",
+        handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev)
+      },
+      {
+        name: "mouseover",
+        handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev)
+      },
+      {
+        name: "mouseup",
+        handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev)
+      },
+      {
+        name: "rightclick",
+        handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev)
+      }
     ];
-    handlers.forEach((obj) => {
-      const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
+
+    handlers.forEach(obj => {
+      const os = this._polygonManager
+        .createEventObservable(obj.name, this)
+        .subscribe(obj.handler);
       this._subscriptions.push(os);
     });
 
-    const listeners = [
-      { name: 'insert_at', handler: (ev: PolyMouseEvent) => this.changedShape.emit(ev) },
-      { name: 'remove_at', handler: (ev: PolyMouseEvent) => this.changedShape.emit(ev) },
-      { name: 'set_at', handler: (ev: PolyMouseEvent) => this.changedShape.emit(ev) },
-      { name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev) },
+    const drag = [
+      { name: "drag", handler: (ev: PolyMouseEvent) => this.polyDrag.emit(ev) },
+      {
+        name: "dragend",
+        handler: (ev: PolyMouseEvent) => {
+          this._isDragging = false;
+          this.polyDragEnd.emit(ev);
+        }
+      },
+      {
+        name: "dragstart",
+        handler: (ev: PolyMouseEvent) => {
+          this._isDragging = true;
+          this.polyDragStart.emit(ev);
+        }
+      }
     ];
-    listeners.forEach((obj) => {
-      const lis = this._polygonManager.createPolyChangesObservable(obj.name, this).subscribe(obj.handler);
-      this._subscriptions.push(lis);
+
+    drag.forEach(obj => {
+      const dr = this._polygonManager
+        .createDragEventObservable(obj.name, this)
+        .subscribe(obj.handler);
+      this._subscriptions.push(dr);
     });
+
+    if (this.editable) {
+      const listeners = [
+        {
+          name: "insert_at",
+          handler: (ev: PolyMouseEvent) => {
+            if (!this._isDragging) {
+              this.changedShape.emit(ev);
+            }
+          }
+        },
+        {
+          name: "remove_at",
+          handler: (ev: PolyMouseEvent) => {
+            if (!this._isDragging) {
+              this.changedShape.emit(ev);
+            }
+          }
+        },
+        {
+          name: "set_at",
+          handler: (ev: PolyMouseEvent) => {
+            if (!this._isDragging) {
+              this.changedShape.emit(ev);
+            }
+          }
+        }
+      ];
+      listeners.forEach(obj => {
+        const lis = this._polygonManager
+          .createPolyChangesObservable(obj.name, this)
+          .subscribe(obj.handler);
+        this._subscriptions.push(lis);
+      });
+    }
   }
 
   private _updatePolygonOptions(changes: SimpleChanges): PolygonOptions {
@@ -274,13 +413,15 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   /** @internal */
-  id(): string { return this._id; }
+  id(): string {
+    return this._id;
+  }
 
   /** @internal */
   ngOnDestroy() {
     this._polygonManager.deletePolygon(this);
     // unsubscribe all registered observable subscriptions
-    this._subscriptions.forEach((s) => s.unsubscribe());
+    this._subscriptions.forEach(s => s.unsubscribe());
     // this._listeners.forEach((listeners) => s.unsubscribe());
   }
 }

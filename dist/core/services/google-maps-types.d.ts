@@ -76,7 +76,7 @@ export interface CircleOptions {
     radius?: number;
     strokeColor?: string;
     strokeOpacity?: number;
-    strokePosition?: 'CENTER' | 'INSIDE' | 'OUTSIDE';
+    strokePosition?: "CENTER" | "INSIDE" | "OUTSIDE";
     strokeWeight?: number;
     visible?: boolean;
     zIndex?: number;
@@ -112,6 +112,7 @@ export interface MouseEvent {
 export interface MapOptions {
     center?: LatLng | LatLngLiteral;
     zoom?: number;
+    tilt?: number;
     minZoom?: number;
     maxZoom?: number;
     disableDoubleClickZoom?: boolean;
@@ -139,11 +140,11 @@ export interface MapOptions {
     fullscreenControlOptions?: FullscreenControlOptions;
     mapTypeId?: string | MapTypeId;
     clickableIcons?: boolean;
-    gestureHandling?: 'cooperative' | 'greedy' | 'none' | 'auto';
+    gestureHandling?: "cooperative" | "greedy" | "none" | "auto";
 }
 export interface MapTypeStyle {
-    elementType?: 'all' | 'geometry' | 'geometry.fill' | 'geometry.stroke' | 'labels' | 'labels.icon' | 'labels.text' | 'labels.text.fill' | 'labels.text.stroke';
-    featureType?: 'administrative' | 'administrative.country' | 'administrative.land_parcel' | 'administrative.locality' | 'administrative.neighborhood' | 'administrative.province' | 'all' | 'landscape' | 'landscape.man_made' | 'landscape.natural' | 'landscape.natural.landcover' | 'landscape.natural.terrain' | 'poi' | 'poi.attraction' | 'poi.business' | 'poi.government' | 'poi.medical' | 'poi.park' | 'poi.place_of_worship' | 'poi.school' | 'poi.sports_complex' | 'road' | 'road.arterial' | 'road.highway' | 'road.highway.controlled_access' | 'road.local' | 'transit' | 'transit.line' | 'transit.station' | 'transit.station.airport' | 'transit.station.bus' | 'transit.station.rail' | 'water';
+    elementType?: "all" | "geometry" | "geometry.fill" | "geometry.stroke" | "labels" | "labels.icon" | "labels.text" | "labels.text.fill" | "labels.text.stroke";
+    featureType?: "administrative" | "administrative.country" | "administrative.land_parcel" | "administrative.locality" | "administrative.neighborhood" | "administrative.province" | "all" | "landscape" | "landscape.man_made" | "landscape.natural" | "landscape.natural.landcover" | "landscape.natural.terrain" | "poi" | "poi.attraction" | "poi.business" | "poi.government" | "poi.medical" | "poi.park" | "poi.place_of_worship" | "poi.school" | "poi.sports_complex" | "road" | "road.arterial" | "road.highway" | "road.highway.controlled_access" | "road.local" | "transit" | "transit.line" | "transit.station" | "transit.station.airport" | "transit.station.bus" | "transit.station.rail" | "water";
     stylers: MapTypeStyler[];
 }
 /**
@@ -297,7 +298,7 @@ export interface KmlLayer extends MVCObject {
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerStatus
  */
-export declare type KmlLayerStatus = 'DOCUMENT_NOT_FOUND' | 'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' | 'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
+export declare type KmlLayerStatus = "DOCUMENT_NOT_FOUND" | "DOCUMENT_TOO_LARGE" | "FETCH_ERROR" | "INVALID_DOCUMENT" | "INVALID_REQUEST" | "LIMITS_EXCEEDED" | "OK" | "TIMED_OUT" | "UNKNOWN";
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerMetadata
  */
@@ -398,13 +399,13 @@ export declare enum MapTypeId {
     TERRAIN = 3,
 }
 export interface DrawingModes {
-    [index: number]: 'marker' | 'circle' | 'polygon' | 'polyline' | 'rectangle';
+    [index: number]: "marker" | "circle" | "polygon" | "polyline" | "rectangle";
     length: number;
 }
 export interface ExtraControl {
     title?: string;
     text?: string;
-    type: 'centerMap' | 'removePolygon';
+    type: "centerMap" | "removePolygon";
     position: string;
     class?: string;
     coord?: {

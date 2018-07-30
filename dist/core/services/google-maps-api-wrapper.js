@@ -1,7 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import * as mapTypes from './google-maps-types';
-import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
+import { Injectable, NgZone } from "@angular/core";
+import { Observable } from "rxjs/Observable";
+import * as mapTypes from "./google-maps-types";
+import { MapsAPILoader } from "./maps-api-loader/maps-api-loader";
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
  * API v3
@@ -12,8 +12,9 @@ var GoogleMapsAPIWrapper = (function () {
         this._loader = _loader;
         this._zone = _zone;
         this._trafficLayerExist = false;
-        this._map =
-            new Promise(function (resolve) { _this._mapResolver = resolve; });
+        this._map = new Promise(function (resolve) {
+            _this._mapResolver = resolve;
+        });
     }
     GoogleMapsAPIWrapper.prototype.createMap = function (el, mapOptions) {
         var _this = this;
@@ -24,7 +25,9 @@ var GoogleMapsAPIWrapper = (function () {
         });
     };
     GoogleMapsAPIWrapper.prototype.setMapOptions = function (options) {
-        this._map.then(function (m) { m.setOptions(options); });
+        this._map.then(function (m) {
+            m.setOptions(options);
+        });
     };
     /**
      * Creates a google map marker with the map context
@@ -37,7 +40,9 @@ var GoogleMapsAPIWrapper = (function () {
         });
     };
     GoogleMapsAPIWrapper.prototype.createInfoWindow = function (options) {
-        return this._map.then(function () { return new google.maps.InfoWindow(options); });
+        return this._map.then(function () {
+            return new google.maps.InfoWindow(options);
+        });
     };
     /**
      * Creates a google.map.Circle for the current map.
@@ -71,7 +76,7 @@ var GoogleMapsAPIWrapper = (function () {
     GoogleMapsAPIWrapper.prototype.attachDrawingManager = function (controlPosition, drawingModes, polygonOptions, circleOptions, markerIcon) {
         var _this = this;
         if (controlPosition === void 0) { controlPosition = 9; }
-        if (drawingModes === void 0) { drawingModes = ['polygon']; }
+        if (drawingModes === void 0) { drawingModes = ["polygon"]; }
         if (markerIcon === void 0) { markerIcon = null; }
         return this.getNativeMap().then(function (map) {
             _this._drawingManager = new google.maps.drawing.DrawingManager({
@@ -92,7 +97,9 @@ var GoogleMapsAPIWrapper = (function () {
     GoogleMapsAPIWrapper.prototype.attachPolygonListeners = function (eventName) {
         var _this = this;
         return Observable.create(function (observer) {
-            _this._drawingManager.addListener(eventName, function (polygon) { return _this._zone.run(function () { return observer.next(polygon); }); });
+            _this._drawingManager.addListener(eventName, function (polygon) {
+                return _this._zone.run(function () { return observer.next(polygon); });
+            });
         });
     };
     GoogleMapsAPIWrapper.prototype.updateDrawingManagerOptions = function (drawingModes, controlPosition) {
@@ -128,14 +135,18 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         return Observable.create(function (observer) {
             _this._map.then(function (m) {
-                m.addListener(eventName, function (arg) { _this._zone.run(function () { return observer.next(arg); }); });
+                m.addListener(eventName, function (arg) {
+                    _this._zone.run(function () { return observer.next(arg); });
+                });
             });
         });
     };
     GoogleMapsAPIWrapper.prototype.setCenter = function (latLng) {
         return this._map.then(function (map) { return map.setCenter(latLng); });
     };
-    GoogleMapsAPIWrapper.prototype.getZoom = function () { return this._map.then(function (map) { return map.getZoom(); }); };
+    GoogleMapsAPIWrapper.prototype.getZoom = function () {
+        return this._map.then(function (map) { return map.getZoom(); });
+    };
     GoogleMapsAPIWrapper.prototype.getBounds = function () {
         return this._map.then(function (map) { return map.getBounds(); });
     };
@@ -174,7 +185,9 @@ var GoogleMapsAPIWrapper = (function () {
     /**
      * Returns the native Google Maps Map instance. Be careful when using this instance directly.
      */
-    GoogleMapsAPIWrapper.prototype.getNativeMap = function () { return this._map; };
+    GoogleMapsAPIWrapper.prototype.getNativeMap = function () {
+        return this._map;
+    };
     /**
      * Triggers the given event name on the map instance.
      */
@@ -184,24 +197,29 @@ var GoogleMapsAPIWrapper = (function () {
     GoogleMapsAPIWrapper.prototype.addExtraControll = function (control) {
         var _this = this;
         return this._map.then(function (map) {
-            var _controlDiv = document.createElement('div');
-            var _controlUI = document.createElement('div');
-            _controlUI.className = control.class || 'control-ui';
-            _controlUI.style.textAlign = 'center';
-            _controlUI.title = control.title || 'Click to recenter the map';
+            var _controlDiv = document.createElement("div");
+            var _controlUI = document.createElement("div");
+            _controlUI.className = control.class || "control-ui";
+            _controlUI.style.textAlign = "center";
+            _controlUI.title = control.title || "Click to recenter the map";
             _controlDiv.appendChild(_controlUI);
-            var _controlText = document.createElement('div');
-            _controlText.className = 'control-text';
-            _controlText.innerHTML = control.text || 'Center Map';
+            var _controlText = document.createElement("div");
+            _controlText.className = "control-text";
+            _controlText.innerHTML = control.text || "Center Map";
             _controlUI.appendChild(_controlText);
-            var position = control.position || 'TOP_CENTER';
+            var position = control.position ||
+                "TOP_CENTER";
             var controllPosition = map.controls[google.maps.ControlPosition[position]].push(_controlDiv);
             var observable = Observable.create(function (observer) {
-                _controlUI.addEventListener('click', function () {
+                _controlUI.addEventListener("click", function () {
                     _this._zone.run(function () { return observer.next(control.type); });
                 });
             });
-            return { 'position': position, 'controllPosition': controllPosition, 'subscription': observable };
+            return {
+                position: position,
+                controllPosition: controllPosition,
+                subscription: observable
+            };
         });
     };
     return GoogleMapsAPIWrapper;

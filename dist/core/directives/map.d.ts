@@ -1,9 +1,9 @@
-import { ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MouseEvent } from '../map-types';
-import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
-import { FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions, RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions, DrawingModes, ExtraControls } from '../services/google-maps-types';
-import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
-import { PolygonManager } from '../services/managers/polygon-manager';
+import { ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import { MouseEvent } from "../map-types";
+import { GoogleMapsAPIWrapper } from "../services/google-maps-api-wrapper";
+import { FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, PanControlOptions, RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions, DrawingModes, ExtraControls } from "../services/google-maps-types";
+import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from "../services/google-maps-types";
+import { PolygonManager } from "../services/managers/polygon-manager";
 /**
  * AgmMap renders a Google Map.
  * **Important note**: To be able see a map in the browser, you have to define a height for the
@@ -43,6 +43,10 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      * The zoom level of the map. The default zoom level is 8.
      */
     zoom: number;
+    /**
+     * The zoom level of the map. The default zoom level is 8.
+     */
+    tilt: number;
     /**
      * The minimal zoom level of the map allowed. When not provided, no restrictions to the zoom level
      * are enforced.
@@ -186,7 +190,7 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
     /**
      * The map mapTypeId. Defaults to 'roadmap'.
      */
-    mapTypeId: 'roadmap' | 'hybrid' | 'satellite' | 'terrain' | string;
+    mapTypeId: "roadmap" | "hybrid" | "satellite" | "terrain" | string;
     /**
      * When false, map icons are not clickable. A map icon represents a point of interest,
      * also known as a POI. By default map icons are clickable.
@@ -200,7 +204,7 @@ export declare class AgmMap implements OnChanges, OnInit, OnDestroy {
      * - 'none'        (The map cannot be panned or zoomed by user gestures.)
      * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
      */
-    gestureHandling: 'cooperative' | 'greedy' | 'none' | 'auto';
+    gestureHandling: "cooperative" | "greedy" | "none" | "auto";
     /**
      * This setting controls apperance drawing Manager
      */

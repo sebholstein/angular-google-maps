@@ -1,13 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
-import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
-import { ControlPosition } from '../services/google-maps-types';
-import { CircleManager } from '../services/managers/circle-manager';
-import { InfoWindowManager } from '../services/managers/info-window-manager';
-import { MarkerManager } from '../services/managers/marker-manager';
-import { PolygonManager } from '../services/managers/polygon-manager';
-import { PolylineManager } from '../services/managers/polyline-manager';
-import { KmlLayerManager } from './../services/managers/kml-layer-manager';
-import { DataLayerManager } from './../services/managers/data-layer-manager';
+import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
+import { GoogleMapsAPIWrapper } from "../services/google-maps-api-wrapper";
+import { ControlPosition } from "../services/google-maps-types";
+import { CircleManager } from "../services/managers/circle-manager";
+import { InfoWindowManager } from "../services/managers/info-window-manager";
+import { MarkerManager } from "../services/managers/marker-manager";
+import { PolygonManager } from "../services/managers/polygon-manager";
+import { PolylineManager } from "../services/managers/polyline-manager";
+import { KmlLayerManager } from "./../services/managers/kml-layer-manager";
+import { DataLayerManager } from "./../services/managers/data-layer-manager";
 /**
  * AgmMap renders a Google Map.
  * **Important note**: To be able see a map in the browser, you have to define a height for the
@@ -49,6 +49,10 @@ var AgmMap = (function () {
          * The zoom level of the map. The default zoom level is 8.
          */
         this.zoom = 8;
+        /**
+         * The zoom level of the map. The default zoom level is 8.
+         */
+        this.tilt = 0;
         /**
          * Enables/disables if map is draggable.
          */
@@ -136,7 +140,7 @@ var AgmMap = (function () {
         /**
          * The map mapTypeId. Defaults to 'roadmap'.
          */
-        this.mapTypeId = 'roadmap';
+        this.mapTypeId = "roadmap";
         /**
          * When false, map icons are not clickable. A map icon represents a point of interest,
          * also known as a POI. By default map icons are clickable.
@@ -150,7 +154,7 @@ var AgmMap = (function () {
          * - 'none'        (The map cannot be panned or zoomed by user gestures.)
          * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
          */
-        this.gestureHandling = 'auto';
+        this.gestureHandling = "auto";
         /**
          * This setting controls apperance drawing Manager
          */
@@ -158,7 +162,7 @@ var AgmMap = (function () {
         /**
          * This setting controls apperance drawing Manager controlls position
          */
-        this.drawingManagerPosition = 'TOP_CENTER';
+        this.drawingManagerPosition = "TOP_CENTER";
         /**
          * This setting controls apperance drawing Manager controlls position
          */
@@ -218,20 +222,22 @@ var AgmMap = (function () {
         this.extraControlsAction = new EventEmitter();
         this._mapsWrapper.createLatLngBounds().then(function (bounds) {
             _this.bounds = bounds;
-            console.log('this.bounds', _this.bounds);
+            console.log("this.bounds", _this.bounds);
         });
     }
     /** @internal */
     AgmMap.prototype.ngOnInit = function () {
         // todo: this should be solved with a new component and a viewChild decorator
-        var container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
+        var container = this._elem.nativeElement.querySelector(".agm-map-container-inner");
         this._initMapInstance(container);
     };
     AgmMap.prototype._initMapInstance = function (el) {
         var _this = this;
-        this._mapsWrapper.createMap(el, {
+        this._mapsWrapper
+            .createMap(el, {
             center: { lat: this.latitude || 0, lng: this.longitude || 0 },
             zoom: this.zoom,
+            tilt: this.tilt,
             minZoom: this.minZoom,
             maxZoom: this.maxZoom,
             disableDefaultUI: this.disableDefaultUI,
@@ -270,8 +276,8 @@ var AgmMap = (function () {
         this._handleBoundsChange();
         this._handleIdleEvent();
         this._mapsWrapper.getLibraries().then(function (libs) {
-            console.log('libs', libs);
-            if (libs && libs.indexOf('drawing') > -1) {
+            console.log("libs", libs);
+            if (libs && libs.indexOf("drawing") > -1) {
                 _this._setDrawingManager();
             }
         });
@@ -302,10 +308,10 @@ var AgmMap = (function () {
                     _this._mapsWrapper.addExtraControll(c).then(function (_control) {
                         // console.log('_control', _control);
                         var s = _control.subscription.subscribe(function (type) {
-                            if (type === 'centerMap') {
+                            if (type === "centerMap") {
                                 _this._mapsWrapper.setCenter(c.coord);
                             }
-                            if (type === 'removePolygon') {
+                            if (type === "removePolygon") {
                                 // console.log('removePolygon');
                                 // remove listeners and subscriptions
                                 _this._listeners.forEach(function (s) {
@@ -342,17 +348,20 @@ var AgmMap = (function () {
         // console.log('changes', changes);
         var options = {};
         var optionKeys = Object.keys(changes).filter(function (k) { return AgmMap._mapOptionsAttributes.indexOf(k) !== -1; });
-        optionKeys.forEach(function (k) { options[k] = changes[k].currentValue; });
+        optionKeys.forEach(function (k) {
+            options[k] = changes[k].currentValue;
+        });
         this._mapsWrapper.setMapOptions(options);
-        if (changes['extraControls']) {
-            this._updateMapExtraControlls(changes['extraControls'].currentValue);
+        if (changes["extraControls"]) {
+            this._updateMapExtraControlls(changes["extraControls"].currentValue);
         }
         // console.log('drawingModes', changes);
-        if (changes['drawingModes'] && !changes['drawingModes'].firstChange) {
-            var position = this.drawingManagerPosition;
+        if (changes["drawingModes"] && !changes["drawingModes"].firstChange) {
+            var position = this
+                .drawingManagerPosition;
             var typedPosition = ControlPosition[position];
             //   console.log('updateDrawingManagerOptions position', position);
-            this._mapsWrapper.updateDrawingManagerOptions(changes['drawingModes'].currentValue, typedPosition);
+            this._mapsWrapper.updateDrawingManagerOptions(changes["drawingModes"].currentValue, typedPosition);
         }
     };
     /**
@@ -368,7 +377,7 @@ var AgmMap = (function () {
         // work (to show the map), so we trigger the event in a timeout.
         return new Promise(function (resolve) {
             setTimeout(function () {
-                return _this._mapsWrapper.triggerMapEvent('resize').then(function () {
+                return _this._mapsWrapper.triggerMapEvent("resize").then(function () {
                     if (recenter) {
                         _this.fitBounds != null ? _this._fitBounds() : _this._setCenter();
                     }
@@ -378,8 +387,8 @@ var AgmMap = (function () {
         });
     };
     AgmMap.prototype._updatePosition = function (changes) {
-        if (changes['trafficLayer']) {
-            this.trafficLayer = changes['trafficLayer'].currentValue;
+        if (changes["trafficLayer"]) {
+            this.trafficLayer = changes["trafficLayer"].currentValue;
             if (!this.trafficLayer) {
                 this._mapsWrapper.handleTrafficLayer(false);
             }
@@ -387,22 +396,24 @@ var AgmMap = (function () {
                 this._mapsWrapper.handleTrafficLayer(true);
             }
         }
-        if (changes['fitPoints'] && this.fitPoints != null) {
+        if (changes["fitPoints"] && this.fitPoints != null) {
             //   console.log('fitPoints changes', changes);
-            this.fitPoints = changes['fitPoints'].currentValue;
+            this.fitPoints = changes["fitPoints"].currentValue;
             this._fitPoints();
         }
-        if (changes['latitude'] == null && changes['longitude'] == null &&
-            changes['fitBounds'] == null) {
+        if (changes["latitude"] == null &&
+            changes["longitude"] == null &&
+            changes["fitBounds"] == null) {
             // no position update needed
             return;
         }
         // we prefer fitBounds in changes
-        if (changes['fitBounds'] && this.fitBounds != null) {
+        if (changes["fitBounds"] && this.fitBounds != null) {
             this._fitBounds();
             return;
         }
-        if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
+        if (typeof this.latitude !== "number" ||
+            typeof this.longitude !== "number") {
             return;
         }
         this._setCenter();
@@ -417,7 +428,7 @@ var AgmMap = (function () {
         //   return;
         // }
         var drawingCircleOptions = {
-            fillColor: '#ffff00',
+            fillColor: "#ffff00",
             fillOpacity: 1,
             strokeWeight: 5,
             clickable: false,
@@ -426,7 +437,7 @@ var AgmMap = (function () {
             zIndex: 1
         };
         var polygonOptions = {
-            fillColor: '#d75f8f',
+            fillColor: "#d75f8f",
             fillOpacity: 0.5,
             strokeOpacity: 0.5,
             strokeWeight: 5,
@@ -437,8 +448,12 @@ var AgmMap = (function () {
         };
         var position = this.drawingManagerPosition;
         var typedPosition = ControlPosition[position];
-        this._mapsWrapper.attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions).then(function () {
-            var lis = _this._mapsWrapper.attachPolygonListeners('polygoncomplete').subscribe(function (polygon) {
+        this._mapsWrapper
+            .attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions)
+            .then(function () {
+            var lis = _this._mapsWrapper
+                .attachPolygonListeners("polygoncomplete")
+                .subscribe(function (polygon) {
                 polygon.paths = _this._polygonManager.getBounds(polygon);
                 _this.polygonComplete.emit(polygon.paths);
                 polygon.setMap(null);
@@ -449,7 +464,7 @@ var AgmMap = (function () {
     AgmMap.prototype._setCenter = function () {
         var newCenter = {
             lat: this.latitude,
-            lng: this.longitude,
+            lng: this.longitude
         };
         if (this.usePanning) {
             this._mapsWrapper.panTo(newCenter);
@@ -480,25 +495,36 @@ var AgmMap = (function () {
     };
     AgmMap.prototype._handleMapCenterChange = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('center_changed').subscribe(function () {
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("center_changed")
+            .subscribe(function () {
             _this._mapsWrapper.getCenter().then(function (center) {
                 _this.latitude = center.lat();
                 _this.longitude = center.lng();
-                _this.centerChange.emit({ lat: _this.latitude, lng: _this.longitude });
+                _this.centerChange.emit({
+                    lat: _this.latitude,
+                    lng: _this.longitude
+                });
             });
         });
         this._observableSubscriptions.push(s);
     };
     AgmMap.prototype._handleBoundsChange = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('bounds_changed').subscribe(function () {
-            _this._mapsWrapper.getBounds().then(function (bounds) { _this.boundsChange.emit(bounds); });
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("bounds_changed")
+            .subscribe(function () {
+            _this._mapsWrapper.getBounds().then(function (bounds) {
+                _this.boundsChange.emit(bounds);
+            });
         });
         this._observableSubscriptions.push(s);
     };
     AgmMap.prototype._handleMapZoomChange = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('zoom_changed').subscribe(function () {
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("zoom_changed")
+            .subscribe(function () {
             _this._mapsWrapper.getZoom().then(function (z) {
                 _this.zoom = z;
                 _this.zoomChange.emit(z);
@@ -508,19 +534,27 @@ var AgmMap = (function () {
     };
     AgmMap.prototype._handleIdleEvent = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('idle').subscribe(function () { _this.idle.emit(void 0); });
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("idle")
+            .subscribe(function () {
+            _this.idle.emit(void 0);
+        });
         this._observableSubscriptions.push(s);
     };
     AgmMap.prototype._handleMapMouseEvents = function () {
         var _this = this;
         var events = [
-            { name: 'click', emitter: this.mapClick },
-            { name: 'rightclick', emitter: this.mapRightClick },
-            { name: 'dblclick', emitter: this.mapDblClick },
+            { name: "click", emitter: this.mapClick },
+            { name: "rightclick", emitter: this.mapRightClick },
+            { name: "dblclick", emitter: this.mapDblClick }
         ];
         events.forEach(function (e) {
-            var s = _this._mapsWrapper.subscribeToMapEvent(e.name).subscribe(function (event) {
-                var value = { coords: { lat: event.latLng.lat(), lng: event.latLng.lng() } };
+            var s = _this._mapsWrapper
+                .subscribeToMapEvent(e.name)
+                .subscribe(function (event) {
+                var value = {
+                    coords: { lat: event.latLng.lat(), lng: event.latLng.lng() }
+                };
                 e.emitter.emit(value);
             });
             _this._observableSubscriptions.push(s);
@@ -533,25 +567,54 @@ export { AgmMap };
  * Map option attributes that can change over time
  */
 AgmMap._mapOptionsAttributes = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
-    'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
-    'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
-    'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'gestureHandling'
+    "disableDoubleClickZoom",
+    "scrollwheel",
+    "draggable",
+    "draggableCursor",
+    "draggingCursor",
+    "keyboardShortcuts",
+    "zoomControl",
+    "zoomControlOptions",
+    "styles",
+    "streetViewControl",
+    "streetViewControlOptions",
+    "zoom",
+    "mapTypeControl",
+    "mapTypeControlOptions",
+    "minZoom",
+    "maxZoom",
+    "panControl",
+    "panControlOptions",
+    "rotateControl",
+    "rotateControlOptions",
+    "fullscreenControl",
+    "fullscreenControlOptions",
+    "scaleControl",
+    "scaleControlOptions",
+    "mapTypeId",
+    "clickableIcons",
+    "gestureHandling"
 ];
 AgmMap.decorators = [
     { type: Component, args: [{
-                selector: 'agm-map',
+                selector: "agm-map",
                 providers: [
-                    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-                    PolygonManager, KmlLayerManager, DataLayerManager
+                    GoogleMapsAPIWrapper,
+                    MarkerManager,
+                    InfoWindowManager,
+                    CircleManager,
+                    PolylineManager,
+                    PolygonManager,
+                    KmlLayerManager,
+                    DataLayerManager
                 ],
                 host: {
                     // todo: deprecated - we will remove it with the next version
-                    '[class.sebm-google-map-container]': 'true'
+                    "[class.sebm-google-map-container]": "true"
                 },
-                styles: ["\n    .agm-map-container-inner {\n      width: inherit;\n      height: 100%;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "],
+                styles: [
+                    "\n    .agm-map-container-inner {\n      width: inherit;\n      height: 100%;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "
+                ],
                 template: "\n    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>\n    <div class='agm-map-content'>\n      <ng-content></ng-content>\n    </div>\n  "
             },] },
 ];
@@ -565,9 +628,10 @@ AgmMap.propDecorators = {
     'longitude': [{ type: Input },],
     'latitude': [{ type: Input },],
     'zoom': [{ type: Input },],
+    'tilt': [{ type: Input },],
     'minZoom': [{ type: Input },],
     'maxZoom': [{ type: Input },],
-    'draggable': [{ type: Input, args: ['mapDraggable',] },],
+    'draggable': [{ type: Input, args: ["mapDraggable",] },],
     'disableDoubleClickZoom': [{ type: Input },],
     'disableDefaultUI': [{ type: Input },],
     'scrollwheel': [{ type: Input },],

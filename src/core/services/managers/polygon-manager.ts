@@ -1,19 +1,24 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Injectable, NgZone } from "@angular/core";
+import { Observable } from "rxjs/Observable";
+import { Observer } from "rxjs/Observer";
 
-import { AgmPolygon } from '../../directives/polygon';
-import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
-import { Polygon } from '../google-maps-types';
+import { AgmPolygon } from "../../directives/polygon";
+import { GoogleMapsAPIWrapper } from "../google-maps-api-wrapper";
+import { Polygon } from "../google-maps-types";
 
 declare var google: any;
 
 @Injectable()
 export class PolygonManager {
-  private _polygons: Map<AgmPolygon, Promise<Polygon>> =
-  new Map<AgmPolygon, Promise<Polygon>>();
+  private _polygons: Map<AgmPolygon, Promise<Polygon>> = new Map<
+    AgmPolygon,
+    Promise<Polygon>
+    >();
 
-  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) { }
+  constructor(
+    private _mapsWrapper: GoogleMapsAPIWrapper,
+    private _zone: NgZone
+  ) { }
 
   addPolygon(path: AgmPolygon) {
     const polygonPromise = this._mapsWrapper.createPolygon({
@@ -28,7 +33,7 @@ export class PolygonManager {
       strokeOpacity: path.strokeOpacity,
       strokeWeight: path.strokeWeight,
       visible: path.visible,
-      zIndex: path.zIndex,
+      zIndex: path.zIndex
     });
     this._polygons.set(path, polygonPromise);
   }
@@ -38,11 +43,23 @@ export class PolygonManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
+    return m.then((l: Polygon) =>
+      this._zone.run(() => {
+        l.setPaths(polygon.paths);
+      })
+    );
   }
 
-  setPolygonOptions(path: AgmPolygon, options: { [propName: string]: any }): Promise<void> {
-    return this._polygons.get(path).then((l: Polygon) => { l.setOptions(options); });
+  setPolygonOptions(
+    path: AgmPolygon,
+    options: { [propName: string]: any }
+  ): Promise<void> {
+    return this._polygons.get(path).then((l: Polygon) => {
+      l.setOptions(options);
+      if (options['paths']) {
+        this.updatePolygon(path);
+      }
+    });
   }
 
   deletePolygon(paths?: AgmPolygon): Promise<void> {
@@ -64,16 +81,39 @@ export class PolygonManager {
   createEventObservable<T>(eventName: string, path: AgmPolygon): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
       this._polygons.get(path).then((l: Polygon) => {
-        l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+        l.addListener(eventName, (e: T) =>
+          this._zone.run(() => observer.next(e))
+        );
       });
     });
   }
 
-  createPolyChangesObservable<T>(eventName: string, path: AgmPolygon): Observable<T> {
+  createDragEventObservable<T>(
+    eventName: string,
+    path: AgmPolygon
+  ): Observable<T> {
     return Observable.create((observer: Observer<any>) => {
       this._polygons.get(path).then((l: Polygon) => {
-        l.getPaths().forEach((path) => {
-          google.maps.event.addListener(path, eventName, () => this._zone.run(() => observer.next(this.getBounds(l))));
+        l.addListener(eventName, () =>
+          this._zone.run(() => observer.next(this.getBounds(l)))
+        );
+        // google.maps.event.addListener(l, eventName, () =>
+        //   this._zone.run(() => observer.next(this.getBounds(l)))
+        // );
+      });
+    });
+  }
+
+  createPolyChangesObservable<T>(
+    eventName: string,
+    path: AgmPolygon
+  ): Observable<T> {
+    return Observable.create((observer: Observer<any>) => {
+      this._polygons.get(path).then((l: Polygon) => {
+        l.getPaths().forEach(path => {
+          google.maps.event.addListener(path, eventName, () =>
+            this._zone.run(() => observer.next(this.getBounds(l)))
+          );
         });
       });
     });
@@ -84,8 +124,14 @@ export class PolygonManager {
     let length = polygon.getPath().getLength();
     for (let i = 0; i < length; i++) {
       let ln = {
-        lat: polygon.getPath().getAt(i).lat(),
-        lng: polygon.getPath().getAt(i).lng()
+        lat: polygon
+          .getPath()
+          .getAt(i)
+          .lat(),
+        lng: polygon
+          .getPath()
+          .getAt(i)
+          .lng()
       };
       bounds.push(ln);
     }

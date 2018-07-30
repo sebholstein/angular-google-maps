@@ -73,8 +73,9 @@ var GoogleMapsAPIWrapper = (function () {
         this._loader = _loader;
         this._zone = _zone;
         this._trafficLayerExist = false;
-        this._map =
-            new Promise(function (resolve) { _this._mapResolver = resolve; });
+        this._map = new Promise(function (resolve) {
+            _this._mapResolver = resolve;
+        });
     }
     GoogleMapsAPIWrapper.prototype.createMap = function (el, mapOptions) {
         var _this = this;
@@ -85,7 +86,9 @@ var GoogleMapsAPIWrapper = (function () {
         });
     };
     GoogleMapsAPIWrapper.prototype.setMapOptions = function (options) {
-        this._map.then(function (m) { m.setOptions(options); });
+        this._map.then(function (m) {
+            m.setOptions(options);
+        });
     };
     /**
      * Creates a google map marker with the map context
@@ -98,7 +101,9 @@ var GoogleMapsAPIWrapper = (function () {
         });
     };
     GoogleMapsAPIWrapper.prototype.createInfoWindow = function (options) {
-        return this._map.then(function () { return new google.maps.InfoWindow(options); });
+        return this._map.then(function () {
+            return new google.maps.InfoWindow(options);
+        });
     };
     /**
      * Creates a google.map.Circle for the current map.
@@ -132,7 +137,7 @@ var GoogleMapsAPIWrapper = (function () {
     GoogleMapsAPIWrapper.prototype.attachDrawingManager = function (controlPosition, drawingModes, polygonOptions, circleOptions, markerIcon) {
         var _this = this;
         if (controlPosition === void 0) { controlPosition = 9; }
-        if (drawingModes === void 0) { drawingModes = ['polygon']; }
+        if (drawingModes === void 0) { drawingModes = ["polygon"]; }
         if (markerIcon === void 0) { markerIcon = null; }
         return this.getNativeMap().then(function (map) {
             _this._drawingManager = new google.maps.drawing.DrawingManager({
@@ -153,7 +158,9 @@ var GoogleMapsAPIWrapper = (function () {
     GoogleMapsAPIWrapper.prototype.attachPolygonListeners = function (eventName) {
         var _this = this;
         return rxjs_Observable.Observable.create(function (observer) {
-            _this._drawingManager.addListener(eventName, function (polygon) { return _this._zone.run(function () { return observer.next(polygon); }); });
+            _this._drawingManager.addListener(eventName, function (polygon) {
+                return _this._zone.run(function () { return observer.next(polygon); });
+            });
         });
     };
     GoogleMapsAPIWrapper.prototype.updateDrawingManagerOptions = function (drawingModes, controlPosition) {
@@ -189,14 +196,18 @@ var GoogleMapsAPIWrapper = (function () {
         var _this = this;
         return rxjs_Observable.Observable.create(function (observer) {
             _this._map.then(function (m) {
-                m.addListener(eventName, function (arg) { _this._zone.run(function () { return observer.next(arg); }); });
+                m.addListener(eventName, function (arg) {
+                    _this._zone.run(function () { return observer.next(arg); });
+                });
             });
         });
     };
     GoogleMapsAPIWrapper.prototype.setCenter = function (latLng) {
         return this._map.then(function (map) { return map.setCenter(latLng); });
     };
-    GoogleMapsAPIWrapper.prototype.getZoom = function () { return this._map.then(function (map) { return map.getZoom(); }); };
+    GoogleMapsAPIWrapper.prototype.getZoom = function () {
+        return this._map.then(function (map) { return map.getZoom(); });
+    };
     GoogleMapsAPIWrapper.prototype.getBounds = function () {
         return this._map.then(function (map) { return map.getBounds(); });
     };
@@ -235,7 +246,9 @@ var GoogleMapsAPIWrapper = (function () {
     /**
      * Returns the native Google Maps Map instance. Be careful when using this instance directly.
      */
-    GoogleMapsAPIWrapper.prototype.getNativeMap = function () { return this._map; };
+    GoogleMapsAPIWrapper.prototype.getNativeMap = function () {
+        return this._map;
+    };
     /**
      * Triggers the given event name on the map instance.
      */
@@ -245,24 +258,29 @@ var GoogleMapsAPIWrapper = (function () {
     GoogleMapsAPIWrapper.prototype.addExtraControll = function (control) {
         var _this = this;
         return this._map.then(function (map) {
-            var _controlDiv = document.createElement('div');
-            var _controlUI = document.createElement('div');
-            _controlUI.className = control.class || 'control-ui';
-            _controlUI.style.textAlign = 'center';
-            _controlUI.title = control.title || 'Click to recenter the map';
+            var _controlDiv = document.createElement("div");
+            var _controlUI = document.createElement("div");
+            _controlUI.className = control.class || "control-ui";
+            _controlUI.style.textAlign = "center";
+            _controlUI.title = control.title || "Click to recenter the map";
             _controlDiv.appendChild(_controlUI);
-            var _controlText = document.createElement('div');
-            _controlText.className = 'control-text';
-            _controlText.innerHTML = control.text || 'Center Map';
+            var _controlText = document.createElement("div");
+            _controlText.className = "control-text";
+            _controlText.innerHTML = control.text || "Center Map";
             _controlUI.appendChild(_controlText);
-            var position = control.position || 'TOP_CENTER';
+            var position = control.position ||
+                "TOP_CENTER";
             var controllPosition = map.controls[google.maps.ControlPosition[position]].push(_controlDiv);
             var observable = rxjs_Observable.Observable.create(function (observer) {
-                _controlUI.addEventListener('click', function () {
+                _controlUI.addEventListener("click", function () {
                     _this._zone.run(function () { return observer.next(control.type); });
                 });
             });
-            return { 'position': position, 'controllPosition': controllPosition, 'subscription': observable };
+            return {
+                position: position,
+                controllPosition: controllPosition,
+                subscription: observable
+            };
         });
     };
     return GoogleMapsAPIWrapper;
@@ -551,7 +569,7 @@ var PolygonManager = (function () {
             strokeOpacity: path.strokeOpacity,
             strokeWeight: path.strokeWeight,
             visible: path.visible,
-            zIndex: path.zIndex,
+            zIndex: path.zIndex
         });
         this._polygons.set(path, polygonPromise);
     };
@@ -561,10 +579,20 @@ var PolygonManager = (function () {
         if (m == null) {
             return Promise.resolve();
         }
-        return m.then(function (l) { return _this._zone.run(function () { l.setPaths(polygon.paths); }); });
+        return m.then(function (l) {
+            return _this._zone.run(function () {
+                l.setPaths(polygon.paths);
+            });
+        });
     };
     PolygonManager.prototype.setPolygonOptions = function (path, options) {
-        return this._polygons.get(path).then(function (l) { l.setOptions(options); });
+        var _this = this;
+        return this._polygons.get(path).then(function (l) {
+            l.setOptions(options);
+            if (options['paths']) {
+                _this.updatePolygon(path);
+            }
+        });
     };
     PolygonManager.prototype.deletePolygon = function (paths) {
         var _this = this;
@@ -586,7 +614,22 @@ var PolygonManager = (function () {
         var _this = this;
         return rxjs_Observable.Observable.create(function (observer) {
             _this._polygons.get(path).then(function (l) {
-                l.addListener(eventName, function (e) { return _this._zone.run(function () { return observer.next(e); }); });
+                l.addListener(eventName, function (e) {
+                    return _this._zone.run(function () { return observer.next(e); });
+                });
+            });
+        });
+    };
+    PolygonManager.prototype.createDragEventObservable = function (eventName, path) {
+        var _this = this;
+        return rxjs_Observable.Observable.create(function (observer) {
+            _this._polygons.get(path).then(function (l) {
+                l.addListener(eventName, function () {
+                    return _this._zone.run(function () { return observer.next(_this.getBounds(l)); });
+                });
+                // google.maps.event.addListener(l, eventName, () =>
+                //   this._zone.run(() => observer.next(this.getBounds(l)))
+                // );
             });
         });
     };
@@ -595,7 +638,9 @@ var PolygonManager = (function () {
         return rxjs_Observable.Observable.create(function (observer) {
             _this._polygons.get(path).then(function (l) {
                 l.getPaths().forEach(function (path) {
-                    google.maps.event.addListener(path, eventName, function () { return _this._zone.run(function () { return observer.next(_this.getBounds(l)); }); });
+                    google.maps.event.addListener(path, eventName, function () {
+                        return _this._zone.run(function () { return observer.next(_this.getBounds(l)); });
+                    });
                 });
             });
         });
@@ -605,8 +650,14 @@ var PolygonManager = (function () {
         var length = polygon.getPath().getLength();
         for (var i = 0; i < length; i++) {
             var ln = {
-                lat: polygon.getPath().getAt(i).lat(),
-                lng: polygon.getPath().getAt(i).lng()
+                lat: polygon
+                    .getPath()
+                    .getAt(i)
+                    .lat(),
+                lng: polygon
+                    .getPath()
+                    .getAt(i)
+                    .lng()
             };
             bounds.push(ln);
         }
@@ -869,6 +920,10 @@ var AgmMap = (function () {
          */
         this.zoom = 8;
         /**
+         * The zoom level of the map. The default zoom level is 8.
+         */
+        this.tilt = 0;
+        /**
          * Enables/disables if map is draggable.
          */
         // tslint:disable-next-line:no-input-rename
@@ -955,7 +1010,7 @@ var AgmMap = (function () {
         /**
          * The map mapTypeId. Defaults to 'roadmap'.
          */
-        this.mapTypeId = 'roadmap';
+        this.mapTypeId = "roadmap";
         /**
          * When false, map icons are not clickable. A map icon represents a point of interest,
          * also known as a POI. By default map icons are clickable.
@@ -969,7 +1024,7 @@ var AgmMap = (function () {
          * - 'none'        (The map cannot be panned or zoomed by user gestures.)
          * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
          */
-        this.gestureHandling = 'auto';
+        this.gestureHandling = "auto";
         /**
          * This setting controls apperance drawing Manager
          */
@@ -977,7 +1032,7 @@ var AgmMap = (function () {
         /**
          * This setting controls apperance drawing Manager controlls position
          */
-        this.drawingManagerPosition = 'TOP_CENTER';
+        this.drawingManagerPosition = "TOP_CENTER";
         /**
          * This setting controls apperance drawing Manager controlls position
          */
@@ -1037,20 +1092,22 @@ var AgmMap = (function () {
         this.extraControlsAction = new _angular_core.EventEmitter();
         this._mapsWrapper.createLatLngBounds().then(function (bounds) {
             _this.bounds = bounds;
-            console.log('this.bounds', _this.bounds);
+            console.log("this.bounds", _this.bounds);
         });
     }
     /** @internal */
     AgmMap.prototype.ngOnInit = function () {
         // todo: this should be solved with a new component and a viewChild decorator
-        var container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
+        var container = this._elem.nativeElement.querySelector(".agm-map-container-inner");
         this._initMapInstance(container);
     };
     AgmMap.prototype._initMapInstance = function (el) {
         var _this = this;
-        this._mapsWrapper.createMap(el, {
+        this._mapsWrapper
+            .createMap(el, {
             center: { lat: this.latitude || 0, lng: this.longitude || 0 },
             zoom: this.zoom,
+            tilt: this.tilt,
             minZoom: this.minZoom,
             maxZoom: this.maxZoom,
             disableDefaultUI: this.disableDefaultUI,
@@ -1089,8 +1146,8 @@ var AgmMap = (function () {
         this._handleBoundsChange();
         this._handleIdleEvent();
         this._mapsWrapper.getLibraries().then(function (libs) {
-            console.log('libs', libs);
-            if (libs && libs.indexOf('drawing') > -1) {
+            console.log("libs", libs);
+            if (libs && libs.indexOf("drawing") > -1) {
                 _this._setDrawingManager();
             }
         });
@@ -1121,10 +1178,10 @@ var AgmMap = (function () {
                     _this._mapsWrapper.addExtraControll(c).then(function (_control) {
                         // console.log('_control', _control);
                         var s = _control.subscription.subscribe(function (type) {
-                            if (type === 'centerMap') {
+                            if (type === "centerMap") {
                                 _this._mapsWrapper.setCenter(c.coord);
                             }
-                            if (type === 'removePolygon') {
+                            if (type === "removePolygon") {
                                 // console.log('removePolygon');
                                 // remove listeners and subscriptions
                                 _this._listeners.forEach(function (s) {
@@ -1161,17 +1218,20 @@ var AgmMap = (function () {
         // console.log('changes', changes);
         var options = {};
         var optionKeys = Object.keys(changes).filter(function (k) { return AgmMap._mapOptionsAttributes.indexOf(k) !== -1; });
-        optionKeys.forEach(function (k) { options[k] = changes[k].currentValue; });
+        optionKeys.forEach(function (k) {
+            options[k] = changes[k].currentValue;
+        });
         this._mapsWrapper.setMapOptions(options);
-        if (changes['extraControls']) {
-            this._updateMapExtraControlls(changes['extraControls'].currentValue);
+        if (changes["extraControls"]) {
+            this._updateMapExtraControlls(changes["extraControls"].currentValue);
         }
         // console.log('drawingModes', changes);
-        if (changes['drawingModes'] && !changes['drawingModes'].firstChange) {
-            var position = this.drawingManagerPosition;
+        if (changes["drawingModes"] && !changes["drawingModes"].firstChange) {
+            var position = this
+                .drawingManagerPosition;
             var typedPosition = ControlPosition[position];
             //   console.log('updateDrawingManagerOptions position', position);
-            this._mapsWrapper.updateDrawingManagerOptions(changes['drawingModes'].currentValue, typedPosition);
+            this._mapsWrapper.updateDrawingManagerOptions(changes["drawingModes"].currentValue, typedPosition);
         }
     };
     /**
@@ -1187,7 +1247,7 @@ var AgmMap = (function () {
         // work (to show the map), so we trigger the event in a timeout.
         return new Promise(function (resolve) {
             setTimeout(function () {
-                return _this._mapsWrapper.triggerMapEvent('resize').then(function () {
+                return _this._mapsWrapper.triggerMapEvent("resize").then(function () {
                     if (recenter) {
                         _this.fitBounds != null ? _this._fitBounds() : _this._setCenter();
                     }
@@ -1197,8 +1257,8 @@ var AgmMap = (function () {
         });
     };
     AgmMap.prototype._updatePosition = function (changes) {
-        if (changes['trafficLayer']) {
-            this.trafficLayer = changes['trafficLayer'].currentValue;
+        if (changes["trafficLayer"]) {
+            this.trafficLayer = changes["trafficLayer"].currentValue;
             if (!this.trafficLayer) {
                 this._mapsWrapper.handleTrafficLayer(false);
             }
@@ -1206,22 +1266,24 @@ var AgmMap = (function () {
                 this._mapsWrapper.handleTrafficLayer(true);
             }
         }
-        if (changes['fitPoints'] && this.fitPoints != null) {
+        if (changes["fitPoints"] && this.fitPoints != null) {
             //   console.log('fitPoints changes', changes);
-            this.fitPoints = changes['fitPoints'].currentValue;
+            this.fitPoints = changes["fitPoints"].currentValue;
             this._fitPoints();
         }
-        if (changes['latitude'] == null && changes['longitude'] == null &&
-            changes['fitBounds'] == null) {
+        if (changes["latitude"] == null &&
+            changes["longitude"] == null &&
+            changes["fitBounds"] == null) {
             // no position update needed
             return;
         }
         // we prefer fitBounds in changes
-        if (changes['fitBounds'] && this.fitBounds != null) {
+        if (changes["fitBounds"] && this.fitBounds != null) {
             this._fitBounds();
             return;
         }
-        if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
+        if (typeof this.latitude !== "number" ||
+            typeof this.longitude !== "number") {
             return;
         }
         this._setCenter();
@@ -1236,7 +1298,7 @@ var AgmMap = (function () {
         //   return;
         // }
         var drawingCircleOptions = {
-            fillColor: '#ffff00',
+            fillColor: "#ffff00",
             fillOpacity: 1,
             strokeWeight: 5,
             clickable: false,
@@ -1245,7 +1307,7 @@ var AgmMap = (function () {
             zIndex: 1
         };
         var polygonOptions = {
-            fillColor: '#d75f8f',
+            fillColor: "#d75f8f",
             fillOpacity: 0.5,
             strokeOpacity: 0.5,
             strokeWeight: 5,
@@ -1256,8 +1318,12 @@ var AgmMap = (function () {
         };
         var position = this.drawingManagerPosition;
         var typedPosition = ControlPosition[position];
-        this._mapsWrapper.attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions).then(function () {
-            var lis = _this._mapsWrapper.attachPolygonListeners('polygoncomplete').subscribe(function (polygon) {
+        this._mapsWrapper
+            .attachDrawingManager(typedPosition, this.drawingModes, polygonOptions, drawingCircleOptions)
+            .then(function () {
+            var lis = _this._mapsWrapper
+                .attachPolygonListeners("polygoncomplete")
+                .subscribe(function (polygon) {
                 polygon.paths = _this._polygonManager.getBounds(polygon);
                 _this.polygonComplete.emit(polygon.paths);
                 polygon.setMap(null);
@@ -1268,7 +1334,7 @@ var AgmMap = (function () {
     AgmMap.prototype._setCenter = function () {
         var newCenter = {
             lat: this.latitude,
-            lng: this.longitude,
+            lng: this.longitude
         };
         if (this.usePanning) {
             this._mapsWrapper.panTo(newCenter);
@@ -1299,25 +1365,36 @@ var AgmMap = (function () {
     };
     AgmMap.prototype._handleMapCenterChange = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('center_changed').subscribe(function () {
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("center_changed")
+            .subscribe(function () {
             _this._mapsWrapper.getCenter().then(function (center) {
                 _this.latitude = center.lat();
                 _this.longitude = center.lng();
-                _this.centerChange.emit({ lat: _this.latitude, lng: _this.longitude });
+                _this.centerChange.emit({
+                    lat: _this.latitude,
+                    lng: _this.longitude
+                });
             });
         });
         this._observableSubscriptions.push(s);
     };
     AgmMap.prototype._handleBoundsChange = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('bounds_changed').subscribe(function () {
-            _this._mapsWrapper.getBounds().then(function (bounds) { _this.boundsChange.emit(bounds); });
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("bounds_changed")
+            .subscribe(function () {
+            _this._mapsWrapper.getBounds().then(function (bounds) {
+                _this.boundsChange.emit(bounds);
+            });
         });
         this._observableSubscriptions.push(s);
     };
     AgmMap.prototype._handleMapZoomChange = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('zoom_changed').subscribe(function () {
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("zoom_changed")
+            .subscribe(function () {
             _this._mapsWrapper.getZoom().then(function (z) {
                 _this.zoom = z;
                 _this.zoomChange.emit(z);
@@ -1327,19 +1404,27 @@ var AgmMap = (function () {
     };
     AgmMap.prototype._handleIdleEvent = function () {
         var _this = this;
-        var s = this._mapsWrapper.subscribeToMapEvent('idle').subscribe(function () { _this.idle.emit(void 0); });
+        var s = this._mapsWrapper
+            .subscribeToMapEvent("idle")
+            .subscribe(function () {
+            _this.idle.emit(void 0);
+        });
         this._observableSubscriptions.push(s);
     };
     AgmMap.prototype._handleMapMouseEvents = function () {
         var _this = this;
         var events = [
-            { name: 'click', emitter: this.mapClick },
-            { name: 'rightclick', emitter: this.mapRightClick },
-            { name: 'dblclick', emitter: this.mapDblClick },
+            { name: "click", emitter: this.mapClick },
+            { name: "rightclick", emitter: this.mapRightClick },
+            { name: "dblclick", emitter: this.mapDblClick }
         ];
         events.forEach(function (e) {
-            var s = _this._mapsWrapper.subscribeToMapEvent(e.name).subscribe(function (event) {
-                var value = { coords: { lat: event.latLng.lat(), lng: event.latLng.lng() } };
+            var s = _this._mapsWrapper
+                .subscribeToMapEvent(e.name)
+                .subscribe(function (event) {
+                var value = {
+                    coords: { lat: event.latLng.lat(), lng: event.latLng.lng() }
+                };
                 e.emitter.emit(value);
             });
             _this._observableSubscriptions.push(s);
@@ -1351,25 +1436,54 @@ var AgmMap = (function () {
  * Map option attributes that can change over time
  */
 AgmMap._mapOptionsAttributes = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
-    'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
-    'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
-    'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'gestureHandling'
+    "disableDoubleClickZoom",
+    "scrollwheel",
+    "draggable",
+    "draggableCursor",
+    "draggingCursor",
+    "keyboardShortcuts",
+    "zoomControl",
+    "zoomControlOptions",
+    "styles",
+    "streetViewControl",
+    "streetViewControlOptions",
+    "zoom",
+    "mapTypeControl",
+    "mapTypeControlOptions",
+    "minZoom",
+    "maxZoom",
+    "panControl",
+    "panControlOptions",
+    "rotateControl",
+    "rotateControlOptions",
+    "fullscreenControl",
+    "fullscreenControlOptions",
+    "scaleControl",
+    "scaleControlOptions",
+    "mapTypeId",
+    "clickableIcons",
+    "gestureHandling"
 ];
 AgmMap.decorators = [
     { type: _angular_core.Component, args: [{
-                selector: 'agm-map',
+                selector: "agm-map",
                 providers: [
-                    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, PolylineManager,
-                    PolygonManager, KmlLayerManager, DataLayerManager
+                    GoogleMapsAPIWrapper,
+                    MarkerManager,
+                    InfoWindowManager,
+                    CircleManager,
+                    PolylineManager,
+                    PolygonManager,
+                    KmlLayerManager,
+                    DataLayerManager
                 ],
                 host: {
                     // todo: deprecated - we will remove it with the next version
-                    '[class.sebm-google-map-container]': 'true'
+                    "[class.sebm-google-map-container]": "true"
                 },
-                styles: ["\n    .agm-map-container-inner {\n      width: inherit;\n      height: 100%;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "],
+                styles: [
+                    "\n    .agm-map-container-inner {\n      width: inherit;\n      height: 100%;\n    }\n    .agm-map-content {\n      display:none;\n    }\n  "
+                ],
                 template: "\n    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>\n    <div class='agm-map-content'>\n      <ng-content></ng-content>\n    </div>\n  "
             },] },
 ];
@@ -1383,9 +1497,10 @@ AgmMap.propDecorators = {
     'longitude': [{ type: _angular_core.Input },],
     'latitude': [{ type: _angular_core.Input },],
     'zoom': [{ type: _angular_core.Input },],
+    'tilt': [{ type: _angular_core.Input },],
     'minZoom': [{ type: _angular_core.Input },],
     'maxZoom': [{ type: _angular_core.Input },],
-    'draggable': [{ type: _angular_core.Input, args: ['mapDraggable',] },],
+    'draggable': [{ type: _angular_core.Input, args: ["mapDraggable",] },],
     'disableDoubleClickZoom': [{ type: _angular_core.Input },],
     'disableDefaultUI': [{ type: _angular_core.Input },],
     'scrollwheel': [{ type: _angular_core.Input },],
@@ -2483,6 +2598,7 @@ var AgmPolygon = (function () {
          */
         this.changedShape = new _angular_core.EventEmitter();
         this._polygonAddedToManager = false;
+        this._isDragging = false;
         this._subscriptions = [];
     }
     /** @internal */
@@ -2511,31 +2627,102 @@ var AgmPolygon = (function () {
     AgmPolygon.prototype._addEventListeners = function () {
         var _this = this;
         var handlers = [
-            { name: 'click', handler: function (ev) { return _this.polyClick.emit(ev); } },
-            { name: 'dbclick', handler: function (ev) { return _this.polyDblClick.emit(ev); } },
-            { name: 'drag', handler: function (ev) { return _this.polyDrag.emit(ev); } },
-            { name: 'dragstart', handler: function (ev) { return _this.polyDragStart.emit(ev); } },
-            { name: 'mousedown', handler: function (ev) { return _this.polyMouseDown.emit(ev); } },
-            { name: 'mousemove', handler: function (ev) { return _this.polyMouseMove.emit(ev); } },
-            { name: 'mouseout', handler: function (ev) { return _this.polyMouseOut.emit(ev); } },
-            { name: 'mouseover', handler: function (ev) { return _this.polyMouseOver.emit(ev); } },
-            { name: 'mouseup', handler: function (ev) { return _this.polyMouseUp.emit(ev); } },
-            { name: 'rightclick', handler: function (ev) { return _this.polyRightClick.emit(ev); } },
+            {
+                name: "click",
+                handler: function (ev) { return _this.polyClick.emit(ev); }
+            },
+            {
+                name: "dbclick",
+                handler: function (ev) { return _this.polyDblClick.emit(ev); }
+            },
+            {
+                name: "mousedown",
+                handler: function (ev) { return _this.polyMouseDown.emit(ev); }
+            },
+            {
+                name: "mousemove",
+                handler: function (ev) { return _this.polyMouseMove.emit(ev); }
+            },
+            {
+                name: "mouseout",
+                handler: function (ev) { return _this.polyMouseOut.emit(ev); }
+            },
+            {
+                name: "mouseover",
+                handler: function (ev) { return _this.polyMouseOver.emit(ev); }
+            },
+            {
+                name: "mouseup",
+                handler: function (ev) { return _this.polyMouseUp.emit(ev); }
+            },
+            {
+                name: "rightclick",
+                handler: function (ev) { return _this.polyRightClick.emit(ev); }
+            }
         ];
         handlers.forEach(function (obj) {
-            var os = _this._polygonManager.createEventObservable(obj.name, _this).subscribe(obj.handler);
+            var os = _this._polygonManager
+                .createEventObservable(obj.name, _this)
+                .subscribe(obj.handler);
             _this._subscriptions.push(os);
         });
-        var listeners = [
-            { name: 'insert_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
-            { name: 'remove_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
-            { name: 'set_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
-            { name: 'dragend', handler: function (ev) { return _this.polyDragEnd.emit(ev); } },
+        var drag = [
+            { name: "drag", handler: function (ev) { return _this.polyDrag.emit(ev); } },
+            {
+                name: "dragend",
+                handler: function (ev) {
+                    _this._isDragging = false;
+                    _this.polyDragEnd.emit(ev);
+                }
+            },
+            {
+                name: "dragstart",
+                handler: function (ev) {
+                    _this._isDragging = true;
+                    _this.polyDragStart.emit(ev);
+                }
+            }
         ];
-        listeners.forEach(function (obj) {
-            var lis = _this._polygonManager.createPolyChangesObservable(obj.name, _this).subscribe(obj.handler);
-            _this._subscriptions.push(lis);
+        drag.forEach(function (obj) {
+            var dr = _this._polygonManager
+                .createDragEventObservable(obj.name, _this)
+                .subscribe(obj.handler);
+            _this._subscriptions.push(dr);
         });
+        if (this.editable) {
+            var listeners = [
+                {
+                    name: "insert_at",
+                    handler: function (ev) {
+                        if (!_this._isDragging) {
+                            _this.changedShape.emit(ev);
+                        }
+                    }
+                },
+                {
+                    name: "remove_at",
+                    handler: function (ev) {
+                        if (!_this._isDragging) {
+                            _this.changedShape.emit(ev);
+                        }
+                    }
+                },
+                {
+                    name: "set_at",
+                    handler: function (ev) {
+                        if (!_this._isDragging) {
+                            _this.changedShape.emit(ev);
+                        }
+                    }
+                }
+            ];
+            listeners.forEach(function (obj) {
+                var lis = _this._polygonManager
+                    .createPolyChangesObservable(obj.name, _this)
+                    .subscribe(obj.handler);
+                _this._subscriptions.push(lis);
+            });
+        }
     };
     AgmPolygon.prototype._updatePolygonOptions = function (changes) {
         this._removeEventListeners();
@@ -2547,7 +2734,9 @@ var AgmPolygon = (function () {
         }, {});
     };
     /** @internal */
-    AgmPolygon.prototype.id = function () { return this._id; };
+    AgmPolygon.prototype.id = function () {
+        return this._id;
+    };
     /** @internal */
     AgmPolygon.prototype.ngOnDestroy = function () {
         this._polygonManager.deletePolygon(this);
@@ -2558,12 +2747,24 @@ var AgmPolygon = (function () {
     return AgmPolygon;
 }());
 AgmPolygon._polygonOptionsAttributes = [
-    'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
-    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex'
+    "clickable",
+    "draggable",
+    "editable",
+    "fillColor",
+    "fillOpacity",
+    "geodesic",
+    "icon",
+    "map",
+    "paths",
+    "strokeColor",
+    "strokeOpacity",
+    "strokeWeight",
+    "visible",
+    "zIndex"
 ];
 AgmPolygon.decorators = [
     { type: _angular_core.Directive, args: [{
-                selector: 'agm-polygon'
+                selector: "agm-polygon"
             },] },
 ];
 /** @nocollapse */
@@ -2572,7 +2773,7 @@ AgmPolygon.ctorParameters = function () { return [
 ]; };
 AgmPolygon.propDecorators = {
     'clickable': [{ type: _angular_core.Input },],
-    'draggable': [{ type: _angular_core.Input, args: ['polyDraggable',] },],
+    'draggable': [{ type: _angular_core.Input, args: ["polyDraggable",] },],
     'editable': [{ type: _angular_core.Input },],
     'fillColor': [{ type: _angular_core.Input },],
     'fillOpacity': [{ type: _angular_core.Input },],
@@ -2894,9 +3095,10 @@ var LazyMapsAPILoader = (function (_super) {
         script.async = true;
         script.defer = true;
         var callbackName = "angular2GoogleMapsLazyMapsAPILoader";
+        var google = "google";
         script.src = this._getScriptSrc(callbackName);
         this._scriptLoadingPromise = new Promise(function (resolve, reject) {
-            _this._windowRef.getNativeWindow()[callbackName] = function () { resolve(); };
+            _this._windowRef.getNativeWindow()[callbackName] = function () { resolve(_this._windowRef.getNativeWindow()[google]); };
             script.onerror = function (error) { reject(error); };
         });
         this._documentRef.getNativeDocument().body.appendChild(script);

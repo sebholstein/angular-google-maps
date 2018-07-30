@@ -1,9 +1,9 @@
-import { NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import * as mapTypes from './google-maps-types';
-import { Polyline } from './google-maps-types';
-import { PolylineOptions } from './google-maps-types';
-import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
+import { NgZone } from "@angular/core";
+import { Observable } from "rxjs/Observable";
+import * as mapTypes from "./google-maps-types";
+import { Polyline } from "./google-maps-types";
+import { PolylineOptions } from "./google-maps-types";
+import { MapsAPILoader } from "./maps-api-loader/maps-api-loader";
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
  * API v3
@@ -29,7 +29,7 @@ export declare class GoogleMapsAPIWrapper {
      */
     createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle>;
     createPolyline(options: PolylineOptions): Promise<Polyline>;
-    createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polyline>;
+    createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polygon>;
     getLibraries(): Promise<{}>;
     attachDrawingManager(controlPosition: mapTypes.ControlPosition, drawingModes: mapTypes.DrawingModes, polygonOptions: mapTypes.PolygonOptions, circleOptions?: mapTypes.DrawingCircleOptions, markerIcon?: string): Promise<any>;
     attachPolygonListeners<T>(eventName: string): Observable<T>;
@@ -58,8 +58,8 @@ export declare class GoogleMapsAPIWrapper {
      */
     triggerMapEvent(eventName: string): Promise<void>;
     addExtraControll(control: mapTypes.ExtraControl): Promise<{
-        'position': "BOTTOM_CENTER" | "BOTTOM_LEFT" | "BOTTOM_RIGHT" | "LEFT_BOTTOM" | "LEFT_CENTER" | "LEFT_TOP" | "RIGHT_BOTTOM" | "RIGHT_CENTER" | "RIGHT_TOP" | "TOP_CENTER" | "TOP_LEFT" | "TOP_RIGHT";
-        'controllPosition': any;
-        'subscription': any;
+        position: "BOTTOM_CENTER" | "BOTTOM_LEFT" | "BOTTOM_RIGHT" | "LEFT_BOTTOM" | "LEFT_CENTER" | "LEFT_TOP" | "RIGHT_BOTTOM" | "RIGHT_CENTER" | "RIGHT_TOP" | "TOP_CENTER" | "TOP_LEFT" | "TOP_RIGHT";
+        controllPosition: any;
+        subscription: any;
     }>;
 }

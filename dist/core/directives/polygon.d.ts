@@ -1,6 +1,6 @@
-import { AfterContentInit, EventEmitter, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { LatLng, LatLngLiteral, PolyMouseEvent } from '../services/google-maps-types';
-import { PolygonManager } from '../services/managers/polygon-manager';
+import { AfterContentInit, EventEmitter, OnChanges, OnDestroy, SimpleChanges } from "@angular/core";
+import { LatLng, LatLngLiteral, PolyMouseEvent } from "../services/google-maps-types";
+import { PolygonManager } from "../services/managers/polygon-manager";
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
  *
@@ -127,15 +127,15 @@ export declare class AgmPolygon implements OnDestroy, OnChanges, AfterContentIni
     /**
      * This event is repeatedly fired while the user drags the polygon.
      */
-    polyDrag: EventEmitter<MouseEvent>;
+    polyDrag: EventEmitter<PolyMouseEvent>;
     /**
      * This event is fired when the user stops dragging the polygon.
      */
-    polyDragEnd: EventEmitter<MouseEvent>;
+    polyDragEnd: EventEmitter<PolyMouseEvent>;
     /**
      * This event is fired when the user starts dragging the polygon.
      */
-    polyDragStart: EventEmitter<MouseEvent>;
+    polyDragStart: EventEmitter<PolyMouseEvent>;
     /**
      * This event is fired when the DOM mousedown event is fired on the Polygon.
      */
@@ -167,6 +167,7 @@ export declare class AgmPolygon implements OnDestroy, OnChanges, AfterContentIni
     private static _polygonOptionsAttributes;
     private _id;
     private _polygonAddedToManager;
+    private _isDragging;
     private _subscriptions;
     constructor(_polygonManager: PolygonManager);
     /** @internal */

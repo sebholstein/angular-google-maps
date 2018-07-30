@@ -1,5 +1,5 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { PolygonManager } from '../services/managers/polygon-manager';
+import { Directive, EventEmitter, Input, Output } from "@angular/core";
+import { PolygonManager } from "../services/managers/polygon-manager";
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
  *
@@ -137,6 +137,7 @@ var AgmPolygon = (function () {
          */
         this.changedShape = new EventEmitter();
         this._polygonAddedToManager = false;
+        this._isDragging = false;
         this._subscriptions = [];
     }
     /** @internal */
@@ -165,31 +166,102 @@ var AgmPolygon = (function () {
     AgmPolygon.prototype._addEventListeners = function () {
         var _this = this;
         var handlers = [
-            { name: 'click', handler: function (ev) { return _this.polyClick.emit(ev); } },
-            { name: 'dbclick', handler: function (ev) { return _this.polyDblClick.emit(ev); } },
-            { name: 'drag', handler: function (ev) { return _this.polyDrag.emit(ev); } },
-            { name: 'dragstart', handler: function (ev) { return _this.polyDragStart.emit(ev); } },
-            { name: 'mousedown', handler: function (ev) { return _this.polyMouseDown.emit(ev); } },
-            { name: 'mousemove', handler: function (ev) { return _this.polyMouseMove.emit(ev); } },
-            { name: 'mouseout', handler: function (ev) { return _this.polyMouseOut.emit(ev); } },
-            { name: 'mouseover', handler: function (ev) { return _this.polyMouseOver.emit(ev); } },
-            { name: 'mouseup', handler: function (ev) { return _this.polyMouseUp.emit(ev); } },
-            { name: 'rightclick', handler: function (ev) { return _this.polyRightClick.emit(ev); } },
+            {
+                name: "click",
+                handler: function (ev) { return _this.polyClick.emit(ev); }
+            },
+            {
+                name: "dbclick",
+                handler: function (ev) { return _this.polyDblClick.emit(ev); }
+            },
+            {
+                name: "mousedown",
+                handler: function (ev) { return _this.polyMouseDown.emit(ev); }
+            },
+            {
+                name: "mousemove",
+                handler: function (ev) { return _this.polyMouseMove.emit(ev); }
+            },
+            {
+                name: "mouseout",
+                handler: function (ev) { return _this.polyMouseOut.emit(ev); }
+            },
+            {
+                name: "mouseover",
+                handler: function (ev) { return _this.polyMouseOver.emit(ev); }
+            },
+            {
+                name: "mouseup",
+                handler: function (ev) { return _this.polyMouseUp.emit(ev); }
+            },
+            {
+                name: "rightclick",
+                handler: function (ev) { return _this.polyRightClick.emit(ev); }
+            }
         ];
         handlers.forEach(function (obj) {
-            var os = _this._polygonManager.createEventObservable(obj.name, _this).subscribe(obj.handler);
+            var os = _this._polygonManager
+                .createEventObservable(obj.name, _this)
+                .subscribe(obj.handler);
             _this._subscriptions.push(os);
         });
-        var listeners = [
-            { name: 'insert_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
-            { name: 'remove_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
-            { name: 'set_at', handler: function (ev) { return _this.changedShape.emit(ev); } },
-            { name: 'dragend', handler: function (ev) { return _this.polyDragEnd.emit(ev); } },
+        var drag = [
+            { name: "drag", handler: function (ev) { return _this.polyDrag.emit(ev); } },
+            {
+                name: "dragend",
+                handler: function (ev) {
+                    _this._isDragging = false;
+                    _this.polyDragEnd.emit(ev);
+                }
+            },
+            {
+                name: "dragstart",
+                handler: function (ev) {
+                    _this._isDragging = true;
+                    _this.polyDragStart.emit(ev);
+                }
+            }
         ];
-        listeners.forEach(function (obj) {
-            var lis = _this._polygonManager.createPolyChangesObservable(obj.name, _this).subscribe(obj.handler);
-            _this._subscriptions.push(lis);
+        drag.forEach(function (obj) {
+            var dr = _this._polygonManager
+                .createDragEventObservable(obj.name, _this)
+                .subscribe(obj.handler);
+            _this._subscriptions.push(dr);
         });
+        if (this.editable) {
+            var listeners = [
+                {
+                    name: "insert_at",
+                    handler: function (ev) {
+                        if (!_this._isDragging) {
+                            _this.changedShape.emit(ev);
+                        }
+                    }
+                },
+                {
+                    name: "remove_at",
+                    handler: function (ev) {
+                        if (!_this._isDragging) {
+                            _this.changedShape.emit(ev);
+                        }
+                    }
+                },
+                {
+                    name: "set_at",
+                    handler: function (ev) {
+                        if (!_this._isDragging) {
+                            _this.changedShape.emit(ev);
+                        }
+                    }
+                }
+            ];
+            listeners.forEach(function (obj) {
+                var lis = _this._polygonManager
+                    .createPolyChangesObservable(obj.name, _this)
+                    .subscribe(obj.handler);
+                _this._subscriptions.push(lis);
+            });
+        }
     };
     AgmPolygon.prototype._updatePolygonOptions = function (changes) {
         this._removeEventListeners();
@@ -201,7 +273,9 @@ var AgmPolygon = (function () {
         }, {});
     };
     /** @internal */
-    AgmPolygon.prototype.id = function () { return this._id; };
+    AgmPolygon.prototype.id = function () {
+        return this._id;
+    };
     /** @internal */
     AgmPolygon.prototype.ngOnDestroy = function () {
         this._polygonManager.deletePolygon(this);
@@ -213,12 +287,24 @@ var AgmPolygon = (function () {
 }());
 export { AgmPolygon };
 AgmPolygon._polygonOptionsAttributes = [
-    'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
-    'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex'
+    "clickable",
+    "draggable",
+    "editable",
+    "fillColor",
+    "fillOpacity",
+    "geodesic",
+    "icon",
+    "map",
+    "paths",
+    "strokeColor",
+    "strokeOpacity",
+    "strokeWeight",
+    "visible",
+    "zIndex"
 ];
 AgmPolygon.decorators = [
     { type: Directive, args: [{
-                selector: 'agm-polygon'
+                selector: "agm-polygon"
             },] },
 ];
 /** @nocollapse */
@@ -227,7 +313,7 @@ AgmPolygon.ctorParameters = function () { return [
 ]; };
 AgmPolygon.propDecorators = {
     'clickable': [{ type: Input },],
-    'draggable': [{ type: Input, args: ['polyDraggable',] },],
+    'draggable': [{ type: Input, args: ["polyDraggable",] },],
     'editable': [{ type: Input },],
     'fillColor': [{ type: Input },],
     'fillOpacity': [{ type: Input },],

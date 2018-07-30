@@ -1,21 +1,13 @@
 {
-  "rulesDirectory": [
-    "node_modules/codelyzer"
-  ],
-	"rules": {
-		"class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
+  "rulesDirectory": ["node_modules/codelyzer"],
+  "rules": {
+    "class-name": true,
+    "comment-format": [true, "check-space"],
     "curly": true,
     "eofline": true,
     "indent": [true, "spaces"],
     "jsdoc-format": true,
-    "member-ordering": [
-      true,
-      "variables-before-functions"
-    ],
+    "member-ordering": [true, "variables-before-functions"],
     "no-bitwise": true,
     "no-consecutive-blank-lines": true,
     "no-construct": true,
@@ -25,27 +17,13 @@
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
-		"no-unused-variable": [
-			true,
-			"check-parameters"
-		],
+    "no-unused-variable": [true, "check-parameters"],
     "no-use-before-declare": true,
     "no-var-requires": true,
-    "one-line": [
-      true,
-      "check-catch",
-      "check-else"
-    ],
-    "quotemark": [
-      true,
-      "single"
-    ],
+    "one-line": [true, "check-catch", "check-else"],
     "radix": true,
     "semicolon": true,
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "triple-equals": [true, "allow-null-check"],
     "typedef": [
       true,
       "parameter",
@@ -95,5 +73,5 @@
     "templates-use-public": true,
     "no-access-missing-member": true,
     "invoke-injectable": true
-	}
+  }
 }

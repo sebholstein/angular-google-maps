@@ -1,6 +1,6 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
+import { Injectable, NgZone } from "@angular/core";
+import { Observable } from "rxjs/Observable";
+import { GoogleMapsAPIWrapper } from "../google-maps-api-wrapper";
 var PolygonManager = (function () {
     function PolygonManager(_mapsWrapper, _zone) {
         this._mapsWrapper = _mapsWrapper;
@@ -20,7 +20,7 @@ var PolygonManager = (function () {
             strokeOpacity: path.strokeOpacity,
             strokeWeight: path.strokeWeight,
             visible: path.visible,
-            zIndex: path.zIndex,
+            zIndex: path.zIndex
         });
         this._polygons.set(path, polygonPromise);
     };
@@ -30,10 +30,20 @@ var PolygonManager = (function () {
         if (m == null) {
             return Promise.resolve();
         }
-        return m.then(function (l) { return _this._zone.run(function () { l.setPaths(polygon.paths); }); });
+        return m.then(function (l) {
+            return _this._zone.run(function () {
+                l.setPaths(polygon.paths);
+            });
+        });
     };
     PolygonManager.prototype.setPolygonOptions = function (path, options) {
-        return this._polygons.get(path).then(function (l) { l.setOptions(options); });
+        var _this = this;
+        return this._polygons.get(path).then(function (l) {
+            l.setOptions(options);
+            if (options['paths']) {
+                _this.updatePolygon(path);
+            }
+        });
     };
     PolygonManager.prototype.deletePolygon = function (paths) {
         var _this = this;
@@ -55,7 +65,22 @@ var PolygonManager = (function () {
         var _this = this;
         return Observable.create(function (observer) {
             _this._polygons.get(path).then(function (l) {
-                l.addListener(eventName, function (e) { return _this._zone.run(function () { return observer.next(e); }); });
+                l.addListener(eventName, function (e) {
+                    return _this._zone.run(function () { return observer.next(e); });
+                });
+            });
+        });
+    };
+    PolygonManager.prototype.createDragEventObservable = function (eventName, path) {
+        var _this = this;
+        return Observable.create(function (observer) {
+            _this._polygons.get(path).then(function (l) {
+                l.addListener(eventName, function () {
+                    return _this._zone.run(function () { return observer.next(_this.getBounds(l)); });
+                });
+                // google.maps.event.addListener(l, eventName, () =>
+                //   this._zone.run(() => observer.next(this.getBounds(l)))
+                // );
             });
         });
     };
@@ -64,7 +89,9 @@ var PolygonManager = (function () {
         return Observable.create(function (observer) {
             _this._polygons.get(path).then(function (l) {
                 l.getPaths().forEach(function (path) {
-                    google.maps.event.addListener(path, eventName, function () { return _this._zone.run(function () { return observer.next(_this.getBounds(l)); }); });
+                    google.maps.event.addListener(path, eventName, function () {
+                        return _this._zone.run(function () { return observer.next(_this.getBounds(l)); });
+                    });
                 });
             });
         });
@@ -74,8 +101,14 @@ var PolygonManager = (function () {
         var length = polygon.getPath().getLength();
         for (var i = 0; i < length; i++) {
             var ln = {
-                lat: polygon.getPath().getAt(i).lat(),
-                lng: polygon.getPath().getAt(i).lng()
+                lat: polygon
+                    .getPath()
+                    .getAt(i)
+                    .lat(),
+                lng: polygon
+                    .getPath()
+                    .getAt(i)
+                    .lng()
             };
             bounds.push(ln);
         }

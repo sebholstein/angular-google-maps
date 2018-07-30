@@ -85,7 +85,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   private _windowRef: WindowRef;
   private _documentRef: DocumentRef;
 
-  constructor( @Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
+  constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -102,10 +102,11 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.async = true;
     script.defer = true;
     const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
+    const google: string = `google`;
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => { resolve(); };
+      (<any>this._windowRef.getNativeWindow())[callbackName] = () => { resolve(<any>this._windowRef.getNativeWindow()[google]); };
 
       script.onerror = (error: Event) => { reject(error); };
     });

@@ -41,9 +41,10 @@ var LazyMapsAPILoader = (function (_super) {
         script.async = true;
         script.defer = true;
         var callbackName = "angular2GoogleMapsLazyMapsAPILoader";
+        var google = "google";
         script.src = this._getScriptSrc(callbackName);
         this._scriptLoadingPromise = new Promise(function (resolve, reject) {
-            _this._windowRef.getNativeWindow()[callbackName] = function () { resolve(); };
+            _this._windowRef.getNativeWindow()[callbackName] = function () { resolve(_this._windowRef.getNativeWindow()[google]); };
             script.onerror = function (error) { reject(error); };
         });
         this._documentRef.getNativeDocument().body.appendChild(script);
