@@ -1,9 +1,11 @@
-Angular Google Maps (AGM) Core - Angular 2+ Google Maps components
+Angular Google Maps Extended (AGME) Core - Angular Google Maps components
 =========
 
-@agm/core contains solutions for the Google Maps JavaScript Core API.
+@agme/core contains solutions for the Google Maps JavaScript Core API.
 
-The sources for this package are in the [angular-google-maps](https://github.com/SebastianM/angular-google-maps) repository. Please file issues and pull requests against that repo.
+This is an extended version of AGM that adds new features that currently don't exist in AGM or havent been implemented. It also uses the google maps types instead of custom types. This allows for easier and faster paces development. This library is more strongly typed but less strict in testing.
+
+The sources for this package are in the [angular-google-maps](https://github.com/wdunn001/angular-google-maps) repository. Please file issues and pull requests against that repo.
 
 This package contains different sources for different users:
 

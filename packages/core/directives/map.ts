@@ -1,12 +1,7 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output, HostBinding } from '@angular/core';
 import {Subscription} from 'rxjs';
-
-import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {
-  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
-import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
+
 import {CircleManager} from '../services/managers/circle-manager';
 import {RectangleManager} from '../services/managers/rectangle-manager';
 import {InfoWindowManager} from '../services/managers/info-window-manager';
@@ -15,6 +10,7 @@ import {PolygonManager} from '../services/managers/polygon-manager';
 import {PolylineManager} from '../services/managers/polyline-manager';
 import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 import {DataLayerManager} from './../services/managers/data-layer-manager';
+import { HeatmapLayerManager } from '../services/managers/heatmap-layer-manager';
 
 /**
  * AgmMap renders a Google Map.
@@ -43,12 +39,8 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
-    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager
+    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, HeatmapLayerManager
   ],
-  host: {
-    // todo: deprecated - we will remove it with the next version
-    '[class.sebm-google-map-container]': 'true'
-  },
   styles: [`
     .agm-map-container-inner {
       width: inherit;
@@ -66,6 +58,10 @@ import {DataLayerManager} from './../services/managers/data-layer-manager';
   `
 })
 export class AgmMap implements OnChanges, OnInit, OnDestroy {
+  /**
+   * Passes true is class is sebm-google-map-container
+   */
+  @HostBinding('class.sebm-google-map-container') isMapContainer: boolean = true;
   /**
    * The longitude that defines the center of the map.
    */
@@ -151,13 +147,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the Zoom control.
    */
-  @Input() zoomControlOptions: ZoomControlOptions;
+  @Input() zoomControlOptions: google.maps.ZoomControlOptions;
 
   /**
    * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
    * modes, these styles will only apply to labels and geometry.
    */
-  @Input() styles: MapTypeStyle[] = [];
+  @Input() styles: google.maps.MapTypeStyle[] = [];
 
   /**
    * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
@@ -176,12 +172,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the Street View control.
    */
-  @Input() streetViewControlOptions: StreetViewControlOptions;
+  @Input() streetViewControlOptions: google.maps.StreetViewControlOptions;
 
   /**
    * Sets the viewport to contain the given bounds.
    */
-  @Input() fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
+  @Input() fitBounds: google.maps.LatLngBoundsLiteral| google.maps.LatLngBounds = null;
 
   /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
@@ -191,7 +187,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the scale control.
    */
-  @Input() scaleControlOptions: ScaleControlOptions;
+  @Input() scaleControlOptions: google.maps.ScaleControlOptions;
 
   /**
    * The initial enabled/disabled state of the Map type control.
@@ -201,7 +197,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the Map type control.
    */
-  @Input() mapTypeControlOptions: MapTypeControlOptions;
+  @Input() mapTypeControlOptions: google.maps.MapTypeControlOptions;
 
   /**
    * The initial enabled/disabled state of the Pan control.
@@ -211,7 +207,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the Pan control.
    */
-  @Input() panControlOptions: PanControlOptions;
+  @Input() panControlOptions: google.maps.PanControlOptions;
 
   /**
    * The initial enabled/disabled state of the Rotate control.
@@ -221,7 +217,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the Rotate control.
    */
-  @Input() rotateControlOptions: RotateControlOptions;
+  @Input() rotateControlOptions: google.maps.RotateControlOptions;
 
   /**
    * The initial enabled/disabled state of the Fullscreen control.
@@ -231,12 +227,57 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Options for the Fullscreen control.
    */
-  @Input() fullscreenControlOptions: FullscreenControlOptions;
+  @Input() fullscreenControlOptions: google.maps.FullscreenControlOptions;
 
   /**
    * The map mapTypeId. Defaults to 'roadmap'.
    */
-  @Input() mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
+  @Input()
+  set mapTypeId( mapTypeId: 'ROADMAP'|'HYBRID'|'SATELLITE'|'TERRAIN') {
+    switch (mapTypeId) {
+      case 'ROADMAP': {
+        this._mapTypeId = google.maps.MapTypeId.ROADMAP;
+        break;
+      }
+      case 'HYBRID': {
+        this._mapTypeId = google.maps.MapTypeId.HYBRID;
+        break;
+      }
+      case 'SATELLITE': {
+        this._mapTypeId = google.maps.MapTypeId.SATELLITE;
+        break;
+      }
+      case 'TERRAIN': {
+        this._mapTypeId = google.maps.MapTypeId.TERRAIN;
+        break;
+      }
+      default: {
+        this._mapTypeId = google.maps.MapTypeId.ROADMAP;
+      }
+
+    }
+  }
+  get mapTypeId() {
+    switch (this._mapTypeId) {
+      case google.maps.MapTypeId.ROADMAP: {
+        return 'ROADMAP';
+      }
+      case google.maps.MapTypeId.HYBRID: {
+        return 'HYBRID';
+      }
+      case google.maps.MapTypeId.SATELLITE: {
+        return 'SATELLITE';
+      }
+      case google.maps.MapTypeId.TERRAIN: {
+        return 'TERRAIN';
+      }
+      default: {
+        return null;
+      }
+
+    }
+  }
+  protected _mapTypeId: google.maps.MapTypeId;
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
@@ -255,9 +296,16 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
 
   /**
+   * The heading for aerial imagery in degrees measured clockwise from cardinal
+   * direction North. Headings are snapped to the nearest available angle for
+   * which imagery is available.
+   */
+  @Input() heading: number;
+
+  /**
    * Map option attributes that can change over time
    */
-  private static _mapOptionsAttributes: string[] = [
+  protected _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
@@ -266,40 +314,42 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'mapTypeId', 'clickableIcons', 'gestureHandling'
   ];
 
-  private _observableSubscriptions: Subscription[] = [];
+  protected _observableSubscriptions: Subscription[] = [];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
-  @Output() mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user right-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  @Output() mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapRightClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user double-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  @Output() mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapDblClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter is fired when the map center changes.
    */
-  @Output() centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
+  @Output() centerChange: EventEmitter<google.maps.LatLngLiteral> = new EventEmitter<google.maps.LatLngLiteral>();
 
   /**
    * This event is fired when the viewport bounds have changed.
    */
-  @Output() boundsChange: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
+  @Output() boundsChange: EventEmitter<google.maps.LatLngBounds> = new EventEmitter<google.maps.LatLngBounds>();
+
+  @Output() projectionChange: EventEmitter<google.maps.Projection> = new EventEmitter<google.maps.Projection>();
 
   /**
    * This event is fired when the mapTypeId property changes.
    */
-  @Output() mapTypeIdChange: EventEmitter<MapTypeId> = new EventEmitter<MapTypeId>();
+  @Output() mapTypeIdChange: EventEmitter<google.maps.MapTypeId> = new EventEmitter<google.maps.MapTypeId>();
 
   /**
    * This event is fired when the map becomes idle after panning or zooming.
@@ -317,7 +367,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
+  constructor(protected _elem: ElementRef, protected _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
   ngOnInit() {
@@ -326,7 +376,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._initMapInstance(container);
   }
 
-  private _initMapInstance(el: HTMLElement) {
+  protected _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, {
       center: {lat: this.latitude || 0, lng: this.longitude || 0},
       zoom: this.zoom,
@@ -355,9 +405,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       rotateControlOptions: this.rotateControlOptions,
       fullscreenControl: this.fullscreenControl,
       fullscreenControlOptions: this.fullscreenControlOptions,
-      mapTypeId: this.mapTypeId,
+      mapTypeId: this._mapTypeId,
       clickableIcons: this.clickableIcons,
-      gestureHandling: this.gestureHandling
+      gestureHandling: this.gestureHandling,
+      heading: this.heading
     })
       .then(() => this._mapsWrapper.getNativeMap())
       .then(map => this.mapReady.emit(map));
@@ -367,6 +418,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
     this._handleBoundsChange();
+    this._handleProjectionChange();
     this._handleMapTypeIdChange();
     this._handleIdleEvent();
   }
@@ -386,10 +438,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._updatePosition(changes);
   }
 
-  private _updateMapOptionsChanges(changes: SimpleChanges) {
+  protected _updateMapOptionsChanges(changes: SimpleChanges) {
     let options: {[propName: string]: any} = {};
     let optionKeys =
-        Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
+        Object.keys(changes).filter(k => this._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
   }
@@ -415,7 +467,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  private _updatePosition(changes: SimpleChanges) {
+  protected _updatePosition(changes: SimpleChanges) {
     if (changes['latitude'] == null && changes['longitude'] == null &&
         changes['fitBounds'] == null) {
       // no position update needed
@@ -434,7 +486,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._setCenter();
   }
 
-  private _setCenter() {
+  protected _setCenter() {
     let newCenter = {
       lat: this.latitude,
       lng: this.longitude,
@@ -446,7 +498,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  private _fitBounds() {
+  protected _fitBounds() {
     if (this.usePanning) {
       this._mapsWrapper.panToBounds(this.fitBounds);
       return;
@@ -454,34 +506,42 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._mapsWrapper.fitBounds(this.fitBounds);
   }
 
-  private _handleMapCenterChange() {
+  protected _handleMapCenterChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
-      this._mapsWrapper.getCenter().then((center: LatLng) => {
+      this._mapsWrapper.getCenter().then((center: google.maps.LatLng) => {
         this.latitude = center.lat();
         this.longitude = center.lng();
-        this.centerChange.emit(<LatLngLiteral>{lat: this.latitude, lng: this.longitude});
+        this.centerChange.emit(<google.maps.LatLngLiteral>{lat: this.latitude, lng: this.longitude});
       });
     });
     this._observableSubscriptions.push(s);
   }
 
-  private _handleBoundsChange() {
+  protected _handleBoundsChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
       this._mapsWrapper.getBounds().then(
-          (bounds: LatLngBounds) => { this.boundsChange.emit(bounds); });
+          (bounds: google.maps.LatLngBounds) => { this.boundsChange.emit(bounds); });
     });
     this._observableSubscriptions.push(s);
   }
 
-  private _handleMapTypeIdChange() {
+  protected _handleProjectionChange() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('projection_changed').subscribe(() => {
+      this._mapsWrapper.getProjection().then(
+          (projection: google.maps.Projection) => { this.projectionChange.emit(projection); });
+    });
+    this._observableSubscriptions.push(s);
+  }
+
+  protected _handleMapTypeIdChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('maptypeid_changed').subscribe(() => {
       this._mapsWrapper.getMapTypeId().then(
-          (mapTypeId: MapTypeId) => { this.mapTypeIdChange.emit(mapTypeId); });
+          (mapTypeId: google.maps.MapTypeId) => { this.mapTypeIdChange.emit(mapTypeId); });
     });
     this._observableSubscriptions.push(s);
   }
 
-  private _handleMapZoomChange() {
+  protected _handleMapZoomChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
       this._mapsWrapper.getZoom().then((z: number) => {
         this.zoom = z;
@@ -491,13 +551,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._observableSubscriptions.push(s);
   }
 
-  private _handleIdleEvent() {
+  protected _handleIdleEvent() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
         () => { this.idle.emit(void 0); });
     this._observableSubscriptions.push(s);
   }
 
-  private _handleMapMouseEvents() {
+  protected _handleMapMouseEvents() {
     interface Emitter {
       emit(value: any): void;
     }
@@ -510,9 +570,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     ];
 
     events.forEach((e: Event) => {
-      const s = this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
-          (event: {latLng: LatLng}) => {
-            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+      const s = this._mapsWrapper.subscribeToMapEvent<{latLng: google.maps.LatLng}>(e.name).subscribe(
+          (event: {latLng: google.maps.LatLng}) => {
+            const value = event;
             e.emitter.emit(value);
           });
       this._observableSubscriptions.push(s);

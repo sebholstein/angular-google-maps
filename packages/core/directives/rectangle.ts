@@ -9,12 +9,6 @@ import {
   Output
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MouseEvent } from '../map-types';
-import {
-  LatLngBounds,
-  LatLngBoundsLiteral
-} from '../services/google-maps-types';
-import { MouseEvent as MapMouseEvent } from '../services/google-maps-types';
 import { RectangleManager } from '../services/managers/rectangle-manager';
 
 @Directive({
@@ -82,7 +76,46 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
    * The stroke position. Defaults to CENTER.
    * This property is not supported on Internet Explorer 8 and earlier.
    */
-  @Input() strokePosition: 'CENTER' | 'INSIDE' | 'OUTSIDE' = 'CENTER';
+  @Input()
+  set strokePosition( strokePosition: 'CENTER'|'INSIDE'|'OUTSIDE') {
+    switch (strokePosition) {
+      case 'CENTER': {
+        this._strokePosition = google.maps.StrokePosition.CENTER;
+        break;
+      }
+      case 'INSIDE': {
+        this._strokePosition = google.maps.StrokePosition.INSIDE;
+        break;
+      }
+      case 'OUTSIDE': {
+        this._strokePosition = google.maps.StrokePosition.OUTSIDE;
+        break;
+      }
+      default: {
+        this._strokePosition = google.maps.StrokePosition.CENTER;
+      }
+
+    }
+  }
+  get strokePosition() {
+    switch (this._strokePosition) {
+      case google.maps.StrokePosition.CENTER: {
+        return 'CENTER';
+      }
+      case google.maps.StrokePosition.INSIDE: {
+        return 'INSIDE';
+      }
+      case google.maps.StrokePosition.OUTSIDE: {
+        return 'OUTSIDE';
+      }
+
+      default: {
+        return null;
+      }
+
+    }
+  }
+  _strokePosition: google.maps.StrokePosition;
 
   /**
    * The stroke width in pixels.
@@ -103,71 +136,71 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
    * This event is fired when the rectangle's is changed.
    */
   @Output()
-  boundsChange: EventEmitter<LatLngBoundsLiteral> = new EventEmitter<
-    LatLngBoundsLiteral
+  boundsChange: EventEmitter<google.maps.LatLngBoundsLiteral> = new EventEmitter<
+  google.maps.LatLngBoundsLiteral
   >();
 
   /**
    * This event emitter gets emitted when the user clicks on the rectangle.
    */
   @Output()
-  rectangleClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  rectangleClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user clicks on the rectangle.
    */
   @Output()
-  rectangleDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  rectangleDblClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the rectangle.
    */
-  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the rectangle.
    */
-  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the rectangle.
    */
   @Output()
-  dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  dragStart: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the rectangle.
    */
   @Output()
-  mouseDown: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  mouseDown: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the rectangle.
    */
   @Output()
-  mouseMove: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  mouseMove: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired on rectangle mouseout.
    */
-  @Output() mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOut: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired on rectangle mouseover.
    */
   @Output()
-  mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  mouseOver: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mouseup event is fired on the rectangle.
    */
-  @Output() mouseUp: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseUp: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the rectangle is right-clicked on.
    */
   @Output()
-  rightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  rightClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   private _rectangleAddedToManager: boolean = false;
 
@@ -255,12 +288,12 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
     events.forEach((eventEmitter, eventName) => {
       this._eventSubscriptions.push(
         this._manager
-          .createEventObservable<MapMouseEvent>(eventName, this)
+          .createEventObservable<google.maps.MouseEvent>(eventName, this)
           .subscribe(value => {
             switch (eventName) {
               case 'bounds_changed':
                 this._manager.getBounds(this).then(bounds =>
-                  eventEmitter.emit(<LatLngBoundsLiteral>{
+                  eventEmitter.emit(<google.maps.LatLngBoundsLiteral>{
                     north: bounds.getNorthEast().lat(),
                     east: bounds.getNorthEast().lng(),
                     south: bounds.getSouthWest().lat(),
@@ -269,9 +302,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
                 );
                 break;
               default:
-                eventEmitter.emit(<MouseEvent>{
-                  coords: { lat: value.latLng.lat(), lng: value.latLng.lng() }
-                });
+                eventEmitter.emit(value);
             }
           })
       );
@@ -290,7 +321,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   /**
    * Gets the LatLngBounds of this Rectangle.
    */
-  getBounds(): Promise<LatLngBounds> {
+  getBounds(): Promise<google.maps.LatLngBounds> {
     return this._manager.getBounds(this);
   }
 }

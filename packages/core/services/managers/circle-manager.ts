@@ -1,15 +1,12 @@
 import {Injectable, NgZone} from '@angular/core';
-
 import {Observable, Observer} from 'rxjs';
-
 import {AgmCircle} from '../../directives/circle';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import * as mapTypes from '../google-maps-types';
 
 @Injectable()
 export class CircleManager {
-  private _circles: Map<AgmCircle, Promise<mapTypes.Circle>> =
-      new Map<AgmCircle, Promise<mapTypes.Circle>>();
+  private _circles: Map<AgmCircle, Promise<google.maps.Circle>> =
+      new Map<AgmCircle, Promise<google.maps.Circle>>();
 
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
@@ -24,7 +21,7 @@ export class CircleManager {
       radius: circle.radius,
       strokeColor: circle.strokeColor,
       strokeOpacity: circle.strokeOpacity,
-      strokePosition: circle.strokePosition,
+      strokePosition: circle._strokePosition,
       strokeWeight: circle.strokeWeight,
       visible: circle.visible,
       zIndex: circle.zIndex
@@ -41,15 +38,15 @@ export class CircleManager {
     });
   }
 
-  setOptions(circle: AgmCircle, options: mapTypes.CircleOptions): Promise<void> {
+  setOptions(circle: AgmCircle, options: google.maps.CircleOptions): Promise<void> {
     return this._circles.get(circle).then((c) => c.setOptions(options));
   }
 
-  getBounds(circle: AgmCircle): Promise<mapTypes.LatLngBounds> {
+  getBounds(circle: AgmCircle): Promise<google.maps.LatLngBounds> {
     return this._circles.get(circle).then((c) => c.getBounds());
   }
 
-  getCenter(circle: AgmCircle): Promise<mapTypes.LatLng> {
+  getCenter(circle: AgmCircle): Promise<google.maps.LatLng> {
     return this._circles.get(circle).then((c) => c.getCenter());
   }
 
@@ -80,7 +77,7 @@ export class CircleManager {
 
   createEventObservable<T>(eventName: string, circle: AgmCircle): Observable<T> {
     return new Observable((observer: Observer<T>) => {
-      let listener: mapTypes.MapsEventListener = null;
+      let listener: google.maps.MapsEventListener = null;
       this._circles.get(circle).then((c) => {
         listener = c.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
