@@ -20,9 +20,8 @@ packages.forEach(function (pkgName) {
 
   //  link main, module, es2015, typings
   basePkgJson.main = `${pkgName}.umd.js`;
-  basePkgJson.module = `${pkgName}.es5.js`;
-  basePkgJson.es2015 = `${pkgName}.js`;
-  basePkgJson.typings = `${pkgName}.d.ts`;
+  basePkgJson.es2015 = `index.js`;
+  basePkgJson.typings = `index.d.ts`;
 
   // update version
   basePkgJson.version = rootPkgJson.version;
