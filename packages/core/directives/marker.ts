@@ -28,7 +28,7 @@ let markerId = 0;
  * `],
  *  template: `
  *    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
- *      <agm-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
+ *      <agm-marker [(latitude)]="lat" [(longitude)]="lng" [label]="'M'">
  *      </agm-marker>
  *    </agm-map>
  *  `
@@ -41,7 +41,8 @@ let markerId = 0;
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
     'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation'
   ],
-  outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
+  outputs:
+    ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut', 'latitudeChange', 'longitudeChange']
 })
 export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
@@ -111,6 +112,16 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   animation: 'BOUNCE' | 'DROP' | null;
 
   /**
+   * This event emitter gets emitted when the latitude of a marker changes.
+   */
+  @Output() latitudeChange: EventEmitter<number> = new EventEmitter<number>();
+
+  /**
+   * This event emitter gets emitted when the longitude of a marker changes.
+   */
+  @Output() longitudeChange: EventEmitter<number> = new EventEmitter<number>();
+
+  /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
   @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
@@ -170,6 +181,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
       this.longitude = Number(this.longitude);
     }
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
+      // Delete marker if coordinates are null or undefined.
+      if (this.latitude === null || this.latitude === undefined || this.longitude === null ||
+        this.longitude === undefined) {
+        this._markerManager.deleteMarker(this);
+      }
       return;
     }
     if (!this._markerAddedToManger) {
@@ -224,11 +240,15 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     });
     this._observableSubscriptions.push(rc);
 
-    const ds =
-        this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-            .subscribe((e: mapTypes.MouseEvent) => {
-              this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-            });
+    const ds = this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+      .subscribe((e: mapTypes.MouseEvent) => {
+        let lat = e.latLng.lat();
+        let lng = e.latLng.lng();
+
+        this.dragEnd.emit(<MouseEvent>{ coords: { lat: lat, lng: lng } });
+        this.latitudeChange.emit(lat);
+        this.longitudeChange.emit(lng);
+      });
     this._observableSubscriptions.push(ds);
 
     const mover =
