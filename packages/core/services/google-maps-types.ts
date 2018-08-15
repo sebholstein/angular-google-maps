@@ -12,8 +12,8 @@ export interface GoogleMap extends MVCObject {
   getMapTypeId(): MapTypeId;
   getZoom(): number;
   setOptions(options: MapOptions): void;
-  panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
-  fitBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral, padding?: number|Padding): void;
+  fitBounds(bounds: LatLngBounds|LatLngBoundsLiteral, padding?: number|Padding): void;
 }
 
 export interface LatLng {
@@ -122,6 +122,13 @@ export interface RectangleOptions {
   strokeWeight?: number;
   visible?: boolean;
   zIndex?: number;
+}
+
+export interface Padding {
+  bottom: number;
+  left: number;
+  right: number;
+  top: number;
 }
 
 export interface LatLngBounds {

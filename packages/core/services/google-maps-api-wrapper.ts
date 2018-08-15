@@ -4,6 +4,7 @@ import {Observable, Observer} from 'rxjs';
 import * as mapTypes from './google-maps-types';
 import {Polyline} from './google-maps-types';
 import {PolylineOptions} from './google-maps-types';
+import {Padding} from './google-maps-types';
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
@@ -152,12 +153,12 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map) => map.panBy(x, y));
   }
 
-  fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.fitBounds(latLng));
+  fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral, padding?: number|Padding): Promise<void> {
+    return this._map.then((map) => map.fitBounds(latLng, padding));
   }
 
-  panToBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.panToBounds(latLng));
+  panToBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral, padding?: number|Padding): Promise<void> {
+    return this._map.then((map) => map.panToBounds(latLng, padding));
   }
 
   /**
