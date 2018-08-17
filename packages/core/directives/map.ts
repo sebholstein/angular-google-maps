@@ -113,7 +113,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
    */
-  @Input() scrollwheel: boolean = true;
+  @Input() scrollwheel?: boolean;
 
   /**
    * Color used for the background of the Map div. This color will be visible when tiles have not
