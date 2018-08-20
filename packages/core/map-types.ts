@@ -8,7 +8,8 @@ export {
   LatLngBoundsLiteral,
   LatLngLiteral,
   PolyMouseEvent,
-  MarkerLabel
+  MarkerLabel,
+  ControlPosition
 } from './services/google-maps-types';
 
 /**
