@@ -1,4 +1,4 @@
-import {Marker, GoogleMap, LatLngBounds} from '@agm/core/services/google-maps-types';
+import {GoogleMap, LatLngBounds, Marker} from '@agm/core/services/google-maps-types';
 
 export interface CalculatorResult {
   text: string;
@@ -58,7 +58,8 @@ export interface ClusterOptions {
   averageCenter?: boolean;
 
   /**
-   * The minimum number of markers to be in a cluster before the markers are hidden and a count is shown.
+   * The minimum number of markers to be in a cluster before the markers are hidden and a count is
+   * shown.
    */
   minimumClusterSize?: number;
 

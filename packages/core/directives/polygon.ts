@@ -1,8 +1,8 @@
-import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges, Input, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {AfterContentInit, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
-import { PolygonManager } from '../services/managers/polygon-manager';
+import {LatLng, LatLngLiteral, PolygonOptions, PolyMouseEvent} from '../services/google-maps-types';
+import {PolygonManager} from '../services/managers/polygon-manager';
 
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
@@ -53,9 +53,7 @@ import { PolygonManager } from '../services/managers/polygon-manager';
  * }
  * ```
  */
-@Directive({
-  selector: 'agm-polygon'
-})
+@Directive({selector: 'agm-polygon'})
 export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polygon handles mouse events. Defaults to true.
@@ -253,7 +251,9 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   /** @internal */
-  id(): string { return this._id; }
+  id(): string {
+    return this._id;
+  }
 
   /** @internal */
   ngOnDestroy() {

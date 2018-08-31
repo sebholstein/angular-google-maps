@@ -14,7 +14,8 @@ export enum GoogleMapsScriptProtocol {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export const LAZY_MAPS_API_CONFIG = new InjectionToken<LazyMapsAPILoaderConfigLiteral>('angular-google-maps LAZY_MAPS_API_CONFIG');
+export const LAZY_MAPS_API_CONFIG =
+    new InjectionToken<LazyMapsAPILoaderConfigLiteral>('angular-google-maps LAZY_MAPS_API_CONFIG');
 
 /**
  * Configuration for the {@link LazyMapsAPILoader}.
@@ -87,7 +88,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   protected readonly _SCRIPT_ID: string = 'agmGoogleMapsApiScript';
   protected readonly callbackName: string = `agmLazyMapsAPILoader`;
 
-  constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
+  constructor(
+      @Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -153,7 +155,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     }
 
     const hostAndPath: string = this._config.hostAndPath || 'maps.googleapis.com/maps/api/js';
-    const queryParams: {[key: string]: string | Array<string>} = {
+    const queryParams: {[key: string]: string|Array<string>} = {
       v: this._config.apiVersion || '3',
       callback: callbackName,
       key: this._config.apiKey,

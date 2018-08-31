@@ -43,12 +43,17 @@ export class PolylineManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polyline) => { return this._zone.run(() => { l.setPath(path); }); });
+    return m.then((l: Polyline) => {
+      return this._zone.run(() => {
+        l.setPath(path);
+      });
+    });
   }
 
-  setPolylineOptions(line: AgmPolyline, options: {[propName: string]: any}):
-      Promise<void> {
-    return this._polylines.get(line).then((l: Polyline) => { l.setOptions(options); });
+  setPolylineOptions(line: AgmPolyline, options: {[propName: string]: any}): Promise<void> {
+    return this._polylines.get(line).then((l: Polyline) => {
+      l.setOptions(options);
+    });
   }
 
   deletePolyline(line: AgmPolyline): Promise<void> {

@@ -1,5 +1,5 @@
 import {NgZone} from '@angular/core';
-import {TestBed, async, inject} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 
 import {AgmMarker} from './../../directives/marker';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
@@ -11,12 +11,7 @@ describe('MarkerManager', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
-        MarkerManager, {
-          provide: GoogleMapsAPIWrapper,
-          useValue: {
-            createMarker: jest.fn()
-          }
-        }
+        MarkerManager, {provide: GoogleMapsAPIWrapper, useValue: {createMarker: jest.fn()}}
       ]
     });
   });
@@ -57,14 +52,13 @@ describe('MarkerManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: any = {
-              setMap: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
-             markerManager.deleteMarker(newMarker).then(
-                 () => { expect(markerInstance.setMap).toHaveBeenCalledWith(null); });
+             markerManager.deleteMarker(newMarker).then(() => {
+               expect(markerInstance.setMap).toHaveBeenCalledWith(null);
+             });
            }));
   });
 
@@ -78,10 +72,7 @@ describe('MarkerManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: any = {
-              setMap: jest.fn(),
-              setIcon: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setIcon: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
@@ -99,8 +90,9 @@ describe('MarkerManager', () => {
              });
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
-             return markerManager.updateIcon(newMarker).then(
-                 () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
+             return markerManager.updateIcon(newMarker).then(() => {
+               expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl);
+             });
            })));
   });
 
@@ -114,10 +106,7 @@ describe('MarkerManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: any = {
-              setMap: jest.fn(),
-              setOpacity: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setOpacity: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
@@ -137,8 +126,9 @@ describe('MarkerManager', () => {
              });
              const opacity = 0.4;
              newMarker.opacity = opacity;
-             return markerManager.updateOpacity(newMarker).then(
-                 () => { expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity); });
+             return markerManager.updateOpacity(newMarker).then(() => {
+               expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity);
+             });
            })));
   });
 
@@ -153,10 +143,7 @@ describe('MarkerManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: any = {
-              setMap: jest.fn(),
-              setVisible: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setVisible: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
@@ -173,8 +160,9 @@ describe('MarkerManager', () => {
                animation: undefined
              });
              newMarker.visible = true;
-             return markerManager.updateVisible(newMarker).then(
-                 () => { expect(markerInstance.setVisible).toHaveBeenCalledWith(true); });
+             return markerManager.updateVisible(newMarker).then(() => {
+               expect(markerInstance.setVisible).toHaveBeenCalledWith(true);
+             });
            })));
   });
 
@@ -189,10 +177,7 @@ describe('MarkerManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: any = {
-              setMap: jest.fn(),
-              setZIndex: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setZIndex: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
@@ -210,8 +195,9 @@ describe('MarkerManager', () => {
              });
              const zIndex = 10;
              newMarker.zIndex = zIndex;
-             return markerManager.updateZIndex(newMarker).then(
-                 () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
+             return markerManager.updateZIndex(newMarker).then(() => {
+               expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex);
+             });
            })));
   });
 });

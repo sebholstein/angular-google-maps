@@ -7,8 +7,7 @@ import {Polygon} from '../google-maps-types';
 
 @Injectable()
 export class PolygonManager {
-  private _polygons: Map<AgmPolygon, Promise<Polygon>> =
-      new Map<AgmPolygon, Promise<Polygon>>();
+  private _polygons: Map<AgmPolygon, Promise<Polygon>> = new Map<AgmPolygon, Promise<Polygon>>();
 
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
@@ -35,11 +34,15 @@ export class PolygonManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
+    return m.then((l: Polygon) => this._zone.run(() => {
+      l.setPaths(polygon.paths);
+    }));
   }
 
   setPolygonOptions(path: AgmPolygon, options: {[propName: string]: any}): Promise<void> {
-    return this._polygons.get(path).then((l: Polygon) => { l.setOptions(options); });
+    return this._polygons.get(path).then((l: Polygon) => {
+      l.setOptions(options);
+    });
   }
 
   deletePolygon(paths: AgmPolygon): Promise<void> {

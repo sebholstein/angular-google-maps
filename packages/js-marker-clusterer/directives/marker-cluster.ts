@@ -1,9 +1,8 @@
-import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
-
-import {ClusterManager} from '../services/managers/cluster-manager';
-import {MarkerManager, InfoWindowManager} from '@agm/core';
+import {InfoWindowManager, MarkerManager} from '@agm/core';
+import {Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
 
 import {ClusterOptions, ClusterStyle} from '../services/google-clusterer-types';
+import {ClusterManager} from '../services/managers/cluster-manager';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together
@@ -62,7 +61,8 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Input() averageCenter: boolean;
 
   /**
-   * The minimum number of markers to be in a cluster before the markers are hidden and a count is shown.
+   * The minimum number of markers to be in a cluster before the markers are hidden and a count is
+   * shown.
    */
   @Input() minimumClusterSize: number;
 
@@ -82,7 +82,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   }
 
   /** @internal */
-  ngOnChanges(changes: {[key: string]: SimpleChange }) {
+  ngOnChanges(changes: {[key: string]: SimpleChange}) {
     if (changes['gridSize']) {
       this._clusterManager.setGridSize(this);
     }

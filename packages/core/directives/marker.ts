@@ -1,14 +1,12 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
-  AfterContentInit, ContentChildren, QueryList, Input, Output
-} from '@angular/core';
+import {AfterContentInit, ContentChildren, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, QueryList, SimpleChange} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
+import {MarkerLabel} from '../map-types';
 import * as mapTypes from '../services/google-maps-types';
 import {MarkerManager} from '../services/managers/marker-manager';
 
 import {AgmInfoWindow} from './info-window';
-import {MarkerLabel} from '../map-types';
 
 let markerId = 0;
 
@@ -62,7 +60,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The label (a single uppercase character) for the marker.
    */
-  @Input() label: string | MarkerLabel;
+  @Input() label: string|MarkerLabel;
 
   /**
    * If true, the marker can be dragged. Default value is false.
@@ -108,7 +106,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
    * Which animation to play when marker is added to a map.
    * This can be 'BOUNCE' or 'DROP'
    */
-  animation: 'BOUNCE' | 'DROP' | null;
+  animation: 'BOUNCE'|'DROP'|null;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -138,13 +136,16 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * @internal
    */
-  @ContentChildren(AgmInfoWindow) infoWindow: QueryList<AgmInfoWindow> = new QueryList<AgmInfoWindow>();
+  @ContentChildren(AgmInfoWindow)
+  infoWindow: QueryList<AgmInfoWindow> = new QueryList<AgmInfoWindow>();
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
   private _observableSubscriptions: Subscription[] = [];
 
-  constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
+  constructor(private _markerManager: MarkerManager) {
+    this._id = (markerId++).toString();
+  }
 
   /* @internal */
   ngAfterContentInit() {
@@ -247,10 +248,14 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   /** @internal */
-  id(): string { return this._id; }
+  id(): string {
+    return this._id;
+  }
 
   /** @internal */
-  toString(): string { return 'AgmMarker-' + this._id.toString(); }
+  toString(): string {
+    return 'AgmMarker-' + this._id.toString();
+  }
 
   /** @internal */
   ngOnDestroy() {

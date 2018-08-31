@@ -152,7 +152,9 @@ export interface LatLngLiteral {
   lng: number;
 }
 
-export interface MouseEvent { latLng: LatLng; }
+export interface MouseEvent {
+  latLng: LatLng;
+}
 
 export interface MapOptions {
   center?: LatLng|LatLngLiteral;
@@ -228,9 +230,13 @@ export interface InfoWindow extends MVCObject {
   setZIndex(zIndex: number): void;
 }
 
-export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
+export interface MVCObject {
+  addListener(eventName: string, handler: Function): MapsEventListener;
+}
 
-export interface MapsEventListener { remove(): void; }
+export interface MapsEventListener {
+  remove(): void;
+}
 
 export interface Size {
   height: number;
@@ -363,9 +369,9 @@ export interface KmlLayer extends MVCObject {
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerStatus
  */
-export type KmlLayerStatus = 'DOCUMENT_NOT_FOUND' |
-    'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' |
-    'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
+export type KmlLayerStatus =
+    'DOCUMENT_NOT_FOUND'|'DOCUMENT_TOO_LARGE'| 'FETCH_ERROR'| 'INVALID_DOCUMENT'|'INVALID_REQUEST'|
+    'LIMITS_EXCEEDED'|'OK'| 'TIMED_OUT'|'UNKNOWN';
 
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerMetadata
@@ -419,9 +425,9 @@ export interface Data extends MVCObject {
   setMap(map: GoogleMap): void;
   /* tslint:disable */
   /*
-  * Tslint configuration check-parameters will prompt errors for these lines of code.
-  * https://palantir.github.io/tslint/rules/no-unused-variable/
-  */
+   * Tslint configuration check-parameters will prompt errors for these lines of code.
+   * https://palantir.github.io/tslint/rules/no-unused-variable/
+   */
   setStyle(style: () => void): void;
   forEach(callback: (feature: Feature) => void): void;
   loadGeoJson(url: string, options?: GeoJsonOptions, callback?: (feats: Feature[]) => void): void;

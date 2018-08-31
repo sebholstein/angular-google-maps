@@ -1,9 +1,10 @@
 import {NgZone} from '@angular/core';
-import {TestBed, async, inject} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 
 import {AgmMarker} from '../../../core/directives/marker';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
 import {Marker} from '../../../core/services/google-maps-types';
+
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -11,12 +12,7 @@ describe('ClusterManager', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
-        ClusterManager, {
-          provide: GoogleMapsAPIWrapper,
-          useValue: {
-            createMarker: jest.fn()
-          }
-        }
+        ClusterManager, {provide: GoogleMapsAPIWrapper, useValue: {createMarker: jest.fn()}}
       ]
     });
   });
@@ -32,17 +28,20 @@ describe('ClusterManager', () => {
              newMarker.label = 'A';
              clusterManager.addMarker(newMarker);
 
-             expect(apiWrapper.createMarker).toHaveBeenCalledWith({
-               position: {lat: 34.4, lng: 22.3},
-               label: 'A',
-               draggable: false,
-               icon: undefined,
-               opacity: 1,
-               visible: true,
-               zIndex: 1,
-               title: undefined,
-               clickable: true
-             }, false);
+             expect(apiWrapper.createMarker)
+                 .toHaveBeenCalledWith(
+                     {
+                       position: {lat: 34.4, lng: 22.3},
+                       label: 'A',
+                       draggable: false,
+                       icon: undefined,
+                       opacity: 1,
+                       visible: true,
+                       zIndex: 1,
+                       title: undefined,
+                       clickable: true
+                     },
+                     false);
            }));
   });
 
@@ -57,13 +56,14 @@ describe('ClusterManager', () => {
              newMarker.label = 'A';
 
              const markerInstance: any = {
-              setMap: jest.fn(),
+               setMap: jest.fn(),
              };
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              clusterManager.addMarker(newMarker);
-             clusterManager.deleteMarker(newMarker).then(
-                 () => { expect(markerInstance.setMap).toHaveBeenCalledWith(null); });
+             clusterManager.deleteMarker(newMarker).then(() => {
+               expect(markerInstance.setMap).toHaveBeenCalledWith(null);
+             });
            }));
   });
 
@@ -77,28 +77,29 @@ describe('ClusterManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: any = {
-              setMap: jest.fn(),
-              setIcon: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setIcon: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
-             expect(apiWrapper.createMarker).toHaveBeenCalledWith({
-               position: {lat: 34.4, lng: 22.3},
-               label: 'A',
-               draggable: false,
-               icon: undefined,
-               opacity: 1,
-               visible: true,
-               zIndex: 1,
-               title: undefined,
-               clickable: true
-             }, false);
+             expect(apiWrapper.createMarker)
+                 .toHaveBeenCalledWith(
+                     {
+                       position: {lat: 34.4, lng: 22.3},
+                       label: 'A',
+                       draggable: false,
+                       icon: undefined,
+                       opacity: 1,
+                       visible: true,
+                       zIndex: 1,
+                       title: undefined,
+                       clickable: true
+                     },
+                     false);
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
-             return markerManager.updateIcon(newMarker).then(
-                 () => { expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl); });
+             return markerManager.updateIcon(newMarker).then(() => {
+               expect(markerInstance.setIcon).toHaveBeenCalledWith(iconUrl);
+             });
            })));
   });
 
@@ -112,28 +113,29 @@ describe('ClusterManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: any = {
-              setMap: jest.fn(),
-              setOpacity: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setOpacity: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
-             expect(apiWrapper.createMarker).toHaveBeenCalledWith({
-               position: {lat: 34.4, lng: 22.3},
-               label: 'A',
-               draggable: false,
-               icon: undefined,
-               visible: true,
-               opacity: 1,
-               zIndex: 1,
-               title: undefined,
-               clickable: true
-             }, false);
+             expect(apiWrapper.createMarker)
+                 .toHaveBeenCalledWith(
+                     {
+                       position: {lat: 34.4, lng: 22.3},
+                       label: 'A',
+                       draggable: false,
+                       icon: undefined,
+                       visible: true,
+                       opacity: 1,
+                       zIndex: 1,
+                       title: undefined,
+                       clickable: true
+                     },
+                     false);
              const opacity = 0.4;
              newMarker.opacity = opacity;
-             return markerManager.updateOpacity(newMarker).then(
-                 () => { expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity); });
+             return markerManager.updateOpacity(newMarker).then(() => {
+               expect(markerInstance.setOpacity).toHaveBeenCalledWith(opacity);
+             });
            })));
   });
 
@@ -148,27 +150,28 @@ describe('ClusterManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: any = {
-               setMap: jest.fn(),
-               setVisible: jest.fn()
-             };
+             const markerInstance: any = {setMap: jest.fn(), setVisible: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
-             expect(apiWrapper.createMarker).toHaveBeenCalledWith({
-               position: {lat: 34.4, lng: 22.3},
-               label: 'A',
-               draggable: false,
-               icon: undefined,
-               visible: false,
-               opacity: 1,
-               zIndex: 1,
-               title: undefined,
-               clickable: true
-             }, false);
+             expect(apiWrapper.createMarker)
+                 .toHaveBeenCalledWith(
+                     {
+                       position: {lat: 34.4, lng: 22.3},
+                       label: 'A',
+                       draggable: false,
+                       icon: undefined,
+                       visible: false,
+                       opacity: 1,
+                       zIndex: 1,
+                       title: undefined,
+                       clickable: true
+                     },
+                     false);
              newMarker.visible = true;
-             return markerManager.updateVisible(newMarker).then(
-                 () => { expect(markerInstance.setVisible).toHaveBeenCalledWith(true); });
+             return markerManager.updateVisible(newMarker).then(() => {
+               expect(markerInstance.setVisible).toHaveBeenCalledWith(true);
+             });
            })));
   });
 
@@ -183,28 +186,29 @@ describe('ClusterManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance = {
-               setMap: jest.fn(),
-               setZIndex: jest.fn()
-             };
+             const markerInstance = {setMap: jest.fn(), setZIndex: jest.fn()};
              (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
-             expect(apiWrapper.createMarker).toHaveBeenCalledWith({
-               position: {lat: 34.4, lng: 22.3},
-               label: 'A',
-               draggable: false,
-               icon: undefined,
-               visible: false,
-               opacity: 1,
-               zIndex: 1,
-               title: undefined,
-               clickable: true
-             }, false);
+             expect(apiWrapper.createMarker)
+                 .toHaveBeenCalledWith(
+                     {
+                       position: {lat: 34.4, lng: 22.3},
+                       label: 'A',
+                       draggable: false,
+                       icon: undefined,
+                       visible: false,
+                       opacity: 1,
+                       zIndex: 1,
+                       title: undefined,
+                       clickable: true
+                     },
+                     false);
              const zIndex = 10;
              newMarker.zIndex = zIndex;
-             return markerManager.updateZIndex(newMarker).then(
-                 () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
+             return markerManager.updateZIndex(newMarker).then(() => {
+               expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex);
+             });
            })));
   });
 });

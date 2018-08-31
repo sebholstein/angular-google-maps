@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Input, Output} from '@angular/core';
+import {Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
@@ -6,9 +6,7 @@ import {LatLng, LatLngBounds, LatLngLiteral} from '../services/google-maps-types
 import {MouseEvent as MapMouseEvent} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 
-@Directive({
-  selector: 'agm-circle'
-})
+@Directive({selector: 'agm-circle'})
 export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * The latitude position of the circle (required).
@@ -191,9 +189,10 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
 
   private _updateCircleOptionsChanges(changes: {[propName: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
-    let optionKeys =
-        Object.keys(changes).filter(k => AgmCircle._mapOptions.indexOf(k) !== -1);
-    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
+    let optionKeys = Object.keys(changes).filter(k => AgmCircle._mapOptions.indexOf(k) !== -1);
+    optionKeys.forEach((k) => {
+      options[k] = changes[k].currentValue;
+    });
     if (optionKeys.length > 0) {
       this._manager.setOptions(this, options);
     }
@@ -237,7 +236,9 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
 
   /** @internal */
   ngOnDestroy() {
-    this._eventSubscriptions.forEach(function(s: Subscription) { s.unsubscribe(); });
+    this._eventSubscriptions.forEach(function(s: Subscription) {
+      s.unsubscribe();
+    });
     this._eventSubscriptions = null;
     this._manager.removeCircle(this);
   }
@@ -245,7 +246,11 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * Gets the LatLngBounds of this Circle.
    */
-  getBounds(): Promise<LatLngBounds> { return this._manager.getBounds(this); }
+  getBounds(): Promise<LatLngBounds> {
+    return this._manager.getBounds(this);
+  }
 
-  getCenter(): Promise<LatLng> { return this._manager.getCenter(this); }
+  getCenter(): Promise<LatLng> {
+    return this._manager.getCenter(this);
+  }
 }

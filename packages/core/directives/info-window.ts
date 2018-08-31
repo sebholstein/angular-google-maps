@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Output, Input } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange} from '@angular/core';
 
 import {InfoWindowManager} from '../services/managers/info-window-manager';
 
@@ -138,30 +138,42 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
 
   private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
-    let optionKeys = Object.keys(changes).filter(
-        k => AgmInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
-    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
+    let optionKeys =
+        Object.keys(changes).filter(k => AgmInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
+    optionKeys.forEach((k) => {
+      options[k] = changes[k].currentValue;
+    });
     this._infoWindowManager.setOptions(this, options);
   }
 
   /**
    * Opens the info window.
    */
-  open(): Promise<void> { return this._infoWindowManager.open(this); }
+  open(): Promise<void> {
+    return this._infoWindowManager.open(this);
+  }
 
   /**
    * Closes the info window.
    */
   close(): Promise<void> {
-    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(); });
+    return this._infoWindowManager.close(this).then(() => {
+      this.infoWindowClose.emit();
+    });
   }
 
   /** @internal */
-  id(): string { return this._id; }
+  id(): string {
+    return this._id;
+  }
 
   /** @internal */
-  toString(): string { return 'AgmInfoWindow-' + this._id.toString(); }
+  toString(): string {
+    return 'AgmInfoWindow-' + this._id.toString();
+  }
 
   /** @internal */
-  ngOnDestroy() { this._infoWindowManager.deleteInfoWindow(this); }
+  ngOnDestroy() {
+    this._infoWindowManager.deleteInfoWindow(this);
+  }
 }

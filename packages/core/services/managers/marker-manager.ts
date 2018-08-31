@@ -10,8 +10,7 @@ declare var google: any;
 
 @Injectable()
 export class MarkerManager {
-  protected _markers: Map<AgmMarker, Promise<Marker>> =
-      new Map<AgmMarker, Promise<Marker>>();
+  protected _markers: Map<AgmMarker, Promise<Marker>> = new Map<AgmMarker, Promise<Marker>>();
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {}
 
@@ -39,7 +38,9 @@ export class MarkerManager {
   }
 
   updateLabel(marker: AgmMarker): Promise<void> {
-    return this._markers.get(marker).then((m: Marker) => { m.setLabel(marker.label); });
+    return this._markers.get(marker).then((m: Marker) => {
+      m.setLabel(marker.label);
+    });
   }
 
   updateDraggable(marker: AgmMarker): Promise<void> {
@@ -87,7 +88,8 @@ export class MarkerManager {
       zIndex: marker.zIndex,
       title: marker.title,
       clickable: marker.clickable,
-      animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] : marker.animation
+      animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] :
+                                                          marker.animation
     });
 
     this._markers.set(marker, markerPromise);

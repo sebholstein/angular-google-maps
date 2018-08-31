@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import {Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {KmlMouseEvent} from './../services/google-maps-types';
@@ -6,9 +6,7 @@ import {KmlLayerManager} from './../services/managers/kml-layer-manager';
 
 let layerId = 0;
 
-@Directive({
-  selector: 'agm-kml-layer'
-})
+@Directive({selector: 'agm-kml-layer'})
 export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
   private _addedToManager: boolean = false;
   private _id: string = (layerId++).toString();
@@ -109,10 +107,14 @@ export class AgmKmlLayer implements OnInit, OnDestroy, OnChanges {
   }
 
   /** @internal */
-  id(): string { return this._id; }
+  id(): string {
+    return this._id;
+  }
 
   /** @internal */
-  toString(): string { return `AgmKmlLayer-${this._id.toString()}`; }
+  toString(): string {
+    return `AgmKmlLayer-${this._id.toString()}`;
+  }
 
   /** @internal */
   ngOnDestroy() {

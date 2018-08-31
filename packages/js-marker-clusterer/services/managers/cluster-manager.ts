@@ -1,13 +1,14 @@
-import {Injectable, NgZone} from '@angular/core';
-
 import 'js-marker-clusterer';
 
-import {MarkerManager} from '../../../core/services/managers/marker-manager';
-import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {AgmMarker} from '../../../core/directives/marker';
-import {AgmMarkerCluster} from './../../directives/marker-cluster';
 import {Marker} from '@agm/core/services/google-maps-types';
-import {MarkerClustererInstance, ClusterOptions} from '../google-clusterer-types';
+import {Injectable, NgZone} from '@angular/core';
+
+import {AgmMarker} from '../../../core/directives/marker';
+import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
+import {MarkerManager} from '../../../core/services/managers/marker-manager';
+import {ClusterOptions, MarkerClustererInstance} from '../google-clusterer-types';
+
+import {AgmMarkerCluster} from './../../directives/marker-cluster';
 
 declare var MarkerClusterer: any;
 
@@ -32,27 +33,23 @@ export class ClusterManager extends MarkerManager {
 
   addMarker(marker: AgmMarker): void {
     const clusterPromise: Promise<MarkerClustererInstance> = this._clustererInstance;
-    const markerPromise = this._mapsWrapper
-      .createMarker({
-        position: {
-          lat: marker.latitude,
-          lng: marker.longitude
+    const markerPromise = this._mapsWrapper.createMarker(
+        {
+          position: {lat: marker.latitude, lng: marker.longitude},
+          label: marker.label,
+          draggable: marker.draggable,
+          icon: marker.iconUrl,
+          opacity: marker.opacity,
+          visible: marker.visible,
+          zIndex: marker.zIndex,
+          title: marker.title,
+          clickable: marker.clickable,
         },
-        label: marker.label,
-        draggable: marker.draggable,
-        icon: marker.iconUrl,
-        opacity: marker.opacity,
-        visible: marker.visible,
-        zIndex: marker.zIndex,
-        title: marker.title,
-        clickable: marker.clickable,
-      }, false);
+        false);
 
-    Promise
-      .all([clusterPromise, markerPromise])
-      .then(([cluster, marker]) => {
-        return cluster.addMarker(marker);
-      });
+    Promise.all([clusterPromise, markerPromise]).then(([cluster, marker]) => {
+      return cluster.addMarker(marker);
+    });
     this._markers.set(marker, markerPromise);
   }
 
