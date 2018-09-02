@@ -4,6 +4,7 @@ import { Marker } from '../../../core/services/google-maps-types';
 import { AgmMarkerWithLabel } from '../../directives/marker-with-label';
 import { MarkerWithLabel } from '../google-marker-with-label-types';
 import { GoogleMapsAPIWrapper } from '../../../core/services/google-maps-api-wrapper';
+import { Observable, Observer } from 'rxjs';
 
 declare var require: any;
 declare var google: any;
@@ -54,4 +55,15 @@ export class MarkerWithLabelManager extends MarkerManager {
     updateLabelClass(marker: AgmMarkerWithLabel): Promise<void> {
         return this._markers.get(marker).then((m: MarkerWithLabel) => { m.setOptions({ labelClass: marker.labelClass }); });
     }
+
+    createEventObservable<T>(eventName: string, marker: AgmMarkerWithLabel): Observable<T> {
+        return new Observable((observer: Observer<T>) => {
+          this._markers.get(marker).then((m: MarkerWithLabel) => {
+            google.maps.event.addListener(m, eventName, (e: T) => {
+                (<any>e).latLng = m.getPosition();
+                this._zone.run(() => observer.next(e));
+            });
+          });
+        });
+      }
 }

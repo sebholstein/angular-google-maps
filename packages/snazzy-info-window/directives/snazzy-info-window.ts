@@ -1,5 +1,6 @@
 import { Host, SkipSelf, OnChanges, AfterViewInit, EventEmitter, Input, SimpleChanges, ViewContainerRef, TemplateRef, Output, Optional, OnDestroy, ElementRef, Component, ViewChild, ContentChild } from '@angular/core';
 import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager, MapsAPILoader } from '@agm/core';
+import { AgmMarkerWithLabel } from '@agm/marker-with-label';
 
 declare var require: any;
 
@@ -153,10 +154,15 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges 
 
   constructor(
     @Optional() @Host() @SkipSelf() private _marker: AgmMarker,
+    @Optional() @Host() @SkipSelf() private _markerWithLabel: AgmMarkerWithLabel,
     private _wrapper: GoogleMapsAPIWrapper,
     private _manager: MarkerManager,
     private _loader: MapsAPILoader
-  ) {}
+  ) {
+    if (!this._marker) {
+      this._marker = this._markerWithLabel;
+    }
+  }
 
   /**
    * @internal

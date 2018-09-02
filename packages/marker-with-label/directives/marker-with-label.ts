@@ -4,6 +4,7 @@ import { AgmMarker } from '../../core/directives/marker';
 
 import { MarkerWithLabelManager } from '../services/managers/marker-with-label-manager';
 import { Point } from '../../core/services/google-maps-types';
+import { InfoWindowManager } from '../../core/services/managers/info-window-manager';
 
 @Directive({
     selector: 'agm-marker-with-label',
@@ -14,7 +15,8 @@ import { Point } from '../../core/services/google-maps-types';
     ],
     providers: [
         MarkerWithLabelManager,
-        { provide: MarkerManager, useExisting: MarkerWithLabelManager }
+        { provide: MarkerManager, useExisting: MarkerWithLabelManager },
+        InfoWindowManager
     ]
 })
 export class AgmMarkerWithLabel extends AgmMarker implements OnChanges {
