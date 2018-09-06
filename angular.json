@@ -1,0 +1,37 @@
+{
+    "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
+    "version": 1,
+    "newProjectRoot": "packages",
+    "projects": {
+      "core": {
+        "root": "packages/core",
+        "sourceRoot": "packages/core",
+        "projectType": "library",
+        "architect": {
+          "build": {
+            "builder": "@angular-devkit/build-ng-packagr:build",
+            "options": {
+              "tsConfig": "packages/core/tsconfig.build.json",
+              "project": "packages/core/ng-package.json"
+            },
+            "configurations": {
+              "production": {
+                "project": "packages/core/ng-package.prod.json"
+              }
+            }
+          },
+          "lint": {
+            "builder": "@angular-devkit/build-angular:tslint",
+            "options": {
+              "tsConfig": [
+                "packages/core/tsconfig.build.json"
+              ],
+              "exclude": [
+                "**/node_modules/**"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }

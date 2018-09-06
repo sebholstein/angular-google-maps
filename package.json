@@ -19,6 +19,7 @@
   "scripts": {
     "clean": "rimraf dist && rimraf .tmp && mkdir dist && mkdir .tmp && rimraf 'packages/**/*.ngfactory.ts'",
     "prebuild": "npm run clean",
+    "build-core-pckg": "ng build --prod --project core && npm run copyassets",
     "build": "npm run lint && npm run scripts && npm run packagejson && npm run copyassets",
     "lint": "tslint -c tslint.json 'packages/**/*.ts'",
     "packagejson": "node ./scripts/create-package-json.js",
@@ -103,5 +104,10 @@
       "@angular/common": "^5.0.0 || ^6.0.0",
       "@angular/core": "^5.0.0 || ^6.0.0"
     }
+  },
+  "dependencies": {
+    "@angular-devkit/build-angular": "^0.7.5",
+    "@angular-devkit/build-ng-packagr": "^0.7.5",
+    "ng-packagr": "^4.1.1"
   }
 }
