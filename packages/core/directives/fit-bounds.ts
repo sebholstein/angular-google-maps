@@ -5,7 +5,10 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { LatLng, LatLngLiteral } from '@agm/core';
 
 /**
- * TODO: docs
+ * Adds the given directive to the auto fit bounds feature when the value is true.
+ * To make it work with you custom AGM component, you also have to implement the {@link FitBoundsAccessor} abstract class.
+ * @example
+ * <agm-marker [agmFitBounds]="true"></agm-marker>
  */
 @Directive({
   selector: '[agmFitBounds]'

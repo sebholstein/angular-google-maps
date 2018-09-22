@@ -13,7 +13,6 @@ import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 declare var google: any;
 
-// todo: internal?
 export interface FitBoundsDetails {
   latLng: LatLng | LatLngLiteral;
 }
@@ -23,10 +22,17 @@ export interface FitBoundsDetails {
  */
 export type BoundsMap = Map<string, LatLng | LatLngLiteral>;
 
+/**
+ * Class to implement when you what to be able to make it work with the auto fit bounds feature
+ * of AGM.
+ */
 export abstract class FitBoundsAccessor {
   abstract getFitBoundsDetails$(): Observable<FitBoundsDetails>;
 }
 
+/**
+ * The FitBoundsService is responsible for computing the bounds of the a single map.
+ */
 @Injectable()
 export class FitBoundsService {
   protected readonly bounds$: Observable<LatLngBounds>;

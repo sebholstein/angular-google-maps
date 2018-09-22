@@ -213,7 +213,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
    * @internal
    */
   getFitBoundsDetails$(): Observable<FitBoundsDetails> {
-    return this._fitBoundsDetails$.asObservable().pipe(tap(() => console.log('subscribe')));
+    return this._fitBoundsDetails$.asObservable();
   }
 
   protected _updateFitBoundsDetails() {
