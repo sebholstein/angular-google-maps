@@ -1,3 +1,24 @@
+<a name="1.0.0-beta.4"></a>
+# [1.0.0-beta.4 beryl-cobra](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.3...1.0.0-beta.4) (2018-09-22)
+
+This release adds the long awaited auto fitBounds feature: https://github.com/SebastianM/angular-google-maps/pull/1389
+
+### Bug Fixes
+
+* **AgmPolygon:** double click ([#1442](https://github.com/SebastianM/angular-google-maps/issues/1442)) ([ca0b8f0](https://github.com/SebastianM/angular-google-maps/commit/ca0b8f0)), closes [#1202](https://github.com/SebastianM/angular-google-maps/issues/1202)
+* **polyline:** icon to icons ([fc042ae](https://github.com/SebastianM/angular-google-maps/commit/fc042ae)), closes [#948](https://github.com/SebastianM/angular-google-maps/issues/948)
+
+
+### Features
+
+* **AgmMarker:** add rightclick support ([#1443](https://github.com/SebastianM/angular-google-maps/issues/1443)) ([8abefa0](https://github.com/SebastianM/angular-google-maps/commit/8abefa0)), closes [#1362](https://github.com/SebastianM/angular-google-maps/issues/1362)
+* **AgmMarker:** auto-convert string to Number for lat/lng ([#1424](https://github.com/SebastianM/angular-google-maps/issues/1424)) ([c1d6c6d](https://github.com/SebastianM/angular-google-maps/commit/c1d6c6d)), closes [#771](https://github.com/SebastianM/angular-google-maps/issues/771)
+* **AgmMarker:** include marker instance in markerClick emitter ([89b6e5c](https://github.com/SebastianM/angular-google-maps/commit/89b6e5c))
+* **core:** add rectangle support ([#1450](https://github.com/SebastianM/angular-google-maps/issues/1450)) ([2e4878b](https://github.com/SebastianM/angular-google-maps/commit/2e4878b)), closes [#570](https://github.com/SebastianM/angular-google-maps/issues/570)
+* **core:** support auto fitBounds ([4d3103c](https://github.com/SebastianM/angular-google-maps/commit/4d3103c))
+
+
+
 <a name="1.0.0-beta.3"></a>
 # [1.0.0-beta.3 orange-disk](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.2...1.0.0-beta.3) (2018-05-24)
 

@@ -1,5 +1,5 @@
 +++
-date = "20178-06-28T06:23:32+02:00"
+date = "2017-06-28T06:23:32+02:00"
 title = "API Docs for Angular Google Maps"
 
 +++
