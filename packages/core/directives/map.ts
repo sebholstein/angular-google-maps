@@ -46,7 +46,8 @@ declare var google: any;
   selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
-    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, DataLayerManager
+    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, DataLayerManager,
+    FitBoundsService
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
