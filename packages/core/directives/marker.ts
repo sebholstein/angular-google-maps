@@ -113,7 +113,12 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() markerClick: EventEmitter<AgmMarker> = new EventEmitter<AgmMarker>();
+
+  /**
+   * This event is fired when the user rightclicks on the marker.
+   */
+  @Output() markerRightClick: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * This event is fired when the user stops dragging the marker.
@@ -225,9 +230,14 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
       if (this.openInfoWindow) {
         this.infoWindow.forEach(infoWindow => infoWindow.open());
       }
-      this.markerClick.emit(null);
+      this.markerClick.emit(this);
     });
     this._observableSubscriptions.push(cs);
+
+    const rc = this._markerManager.createEventObservable('rightclick', this).subscribe(() => {
+      this.markerRightClick.emit(null);
+    });
+    this._observableSubscriptions.push(rc);
 
     const ds =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
