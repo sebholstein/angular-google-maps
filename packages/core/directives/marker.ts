@@ -113,7 +113,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() markerClick: EventEmitter<AgmMarker> = new EventEmitter<AgmMarker>();
 
   /**
    * This event is fired when the user rightclicks on the marker.
@@ -215,7 +215,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
       if (this.openInfoWindow) {
         this.infoWindow.forEach(infoWindow => infoWindow.open());
       }
-      this.markerClick.emit(null);
+      this.markerClick.emit(this);
     });
     this._observableSubscriptions.push(cs);
 
