@@ -475,13 +475,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
-    if (this._isLatLngBoundsLiteral(bounds)) {
+    if (this._isLatLngBoundsLiteral(bounds) && google && google.maps) {
       const newBounds = <LatLngBounds>google.maps.LatLngBounds();
       newBounds.union(bounds);
       bounds = newBounds;
-    }
-    if (bounds.isEmpty()) {
-      return;
     }
     if (this.usePanning) {
       this._mapsWrapper.panToBounds(bounds);
@@ -491,7 +488,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _isLatLngBoundsLiteral(bounds: LatLngBounds|LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
-    return (<any>bounds).extend === undefined;
+    return bounds != null && (<any>bounds).extend === undefined;
   }
 
   private _handleMapCenterChange() {
