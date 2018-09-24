@@ -1,3 +1,12 @@
+<a name="1.0.0-beta.5"></a>
+# [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
+
+
+### Bug Fixes
+
+* **Map:** fitBounds values that are undefined/null ([f9afd4b](https://github.com/SebastianM/angular-google-maps/commit/f9afd4b)), closes [#1505](https://github.com/SebastianM/angular-google-maps/issues/1505) [#1504](https://github.com/SebastianM/angular-google-maps/issues/1504)
+
+
 <a name="1.0.0-beta.4"></a>
 # [1.0.0-beta.4 beryl-cobra](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.3...1.0.0-beta.4) (2018-09-22)
 
