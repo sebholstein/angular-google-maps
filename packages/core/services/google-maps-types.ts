@@ -20,6 +20,7 @@ export interface LatLng {
   constructor(lat: number, lng: number): void;
   lat(): number;
   lng(): number;
+  toString(): string;
 }
 
 export interface Marker extends MVCObject {
@@ -127,7 +128,7 @@ export interface RectangleOptions {
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
   equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
-  extend(point: LatLng): void;
+  extend(point: LatLng|LatLngLiteral): void;
   getCenter(): LatLng;
   getNorthEast(): LatLng;
   getSouthWest(): LatLng;
