@@ -1,14 +1,11 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, SimpleChange,
-  AfterContentInit, ContentChildren, QueryList, Input, Output
-} from '@angular/core';
-import {Subscription} from 'rxjs';
-
-import {MouseEvent} from '../map-types';
+import { AfterContentInit, ContentChildren, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, QueryList, SimpleChange, forwardRef } from '@angular/core';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { MarkerLabel, MouseEvent } from '../map-types';
+import { FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 import * as mapTypes from '../services/google-maps-types';
-import {MarkerManager} from '../services/managers/marker-manager';
-
-import {AgmInfoWindow} from './info-window';
-import {MarkerLabel} from '../map-types';
+import { MarkerManager } from '../services/managers/marker-manager';
+import { AgmInfoWindow } from './info-window';
 
 let markerId = 0;
 
@@ -37,6 +34,9 @@ let markerId = 0;
  */
 @Directive({
   selector: 'agm-marker',
+  providers: [
+    {provide: FitBoundsAccessor, useExisting: forwardRef(() => AgmMarker)}
+  ],
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
     'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation'
@@ -44,7 +44,7 @@ let markerId = 0;
   outputs:
     ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut', 'latitudeChange', 'longitudeChange']
 })
-export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
+export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBoundsAccessor {
   /**
    * The latitude position of the marker.
    */
@@ -124,7 +124,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() markerClick: EventEmitter<AgmMarker> = new EventEmitter<AgmMarker>();
 
   /**
    * This event is fired when the user rightclicks on the marker.
@@ -154,6 +154,8 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
   private _markerAddedToManger: boolean = false;
   private _id: string;
   private _observableSubscriptions: Subscription[] = [];
+
+  protected readonly _fitBoundsDetails$: ReplaySubject<FitBoundsDetails> = new ReplaySubject<FitBoundsDetails>(1);
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
@@ -190,12 +192,14 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
     if (!this._markerAddedToManger) {
       this._markerManager.addMarker(this);
+      this._updateFitBoundsDetails();
       this._markerAddedToManger = true;
       this._addEventListeners();
       return;
     }
     if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
+      this._updateFitBoundsDetails();
     }
     if (changes['title']) {
       this._markerManager.updateTitle(this);
@@ -226,12 +230,23 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
   }
 
+  /**
+   * @internal
+   */
+  getFitBoundsDetails$(): Observable<FitBoundsDetails> {
+    return this._fitBoundsDetails$.asObservable();
+  }
+
+  protected _updateFitBoundsDetails() {
+    this._fitBoundsDetails$.next({latLng: {lat: this.latitude, lng: this.longitude}});
+  }
+
   private _addEventListeners() {
     const cs = this._markerManager.createEventObservable('click', this).subscribe(() => {
       if (this.openInfoWindow) {
         this.infoWindow.forEach(infoWindow => infoWindow.open());
       }
-      this.markerClick.emit(null);
+      this.markerClick.emit(this);
     });
     this._observableSubscriptions.push(cs);
 
