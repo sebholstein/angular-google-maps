@@ -98,7 +98,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     const window = <any>this._windowRef.getNativeWindow();
     if (window.google && window.google.maps) {
       // Google maps already loaded on the page.
-      return Promise.resolve();
+      return Promise.resolve(window.google.maps);
     }
 
     if (this._scriptLoadingPromise) {
@@ -125,8 +125,9 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
   private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[this.callbackName] = () => {
-        resolve();
+      const window = <any>this._windowRef.getNativeWindow();
+      window[this.callbackName] = () => {
+        resolve(window.google.maps);
       };
 
       scriptElem.onerror = (error: Event) => {
