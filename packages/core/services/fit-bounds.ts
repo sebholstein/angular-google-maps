@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, timer } from 'rxjs';
 import {
   flatMap,
+  tap,
   map,
   skipWhile,
   sample,
@@ -38,9 +39,11 @@ export class FitBoundsService {
   protected readonly bounds$: Observable<LatLngBounds>;
   protected readonly _boundsChangeSampleTime$ = new BehaviorSubject<number>(200);
   protected readonly _includeInBounds$ = new BehaviorSubject<BoundsMap>(new Map<string, LatLng | LatLngLiteral>());
+  protected googleMaps;
 
   constructor(loader: MapsAPILoader) {
     this.bounds$ = from(loader.load()).pipe(
+      tap(googleMaps => this.googleMaps = googleMaps),
       flatMap(() => this._includeInBounds$),
       sample(
         this._boundsChangeSampleTime$.pipe(switchMap(time => timer(0, time)))
@@ -53,7 +56,7 @@ export class FitBoundsService {
   private _generateBounds(
     includeInBounds: Map<string, LatLng | LatLngLiteral>
   ) {
-    const bounds = new google.maps.LatLngBounds() as LatLngBounds;
+    const bounds = new this.googleMaps.LatLngBounds() as LatLngBounds;
     includeInBounds.forEach(b => bounds.extend(b));
     return bounds;
   }
