@@ -20,6 +20,7 @@ export interface LatLng {
   constructor(lat: number, lng: number): void;
   lat(): number;
   lng(): number;
+  toString(): string;
 }
 
 export interface Marker extends MVCObject {
@@ -94,10 +95,40 @@ export interface CircleOptions {
   zIndex?: number;
 }
 
+export interface Rectangle extends MVCObject {
+  getBounds(): LatLngBounds;
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getVisible(): boolean;
+  setBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: RectangleOptions): void;
+  setVisible(visible: boolean): void;
+}
+
+export interface RectangleOptions {
+  bounds?: LatLngBounds|LatLngBoundsLiteral;
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  map?: GoogleMap;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
   equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
-  extend(point: LatLng): void;
+  extend(point: LatLng|LatLngLiteral): void;
   getCenter(): LatLng;
   getNorthEast(): LatLng;
   getSouthWest(): LatLng;
