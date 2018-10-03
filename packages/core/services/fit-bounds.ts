@@ -39,7 +39,7 @@ export class FitBoundsService {
   protected readonly bounds$: Observable<LatLngBounds>;
   protected readonly _boundsChangeSampleTime$ = new BehaviorSubject<number>(200);
   protected readonly _includeInBounds$ = new BehaviorSubject<BoundsMap>(new Map<string, LatLng | LatLngLiteral>());
-  protected googleMaps;
+  protected googleMaps: any;
 
   constructor(loader: MapsAPILoader) {
     this.bounds$ = from(loader.load()).pipe(
