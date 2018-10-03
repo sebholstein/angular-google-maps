@@ -11,14 +11,10 @@ describe('FitBoundsService', () => {
   let latLngBoundsExtend: jest.Mock;
 
   beforeEach(fakeAsync(() => {
-    loader = {
-      load: jest.fn().mockReturnValue(Promise.resolve())
-    };
-
     latLngBoundsConstructs = 0;
     latLngBoundsExtend = jest.fn();
 
-    (<any>window).google = {
+    const google = {
       maps: {
         LatLngBounds: class LatLngBounds {
           extend: jest.Mock = latLngBoundsExtend;
@@ -28,6 +24,10 @@ describe('FitBoundsService', () => {
           }
         }
       }
+    };
+
+    loader = {
+      load: jest.fn().mockReturnValue(Promise.resolve(google.maps))
     };
 
     TestBed.configureTestingModule({
