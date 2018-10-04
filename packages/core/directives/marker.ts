@@ -41,7 +41,7 @@ let markerId = 0;
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
     'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation'
   ],
-  outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
+  outputs: ['markerClick', 'dragStart', 'drag', 'dragEnd', 'mouseOver', 'mouseOut']
 })
 export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBoundsAccessor {
   /**
@@ -119,6 +119,16 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
    * This event is fired when the user rightclicks on the marker.
    */
   @Output() markerRightClick: EventEmitter<void> = new EventEmitter<void>();
+
+  /**
+   * This event is fired when the user starts dragging the marker.
+   */
+  @Output() dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event is fired when the user drags the marker
+   */
+  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the marker.
@@ -245,6 +255,19 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
               this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
             });
     this._observableSubscriptions.push(ds);
+
+    const dragEvents: Map<string, EventEmitter<MouseEvent>> = new Map<string, EventEmitter<MouseEvent>>();
+    dragEvents.set('dragstart', this.dragStart);
+    dragEvents.set('drag', this.drag);
+    dragEvents.set('dragend', this.dragEnd);
+
+    dragEvents.forEach((eventEmitter, eventName) => {
+      this._observableSubscriptions.push(
+          this._markerManager.createEventObservable<mapTypes.MouseEvent>(eventName, this)
+                      .subscribe((e: mapTypes.MouseEvent) => {
+                        eventEmitter.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+          }));
+    });
 
     const mover =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
