@@ -29,8 +29,8 @@ describe('Service: NoOpMapsAPILoader', () => {
   it('should throw an error when window.google does not exist', () => {
     inject([MapsAPILoader], (loader: NoOpMapsAPILoader) => {
       expect(loader.load)
-          .toThrowError(new Error(
-              'Google Maps API not loaded on page. Make sure window.google.maps is available!'));
+          .toThrowError(
+              'Google Maps API not loaded on page. Make sure window.google.maps is available!');
     });
   });
 
@@ -38,8 +38,8 @@ describe('Service: NoOpMapsAPILoader', () => {
     inject([MapsAPILoader], (loader: NoOpMapsAPILoader) => {
       windowObj.google = {};
       expect(loader.load)
-          .toThrowError(new Error(
-              'Google Maps API not loaded on page. Make sure window.google.maps is available!'));
+          .toThrowError(
+              'Google Maps API not loaded on page. Make sure window.google.maps is available!');
     });
   });
 });
