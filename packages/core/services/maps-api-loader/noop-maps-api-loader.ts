@@ -1,3 +1,4 @@
+import {WindowRef} from '../../utils/browser-globals';
 import {MapsAPILoader} from './maps-api-loader';
 
 /**
@@ -6,8 +7,15 @@ import {MapsAPILoader} from './maps-api-loader';
  * It's important that the Google Maps API script gets loaded first on the page.
  */
 export class NoOpMapsAPILoader implements MapsAPILoader {
+  protected _windowRef: WindowRef;
+
+  constructor(w: WindowRef) {
+    this._windowRef = w;
+  }
+
   load(): Promise<void> {
-    if (!(<any>window).google || !(<any>window).google.maps) {
+    const window = <any>this._windowRef.getNativeWindow();
+    if (!window.google || !window.google.maps) {
       throw new Error(
           'Google Maps API not loaded on page. Make sure window.google.maps is available!');
     }
