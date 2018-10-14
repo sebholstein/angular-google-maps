@@ -36,12 +36,25 @@ var LazyMapsAPILoader = (function (_super) {
         if (this._scriptLoadingPromise) {
             return this._scriptLoadingPromise;
         }
+        var callbackName = "agmLazyMapsAPILoader";
+        var google = "google";
+        var isFound = false;
+        var scripts = this._documentRef.getNativeDocument().getElementsByTagName("script");
+        for (var i = 0; i < scripts.length; ++i) {
+            if (scripts[i].getAttribute("src") != null &&
+                scripts[i].getAttribute("src").includes(this._getScriptSrc(callbackName))) {
+                isFound = true;
+            }
+        }
+        if (isFound) {
+            return new Promise(function (resolve) {
+                resolve(_this._windowRef.getNativeWindow()[google]);
+            });
+        }
         var script = this._documentRef.getNativeDocument().createElement('script');
         script.type = 'text/javascript';
         script.async = true;
         script.defer = true;
-        var callbackName = "angular2GoogleMapsLazyMapsAPILoader";
-        var google = "google";
         script.src = this._getScriptSrc(callbackName);
         this._scriptLoadingPromise = new Promise(function (resolve, reject) {
             _this._windowRef.getNativeWindow()[callbackName] = function () { resolve(_this._windowRef.getNativeWindow()[google]); };

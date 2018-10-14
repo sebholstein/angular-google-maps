@@ -97,12 +97,28 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       return this._scriptLoadingPromise;
     }
 
+    const callbackName: string = `agmLazyMapsAPILoader`;
+    const google: string = `google`;
+    let isFound = false;
+    const scripts = this._documentRef.getNativeDocument().getElementsByTagName("script");
+    for (let i = 0; i < scripts.length; ++i) {
+      if (
+        scripts[i].getAttribute("src") != null &&
+        scripts[i].getAttribute("src").includes(this._getScriptSrc(callbackName))
+      ) {
+        isFound = true;
+      }
+    }
+    if (isFound) {
+      return new Promise<void>((resolve: Function) => {
+        resolve(<any>this._windowRef.getNativeWindow()[google]);
+      });
+    }
     const script = this._documentRef.getNativeDocument().createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
-    const google: string = `google`;
+
     script.src = this._getScriptSrc(callbackName);
 
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
