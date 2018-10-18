@@ -1,16 +1,16 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
-import {AgmPolygon} from '../../directives/polygon';
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {Polygon} from '../google-maps-types';
+import { AgmPolygon } from '../../directives/polygon';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
+import { Polygon, LatLngLiteral } from '../google-maps-types';
 
 @Injectable()
 export class PolygonManager {
   private _polygons: Map<AgmPolygon, Promise<Polygon>> =
-      new Map<AgmPolygon, Promise<Polygon>>();
+    new Map<AgmPolygon, Promise<Polygon>>();
 
-  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
+  constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) { }
 
   addPolygon(path: AgmPolygon) {
     const polygonPromise = this._mapsWrapper.createPolygon({
@@ -38,7 +38,7 @@ export class PolygonManager {
     return m.then((l: Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
   }
 
-  setPolygonOptions(path: AgmPolygon, options: {[propName: string]: any}): Promise<void> {
+  setPolygonOptions(path: AgmPolygon, options: { [propName: string]: any }): Promise<void> {
     return this._polygons.get(path).then((l: Polygon) => { l.setOptions(options); });
   }
 
@@ -55,11 +55,29 @@ export class PolygonManager {
     });
   }
 
+  getPolygonPath(polygon: AgmPolygon): Promise<Array<LatLngLiteral>> {
+    const promise = this._polygons.get(polygon);
+    return promise.then((x: any) => {
+      return this.convertToLatLngLiteral(x.getPath().getArray());
+    });
+  }
+
   createEventObservable<T>(eventName: string, path: AgmPolygon): Observable<T> {
     return new Observable((observer: Observer<T>) => {
       this._polygons.get(path).then((l: Polygon) => {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
+  }
+
+  private convertToLatLngLiteral(array: any): Array<LatLngLiteral> {
+    let result: Array<LatLngLiteral> = new Array<LatLngLiteral>();
+    for (let coords of array) {
+      result.push({
+        lat: coords.lat(),
+        lng: coords.lng()
+      });
+    }
+    return result;
   }
 }

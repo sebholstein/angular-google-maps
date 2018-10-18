@@ -106,7 +106,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * Inserting or removing LatLngs from the Array will automatically update
    * the polygon on the map.
    */
-  @Input() paths: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>> = [];
+  @Input() paths: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>> = [];
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended
@@ -189,6 +189,11 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    */
   @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
+  /**
+   * This even is fired after Polygon paths change.
+   */
+  @Output() polyPathsChange: EventEmitter<Array<LatLngLiteral>> = new EventEmitter<Array<LatLngLiteral>>();
+
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
     'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex', 'draggable',
@@ -199,7 +204,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   private _polygonAddedToManager: boolean = false;
   private _subscriptions: Subscription[] = [];
 
-  constructor(private _polygonManager: PolygonManager) {}
+  constructor(private _polygonManager: PolygonManager) { }
 
   /** @internal */
   ngAfterContentInit() {
@@ -224,18 +229,35 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   private _addEventListeners() {
+    const checkForPathsChange = () => {
+      this._polygonManager.getPolygonPath(this)
+        .then((paths: Array<LatLngLiteral>) => {
+          let arePathsChanged: boolean = false;
+          if (this.paths.length !== paths.length) {
+            this.paths = paths;
+            arePathsChanged = true;
+          } else if (JSON.stringify(this.paths) !== JSON.stringify(paths)) {
+            this.paths = paths;
+            arePathsChanged = true;
+          }
+          if (arePathsChanged) {
+            this.polyPathsChange.emit(paths);
+          }
+        });
+    };
+
     const handlers = [
-      {name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev)},
-      {name: 'dblclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev)},
-      {name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev)},
-      {name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev)},
-      {name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev)},
-      {name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev)},
-      {name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev)},
-      {name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev)},
-      {name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev)},
-      {name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev)},
-      {name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev)},
+      { name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev) },
+      { name: 'dblclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev) },
+      { name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev) },
+      { name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev) },
+      { name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev) },
+      { name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev) },
+      { name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev) },
+      { name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev) },
+      { name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev) },
+      { name: 'mouseup', handler: (ev: PolyMouseEvent) => { this.polyMouseUp.emit(ev); checkForPathsChange(); } },
+      { name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev) },
     ];
     handlers.forEach((obj) => {
       const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
@@ -245,11 +267,11 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
 
   private _updatePolygonOptions(changes: SimpleChanges): PolygonOptions {
     return Object.keys(changes)
-        .filter(k => AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
-        .reduce((obj: any, k: string) => {
-          obj[k] = changes[k].currentValue;
-          return obj;
-        }, {});
+      .filter(k => AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
+      .reduce((obj: any, k: string) => {
+        obj[k] = changes[k].currentValue;
+        return obj;
+      }, {});
   }
 
   /** @internal */
