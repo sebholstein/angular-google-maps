@@ -86,6 +86,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() zoom: number = 8;
 
   /**
+   * The tilt level of the map. The default zoom level is 0.
+   */
+  @Input() tilt: number = 0;
+
+  /**
    * The minimal zoom level of the map allowed. When not provided, no restrictions to the zoom level
    * are enforced.
    */
@@ -318,6 +323,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Output() zoomChange: EventEmitter<number> = new EventEmitter<number>();
 
   /**
+   * This event is fired when the tilt level has changed.
+   */
+  @Output() tiltChange: EventEmitter<number> = new EventEmitter<number>();
+
+  /**
    * This event is fired when the google map is fully initialized.
    * You get the google.maps.Map instance as a result of this EventEmitter.
    */
@@ -336,6 +346,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._mapsWrapper.createMap(el, {
       center: {lat: this.latitude || 0, lng: this.longitude || 0},
       zoom: this.zoom,
+      tilt: this.tilt,
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       disableDefaultUI: this.disableDefaultUI,
@@ -371,6 +382,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     // register event listeners
     this._handleMapCenterChange();
     this._handleMapZoomChange();
+    this._handleMapTiltChange();
     this._handleMapMouseEvents();
     this._handleBoundsChange();
     this._handleMapTypeIdChange();
@@ -523,6 +535,16 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       this._mapsWrapper.getZoom().then((z: number) => {
         this.zoom = z;
         this.zoomChange.emit(z);
+      });
+    });
+    this._observableSubscriptions.push(s);
+  }
+
+  private _handleMapTiltChange() {
+    const s = this._mapsWrapper.subscribeToMapEvent<void>('tilt_changed').subscribe(() => {
+      this._mapsWrapper.getTilt().then((t: number) => {
+        this.tilt = t;
+        this.tiltChange.emit(t);
       });
     });
     this._observableSubscriptions.push(s);

@@ -6,10 +6,12 @@ export interface GoogleMap extends MVCObject {
   panTo(latLng: LatLng|LatLngLiteral): void;
   panBy(x: number, y: number): void;
   setZoom(zoom: number): void;
+  setTilt(tilt: number): void;
   getCenter(): LatLng;
   setCenter(latLng: LatLng|LatLngLiteral): void;
   getBounds(): LatLngBounds;
   getMapTypeId(): MapTypeId;
+  getTilt(): number;
   getZoom(): number;
   setOptions(options: MapOptions): void;
   panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
@@ -169,6 +171,7 @@ export interface MapOptions {
   draggingCursor?: string;
   keyboardShortcuts?: boolean;
   styles?: MapTypeStyle[];
+  tilt?: number;
   zoomControl?: boolean;
   zoomControlOptions?: ZoomControlOptions;
   streetViewControl?: boolean;
