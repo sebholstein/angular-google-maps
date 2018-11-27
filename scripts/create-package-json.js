@@ -18,6 +18,11 @@ packages.forEach(function(pkgName) {
   // define the package name
   basePkgJson.name = `@agm/${pkgName}`
 
+  // set the entry points
+  basePkgJson.main = `${pkgName}.umd.js`;
+  basePkgJson.module = `${pkgName}.fesm.js`;
+  basePkgJson.typings = `${pkgName}.d.ts`;
+
   // update version
   basePkgJson.version = rootPkgJson.version;
 

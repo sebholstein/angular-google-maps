@@ -1,6 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {AgmMap} from './directives/map';
 import {AgmCircle} from './directives/circle';
+import {AgmFitBounds} from './directives/fit-bounds';
 import {AgmRectangle} from './directives/rectangle';
 import {AgmInfoWindow} from './directives/info-window';
 import {AgmMarker} from './directives/marker';
@@ -13,7 +14,6 @@ import {LazyMapsAPILoader} from './services/maps-api-loader/lazy-maps-api-loader
 import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/maps-api-loader/lazy-maps-api-loader';
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
 import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
-import {AgmFitBounds} from '@agm/core/directives/fit-bounds';
 
 /**
  * @internal
