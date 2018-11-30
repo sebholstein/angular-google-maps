@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Inject, Input, Output, PLATFORM_ID } from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
@@ -323,10 +324,19 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService) {}
+  constructor(
+    private _elem: ElementRef,
+    private _mapsWrapper: GoogleMapsAPIWrapper,
+    @Inject(PLATFORM_ID) private _platformId: Object,
+    protected _fitBoundsService: FitBoundsService
+  ) {}
 
   /** @internal */
   ngOnInit() {
+    if (!isPlatformBrowser(this._platformId)) {
+      // The code is running on the server, do nothing
+      return;
+    }
     // todo: this should be solved with a new component and a viewChild decorator
     const container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
     this._initMapInstance(container);
