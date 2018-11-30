@@ -476,7 +476,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
     if (this._isLatLngBoundsLiteral(bounds) && google && google.maps) {
-      const newBounds = <LatLngBounds>google.maps.LatLngBounds();
+      const newBounds = new google.maps.LatLngBounds();
       newBounds.union(bounds);
       bounds = newBounds;
     }
