@@ -126,6 +126,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
   @Output() dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
+   * This event is repeatedly fired while the user drags the marker.
+   */
+  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
    * This event is fired when the user stops dragging the marker.
    */
   @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
@@ -250,6 +255,13 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
               this.dragStart.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
             });
     this._observableSubscriptions.push(ds);
+
+    const d =
+        this._markerManager.createEventObservable<mapTypes.MouseEvent>('drag', this)
+            .subscribe((e: mapTypes.MouseEvent) => {
+              this.drag.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+            });
+    this._observableSubscriptions.push(d);
 
     const de =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
