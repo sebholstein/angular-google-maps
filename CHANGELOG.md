@@ -1,3 +1,6 @@
+<a name="1.0.0-beta.6"></a>
+# [1.0.0-beta.6](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2018-11-13)
+
 <a name="1.0.0-beta.5"></a>
 # [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
 
@@ -77,7 +80,7 @@ Angular 4.x is not officially supported anymore. Please update to Angular 5.x or
 * **snazzy-info-window:** support angular 4.x and 5.x ([28c9646](https://github.com/SebastianM/angular-google-maps/commit/28c9646))
 
 ### BREAKING CHANGES
-Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x. 
+Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x.
 
 
 <a name="1.0.0-beta.1"></a>
@@ -161,7 +164,7 @@ You can simply migrate by search/replace these class/selector names.
 
 The package structure also changes. The root directory now contains **esm** code (ES5 code with ES2015 modules).
 
-**A CommonJS compatible format and TS are not part of the package any more!  
+**A CommonJS compatible format and TS are not part of the package any more!
 This change aligns with structure of the @angular packages.**
 
 The styling of the maps is now more intuitive.
@@ -541,17 +544,17 @@ New:
 import {SebmGoogleMap} from 'angular2-google-maps/directives/google-map';
 ```
 
-* The module name has changed. So you have to change your import path.  
-  old: `angular2_google_maps/angular2_google_maps`  
+* The module name has changed. So you have to change your import path.
+  old: `angular2_google_maps/angular2_google_maps`
   new: `angular2-google-maps/core`
 * ES5 files that can be consumed using CommonJS are now in the root directory (old path was `/cjs/angular2_google_maps`)
 * The ES6 files directory has changed:
-  Old dir: `/es6/angular2_google_maps`  
+  Old dir: `/es6/angular2_google_maps`
   New dir: `/es6`
-* The TypeScript files directory has changed:  
-  Old dir: `/ts/angular2_google_maps`  
+* The TypeScript files directory has changed:
+  Old dir: `/ts/angular2_google_maps`
   New dir: `/ts`
-* The `/typings` directory with bundled typings was deleted.  
+* The `/typings` directory with bundled typings was deleted.
   (Typings are now in the root directory seperated by file)
 
 
