@@ -121,6 +121,16 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
   @Output() markerRightClick: EventEmitter<void> = new EventEmitter<void>();
 
   /**
+   * This event is fired when the user starts dragging the marker.
+   */
+  @Output() dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
+   * This event is repeatedly fired while the user drags the marker.
+   */
+  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  /**
    * This event is fired when the user stops dragging the marker.
    */
   @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
@@ -240,11 +250,25 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
     this._observableSubscriptions.push(rc);
 
     const ds =
+        this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragstart', this)
+            .subscribe((e: mapTypes.MouseEvent) => {
+              this.dragStart.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+            });
+    this._observableSubscriptions.push(ds);
+
+    const d =
+        this._markerManager.createEventObservable<mapTypes.MouseEvent>('drag', this)
+            .subscribe((e: mapTypes.MouseEvent) => {
+              this.drag.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
+            });
+    this._observableSubscriptions.push(d);
+
+    const de =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
             .subscribe((e: mapTypes.MouseEvent) => {
               this.dragEnd.emit(<MouseEvent>{coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
             });
-    this._observableSubscriptions.push(ds);
+    this._observableSubscriptions.push(de);
 
     const mover =
         this._markerManager.createEventObservable<mapTypes.MouseEvent>('mouseover', this)
