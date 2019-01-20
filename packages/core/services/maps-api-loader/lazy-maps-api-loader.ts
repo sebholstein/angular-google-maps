@@ -154,7 +154,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
     const hostAndPath: string = this._config.hostAndPath || 'maps.googleapis.com/maps/api/js';
     const queryParams: {[key: string]: string | Array<string>} = {
-      v: this._config.apiVersion || '3',
+      v: this._config.apiVersion || 'quarterly',
       callback: callbackName,
       key: this._config.apiKey,
       client: this._config.clientId,
