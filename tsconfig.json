@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "es2015",
+        "module": "commonjs",
         "target": "es5",
         "noImplicitAny": true,
         "experimentalDecorators": true,
@@ -11,7 +11,7 @@
         "removeComments": false,
         "moduleResolution": "node",
         "declaration": true,
-        "allowSyntheticDefaultImports": true,
+        "allowSyntheticDefaultImports": false,
         "lib": [
             "es2015",
             "dom",

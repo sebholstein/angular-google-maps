@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output, Inject, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
@@ -323,13 +324,23 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService) {}
+  /**
+   * This checks the platform we are running in, and, only initMapInstance
+   * if isBrowser.
+   */
+  isBrowser: boolean;
+
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService, @Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   /** @internal */
   ngOnInit() {
-    // todo: this should be solved with a new component and a viewChild decorator
-    const container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
-    this._initMapInstance(container);
+    if (this.isBrowser) {
+      // todo: this should be solved with a new component and a viewChild decorator
+      const container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
+      this._initMapInstance(container);
+    }
   }
 
   private _initMapInstance(el: HTMLElement) {
