@@ -39,6 +39,7 @@ describe('PolylineManager', () => {
                strokeWeight: undefined,
                visible: true,
                zIndex: undefined,
+               icons: undefined,
                path: []
              });
            }));

@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
+import { PolyMouseEvent, IconSequence } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
 import { AgmPolylinePoint } from './polyline-point';
 
@@ -77,6 +77,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
    * The stroke width in pixels.
    */
   @Input() strokeWeight: number;
+
+  /**
+   * The icons to be rendered along the polyline.
+   */
+  @Input() icons: Array<IconSequence>;
 
   /**
    * Whether this polyline is visible on the map. Defaults to true.
