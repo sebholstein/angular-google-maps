@@ -136,4 +136,12 @@ export class ClusterManager extends MarkerManager {
       }
     });
   }
+
+  setCalculator (c: AgmMarkerCluster): void {
+    this._clustererInstance.then(cluster => {
+      if (typeof c.calculator === 'function') {
+        cluster.setCalculator(c.calculator);
+      }
+    });
+  }
 }
