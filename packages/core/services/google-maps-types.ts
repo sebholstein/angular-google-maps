@@ -185,6 +185,7 @@ export interface MapOptions {
   fullscreenControlOptions?: FullscreenControlOptions;
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
+  isToShowDefaultInfoWindowForIcons?: boolean;
   gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
 }
 
