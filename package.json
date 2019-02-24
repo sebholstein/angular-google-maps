@@ -1,7 +1,7 @@
 {
   "name": "@agm/_dev",
   "private": true,
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Angular components for Google Maps",
   "repository": {
     "type": "git",
@@ -49,26 +49,26 @@
   },
   "homepage": "https://angular-maps.com",
   "peerDependencies": {
-    "@angular/common": "^5.0.0 || ^6.0.0",
-    "@angular/core": "^5.0.0 || ^6.0.0"
+    "@angular/common": "^6.0.0 || ^7.0.0",
+    "@angular/core": "^6.0.0 || ^7.0.0"
   },
   "devDependencies": {
-    "@angular/animations": "^6.0.0",
-    "@angular/common": "^6.0.0",
-    "@angular/compiler": "^6.0.0",
-    "@angular/compiler-cli": "^6.0.0",
-    "@angular/core": "^6.0.0",
-    "@angular/platform-browser": "^6.0.0",
-    "@angular/platform-browser-dynamic": "^6.0.0",
-    "@angular/platform-server": "^6.0.0",
-    "@angular/tsc-wrapped": "4.4.6",
+    "@angular/animations": "^7.0.0",
+    "@angular/common": "^7.0.0",
+    "@angular/compiler": "^7.0.0",
+    "@angular/compiler-cli": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "@angular/http": "^7.0.0",
+    "@angular/platform-browser": "^7.0.0",
+    "@angular/platform-browser-dynamic": "^7.0.0",
+    "@angular/platform-server": "^7.0.0",
     "@compodoc/compodoc": "^1.0.0-beta.9",
-    "@ngtools/webpack": "6.0.0",
+    "@ngtools/webpack": "^7.2.1",
     "@types/jest": "^23.0.0",
     "angular2-template-loader": "^0.6.2",
-    "awesome-typescript-loader": "^5.0.0",
+    "awesome-typescript-loader": "^5.2.1",
     "clang-format": "1.2.3",
-    "codelyzer": "^4.3.0",
+    "codelyzer": "^4.5.0",
     "conventional-changelog": "^1.1.0",
     "copy-webpack-plugin": "^4.0.1",
     "copyfiles": "^2.0.0",
@@ -76,7 +76,7 @@
     "html-webpack-plugin": "^3.2.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine-core": "3.1.0",
-    "jest": "^23.1.0",
+    "jest": "^23.6.0",
     "jest-zone-patch": "^0.0.8",
     "js-marker-clusterer": "^1.0.0",
     "karma-chrome-launcher": "2.2.0",
@@ -89,19 +89,19 @@
     "rxjs": "^6.1.0",
     "snazzy-info-window": "^1.1.1",
     "ts-helpers": "^1.1.2",
-    "ts-jest": "^22.4.6",
+    "ts-jest": "^23.10.5",
     "ts-loader": "^4.3.0",
     "tslint": "^5.8.0",
     "tslint-loader": "^3.4.3",
-    "typescript": "~2.7.2",
+    "typescript": "^3.2.2",
     "webpack": "4.8.0",
     "zone.js": "^0.8.26"
   },
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^5.0.0 || ^6.0.0",
-      "@angular/core": "^5.0.0 || ^6.0.0"
+      "@angular/common": "^6.0.0 || ^7.0.0",
+      "@angular/core": "^6.0.0 || ^7.0.0"
     }
   }
 }
