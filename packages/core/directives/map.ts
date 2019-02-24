@@ -577,13 +577,15 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
             coords: {
               lat: event.latLng.lat(),
               lng: event.latLng.lng()
-            }
+            },
+            placeId: null
           };
           // we cant use instanceOf since the IconMouseEvent is an interface
           if ((<any>event).placeId !== undefined && (<any>event).placeId !== null) {
             if (!this.isToShowDefaultInfoWindowForIcons) {
               event.stop();
             }
+            value.placeId = (<google.maps.IconMouseEvent>event).placeId;
           }
           e.emitter.emit(value);
         });
