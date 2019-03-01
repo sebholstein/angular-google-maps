@@ -214,30 +214,27 @@ describe('ClusterManager', () => {
         [ClusterManager],
         async (markerManager: ClusterManager) => {
 
-          // @ts-ignore
-          const originalInstancePromise = markerManager._clustererInstance;
+          const mockClusterer = { setCalculator: jest.fn() };
+          const instancePromise = Promise.resolve(mockClusterer);
 
-          const clusterInstance = { setCalculator: jest.fn() };
-          const instancePromise = Promise.resolve(clusterInstance);
+          const spy = jest.spyOn(markerManager, 'getClustererInstance')
+                          .mockImplementation(() => instancePromise);
+
           const markerCluster: Partial<AgmMarkerCluster> = {};
-
-          // @ts-ignore
-          markerManager._clustererInstance = instancePromise;
 
           // negative case
           markerCluster.calculator = null;
           markerManager.setCalculator(markerCluster as AgmMarkerCluster);
           await instancePromise;
-          expect(clusterInstance.setCalculator).not.toHaveBeenCalled();
+          expect(mockClusterer.setCalculator).not.toHaveBeenCalled();
 
           // positive case
           markerCluster.calculator = jest.fn();
           markerManager.setCalculator(markerCluster as AgmMarkerCluster);
           await instancePromise;
-          expect(clusterInstance.setCalculator).toHaveBeenCalledTimes(1);
+          expect(mockClusterer.setCalculator).toHaveBeenCalledTimes(1);
 
-          // @ts-ignore
-          markerManager._clustererInstance = originalInstancePromise;
+          spy.mockRestore();
         }));
   });
 });
