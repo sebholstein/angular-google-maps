@@ -1,6 +1,15 @@
 <a name="1.0.0-beta.6"></a>
 # [1.0.0-beta.6](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2018-11-13)
 
+### Features
+
+* **all packages**: support for angular 6.x and 7.x ([#1572](https://github.com/SebastianM/angular-google-maps/commit/3728d299534f7e8d47d06ff7897a6d7bc1962ae7)), closes [#1585](https://github.com/SebastianM/angular-google-maps/issues/1585) [#1591](https://github.com/SebastianM/angular-google-maps/issues/1591)
+
+### BREAKING CHANGES
+
+Angular 5.x is not officially supported anymore. Please update to Angular 6.x or 7.x.
+
+
 <a name="1.0.0-beta.5"></a>
 # [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
 
