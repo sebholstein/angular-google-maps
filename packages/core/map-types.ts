@@ -16,5 +16,5 @@ export {
  */
 export interface MouseEvent {
   coords: LatLngLiteral;
-  placeId: string;
+  placeId?: string;
 }

@@ -260,7 +260,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * When this property is set to npm run buildfalse, the info window will not be shown but the click event
    * will still fire
    */
-  @Input() isToShowDefaultInfoWindowForIcons: boolean = true;
+  @Input() showDefaultInfoWindow: boolean = true;
 
   /**
    * This setting controls how gestures on the map are handled.
@@ -377,7 +377,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       fullscreenControlOptions:          this.fullscreenControlOptions,
       mapTypeId:                         this.mapTypeId,
       clickableIcons:                    this.clickableIcons,
-      isToShowDefaultInfoWindowForIcons: this.isToShowDefaultInfoWindowForIcons,
+      isToShowDefaultInfoWindowForIcons: this.showDefaultInfoWindow,
       gestureHandling:                   this.gestureHandling
     })
       .then(() => this._mapsWrapper.getNativeMap())
@@ -463,7 +463,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _setCenter() {
     let newCenter = {
       lat: this.latitude,
-      lng: this.longitude
+      lng: this.longitude,
     };
     if (this.usePanning) {
       this._mapsWrapper.panTo(newCenter);
@@ -578,14 +578,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
               lat: event.latLng.lat(),
               lng: event.latLng.lng()
             },
-            placeId: null
+            placeId: (<google.maps.IconMouseEvent>event).placeId
           };
           // we cant use instanceOf since the IconMouseEvent is an interface
-          if ((<any>event).placeId !== undefined && (<any>event).placeId !== null) {
-            if (!this.isToShowDefaultInfoWindowForIcons) {
-              event.stop();
-            }
-            value.placeId = (<google.maps.IconMouseEvent>event).placeId;
+          if (value.placeId && !this.showDefaultInfoWindow) {
+            event.stop();
           }
           e.emitter.emit(value);
         });
