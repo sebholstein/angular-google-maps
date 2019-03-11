@@ -231,6 +231,25 @@ export interface InfoWindow extends MVCObject {
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
 
+export interface MVCArray<T> extends MVCObject {
+  clear(): void;
+  getArray(): Array<T>;
+  getAt(i: number): T;
+  getLength(): number;
+  insertAt(i: number, elem: T): void;
+  pop(): T;
+  push(elem: T): number;
+  removeAt(i: number): T;
+  setAt(i: number, elem: T): void;
+  /* tslint:disable */
+  /*
+  * Tslint configuration check-parameters will prompt errors for these lines of code.
+  * https://palantir.github.io/tslint/rules/no-unused-variable/
+  */
+  forEach(callback: (elem: T, i: number) => void): void;
+  /* tslint:enable */
+}
+
 export interface MapsEventListener { remove(): void; }
 
 export interface Size {
@@ -296,7 +315,7 @@ export interface Polyline extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
+  getPath(): MVCArray<LatLng>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -336,8 +355,8 @@ export interface Polygon extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
-  getPaths(): Array<Array<LatLng>>;
+  getPath(): MVCArray<LatLng>;
+  getPaths(): MVCArray<MVCArray<LatLng>>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;

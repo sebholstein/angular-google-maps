@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
+import { PolyMouseEvent, LatLng } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
 import { AgmPolylinePoint } from './polyline-point';
 
@@ -187,6 +187,10 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
         k => AgmPolyline._polylineOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach(k => options[k] = changes[k].currentValue);
     this._polylineManager.setPolylineOptions(this, options);
+  }
+
+  getPath(): Promise<Array<LatLng>> {
+    return this._polylineManager.getPath(this);
   }
 
   private _init() {

@@ -192,7 +192,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This even is fired after Polygon paths change.
    */
-  @Output() polyPathsChange: EventEmitter<Array<LatLngLiteral>> = new EventEmitter<Array<LatLngLiteral>>();
+  @Output() polyPathsChange: EventEmitter<Array<LatLng>> = new EventEmitter<Array<LatLng>>();
 
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
@@ -230,8 +230,8 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
 
   private _addEventListeners() {
     const checkForPathsChange = () => {
-      this._polygonManager.getPolygonPath(this)
-        .then((paths: Array<LatLngLiteral>) => {
+      this._polygonManager.getPath(this)
+        .then((paths: Array<LatLng>) => {
           let arePathsChanged: boolean = false;
           if (this.paths.length !== paths.length) {
             this.paths = paths;
@@ -282,5 +282,13 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     this._polygonManager.deletePolygon(this);
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
+  }
+
+  getPath(): Promise<Array<LatLng>> {
+    return this._polygonManager.getPath(this);
+  }
+
+  getPaths(): Promise<Array<Array<LatLng>>> {
+    return this._polygonManager.getPaths(this);
   }
 }
