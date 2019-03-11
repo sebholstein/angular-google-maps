@@ -139,9 +139,14 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   @Output() lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This even is fired when the Polyline is right-clicked on.
+   * This event is fired when the Polyline is right-clicked on.
    */
   @Output() lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+
+  /**
+   * This event is fired after Polyline's path changes.
+   */
+  @Output() polyPathsChange: EventEmitter<Array<LatLng>> = new EventEmitter<Array<LatLng>>();
 
   /**
    * @internal
@@ -200,6 +205,24 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   private _addEventListeners() {
+    const checkForPathChange = () => {
+      this._polylineManager.getPath(this)
+        .then((path: Array<LatLng>) => {
+          let arePathsChanged = false;
+          this._polylineManager.getPath(this)
+          .then((currPath: LatLng[]) => {
+            if (currPath.length !== path.length) {
+              arePathsChanged = true;
+            } else if (JSON.stringify(currPath) !== JSON.stringify(path)) {
+              arePathsChanged = true;
+            }
+            if (arePathsChanged) {
+              this.polyPathsChange.emit(path);
+            }
+          });
+        });
+    };
+
     const handlers = [
       {name: 'click', handler: (ev: PolyMouseEvent) => this.lineClick.emit(ev)},
       {name: 'dblclick', handler: (ev: PolyMouseEvent) => this.lineDblClick.emit(ev)},
@@ -210,7 +233,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       {name: 'mousemove', handler: (ev: PolyMouseEvent) => this.lineMouseMove.emit(ev)},
       {name: 'mouseout', handler: (ev: PolyMouseEvent) => this.lineMouseOut.emit(ev)},
       {name: 'mouseover', handler: (ev: PolyMouseEvent) => this.lineMouseOver.emit(ev)},
-      {name: 'mouseup', handler: (ev: PolyMouseEvent) => this.lineMouseUp.emit(ev)},
+      {name: 'mouseup', handler: (ev: PolyMouseEvent) => { this.lineMouseUp.emit(ev); checkForPathChange(); } },
       {name: 'rightclick', handler: (ev: PolyMouseEvent) => this.lineRightClick.emit(ev)},
     ];
     handlers.forEach((obj) => {
