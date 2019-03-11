@@ -185,12 +185,12 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   @Output() polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This even is fired when the Polygon is right-clicked on.
+   * This event is fired when the Polygon is right-clicked on.
    */
   @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This even is fired after Polygon paths change.
+   * This event is fired after Polygon first path changes.
    */
   @Output() polyPathsChange: EventEmitter<Array<LatLng>> = new EventEmitter<Array<LatLng>>();
 
@@ -232,7 +232,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     const checkForPathsChange = () => {
       this._polygonManager.getPath(this)
         .then((paths: Array<LatLng>) => {
-          let arePathsChanged: boolean = false;
+          let arePathsChanged = false;
           if (this.paths.length !== paths.length) {
             this.paths = paths;
             arePathsChanged = true;
