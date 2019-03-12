@@ -146,7 +146,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is fired after Polyline's path changes.
    */
-  @Output() polyPathsChange: EventEmitter<Array<LatLng>> = new EventEmitter<Array<LatLng>>();
+  @Output() polyPathChange = new EventEmitter<PathEvent>();
 
   /**
    * @internal
@@ -205,24 +205,6 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   private _addEventListeners() {
-    const checkForPathChange = () => {
-      this._polylineManager.getPath(this)
-        .then((path: Array<LatLng>) => {
-          let arePathsChanged = false;
-          this._polylineManager.getPath(this)
-          .then((currPath: LatLng[]) => {
-            if (currPath.length !== path.length) {
-              arePathsChanged = true;
-            } else if (JSON.stringify(currPath) !== JSON.stringify(path)) {
-              arePathsChanged = true;
-            }
-            if (arePathsChanged) {
-              this.polyPathsChange.emit(path);
-            }
-          });
-        });
-    };
-
     const handlers = [
       {name: 'click', handler: (ev: PolyMouseEvent) => this.lineClick.emit(ev)},
       {name: 'dblclick', handler: (ev: PolyMouseEvent) => this.lineDblClick.emit(ev)},
@@ -233,11 +215,17 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       {name: 'mousemove', handler: (ev: PolyMouseEvent) => this.lineMouseMove.emit(ev)},
       {name: 'mouseout', handler: (ev: PolyMouseEvent) => this.lineMouseOut.emit(ev)},
       {name: 'mouseover', handler: (ev: PolyMouseEvent) => this.lineMouseOver.emit(ev)},
-      {name: 'mouseup', handler: (ev: PolyMouseEvent) => { this.lineMouseUp.emit(ev); checkForPathChange(); } },
+      {name: 'mouseup', handler: (ev: PolyMouseEvent) => this.lineMouseUp.emit(ev)},
       {name: 'rightclick', handler: (ev: PolyMouseEvent) => this.lineRightClick.emit(ev)},
     ];
     handlers.forEach((obj) => {
       const os = this._polylineManager.createEventObservable(obj.name, this).subscribe(obj.handler);
+      this._subscriptions.push(os);
+    });
+
+    this._polylineManager.createPathEventObservable(['insert_at', 'set_at', 'remove_at'], this).then((ob$) => {
+      const os = ob$.subscribe(([path, pathEventType, index, previous]: [LatLng[], string, number, LatLng] ) =>
+        this.polyPathChange.emit({path, type: <PathEventType>pathEventType, index, previous}));
       this._subscriptions.push(os);
     });
   }
@@ -260,3 +248,12 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
 }
+
+export interface PathEvent {
+  path: Array<LatLng>;
+  type: PathEventType;
+  index: number;
+  previous?: LatLng;
+}
+
+export type PathEventType = 'remove_at'|'set_at'|'insert_at';

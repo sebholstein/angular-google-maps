@@ -1,10 +1,10 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import {Observable, Observer, fromEventPattern} from 'rxjs';
 
 import {AgmPolyline} from '../../directives/polyline';
 import {AgmPolylinePoint} from '../../directives/polyline-point';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {LatLng, LatLngLiteral, Polyline} from '../google-maps-types';
+import {LatLng, LatLngLiteral, Polyline, MVCArray, MapsEventListener} from '../google-maps-types';
 
 @Injectable()
 export class PolylineManager {
@@ -64,9 +64,13 @@ export class PolylineManager {
     });
   }
 
-  getPath(polyline: AgmPolyline): Promise<Array<LatLng>> {
-    return this._polylines.get(polyline)
-      .then((polyline) => polyline.getPath().getArray());
+  private async getMVCPath(agmPolyline: AgmPolyline): Promise<MVCArray<LatLng>> {
+    const polyline = await this._polylines.get(agmPolyline);
+    return polyline.getPath();
+  }
+
+  async getPath(agmPolyline: AgmPolyline): Promise<Array<LatLng>> {
+    return (await this.getMVCPath(agmPolyline)).getArray();
   }
 
   createEventObservable<T>(eventName: string, line: AgmPolyline): Observable<T> {
@@ -75,5 +79,13 @@ export class PolylineManager {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
+  }
+
+  async createPathEventObservable(eventNames: string[], line: AgmPolyline): Promise<Observable<[LatLng[], string, number, LatLng?]>> {
+    const mvcPath = await this.getMVCPath(line);
+    return fromEventPattern(
+        (handler: Function) => eventNames.map(evName => mvcPath.addListener(evName,
+          (index: number, previous?: LatLng) => this._zone.run(() => handler.apply(mvcPath, [[mvcPath.getArray(), evName, index, previous]])))),
+        (handler: Function, evListeners: MapsEventListener[]) => evListeners.forEach(evListener => evListener.remove()));
   }
 }
