@@ -424,6 +424,18 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     });
   }
 
+  getBounds(): Promise<LatLngBounds> {
+    return this._mapsWrapper.getBounds();
+  }
+
+  getCenter(): Promise<LatLng> {
+    return this._mapsWrapper.getCenter();
+  }
+
+  getZoom(): Promise<number> {
+    return this._mapsWrapper.getZoom();
+  }
+
   private _updatePosition(changes: SimpleChanges) {
     if (changes['latitude'] == null && changes['longitude'] == null &&
         !changes['fitBounds']) {
