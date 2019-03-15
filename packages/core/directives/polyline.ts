@@ -155,7 +155,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
 
   private static _polylineOptionsAttributes: Array<string> = [
     'draggable', 'editable', 'visible', 'geodesic', 'strokeColor', 'strokeOpacity', 'strokeWeight',
-    'zIndex'
+    'zIndex', 'icons'
   ];
 
   private _id: string;
