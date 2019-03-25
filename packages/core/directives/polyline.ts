@@ -223,9 +223,8 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       this._subscriptions.push(os);
     });
 
-    this._polylineManager.createPathEventObservable(['insert_at', 'set_at', 'remove_at'], this).then((ob$) => {
-      const os = ob$.subscribe(([path, pathEventType, index, previous]: [LatLng[], string, number, LatLng] ) =>
-        this.polyPathChange.emit({path, type: <PathEventType>pathEventType, index, previous}));
+    this._polylineManager.createPathEventObservable(this).then((ob$) => {
+      const os = ob$.subscribe(this.polyPathChange.emit);
       this._subscriptions.push(os);
     });
   }
@@ -250,10 +249,8 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
 }
 
 export interface PathEvent {
-  path: Array<LatLng>;
-  type: PathEventType;
+  newArr: LatLng[];
+  evName: 'insert_at' | 'remove_at' | 'set_at';
   index: number;
   previous?: LatLng;
 }
-
-export type PathEventType = 'remove_at'|'set_at'|'insert_at';

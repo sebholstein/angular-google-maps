@@ -1,10 +1,11 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer, fromEventPattern} from 'rxjs';
+import {Observable, Observer} from 'rxjs';
 
-import {AgmPolyline} from '../../directives/polyline';
+import {AgmPolyline, PathEvent} from '../../directives/polyline';
 import {AgmPolylinePoint} from '../../directives/polyline-point';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {LatLng, LatLngLiteral, Polyline, MVCArray, MapsEventListener} from '../google-maps-types';
+import {LatLng, LatLngLiteral, Polyline, MVCArray } from '../google-maps-types';
+import { MVCEvent, createMVCEventObservable } from '../../utils/mvcarray-utils';
 
 @Injectable()
 export class PolylineManager {
@@ -81,11 +82,8 @@ export class PolylineManager {
     });
   }
 
-  async createPathEventObservable(eventNames: string[], line: AgmPolyline): Promise<Observable<[LatLng[], string, number, LatLng?]>> {
+  async createPathEventObservable(line: AgmPolyline): Promise<Observable<PathEvent>> {
     const mvcPath = await this.getMVCPath(line);
-    return fromEventPattern(
-        (handler: Function) => eventNames.map(evName => mvcPath.addListener(evName,
-          (index: number, previous?: LatLng) => this._zone.run(() => handler.apply(mvcPath, [[mvcPath.getArray(), evName, index, previous]])))),
-        (handler: Function, evListeners: MapsEventListener[]) => evListeners.forEach(evListener => evListener.remove()));
+    return createMVCEventObservable(mvcPath);
   }
 }

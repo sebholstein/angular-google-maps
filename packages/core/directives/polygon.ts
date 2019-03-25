@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
 import { PolygonManager } from '../services/managers/polygon-manager';
+import { MvcEventType } from '../utils/mvcarray-utils';
 
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
@@ -192,7 +193,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is fired after Polygon first path changes.
    */
-  @Output() polyPathsChange: EventEmitter<Array<LatLng>> = new EventEmitter<Array<LatLng>>();
+  @Output() polyPathsChange = new EventEmitter<PolygonPathEvent<any>>();
 
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
@@ -229,23 +230,6 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   }
 
   private _addEventListeners() {
-    const checkForPathsChange = () => {
-      this._polygonManager.getPath(this)
-        .then((paths: Array<LatLng>) => {
-          let arePathsChanged = false;
-          if (this.paths.length !== paths.length) {
-            this.paths = paths;
-            arePathsChanged = true;
-          } else if (JSON.stringify(this.paths) !== JSON.stringify(paths)) {
-            this.paths = paths;
-            arePathsChanged = true;
-          }
-          if (arePathsChanged) {
-            this.polyPathsChange.emit(paths);
-          }
-        });
-    };
-
     const handlers = [
       { name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev) },
       { name: 'dblclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev) },
@@ -256,11 +240,17 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
       { name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev) },
       { name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev) },
       { name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev) },
-      { name: 'mouseup', handler: (ev: PolyMouseEvent) => { this.polyMouseUp.emit(ev); checkForPathsChange(); } },
+      { name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev) },
       { name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev) },
     ];
     handlers.forEach((obj) => {
       const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
+      this._subscriptions.push(os);
+    });
+
+    this._polygonManager.createPathEventObservable(this)
+    .then(paths$ => {
+      const os = paths$.subscribe(this.polyPathsChange.emit);
       this._subscriptions.push(os);
     });
   }
@@ -291,4 +281,17 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   getPaths(): Promise<Array<Array<LatLng>>> {
     return this._polygonManager.getPaths(this);
   }
+}
+
+export interface PolygonPathEvent<T extends (LatLng|Array<LatLng>)> {
+  eventName: MvcEventType;
+  index: number;
+  previous?: T;
+}
+
+export interface PathCollectionChangePolygonPathEvent extends PolygonPathEvent <Array<LatLng>>{
+}
+
+export interface PathChangePolygonPathEvent extends PolygonPathEvent<LatLng> {
+  pathIndex: number;
 }
