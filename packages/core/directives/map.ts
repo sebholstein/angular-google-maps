@@ -4,8 +4,9 @@ import {Subscription} from 'rxjs';
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {
-  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
+  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions, MapRestriction,
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions
+} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {RectangleManager} from '../services/managers/rectangle-manager';
@@ -260,6 +261,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
 
   /**
+   * Options for restricting the bounds of the map.
+   * User cannot pan or zoom away from restricted area.
+   */
+  @Input() restriction: MapRestriction;
+  /**
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
@@ -268,7 +274,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'gestureHandling'
+    'mapTypeId', 'clickableIcons', 'gestureHandling', 'restriction'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -363,7 +369,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       fullscreenControlOptions: this.fullscreenControlOptions,
       mapTypeId: this.mapTypeId,
       clickableIcons: this.clickableIcons,
-      gestureHandling: this.gestureHandling
+      gestureHandling: this.gestureHandling,
+      restriction: this.restriction,
     })
       .then(() => this._mapsWrapper.getNativeMap())
       .then(map => this.mapReady.emit(map));
