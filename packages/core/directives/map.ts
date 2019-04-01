@@ -440,7 +440,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     if (typeof this.latitude !== 'number' || typeof this.longitude !== 'number') {
       return;
     }
-    this._setCenter();
+    this._mapsWrapper.getCenter().then((center: LatLng) => {
+      if (center.lat() === this.latitude && center.lng() === this.longitude) {
+        return;
+      }
+      this._setCenter();
+    });
   }
 
   private _setCenter() {
