@@ -1,0 +1,26 @@
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@agm/core",
+  "description": "Angular components for Google Maps",
+  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
+  "keywords": [
+    "angular",
+    "ng",
+    "google-maps",
+    "maps",
+    "google",
+    "gmaps",
+    "angular2"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "./index.ts",
+      "umdId": "ngmaps.core"
+    },
+    "dest": "../../dist/@agm/core"
+  }
+}

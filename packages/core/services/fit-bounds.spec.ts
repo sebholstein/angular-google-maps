@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
 import { FitBoundsService } from './fit-bounds';
+import { LatLngBounds } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
-import { LatLngBounds } from '@agm/core';
 import { take, first } from 'rxjs/operators';
 
 describe('FitBoundsService', () => {
