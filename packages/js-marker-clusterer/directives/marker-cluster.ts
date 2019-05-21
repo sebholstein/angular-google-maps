@@ -7,7 +7,7 @@ import {CalculateFunction, ClusterOptions, ClusterStyle} from '../services/googl
 
 import {MouseEvent} from '../../core/map-types';
 import * as mapTypes from '../../core/services/google-maps-types';
-import { Subscription }   from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together
