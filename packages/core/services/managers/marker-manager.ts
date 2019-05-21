@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import {AgmMarker} from './../../directives/marker';
 
@@ -99,7 +98,7 @@ export class MarkerManager {
   }
 
   createEventObservable<T>(eventName: string, marker: AgmMarker): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((observer: Observer<T>) => {
       this._markers.get(marker).then((m: Marker) => {
         m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });

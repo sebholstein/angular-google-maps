@@ -1,3 +1,64 @@
+<a name="1.0.0-beta.6"></a>
+# [1.0.0-beta.6](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2018-11-13)
+
+<a name="1.0.0-beta.5"></a>
+# [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
+
+
+### Bug Fixes
+
+* **Map:** fitBounds values that are undefined/null ([f9afd4b](https://github.com/SebastianM/angular-google-maps/commit/f9afd4b)), closes [#1505](https://github.com/SebastianM/angular-google-maps/issues/1505) [#1504](https://github.com/SebastianM/angular-google-maps/issues/1504)
+
+
+<a name="1.0.0-beta.4"></a>
+# [1.0.0-beta.4 beryl-cobra](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.3...1.0.0-beta.4) (2018-09-22)
+
+This release adds the long awaited auto fitBounds feature: https://github.com/SebastianM/angular-google-maps/pull/1389
+
+### Bug Fixes
+
+* **AgmPolygon:** double click ([#1442](https://github.com/SebastianM/angular-google-maps/issues/1442)) ([ca0b8f0](https://github.com/SebastianM/angular-google-maps/commit/ca0b8f0)), closes [#1202](https://github.com/SebastianM/angular-google-maps/issues/1202)
+* **polyline:** icon to icons ([fc042ae](https://github.com/SebastianM/angular-google-maps/commit/fc042ae)), closes [#948](https://github.com/SebastianM/angular-google-maps/issues/948)
+
+
+### Features
+
+* **AgmMarker:** add rightclick support ([#1443](https://github.com/SebastianM/angular-google-maps/issues/1443)) ([8abefa0](https://github.com/SebastianM/angular-google-maps/commit/8abefa0)), closes [#1362](https://github.com/SebastianM/angular-google-maps/issues/1362)
+* **AgmMarker:** auto-convert string to Number for lat/lng ([#1424](https://github.com/SebastianM/angular-google-maps/issues/1424)) ([c1d6c6d](https://github.com/SebastianM/angular-google-maps/commit/c1d6c6d)), closes [#771](https://github.com/SebastianM/angular-google-maps/issues/771)
+* **AgmMarker:** include marker instance in markerClick emitter ([89b6e5c](https://github.com/SebastianM/angular-google-maps/commit/89b6e5c))
+* **core:** add rectangle support ([#1450](https://github.com/SebastianM/angular-google-maps/issues/1450)) ([2e4878b](https://github.com/SebastianM/angular-google-maps/commit/2e4878b)), closes [#570](https://github.com/SebastianM/angular-google-maps/issues/570)
+* **core:** support auto fitBounds ([4d3103c](https://github.com/SebastianM/angular-google-maps/commit/4d3103c))
+
+
+
+<a name="1.0.0-beta.3"></a>
+# [1.0.0-beta.3 orange-disk](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.2...1.0.0-beta.3) (2018-05-24)
+
+
+### Bug Fixes
+
+* **AgmMap:** memory leak when map gets destroyed ([6006617](https://github.com/SebastianM/angular-google-maps/commit/6006617))
+* **AgmPolygon:** createPolygon type fix ([2563cae](https://github.com/SebastianM/angular-google-maps/commit/2563cae))
+* **Lazy Loading:** check if google maps script was already loaded ([e513c57](https://github.com/SebastianM/angular-google-maps/commit/e513c57)), closes [#692](https://github.com/SebastianM/angular-google-maps/issues/692)
+* **LazyMapsAPILoader:** multiple google maps api scripts on page ([07de5a4](https://github.com/SebastianM/angular-google-maps/commit/07de5a4)), closes [#315](https://github.com/SebastianM/angular-google-maps/issues/315) [#775](https://github.com/SebastianM/angular-google-maps/issues/775) [#1260](https://github.com/SebastianM/angular-google-maps/issues/1260)
+
+
+### Features
+
+* **all packages**: Support angular 6 ([44fba48](https://github.com/SebastianM/angular-google-maps/commit/44fba48))
+* **AgmMap:** EventEmitter for maptypeid_changed event ([f9c23aa](https://github.com/SebastianM/angular-google-maps/commit/f9c23aa))
+* **AgmMarker:** add animation field to markers ([c57ab39](https://github.com/SebastianM/angular-google-maps/commit/c57ab39)), closes [#580](https://github.com/SebastianM/angular-google-maps/issues/580) [#852](https://github.com/SebastianM/angular-google-maps/issues/852)
+* **AgmMarker:** allow objects as label ([658de77](https://github.com/SebastianM/angular-google-maps/commit/658de77))
+
+
+### Performance Improvements
+
+* **AgmMap:** run resolve outside angular zone ([078c2a5](https://github.com/SebastianM/angular-google-maps/commit/078c2a5))
+
+### BREAKING CHANGES
+
+Angular 4.x is not officially supported anymore. Please update to Angular 5.x or 6.x.
+
 <a name="1.0.0-beta.2"></a>
 # [1.0.0-beta.2 angular-five](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.1...1.0.0-beta.2) (2017-10-31)
 
@@ -19,7 +80,7 @@
 * **snazzy-info-window:** support angular 4.x and 5.x ([28c9646](https://github.com/SebastianM/angular-google-maps/commit/28c9646))
 
 ### BREAKING CHANGES
-Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x. 
+Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x.
 
 
 <a name="1.0.0-beta.1"></a>
@@ -103,7 +164,7 @@ You can simply migrate by search/replace these class/selector names.
 
 The package structure also changes. The root directory now contains **esm** code (ES5 code with ES2015 modules).
 
-**A CommonJS compatible format and TS are not part of the package any more!  
+**A CommonJS compatible format and TS are not part of the package any more!
 This change aligns with structure of the @angular packages.**
 
 The styling of the maps is now more intuitive.
@@ -483,17 +544,17 @@ New:
 import {SebmGoogleMap} from 'angular2-google-maps/directives/google-map';
 ```
 
-* The module name has changed. So you have to change your import path.  
-  old: `angular2_google_maps/angular2_google_maps`  
+* The module name has changed. So you have to change your import path.
+  old: `angular2_google_maps/angular2_google_maps`
   new: `angular2-google-maps/core`
 * ES5 files that can be consumed using CommonJS are now in the root directory (old path was `/cjs/angular2_google_maps`)
 * The ES6 files directory has changed:
-  Old dir: `/es6/angular2_google_maps`  
+  Old dir: `/es6/angular2_google_maps`
   New dir: `/es6`
-* The TypeScript files directory has changed:  
-  Old dir: `/ts/angular2_google_maps`  
+* The TypeScript files directory has changed:
+  Old dir: `/ts/angular2_google_maps`
   New dir: `/ts`
-* The `/typings` directory with bundled typings was deleted.  
+* The `/typings` directory with bundled typings was deleted.
   (Typings are now in the root directory seperated by file)
 
 

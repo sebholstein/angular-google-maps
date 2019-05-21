@@ -3,7 +3,7 @@ import {Directive, Input, Output, EventEmitter, OnDestroy, OnChanges, OnInit, Si
 import {ClusterManager} from '../services/managers/cluster-manager';
 import {MarkerManager, InfoWindowManager} from '@agm/core';
 
-import {ClusterOptions, ClusterStyle} from '../services/google-clusterer-types';
+import {CalculateFunction, ClusterOptions, ClusterStyle} from '../services/google-clusterer-types';
 
 import {MouseEvent} from '../../core/map-types';
 import * as mapTypes from '../../core/services/google-maps-types';
@@ -75,6 +75,11 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
    */
   @Input() styles: ClusterStyle;
 
+  /**
+   * A function that calculates the cluster style and text based on the markers in the cluster.
+   */
+  @Input() calculator: CalculateFunction;
+
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
@@ -117,6 +122,9 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     }
     if (changes['imageExtension']) {
       this._clusterManager.setImageExtension(this);
+    }
+    if (changes['calculator']) {
+      this._clusterManager.setCalculator(this);
     }
   }
 

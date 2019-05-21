@@ -1,5 +1,5 @@
 import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges, Input, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
 import { PolygonManager } from '../services/managers/polygon-manager';
@@ -226,7 +226,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   private _addEventListeners() {
     const handlers = [
       {name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev)},
-      {name: 'dbclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev)},
+      {name: 'dblclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev)},
       {name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev)},
       {name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev)},
       {name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev)},
