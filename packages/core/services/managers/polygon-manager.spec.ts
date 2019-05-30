@@ -3,8 +3,9 @@ import {TestBed, inject} from '@angular/core/testing';
 
 import {AgmPolygon} from '../../directives/polygon';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {Polygon} from '../google-maps-types';
 import {PolygonManager} from './polygon-manager';
+import { MVCArray, LatLng, LatLngLiteral } from '../google-maps-types';
+import { MvcArrayMock } from '../../utils/mvcarray-utils';
 
 describe('PolygonManager', () => {
   beforeEach(() => {
@@ -63,5 +64,219 @@ describe('PolygonManager', () => {
                expect(polygonInstance.setMap).toHaveBeenCalledWith(null);
              });
            }));
+  });
+
+  describe('Path changes', () => {
+    let newPolygon: AgmPolygon;
+    let paths: MVCArray<MVCArray<LatLng>>;
+    const initLatLng = {lat: () => 15, lng: () => 15, toJSON: () => ({lat: 15, lng: 15})} as LatLng;
+
+    beforeEach(
+      inject(
+            [PolygonManager, GoogleMapsAPIWrapper],
+            (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
+        paths = new MvcArrayMock<MVCArray<LatLng>>();
+        let path = new MvcArrayMock<LatLng>();
+        path.push(initLatLng);
+        paths.push(path);
+
+        const polygonInstance: any = {
+          getPaths: () => paths,
+          setMap: jest.fn(),
+        };
+        (<jest.Mock>apiWrapper.createPolygon).mockReturnValue(Promise.resolve(polygonInstance));
+        newPolygon = new AgmPolygon(polygonManager);
+        polygonManager.addPolygon(newPolygon);
+    }));
+
+    afterEach((done) => {
+      inject(
+        [PolygonManager],
+        (polygonManager: PolygonManager) => {
+          polygonManager.deletePolygon(newPolygon)
+          .then(done);
+      })();
+    });
+
+    it('should emit a path change when a path is added', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [1, 2];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              newArr: [[{lat: 15, lng: 15}], ...Array(expectationIndex + 1).fill([])],
+              eventName: 'insert_at',
+              index: expectations[expectationIndex++],
+            });
+            if (expectationIndex === expectations.length) {
+              done();
+            }
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          paths.push(new MvcArrayMock());
+          paths.push(new MvcArrayMock());
+        });
+      })();
+    });
+
+    it('should emit a path change when a path is removed', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [{index: 2, previous: [] as LatLng[], newArr: [[{lat: 15, lng: 15}], []]},
+                              {index: 0, previous: [initLatLng], newArr: [[]]}];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+
+        // prepare the array
+        paths.push(new MvcArrayMock());
+        paths.push(new MvcArrayMock());
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              eventName: 'remove_at',
+              ...expectations[expectationIndex++],
+            });
+            if (expectationIndex === expectations.length) {
+              done();
+            }
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          paths.pop();
+          paths.removeAt(0);
+        });
+      })();
+    });
+
+    it('should emit a path change when a path is set', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [{index: 0, previous: [initLatLng], newArr: [Array(2).fill({lat: 15, lng: 15}), []]},
+             {index: 1, previous: [] as LatLng[], newArr: [Array(2).fill({lat: 15, lng: 15}), [{lat: 15, lng: 15}]]}];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+
+        // prepare the array
+        paths.push(new MvcArrayMock());
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              eventName: 'set_at',
+              ...expectations[expectationIndex++],
+            });
+            if (expectationIndex === expectations.length) {
+              done();
+            }
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          const firstMvcArray = new MvcArrayMock<LatLng>();
+          firstMvcArray.push(initLatLng);
+          firstMvcArray.push(initLatLng);
+          paths.setAt(0, firstMvcArray);
+          const secondMvcArray = new MvcArrayMock<LatLng>();
+          secondMvcArray.push(initLatLng);
+          paths.setAt(1, secondMvcArray);
+        });
+      })();
+    });
+
+    it('should emit a path change when a point is added to a path', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [
+          {pathIndex: 0, index: 1, newArr: [Array(2).fill({lat: 15, lng: 15})]},
+          {pathIndex: 0, index: 2, newArr: [Array(3).fill({lat: 15, lng: 15})]}];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              eventName: 'insert_at',
+              ...expectations[expectationIndex++],
+            });
+            if (expectationIndex === expectations.length) {
+              done();
+            }
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          paths.getAt(0).push(initLatLng);
+          paths.getAt(0).push(initLatLng);
+        });
+      })();
+    });
+
+    it('should emit a path change when a point is removed from a path', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [
+          {pathIndex: 0, index: 1, previous: initLatLng, newArr: [[{lat: 15, lng: 15}]]},
+          {pathIndex: 0, index: 0, previous: initLatLng, newArr: [[] as LatLngLiteral[]]}];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+
+        // prepare the array
+        paths.getAt(0).push(initLatLng);
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              eventName: 'remove_at',
+              ...expectations[expectationIndex++],
+            });
+            if (expectationIndex === expectations.length) {
+              done();
+            }
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          paths.getAt(0).pop();
+          paths.getAt(0).removeAt(0);
+        });
+      })();
+    });
+
+    it('should emit a path change when a point is added to an added path', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [
+          {index: 1, newArr: [[{lat: 15, lng: 15}], []]},
+          {pathIndex: 1, index: 0, newArr: [[{lat: 15, lng: 15}], [{lat: 15, lng: 15}]]}];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+
+        // prepare the array
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              eventName: 'insert_at',
+              ...expectations[expectationIndex++],
+            });
+            if (expectationIndex === expectations.length) {
+              done();
+            }
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          paths.push(new MvcArrayMock<LatLng>());
+          paths.getAt(1).push(initLatLng);
+        });
+      })();
+    });
+
+    it('should not emit a path change when a point is added to a removed path', (done) => {
+      inject([PolygonManager], (polygonManager: PolygonManager) => {
+        const expectations = [{index: 0, newArr: [[]] as LatLngLiteral[][]}];
+        let expectationIndex = 0;
+        expect.assertions(expectations.length);
+
+        // prepare the array
+        polygonManager.createPathEventObservable(newPolygon)
+        .then(paths$ => {
+          paths$.subscribe((polygonPathEvent) => {
+            expect(polygonPathEvent).toEqual({
+              eventName: 'removed_at',
+              ...expectations[expectationIndex++],
+            });
+          }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
+          const removedPath = paths.pop();
+          removedPath.pop();
+          done();
+        });
+      })();
+    });
   });
 });
