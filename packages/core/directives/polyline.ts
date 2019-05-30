@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
+import { PolyMouseEvent, LatLng } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
 import { AgmPolylinePoint } from './polyline-point';
 
@@ -139,9 +139,14 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   @Output() lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This even is fired when the Polyline is right-clicked on.
+   * This event is fired when the Polyline is right-clicked on.
    */
   @Output() lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+
+  /**
+   * This event is fired after Polyline's path changes.
+   */
+  @Output() polyPathChange = new EventEmitter<PathEvent>();
 
   /**
    * @internal
@@ -189,6 +194,10 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     this._polylineManager.setPolylineOptions(this, options);
   }
 
+  getPath(): Promise<Array<LatLng>> {
+    return this._polylineManager.getPath(this);
+  }
+
   private _init() {
     this._polylineManager.addPolyline(this);
     this._polylineAddedToManager = true;
@@ -213,6 +222,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       const os = this._polylineManager.createEventObservable(obj.name, this).subscribe(obj.handler);
       this._subscriptions.push(os);
     });
+
+    this._polylineManager.createPathEventObservable(this).then((ob$) => {
+      const os = ob$.subscribe(pathEvent => this.polyPathChange.emit(pathEvent));
+      this._subscriptions.push(os);
+    });
   }
 
   /** @internal */
@@ -232,4 +246,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
+}
+
+export interface PathEvent {
+  newArr: LatLng[];
+  evName: 'insert_at' | 'remove_at' | 'set_at';
+  index: number;
+  previous?: LatLng;
 }
