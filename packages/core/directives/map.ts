@@ -4,8 +4,9 @@ import {Subscription} from 'rxjs';
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {
-  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
+  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions, MapRestriction,
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions
+} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {RectangleManager} from '../services/managers/rectangle-manager';
@@ -273,8 +274,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
      * different things, do not bind() the tilt property; doing so may yield
      * unpredictable effects. (Default of AGM is 0 (disabled). Enable it with value 45.)
      */
-    @Input() tilt: number = 0;
+  @Input() tilt: number = 0;
 
+  /**
+   * Options for restricting the bounds of the map.
+   * User cannot pan or zoom away from restricted area.
+   */
+  @Input() restriction: MapRestriction;
   /**
    * Map option attributes that can change over time
    */
@@ -284,7 +290,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'gestureHandling', 'tilt'
+    'mapTypeId', 'clickableIcons', 'gestureHandling', 'tilt', 'restriction'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -380,7 +386,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       mapTypeId: this.mapTypeId,
       clickableIcons: this.clickableIcons,
       gestureHandling: this.gestureHandling,
-      tilt: this.tilt
+      tilt: this.tilt,
+      restriction: this.restriction,
     })
       .then(() => this._mapsWrapper.getNativeMap())
       .then(map => this.mapReady.emit(map));

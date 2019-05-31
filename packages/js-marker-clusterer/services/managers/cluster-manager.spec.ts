@@ -3,7 +3,7 @@ import {TestBed, async, inject} from '@angular/core/testing';
 
 import {AgmMarker} from '../../../core/directives/marker';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {Marker} from '../../../core/services/google-maps-types';
+import {AgmMarkerCluster} from '../../directives/marker-cluster';
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -206,5 +206,35 @@ describe('ClusterManager', () => {
              return markerManager.updateZIndex(newMarker).then(
                  () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
            })));
+  });
+
+  describe('set calculator', () => {
+    it('should call the setCalculator method when the calculator changes and is a function',
+      inject(
+        [ClusterManager],
+        async (markerManager: ClusterManager) => {
+
+          const mockClusterer = { setCalculator: jest.fn() };
+          const instancePromise = Promise.resolve(mockClusterer);
+
+          const spy = jest.spyOn(markerManager, 'getClustererInstance')
+                          .mockImplementation(() => instancePromise);
+
+          const markerCluster: Partial<AgmMarkerCluster> = {};
+
+          // negative case
+          markerCluster.calculator = null;
+          markerManager.setCalculator(markerCluster as AgmMarkerCluster);
+          await instancePromise;
+          expect(mockClusterer.setCalculator).not.toHaveBeenCalled();
+
+          // positive case
+          markerCluster.calculator = jest.fn();
+          markerManager.setCalculator(markerCluster as AgmMarkerCluster);
+          await instancePromise;
+          expect(mockClusterer.setCalculator).toHaveBeenCalledTimes(1);
+
+          spy.mockRestore();
+        }));
   });
 });
