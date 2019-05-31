@@ -10,7 +10,16 @@ Angular 2+ components for Google Maps. (Previously known as angular2-google-maps
 
 -----
 
+## AGM is looking for Core Team Members!
+
+This project needs much more time than initially planned. To be able to maintain the project in an acceptable quality, I'm looking for core team members that are willing to review pull requests, triaging issues and helping with documention.  
+**If you want to help, please send me a DM on Twitter: [@Sebholstein](https://twitter.com/Sebholstein).**
+
+-----
+
 [![Build Status](https://travis-ci.org/SebastianM/angular-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular-google-maps) [![Questions?: join the chat](https://img.shields.io/badge/questions%3F-join%20the%20chat-blue.svg)](https://discord.gg/XAr2ACE) [![npm version](https://badge.fury.io/js/%40agm%2Fcore.svg)](https://www.npmjs.com/package/@agm/core) ![supported angular versions: 5+](https://img.shields.io/badge/supported%20angular%20versions-5+-green.svg)
+
+----
 
 ## Packages
 
@@ -39,7 +48,3 @@ npm install @agm/core
 ```
 
 You should also checkout the [Getting started](https://angular-maps.com/guides/getting-started/) guide for further information.
-
-## Contributions
-
-Please see the [contribution guidelines](CONTRIBUTING.md) for more details.
