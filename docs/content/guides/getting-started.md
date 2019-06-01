@@ -18,7 +18,7 @@ If you just want to play with AGM and don't want to set up a full project with N
 
 There's also a really great video tutorial that follows exactly this guide. So if you prefer videos, we recommend watching this tutorial:
 
-[![Google Maps & Angular | ANGULAR SNIPPETS](http://img.youtube.com/vi/lApggVS0icc/0.jpg)](http://www.youtube.com/watch?v=lApggVS0icc "")
+[![Google Maps & Angular | ANGULAR SNIPPETS](https://img.youtube.com/vi/lApggVS0icc/0.jpg)](https://www.youtube.com/watch?v=lApggVS0icc "")
 
 ## Setting up a basic project structure
 
@@ -56,7 +56,7 @@ npm install @agm/core --save
 
 ### Setup @NgModule
 
-Open `src/app/app.module.ts` and import the `AgmCoreModule`.  
+Open `src/app/app.module.ts` and import the `AgmCoreModule`.
 **You neeed to provide a Google Maps API key to be able to see a Map. Get an API key [here](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key).**
 
 ```typescript
@@ -85,7 +85,7 @@ export class AppModule {}
 ```
 
 ### Extending the app component
-Angular CLI already created an app component the we'll now use to create our first google map.  
+Angular CLI already created an app component the we'll now use to create our first google map.
 Open the file `src/app/app.component.ts` and modify it like below:
 
 ```typescript

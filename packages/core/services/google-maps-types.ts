@@ -20,6 +20,7 @@ export interface LatLng {
   constructor(lat: number, lng: number): void;
   lat(): number;
   lng(): number;
+  toJSON(): any;
   toString(): string;
 }
 
@@ -186,6 +187,7 @@ export interface MapOptions {
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
   gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  restriction?: MapRestriction;
 }
 
 export interface MapTypeStyle {
@@ -230,6 +232,25 @@ export interface InfoWindow extends MVCObject {
 }
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
+
+export interface MVCArray<T> extends MVCObject {
+  clear(): void;
+  getArray(): Array<T>;
+  getAt(i: number): T;
+  getLength(): number;
+  insertAt(i: number, elem: T): void;
+  pop(): T;
+  push(elem: T): number;
+  removeAt(i: number): T;
+  setAt(i: number, elem: T): void;
+  /* tslint:disable */
+  /*
+  * Tslint configuration check-parameters will prompt errors for these lines of code.
+  * https://palantir.github.io/tslint/rules/no-unused-variable/
+  */
+  forEach(callback: (elem: T, i: number) => void): void;
+  /* tslint:enable */
+}
 
 export interface MapsEventListener { remove(): void; }
 
@@ -296,7 +317,7 @@ export interface Polyline extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
+  getPath(): MVCArray<LatLng>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -336,8 +357,8 @@ export interface Polygon extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
-  getPaths(): Array<Array<LatLng>>;
+  getPath(): MVCArray<LatLng>;
+  getPaths(): MVCArray<MVCArray<LatLng>>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -575,4 +596,10 @@ export interface FullscreenControlOptions {
    * The default position is RIGHT_TOP.
    */
   position?: ControlPosition;
+}
+
+/** Options for the restricting the bounds of the map. */
+export interface MapRestriction {
+  latLngBounds: LatLngBounds|LatLngBoundsLiteral;
+  strictBounds?: boolean;
 }

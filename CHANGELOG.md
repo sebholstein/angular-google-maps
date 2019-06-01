@@ -1,3 +1,23 @@
+<a name="1.0.0-beta.6"></a>
+# [1.0.0-beta.6 opal-clarinet](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2019-06-01)
+
+
+### Bug Fixes
+
+* **AgmCircle:** dragstart event misspelled ([8b2f2dc](https://github.com/SebastianM/angular-google-maps/commit/8b2f2dc)), closes [#1537](https://github.com/SebastianM/angular-google-maps/issues/1537)
+* **AgmMap:** _updateBounds not creating newBounds object ([#1553](https://github.com/SebastianM/angular-google-maps/issues/1553)) ([0e8f1ab](https://github.com/SebastianM/angular-google-maps/commit/0e8f1ab))
+* **core/marker:** drag and dragStart outputs ([#1604](https://github.com/SebastianM/angular-google-maps/issues/1604)) ([ba7c97e](https://github.com/SebastianM/angular-google-maps/commit/ba7c97e))
+
+
+### Features
+
+* add experimental angular 7/8 support ([e754bc7](https://github.com/SebastianM/angular-google-maps/commit/e754bc7))
+* **AgmMap:** add area restriction option ([7201a75](https://github.com/SebastianM/angular-google-maps/commit/7201a75)), closes [#1624](https://github.com/SebastianM/angular-google-maps/issues/1624)
+* **AgmMarker:** add drag and dragStart event support ([#1575](https://github.com/SebastianM/angular-google-maps/issues/1575)) ([1e6395d](https://github.com/SebastianM/angular-google-maps/commit/1e6395d))
+* **AgmMarkerCluster:** add calculator option ([#1599](https://github.com/SebastianM/angular-google-maps/issues/1599)) ([03ceb1c](https://github.com/SebastianM/angular-google-maps/commit/03ceb1c))
+* **GoogleMapsAPILoader:** change default API version ([#1577](https://github.com/SebastianM/angular-google-maps/issues/1577)) ([2fc1a21](https://github.com/SebastianM/angular-google-maps/commit/2fc1a21)), closes [#1573](https://github.com/SebastianM/angular-google-maps/issues/1573)
+* **polygon, polyline:** add path change event ([#1643](https://github.com/SebastianM/angular-google-maps/issues/1643)) ([f9352a8](https://github.com/SebastianM/angular-google-maps/commit/f9352a8))
+
 <a name="1.0.0-beta.5"></a>
 # [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
 
@@ -77,7 +97,7 @@ Angular 4.x is not officially supported anymore. Please update to Angular 5.x or
 * **snazzy-info-window:** support angular 4.x and 5.x ([28c9646](https://github.com/SebastianM/angular-google-maps/commit/28c9646))
 
 ### BREAKING CHANGES
-Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x. 
+Angular 2.x is not officially supported anymore. Please update to Angular 4.x or 5.x.
 
 
 <a name="1.0.0-beta.1"></a>
@@ -161,7 +181,7 @@ You can simply migrate by search/replace these class/selector names.
 
 The package structure also changes. The root directory now contains **esm** code (ES5 code with ES2015 modules).
 
-**A CommonJS compatible format and TS are not part of the package any more!  
+**A CommonJS compatible format and TS are not part of the package any more!
 This change aligns with structure of the @angular packages.**
 
 The styling of the maps is now more intuitive.
@@ -541,17 +561,17 @@ New:
 import {SebmGoogleMap} from 'angular2-google-maps/directives/google-map';
 ```
 
-* The module name has changed. So you have to change your import path.  
-  old: `angular2_google_maps/angular2_google_maps`  
+* The module name has changed. So you have to change your import path.
+  old: `angular2_google_maps/angular2_google_maps`
   new: `angular2-google-maps/core`
 * ES5 files that can be consumed using CommonJS are now in the root directory (old path was `/cjs/angular2_google_maps`)
 * The ES6 files directory has changed:
-  Old dir: `/es6/angular2_google_maps`  
+  Old dir: `/es6/angular2_google_maps`
   New dir: `/es6`
-* The TypeScript files directory has changed:  
-  Old dir: `/ts/angular2_google_maps`  
+* The TypeScript files directory has changed:
+  Old dir: `/ts/angular2_google_maps`
   New dir: `/ts`
-* The `/typings` directory with bundled typings was deleted.  
+* The `/typings` directory with bundled typings was deleted.
   (Typings are now in the root directory seperated by file)
 
 
