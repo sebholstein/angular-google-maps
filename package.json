@@ -93,7 +93,7 @@
     "ts-loader": "^4.3.0",
     "tslint": "^5.8.0",
     "tslint-loader": "^3.4.3",
-    "typescript": "^3.2.2",
+    "typescript": "~3.2.2",
     "webpack": "4.8.0",
     "zone.js": "^0.8.26"
   },

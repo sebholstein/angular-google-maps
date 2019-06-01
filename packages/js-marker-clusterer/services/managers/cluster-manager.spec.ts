@@ -234,7 +234,7 @@ describe('ClusterManager', () => {
           await instancePromise;
           expect(mockClusterer.setCalculator).toHaveBeenCalledTimes(1);
 
-          spy.mockRestore();
+          spy.mockReset();
         }));
   });
 });
