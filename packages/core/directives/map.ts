@@ -1,5 +1,3 @@
-/// <reference types="@types/googlemaps" />
-
 import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -7,8 +5,7 @@ import { MouseEvent } from '../map-types';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
 import {
   FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions
-} from '../services/google-maps-types';
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
 import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
 import { CircleManager } from '../services/managers/circle-manager';
 import { RectangleManager } from '../services/managers/rectangle-manager';
@@ -56,8 +53,7 @@ declare var google: any;
     // todo: deprecated - we will remove it with the next version
     '[class.sebm-google-map-container]': 'true'
   },
-  styles:    [
-      `
+  styles:    [`
       .agm-map-container-inner {
         width: inherit;
         height: inherit;
@@ -105,7 +101,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Enables/disables if map is draggable.
    */
-    // tslint:disable-next-line:no-input-rename
+  // tslint:disable-next-line:no-input-rename
   @Input('mapDraggable') draggable: boolean = true;
 
   /**
@@ -191,7 +187,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * Sets the viewport to contain the given bounds.
    * If this option to `true`, the bounds get automatically computed from all elements that use the {@link AgmFitBounds} directive.
    */
-  @Input() fitBounds: LatLngBoundsLiteral | LatLngBounds | boolean = false;
+  @Input() fitBounds: LatLngBoundsLiteral|LatLngBounds|boolean = false;
 
   /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
@@ -216,7 +212,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The initial enabled/disabled state of the Pan control.
    */
-  @Input() panControl: boolean = false;
+  @Input() panControl: boolean  = false;
 
   /**
    * Options for the Pan control.
@@ -236,7 +232,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The initial enabled/disabled state of the Fullscreen control.
    */
-  @Input() fullscreenControl: boolean = false;
+  @Input() fullscreenControl: boolean  = false;
 
   /**
    * Options for the Fullscreen control.
@@ -246,7 +242,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The map mapTypeId. Defaults to 'roadmap'.
    */
-  @Input() mapTypeId: 'roadmap' | 'hybrid' | 'satellite' | 'terrain' | string = 'roadmap';
+  @Input() mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
@@ -257,7 +253,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * A map icon represents a point of interest, also known as a POI.
    * When map icons are clickable by default, an info window is displayed.
-   * When this property is set to npm run buildfalse, the info window will not be shown but the click event
+   * When this property is set to false, the info window will not be shown but the click event
    * will still fire
    */
   @Input() showDefaultInfoWindow: boolean = true;
@@ -270,7 +266,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * - 'none'        (The map cannot be panned or zoomed by user gestures.)
    * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
    */
-  @Input() gestureHandling: 'cooperative' | 'greedy' | 'none' | 'auto' = 'auto';
+  @Input() gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
 
   /**
    * Map option attributes that can change over time
@@ -281,7 +277,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'isToShowDefaultInfoWindowForIcons', 'gestureHandling'
+    'mapTypeId', 'clickableIcons', 'gestureHandling'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -348,37 +344,36 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, {
-      center:                            { lat: this.latitude || 0, lng: this.longitude || 0 },
-      zoom:                              this.zoom,
-      minZoom:                           this.minZoom,
-      maxZoom:                           this.maxZoom,
-      disableDefaultUI:                  this.disableDefaultUI,
-      disableDoubleClickZoom:            this.disableDoubleClickZoom,
-      scrollwheel:                       this.scrollwheel,
-      backgroundColor:                   this.backgroundColor,
-      draggable:                         this.draggable,
-      draggableCursor:                   this.draggableCursor,
-      draggingCursor:                    this.draggingCursor,
-      keyboardShortcuts:                 this.keyboardShortcuts,
-      styles:                            this.styles,
-      zoomControl:                       this.zoomControl,
-      zoomControlOptions:                this.zoomControlOptions,
-      streetViewControl:                 this.streetViewControl,
-      streetViewControlOptions:          this.streetViewControlOptions,
-      scaleControl:                      this.scaleControl,
-      scaleControlOptions:               this.scaleControlOptions,
-      mapTypeControl:                    this.mapTypeControl,
-      mapTypeControlOptions:             this.mapTypeControlOptions,
-      panControl:                        this.panControl,
-      panControlOptions:                 this.panControlOptions,
-      rotateControl:                     this.rotateControl,
-      rotateControlOptions:              this.rotateControlOptions,
-      fullscreenControl:                 this.fullscreenControl,
-      fullscreenControlOptions:          this.fullscreenControlOptions,
-      mapTypeId:                         this.mapTypeId,
-      clickableIcons:                    this.clickableIcons,
-      isToShowDefaultInfoWindowForIcons: this.showDefaultInfoWindow,
-      gestureHandling:                   this.gestureHandling
+      center: {lat: this.latitude || 0, lng: this.longitude || 0},
+      zoom: this.zoom,
+      minZoom: this.minZoom,
+      maxZoom: this.maxZoom,
+      disableDefaultUI: this.disableDefaultUI,
+      disableDoubleClickZoom: this.disableDoubleClickZoom,
+      scrollwheel: this.scrollwheel,
+      backgroundColor: this.backgroundColor,
+      draggable: this.draggable,
+      draggableCursor: this.draggableCursor,
+      draggingCursor: this.draggingCursor,
+      keyboardShortcuts: this.keyboardShortcuts,
+      styles: this.styles,
+      zoomControl: this.zoomControl,
+      zoomControlOptions: this.zoomControlOptions,
+      streetViewControl: this.streetViewControl,
+      streetViewControlOptions: this.streetViewControlOptions,
+      scaleControl: this.scaleControl,
+      scaleControlOptions: this.scaleControlOptions,
+      mapTypeControl: this.mapTypeControl,
+      mapTypeControlOptions: this.mapTypeControlOptions,
+      panControl: this.panControl,
+      panControlOptions: this.panControlOptions,
+      rotateControl: this.rotateControl,
+      rotateControlOptions: this.rotateControlOptions,
+      fullscreenControl: this.fullscreenControl,
+      fullscreenControlOptions: this.fullscreenControlOptions,
+      mapTypeId: this.mapTypeId,
+      clickableIcons: this.clickableIcons,
+      gestureHandling: this.gestureHandling
     })
       .then(() => this._mapsWrapper.getNativeMap())
       .then(map => this.mapReady.emit(map));
@@ -411,12 +406,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _updateMapOptionsChanges(changes: SimpleChanges) {
-    let options: { [propName: string]: any } = {};
+    let options: {[propName: string]: any} = {};
     let optionKeys =
       Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
-    optionKeys.forEach((k) => {
-      options[k] = changes[k].currentValue;
-    });
+    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
   }
 
@@ -443,7 +436,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _updatePosition(changes: SimpleChanges) {
     if (changes['latitude'] == null && changes['longitude'] == null &&
-      !changes['fitBounds']) {
+        !changes['fitBounds']) {
       // no position update needed
       return;
     }
@@ -491,7 +484,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => this._updateBounds(b));
   }
 
-  protected _updateBounds(bounds: LatLngBounds | LatLngBoundsLiteral) {
+  protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
     if (this._isLatLngBoundsLiteral(bounds) && google && google.maps) {
       const newBounds = new google.maps.LatLngBounds();
       newBounds.union(bounds);
@@ -504,7 +497,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._mapsWrapper.fitBounds(bounds);
   }
 
-  private _isLatLngBoundsLiteral(bounds: LatLngBounds | LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
+  private _isLatLngBoundsLiteral(bounds: LatLngBounds|LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
     return bounds != null && (<any>bounds).extend === undefined;
   }
 
@@ -513,7 +506,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       this._mapsWrapper.getCenter().then((center: LatLng) => {
         this.latitude = center.lat();
         this.longitude = center.lng();
-        this.centerChange.emit(<LatLngLiteral>{ lat: this.latitude, lng: this.longitude });
+        this.centerChange.emit(<LatLngLiteral>{lat: this.latitude, lng: this.longitude});
       });
     });
     this._observableSubscriptions.push(s);
@@ -522,9 +515,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _handleBoundsChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
       this._mapsWrapper.getBounds().then(
-        (bounds: LatLngBounds) => {
-          this.boundsChange.emit(bounds);
-        });
+        (bounds: LatLngBounds) => { this.boundsChange.emit(bounds); });
     });
     this._observableSubscriptions.push(s);
   }
@@ -532,9 +523,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _handleMapTypeIdChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('maptypeid_changed').subscribe(() => {
       this._mapsWrapper.getMapTypeId().then(
-        (mapTypeId: MapTypeId) => {
-          this.mapTypeIdChange.emit(mapTypeId);
-        });
+        (mapTypeId: MapTypeId) => { this.mapTypeIdChange.emit(mapTypeId); });
     });
     this._observableSubscriptions.push(s);
   }
@@ -551,9 +540,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _handleIdleEvent() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
-      () => {
-        this.idle.emit(void 0);
-      });
+      () => { this.idle.emit(void 0); });
     this._observableSubscriptions.push(s);
   }
 
@@ -571,18 +558,18 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     ];
 
     events.forEach((e: Event) => {
-      const s = this._mapsWrapper.subscribeToMapEvent<google.maps.MouseEvent>(e.name).subscribe(
-        (event: google.maps.MouseEvent) => {
+      const s = this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
+        (event: {latLng: LatLng}) => {
           let value: MouseEvent = {
             coords: {
               lat: event.latLng.lat(),
               lng: event.latLng.lng()
             },
-            placeId: (<google.maps.IconMouseEvent>event).placeId
+            placeId: (<{latLng: LatLng, placeId: string}>event).placeId
           };
-          // we cant use instanceOf since the IconMouseEvent is an interface
+          // the placeId will be undefined in case the event was not an IconMouseEvent (google types)
           if (value.placeId && !this.showDefaultInfoWindow) {
-            event.stop();
+            (<any>event).stop();
           }
           e.emitter.emit(value);
         });
