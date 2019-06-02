@@ -187,6 +187,7 @@ export interface MapOptions {
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
   gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  restriction?: MapRestriction;
 }
 
 export interface MapTypeStyle {
@@ -595,4 +596,10 @@ export interface FullscreenControlOptions {
    * The default position is RIGHT_TOP.
    */
   position?: ControlPosition;
+}
+
+/** Options for the restricting the bounds of the map. */
+export interface MapRestriction {
+  latLngBounds: LatLngBounds|LatLngBoundsLiteral;
+  strictBounds?: boolean;
 }
