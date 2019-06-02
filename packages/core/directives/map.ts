@@ -1,11 +1,12 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output, NgZone } from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {
-  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
+  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions, MapRestriction,
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions
+} from '../services/google-maps-types';
 import {LatLngBounds, LatLngBoundsLiteral, MapTypeStyle} from '../services/google-maps-types';
 import {CircleManager} from '../services/managers/circle-manager';
 import {RectangleManager} from '../services/managers/rectangle-manager';
@@ -259,6 +260,27 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Input() gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
 
+    /**
+     * Controls the automatic switching behavior for the angle of incidence of
+     * the map. The only allowed values are 0 and 45. The value 0 causes the map
+     * to always use a 0° overhead view regardless of the zoom level and
+     * viewport. The value 45 causes the tilt angle to automatically switch to
+     * 45 whenever 45° imagery is available for the current zoom level and
+     * viewport, and switch back to 0 whenever 45° imagery is not available
+     * (this is the default behavior). 45° imagery is only available for
+     * satellite and hybrid map types, within some locations, and at some zoom
+     * levels. Note: getTilt returns the current tilt angle, not the value
+     * specified by this option. Because getTilt and this option refer to
+     * different things, do not bind() the tilt property; doing so may yield
+     * unpredictable effects. (Default of AGM is 0 (disabled). Enable it with value 45.)
+     */
+  @Input() tilt: number = 0;
+
+  /**
+   * Options for restricting the bounds of the map.
+   * User cannot pan or zoom away from restricted area.
+   */
+  @Input() restriction: MapRestriction;
   /**
    * Map option attributes that can change over time
    */
@@ -268,7 +290,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'gestureHandling'
+    'mapTypeId', 'clickableIcons', 'gestureHandling', 'tilt', 'restriction'
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -323,7 +345,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService) {}
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService, private _zone: NgZone) {}
 
   /** @internal */
   ngOnInit() {
@@ -363,7 +385,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       fullscreenControlOptions: this.fullscreenControlOptions,
       mapTypeId: this.mapTypeId,
       clickableIcons: this.clickableIcons,
-      gestureHandling: this.gestureHandling
+      gestureHandling: this.gestureHandling,
+      tilt: this.tilt,
+      restriction: this.restriction,
     })
       .then(() => this._mapsWrapper.getNativeMap())
       .then(map => this.mapReady.emit(map));
@@ -471,7 +495,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _subscribeToFitBoundsUpdates() {
-    this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => this._updateBounds(b));
+    this._zone.runOutsideAngular(() => {
+      this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => {
+        this._zone.run(() => this._updateBounds(b));
+      });
+    });
   }
 
   protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
