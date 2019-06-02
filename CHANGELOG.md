@@ -1,5 +1,22 @@
 <a name="1.0.0-beta.6"></a>
-# [1.0.0-beta.6](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2018-11-13)
+# [1.0.0-beta.6 opal-clarinet](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2019-06-01)
+
+
+### Bug Fixes
+
+* **AgmCircle:** dragstart event misspelled ([8b2f2dc](https://github.com/SebastianM/angular-google-maps/commit/8b2f2dc)), closes [#1537](https://github.com/SebastianM/angular-google-maps/issues/1537)
+* **AgmMap:** _updateBounds not creating newBounds object ([#1553](https://github.com/SebastianM/angular-google-maps/issues/1553)) ([0e8f1ab](https://github.com/SebastianM/angular-google-maps/commit/0e8f1ab))
+* **core/marker:** drag and dragStart outputs ([#1604](https://github.com/SebastianM/angular-google-maps/issues/1604)) ([ba7c97e](https://github.com/SebastianM/angular-google-maps/commit/ba7c97e))
+
+
+### Features
+
+* add experimental angular 7/8 support ([e754bc7](https://github.com/SebastianM/angular-google-maps/commit/e754bc7))
+* **AgmMap:** add area restriction option ([7201a75](https://github.com/SebastianM/angular-google-maps/commit/7201a75)), closes [#1624](https://github.com/SebastianM/angular-google-maps/issues/1624)
+* **AgmMarker:** add drag and dragStart event support ([#1575](https://github.com/SebastianM/angular-google-maps/issues/1575)) ([1e6395d](https://github.com/SebastianM/angular-google-maps/commit/1e6395d))
+* **AgmMarkerCluster:** add calculator option ([#1599](https://github.com/SebastianM/angular-google-maps/issues/1599)) ([03ceb1c](https://github.com/SebastianM/angular-google-maps/commit/03ceb1c))
+* **GoogleMapsAPILoader:** change default API version ([#1577](https://github.com/SebastianM/angular-google-maps/issues/1577)) ([2fc1a21](https://github.com/SebastianM/angular-google-maps/commit/2fc1a21)), closes [#1573](https://github.com/SebastianM/angular-google-maps/issues/1573)
+* **polygon, polyline:** add path change event ([#1643](https://github.com/SebastianM/angular-google-maps/issues/1643)) ([f9352a8](https://github.com/SebastianM/angular-google-maps/commit/f9352a8))
 
 <a name="1.0.0-beta.5"></a>
 # [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
