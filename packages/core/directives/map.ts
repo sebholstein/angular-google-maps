@@ -43,32 +43,31 @@ declare var google: any;
  * ```
  */
 @Component({
-  selector:  'agm-map',
+  selector: 'agm-map',
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
     PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, DataLayerManager,
     FitBoundsService
   ],
-  host:      {
+  host: {
     // todo: deprecated - we will remove it with the next version
     '[class.sebm-google-map-container]': 'true'
   },
-  styles:    [`
-      .agm-map-container-inner {
-        width: inherit;
-        height: inherit;
-      }
-
-      .agm-map-content {
-        display: none;
-      }
-    `],
-  template:  `
-               <div class='agm-map-container-inner sebm-google-map-container-inner'></div>
-               <div class='agm-map-content'>
-                 <ng-content></ng-content>
-               </div>
-             `
+  styles: [`
+    .agm-map-container-inner {
+      width: inherit;
+      height: inherit;
+    }
+    .agm-map-content {
+      display:none;
+    }
+  `],
+  template: `
+              <div class='agm-map-container-inner sebm-google-map-container-inner'></div>
+              <div class='agm-map-content'>
+                <ng-content></ng-content>
+              </div>
+  `
 })
 export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
@@ -552,9 +551,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     type Event = { name: string, emitter: Emitter };
 
     const events: Event[] = [
-      { name: 'click', emitter: this.mapClick },
-      { name: 'rightclick', emitter: this.mapRightClick },
-      { name: 'dblclick', emitter: this.mapDblClick }
+      {name: 'click', emitter: this.mapClick},
+      {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'dblclick', emitter: this.mapDblClick},
     ];
 
     events.forEach((e: Event) => {
