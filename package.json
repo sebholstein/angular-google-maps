@@ -49,8 +49,8 @@
   },
   "homepage": "https://angular-maps.com",
   "peerDependencies": {
-    "@angular/common": "^6.0.0 || ^7.0.0",
-    "@angular/core": "^6.0.0 || ^7.0.0"
+    "@angular/common": "^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
     "@angular/animations": "^7.0.0",
@@ -93,15 +93,15 @@
     "ts-loader": "^4.3.0",
     "tslint": "^5.8.0",
     "tslint-loader": "^3.4.3",
-    "typescript": "^3.2.2",
+    "typescript": "~3.2.2",
     "webpack": "4.8.0",
     "zone.js": "^0.8.26"
   },
   "jspm": {
     "jspmNodeConversion": false,
     "dependencies": {
-      "@angular/common": "^6.0.0 || ^7.0.0",
-      "@angular/core": "^6.0.0 || ^7.0.0"
+      "@angular/common": "^6.0.0 || ^7.0.0 || ^8.0.0",
+      "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0"
     }
   }
 }
