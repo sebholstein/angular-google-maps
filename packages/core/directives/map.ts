@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output, NgZone } from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {MouseEvent} from '../map-types';
@@ -329,7 +329,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() mapReady: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService) {}
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService, private _zone: NgZone) {}
 
   /** @internal */
   ngOnInit() {
@@ -478,7 +478,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _subscribeToFitBoundsUpdates() {
-    this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => this._updateBounds(b));
+    this._zone.runOutsideAngular(() => {
+      this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => {
+        this._zone.run(() => this._updateBounds(b));
+      });
+    });
   }
 
   protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
