@@ -187,6 +187,7 @@ export interface MapOptions {
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
   gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  tilt?: number;
   restriction?: MapRestriction;
 }
 
