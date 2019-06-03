@@ -97,8 +97,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * are enforced.
    */
   @Input() maxZoom: number;
-  
-   /**
+
+  /**
    * The control size for the default map controls. Only governs the controls made by the Maps API itself
    */
   @Input() controlSize: number;
