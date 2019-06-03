@@ -98,6 +98,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   @Input() maxZoom: number;
 
   /**
+   * The control size for the default map controls. Only governs the controls made by the Maps API itself
+   */
+  @Input() controlSize: number;
+
+  /**
    * Enables/disables if map is draggable.
    */
   // tslint:disable-next-line:no-input-rename
@@ -368,6 +373,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       zoom: this.zoom,
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
+      controlSize: this.controlSize,
       disableDefaultUI: this.disableDefaultUI,
       disableDoubleClickZoom: this.disableDoubleClickZoom,
       scrollwheel: this.scrollwheel,
