@@ -293,7 +293,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
-    'maxZoom', 'controlSize', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
+    'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
     'mapTypeId', 'clickableIcons', 'gestureHandling', 'tilt', 'restriction'
   ];
