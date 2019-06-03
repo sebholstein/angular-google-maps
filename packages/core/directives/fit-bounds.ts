@@ -1,8 +1,8 @@
-import { Directive, OnInit, Self, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Directive, Input, OnChanges, OnDestroy, OnInit, Self } from '@angular/core';
+import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { FitBoundsService, FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
+import { FitBoundsAccessor, FitBoundsDetails, FitBoundsService } from '../services/fit-bounds';
 
 /**
  * Adds the given directive to the auto fit bounds feature when the value is true.
@@ -11,27 +11,27 @@ import { FitBoundsService, FitBoundsAccessor, FitBoundsDetails } from '../servic
  * <agm-marker [agmFitBounds]="true"></agm-marker>
  */
 @Directive({
-  selector: '[agmFitBounds]'
+  selector: '[agmFitBounds]',
 })
 export class AgmFitBounds implements OnInit, OnDestroy, OnChanges {
   /**
    * If the value is true, the element gets added to the bounds of the map.
    * Default: true.
    */
-  @Input() agmFitBounds: boolean = true;
+  @Input() agmFitBounds = true;
 
   private _destroyed$: Subject<void> = new Subject<void>();
   private _latestFitBoundsDetails: FitBoundsDetails | null = null;
 
   constructor(
     @Self() private readonly _fitBoundsAccessor: FitBoundsAccessor,
-    private readonly _fitBoundsService: FitBoundsService
+    private readonly _fitBoundsService: FitBoundsService,
   ) {}
 
   /**
    * @internal
    */
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this._updateBounds();
   }
 
@@ -44,10 +44,9 @@ export class AgmFitBounds implements OnInit, OnDestroy, OnChanges {
       .pipe(
         distinctUntilChanged(
           (x: FitBoundsDetails, y: FitBoundsDetails) =>
-            x.latLng.lat === y.latLng.lat &&
-            x.latLng.lng === y.latLng.lng
+            x.latLng.lat === y.latLng.lat && x.latLng.lng === y.latLng.lng,
         ),
-        takeUntil(this._destroyed$)
+        takeUntil(this._destroyed$),
       )
       .subscribe(details => this._updateBounds(details));
   }

@@ -1,13 +1,12 @@
-import {Directive, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Input, Output} from '@angular/core';
-import {Subscription} from 'rxjs';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import {MouseEvent} from '../map-types';
-import {LatLng, LatLngBounds, LatLngLiteral} from '../services/google-maps-types';
-import {MouseEvent as MapMouseEvent} from '../services/google-maps-types';
-import {CircleManager} from '../services/managers/circle-manager';
+import { MouseEvent } from '../map-types';
+import { LatLng, LatLngBounds, LatLngLiteral, MouseEvent as MapMouseEvent } from '../services/google-maps-types';
+import { CircleManager } from '../services/managers/circle-manager';
 
 @Directive({
-  selector: 'agm-circle'
+  selector: 'agm-circle',
 })
 export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
@@ -23,19 +22,19 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * Indicates whether this Circle handles mouse events. Defaults to true.
    */
-  @Input() clickable: boolean = true;
+  @Input() clickable = true;
 
   /**
    * If set to true, the user can drag this circle over the map. Defaults to false.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('circleDraggable') draggable: boolean = false;
+  @Input('circleDraggable') draggable = false;
 
   /**
    * If set to true, the user can edit this circle by dragging the control points shown at
    * the center and around the circumference of the circle. Defaults to false.
    */
-  @Input() editable: boolean = false;
+  @Input() editable = false;
 
   /**
    * The fill color. All CSS3 colors are supported except for extended named colors.
@@ -50,7 +49,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * The radius in meters on the Earth's surface.
    */
-  @Input() radius: number = 0;
+  @Input() radius = 0;
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended named colors.
@@ -66,17 +65,17 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
    * The stroke position. Defaults to CENTER.
    * This property is not supported on Internet Explorer 8 and earlier.
    */
-  @Input() strokePosition: 'CENTER'|'INSIDE'|'OUTSIDE' = 'CENTER';
+  @Input() strokePosition: 'CENTER' | 'INSIDE' | 'OUTSIDE' = 'CENTER';
 
   /**
    * The stroke width in pixels.
    */
-  @Input() strokeWeight: number = 0;
+  @Input() strokeWeight = 0;
 
   /**
    * Whether this circle is visible on the map. Defaults to true.
    */
-  @Input() visible: boolean = true;
+  @Input() visible = true;
 
   /**
    * The zIndex compared to other polys.
@@ -148,11 +147,11 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
    */
   @Output() rightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  private _circleAddedToManager: boolean = false;
+  private _circleAddedToManager = false;
 
   private static _mapOptions: string[] = [
     'fillColor', 'fillOpacity', 'strokeColor', 'strokeOpacity', 'strokePosition', 'strokeWeight',
-    'visible', 'zIndex', 'clickable'
+    'visible', 'zIndex', 'clickable',
   ];
 
   private _eventSubscriptions: Subscription[] = [];
@@ -225,11 +224,11 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
               case 'center_changed':
                 this._manager.getCenter(this).then(
                     (center) =>
-                        eventEmitter.emit(<LatLngLiteral>{lat: center.lat(), lng: center.lng()}));
+                        eventEmitter.emit({lat: center.lat(), lng: center.lng()} as LatLngLiteral));
                 break;
               default:
                 eventEmitter.emit(
-                    <MouseEvent>{coords: {lat: value.latLng.lat(), lng: value.latLng.lng()}});
+                    {coords: {lat: value.latLng.lat(), lng: value.latLng.lng()}} as MouseEvent);
             }
           }));
     });

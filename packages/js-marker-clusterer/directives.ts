@@ -1,1 +1,1 @@
-export {AgmMarkerCluster} from './directives/marker-cluster';
+export { AgmMarkerCluster } from './directives/marker-cluster';

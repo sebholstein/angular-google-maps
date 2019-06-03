@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { DataMouseEvent, DataOptions } from './../services/google-maps-types';
@@ -197,12 +197,12 @@ let layerId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-data-layer'
+  selector: 'agm-data-layer',
 })
 export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   private static _dataOptionsAttributes: Array<string> = ['style'];
 
-  private _addedToManager: boolean = false;
+  private _addedToManager = false;
   private _id: string = (layerId++).toString();
   private _subscriptions: Subscription[] = [];
 
@@ -268,7 +268,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
 
     let dataOptions: DataOptions = {};
 
-    AgmDataLayer._dataOptionsAttributes.forEach(k => (<any>dataOptions)[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (<any>this)[k]);
+    AgmDataLayer._dataOptionsAttributes.forEach(k => (dataOptions as any)[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (this as any)[k]);
 
     this._manager.setDataOptions(this, dataOptions);
   }
