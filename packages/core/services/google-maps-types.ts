@@ -161,7 +161,7 @@ export interface MapOptions {
   zoom?: number;
   minZoom?: number;
   maxZoom?: number;
-  controlSize: number;
+  controlSize?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
   scrollwheel?: boolean;
