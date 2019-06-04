@@ -55,7 +55,7 @@ describe('Service: LazyMapsAPILoader', () => {
       expect(scriptElem.src).toBeDefined();
       expect(scriptElem.id).toEqual('agmGoogleMapsApiScript');
       expect(scriptElem.src).toContain('https://maps.googleapis.com/maps/api/js');
-      expect(scriptElem.src).toContain('v=3');
+      expect(scriptElem.src).toContain('v=quarterly');
       expect(scriptElem.src).toContain('callback=agmLazyMapsAPILoader');
       expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
   }));
