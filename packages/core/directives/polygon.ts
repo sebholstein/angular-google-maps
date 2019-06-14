@@ -1,7 +1,7 @@
 import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
+import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions, MVCArray } from '../services/google-maps-types';
 import { PolygonManager } from '../services/managers/polygon-manager';
 import { MvcEventType } from '../utils/mvcarray-utils';
 
@@ -99,15 +99,16 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The ordered sequence of coordinates that designates a closed loop.
    * Unlike polylines, a polygon may consist of one or more paths.
-   *  As a result, the paths property may specify one or more arrays of
+   * As a result, the paths property may specify one or more arrays of
    * LatLng coordinates. Paths are closed automatically; do not repeat the
    * first vertex of the path as the last vertex. Simple polygons may be
    * defined using a single array of LatLngs. More complex polygons may
-   * specify an array of arrays. Any simple arrays are converted into Arrays.
-   * Inserting or removing LatLngs from the Array will automatically update
+   * specify an array of arrays. Any simple arrays are converted into MVCArrays.
+   * Inserting or removing LatLngs from the MVCArray will automatically update
    * the polygon on the map.
    */
-  @Input() paths: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>> = [];
+  @Input() paths: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>> |
+              MVCArray<LatLng | LatLngLiteral> | MVCArray<MVCArray<LatLng | LatLngLiteral>> = [];
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended
@@ -191,9 +192,16 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This event is fired after Polygon first path changes.
+   * This event is fired after Polygon paths change.
+   *
+   * @deprecated use #pathsChange instead
    */
   @Output() polyPathsChange = new EventEmitter<PolygonPathEvent<any>>();
+
+  /**
+   * This event is fired after Polygon paths change. Compatible for two way binding
+   */
+  @Output() pathsChange = new EventEmitter<LatLng[][]>();
 
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
@@ -250,7 +258,10 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
 
     this._polygonManager.createPathEventObservable(this)
     .then(paths$ => {
-      const os = paths$.subscribe(pathEvent => this.polyPathsChange.emit(pathEvent));
+      const os = paths$.subscribe(pathEvent => {
+        this.polyPathsChange.emit(pathEvent);
+        this.pathsChange.emit(pathEvent.newArr);
+      });
       this._subscriptions.push(os);
     });
   }

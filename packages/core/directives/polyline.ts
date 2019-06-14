@@ -149,6 +149,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   @Output() polyPathChange = new EventEmitter<PathEvent>();
 
   /**
+   * This event is fired after Polyline's path changes. Compatible for two way binding
+   */
+  @Output() pathChange = new EventEmitter<LatLng[]>();
+
+  /**
    * @internal
    */
   @ContentChildren(AgmPolylinePoint) points: QueryList<AgmPolylinePoint>;
@@ -224,7 +229,10 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     });
 
     this._polylineManager.createPathEventObservable(this).then((ob$) => {
-      const os = ob$.subscribe(pathEvent => this.polyPathChange.emit(pathEvent));
+      const os = ob$.subscribe(pathEvent => {
+        this.polyPathChange.emit(pathEvent);
+        this.pathChange.emit(pathEvent.newArr);
+      });
       this._subscriptions.push(os);
     });
   }
