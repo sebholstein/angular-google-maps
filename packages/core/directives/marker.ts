@@ -6,6 +6,7 @@ import { FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 import * as mapTypes from '../services/google-maps-types';
 import { MarkerManager } from '../services/managers/marker-manager';
 import { AgmInfoWindow } from './info-window';
+import { GoogleSymbol, MarkerIcon } from "@agm/core/services/google-maps-types";
 
 let markerId = 0;
 
@@ -72,8 +73,10 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
 
   /**
    * Icon (the URL of the image) for the foreground.
+   * Can also be a MarkerIcon (google.maps.Icon in Google Maps Javascript api)
+   * @see <a href="https://developers.google.com/maps/documentation/javascript/reference/marker#Icon">google.maps.Icon</a>
    */
-  @Input() iconUrl: string;
+  @Input() iconUrl: string | MarkerIcon;
 
   /**
    * If true, the marker is visible
