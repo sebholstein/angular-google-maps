@@ -13,7 +13,9 @@ describe('MarkerManager', () => {
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
         MarkerManager, {
           provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
+          useValue: {
+            createMarker: jest.fn()
+          }
         }
       ]
     });
@@ -39,7 +41,8 @@ describe('MarkerManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
            }));
   });
@@ -54,8 +57,10 @@ describe('MarkerManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              markerManager.deleteMarker(newMarker).then(
@@ -73,8 +78,11 @@ describe('MarkerManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setIcon']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+              setIcon: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -86,7 +94,8 @@ describe('MarkerManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
@@ -105,9 +114,13 @@ describe('MarkerManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: Marker =
-                 jasmine.createSpyObj('Marker', ['setMap', 'setOpacity']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+              setOpacity: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -119,7 +132,8 @@ describe('MarkerManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              const opacity = 0.4;
              newMarker.opacity = opacity;
@@ -139,9 +153,11 @@ describe('MarkerManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: Marker =
-                 jasmine.createSpyObj('Marker', ['setMap', 'setVisible']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+              setVisible: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -153,7 +169,8 @@ describe('MarkerManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              newMarker.visible = true;
              return markerManager.updateVisible(newMarker).then(
@@ -172,8 +189,11 @@ describe('MarkerManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setZIndex']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+              setZIndex: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -185,7 +205,8 @@ describe('MarkerManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
+               animation: undefined
              });
              const zIndex = 10;
              newMarker.zIndex = zIndex;

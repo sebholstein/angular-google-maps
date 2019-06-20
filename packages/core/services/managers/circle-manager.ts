@@ -1,7 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 import {AgmCircle} from '../../directives/circle';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
@@ -30,7 +29,7 @@ export class CircleManager {
       visible: circle.visible,
       zIndex: circle.zIndex
     }));
-  };
+  }
 
   /**
    * Removes the given circle from the map.
@@ -44,15 +43,15 @@ export class CircleManager {
 
   setOptions(circle: AgmCircle, options: mapTypes.CircleOptions): Promise<void> {
     return this._circles.get(circle).then((c) => c.setOptions(options));
-  };
+  }
 
   getBounds(circle: AgmCircle): Promise<mapTypes.LatLngBounds> {
     return this._circles.get(circle).then((c) => c.getBounds());
-  };
+  }
 
   getCenter(circle: AgmCircle): Promise<mapTypes.LatLng> {
     return this._circles.get(circle).then((c) => c.getCenter());
-  };
+  }
 
   getRadius(circle: AgmCircle): Promise<number> {
     return this._circles.get(circle).then((c) => c.getRadius());
@@ -61,26 +60,26 @@ export class CircleManager {
   setCenter(circle: AgmCircle): Promise<void> {
     return this._circles.get(circle).then(
         (c) => { return c.setCenter({lat: circle.latitude, lng: circle.longitude}); });
-  };
+  }
 
   setEditable(circle: AgmCircle): Promise<void> {
     return this._circles.get(circle).then((c) => { return c.setEditable(circle.editable); });
-  };
+  }
 
   setDraggable(circle: AgmCircle): Promise<void> {
     return this._circles.get(circle).then((c) => { return c.setDraggable(circle.draggable); });
-  };
+  }
 
   setVisible(circle: AgmCircle): Promise<void> {
     return this._circles.get(circle).then((c) => { return c.setVisible(circle.visible); });
-  };
+  }
 
   setRadius(circle: AgmCircle): Promise<void> {
     return this._circles.get(circle).then((c) => { return c.setRadius(circle.radius); });
-  };
+  }
 
   createEventObservable<T>(eventName: string, circle: AgmCircle): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((observer: Observer<T>) => {
       let listener: mapTypes.MapsEventListener = null;
       this._circles.get(circle).then((c) => {
         listener = c.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));

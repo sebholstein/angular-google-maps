@@ -54,3 +54,15 @@ When you import the `AgmJsMarkerClustererModule`, you can use the `agmMarkerClus
   </agm-marker-cluster>
 </agm-map>
 ```
+
+### Specifying a custom calculator
+
+If you want to control how the cluster style is calculated, you can pass in a `CalculateFunction` via `calculator`:
+
+```html
+<agm-map [latitude]="0" [longitude]="0">
+  <agm-marker-cluster [calculator]="myCalculatorFn">
+    <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude"></agm-marker>
+  </agm-marker-cluster>
+</agm-map>
+```

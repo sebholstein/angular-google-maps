@@ -8,6 +8,7 @@ export interface GoogleMap extends MVCObject {
   getCenter(): LatLng;
   setCenter(latLng: LatLng|LatLngLiteral): void;
   getBounds(): LatLngBounds;
+  getMapTypeId(): MapTypeId;
   getZoom(): number;
   setOptions(options: MapOptions): void;
   panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
@@ -17,6 +18,8 @@ export interface GoogleMap extends MVCObject {
 export interface LatLng {
   lat(): number;
   lng(): number;
+  toJSON(): any;
+  toString(): string;
 }
 
 export interface Marker extends MVCObject {
@@ -29,6 +32,7 @@ export interface Marker extends MVCObject {
   setOpacity(opacity: number): void;
   setVisible(visible: boolean): void;
   setZIndex(zIndex: number): void;
+  setAnimation(animation: any): void;
   getLabel(): MarkerLabel;
   setClickable(clickable: boolean): void;
 }
@@ -44,6 +48,7 @@ export interface MarkerOptions {
   visible?: boolean;
   zIndex?: number;
   clickable: boolean;
+  animation?: any;
 }
 
 export interface MarkerLabel {
@@ -88,10 +93,40 @@ export interface CircleOptions {
   zIndex?: number;
 }
 
+export interface Rectangle extends MVCObject {
+  getBounds(): LatLngBounds;
+  getDraggable(): boolean;
+  getEditable(): boolean;
+  getMap(): GoogleMap;
+  getVisible(): boolean;
+  setBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  setDraggable(draggable: boolean): void;
+  setEditable(editable: boolean): void;
+  setMap(map: GoogleMap): void;
+  setOptions(options: RectangleOptions): void;
+  setVisible(visible: boolean): void;
+}
+
+export interface RectangleOptions {
+  bounds?: LatLngBounds|LatLngBoundsLiteral;
+  clickable?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor?: string;
+  fillOpacity?: number;
+  map?: GoogleMap;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokeWeight?: number;
+  visible?: boolean;
+  zIndex?: number;
+}
+
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
   equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
-  extend(point: LatLng): void;
+  extend(point: LatLng|LatLngLiteral): void;
   getCenter(): LatLng;
   getNorthEast(): LatLng;
   getSouthWest(): LatLng;
@@ -123,6 +158,7 @@ export interface MapOptions {
   zoom?: number;
   minZoom?: number;
   maxZoom?: number;
+  controlSize?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
   scrollwheel?: boolean;
@@ -149,6 +185,8 @@ export interface MapOptions {
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
   gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  tilt?: number;
+  restriction?: MapRestriction;
 }
 
 export interface MapTypeStyle {
@@ -192,6 +230,25 @@ export interface InfoWindow extends MVCObject {
 }
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
+
+export interface MVCArray<T> extends MVCObject {
+  clear(): void;
+  getArray(): Array<T>;
+  getAt(i: number): T;
+  getLength(): number;
+  insertAt(i: number, elem: T): void;
+  pop(): T;
+  push(elem: T): number;
+  removeAt(i: number): T;
+  setAt(i: number, elem: T): void;
+  /* tslint:disable */
+  /*
+  * Tslint configuration check-parameters will prompt errors for these lines of code.
+  * https://palantir.github.io/tslint/rules/no-unused-variable/
+  */
+  forEach(callback: (elem: T, i: number) => void): void;
+  /* tslint:enable */
+}
 
 export interface MapsEventListener { remove(): void; }
 
@@ -243,7 +300,7 @@ export interface PolylineOptions {
   draggable?: boolean;
   editable?: boolean;
   geodesic?: boolean;
-  icon?: Array<IconSequence>;
+  icons?: Array<IconSequence>;
   map?: GoogleMap;
   path?: Array<LatLng>|Array<LatLng|LatLngLiteral>;
   strokeColor?: string;
@@ -257,7 +314,7 @@ export interface Polyline extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
+  getPath(): MVCArray<LatLng>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -297,8 +354,8 @@ export interface Polygon extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
-  getPaths(): Array<Array<LatLng>>;
+  getPath(): MVCArray<LatLng>;
+  getPaths(): MVCArray<MVCArray<LatLng>>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -395,7 +452,7 @@ export interface Feature extends MVCObject {
   properties: any;
 }
 
-export interface DataOptions{
+export interface DataOptions {
   controlPosition?: ControlPosition;
   controls?: string[];
   drawingMode?: string;
@@ -535,4 +592,10 @@ export interface FullscreenControlOptions {
    * The default position is RIGHT_TOP.
    */
   position?: ControlPosition;
+}
+
+/** Options for the restricting the bounds of the map. */
+export interface MapRestriction {
+  latLngBounds: LatLngBounds|LatLngBoundsLiteral;
+  strictBounds?: boolean;
 }
