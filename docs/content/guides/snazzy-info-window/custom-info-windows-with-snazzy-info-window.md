@@ -55,18 +55,18 @@ There are some basic style that get shipped with the `snazzy-info-window` NPM pa
 node_modules/snazzy-info-window/dist/snazzy-info-window.css
 ```
 
-If you are using Angular CLI, you can simply add this file to your `.angular-cli.json` file like this:
+If you are using Angular CLI, you can simply add this file to your `angular.json` file like this:
 
 ```json
 "styles": [
   "styles.css",
-  "../node_modules/snazzy-info-window/dist/snazzy-info-window.css"
+  "node_modules/snazzy-info-window/dist/snazzy-info-window.css"
 ]
 ```
 
 ## Using the directive with a marker (AgmMarker)
 
-When you import the `AgmSnazzyInfoWindowModule`, you can use the `agmSnazzyInfoWindow` directive  in your template.
+When you import the `AgmSnazzyInfoWindowModule`, you can use the `agmSnazzyInfoWindow` directive in your template.
 
 
 ```html
@@ -81,7 +81,7 @@ When you import the `AgmSnazzyInfoWindowModule`, you can use the `agmSnazzyInfoW
 </agm-map>
 ```
 
-This creates a basic stylable info window that opens when the user clicks on the marker and closes when another snazzy info window opens.
+This creates a basic styled info window that opens when the user clicks on the marker and closes when another snazzy info window opens.
 
 ## Using the directive as a standalone info window
 
@@ -103,4 +103,4 @@ There a two ways to style the snazzy info window:
 
 ### Styling via Angular Inputs
 
-There a sevarel inputs that you can use for styling. [Check out the docs of the `agmSnazzyInfoWindow` directive here](/api-docs/agm-snazzy-info-window/directives/AgmSnazzyInfoWindow.html). 
+There a several inputs that you can use for styling. [Check out the docs of the `agmSnazzyInfoWindow` directive here](https://angular-maps.com/api-docs/agm-snazzy-info-window/components/AgmSnazzyInfoWindow). 
