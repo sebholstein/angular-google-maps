@@ -44,9 +44,6 @@ export class CircleManager {
   }
 
   setOptions(circle: AgmCircle, options: mapTypes.CircleOptions): Promise<void> {
-    if (typeof options.strokePosition === 'string') {
-      options.strokePosition = google.maps.StrokePosition[options.strokePosition];
-    }
     return this._circles.get(circle).then((c) => {
       if (typeof options.strokePosition === 'string') {
         options.strokePosition = google.maps.StrokePosition[options.strokePosition];
