@@ -49,17 +49,14 @@
     "typedef": [
       true,
       "parameter",
-      "property-declaration",
-      "member-variable-declaration"
+      "property-declaration"
     ],
     "typedef-whitespace": [
       true,
       {
         "call-signature": "nospace",
         "index-signature": "nospace",
-        "parameter": "nospace",
-        "property-delcaration": "nospace",
-        "variable-delcaration": "nospace"
+        "parameter": "nospace"
       }
     ],
     "variable-name": [
@@ -74,7 +71,6 @@
       "check-decl",
       "check-operator",
       "check-separator",
-      "check-module",
       "check-type"
     ],
     "component-selector": [true, "element", "agm", "kebab-case"],
@@ -84,7 +80,7 @@
     "no-attribute-parameter-decorator": true,
     "no-input-rename": true,
     "no-output-rename": true,
-    "no-forward-ref": true,
+    "no-forward-ref": false,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "pipe-naming": [true, "camelCase", "agm"],

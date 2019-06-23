@@ -1,6 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {AgmMap} from './directives/map';
 import {AgmCircle} from './directives/circle';
+import {AgmRectangle} from './directives/rectangle';
 import {AgmInfoWindow} from './directives/info-window';
 import {AgmMarker} from './directives/marker';
 import {AgmPolygon} from './directives/polygon';
@@ -13,17 +14,18 @@ import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/m
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
 import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 import {AgmGroundOverlay} from './directives/ground-overlay';
+import {AgmFitBounds} from './directives/fit-bounds';
 
 /**
  * @internal
  */
 export function coreDirectives() {
   return [
-    AgmMap, AgmMarker, AgmInfoWindow, AgmCircle,
+    AgmMap, AgmMarker, AgmInfoWindow, AgmCircle, AgmRectangle,
     AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
-    AgmDataLayer, AgmGroundOverlay
+    AgmDataLayer, AgmFitBounds, AgmGroundOverlay,
   ];
-};
+}
 
 /**
  * The angular-google-maps core module. Contains all Directives/Services/Pipes

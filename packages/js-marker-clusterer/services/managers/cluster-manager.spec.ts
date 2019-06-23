@@ -3,7 +3,7 @@ import {TestBed, async, inject} from '@angular/core/testing';
 
 import {AgmMarker} from '../../../core/directives/marker';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {Marker} from '../../../core/services/google-maps-types';
+import {AgmMarkerCluster} from '../../directives/marker-cluster';
 import {ClusterManager} from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -13,7 +13,9 @@ describe('ClusterManager', () => {
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
         ClusterManager, {
           provide: GoogleMapsAPIWrapper,
-          useValue: jasmine.createSpyObj('GoogleMapsAPIWrapper', ['createMarker'])
+          useValue: {
+            createMarker: jest.fn()
+          }
         }
       ]
     });
@@ -54,8 +56,10 @@ describe('ClusterManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              clusterManager.addMarker(newMarker);
              clusterManager.deleteMarker(newMarker).then(
@@ -73,8 +77,11 @@ describe('ClusterManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setIcon']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+              setIcon: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -105,9 +112,11 @@ describe('ClusterManager', () => {
              newMarker.longitude = 22.3;
              newMarker.label = 'A';
 
-             const markerInstance: Marker =
-                 jasmine.createSpyObj('Marker', ['setMap', 'setOpacity']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+              setMap: jest.fn(),
+              setOpacity: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -139,9 +148,11 @@ describe('ClusterManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: Marker =
-                 jasmine.createSpyObj('Marker', ['setMap', 'setVisible']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance: any = {
+               setMap: jest.fn(),
+               setVisible: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -172,8 +183,11 @@ describe('ClusterManager', () => {
              newMarker.label = 'A';
              newMarker.visible = false;
 
-             const markerInstance: Marker = jasmine.createSpyObj('Marker', ['setMap', 'setZIndex']);
-             (<any>apiWrapper.createMarker).and.returnValue(Promise.resolve(markerInstance));
+             const markerInstance = {
+               setMap: jest.fn(),
+               setZIndex: jest.fn()
+             };
+             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -192,5 +206,35 @@ describe('ClusterManager', () => {
              return markerManager.updateZIndex(newMarker).then(
                  () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
            })));
+  });
+
+  describe('set calculator', () => {
+    it('should call the setCalculator method when the calculator changes and is a function',
+      inject(
+        [ClusterManager],
+        async (markerManager: ClusterManager) => {
+
+          const mockClusterer = { setCalculator: jest.fn() };
+          const instancePromise = Promise.resolve(mockClusterer);
+
+          const spy = jest.spyOn(markerManager, 'getClustererInstance')
+                          .mockImplementation(() => instancePromise);
+
+          const markerCluster: Partial<AgmMarkerCluster> = {};
+
+          // negative case
+          markerCluster.calculator = null;
+          markerManager.setCalculator(markerCluster as AgmMarkerCluster);
+          await instancePromise;
+          expect(mockClusterer.setCalculator).not.toHaveBeenCalled();
+
+          // positive case
+          markerCluster.calculator = jest.fn();
+          markerManager.setCalculator(markerCluster as AgmMarkerCluster);
+          await instancePromise;
+          expect(mockClusterer.setCalculator).toHaveBeenCalledTimes(1);
+
+          spy.mockReset();
+        }));
   });
 });

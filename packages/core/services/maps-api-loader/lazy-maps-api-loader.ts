@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {Inject, Injectable, InjectionToken, Optional} from '@angular/core';
 
 import {DocumentRef, WindowRef} from '../../utils/browser-globals';
 
@@ -14,7 +14,7 @@ export enum GoogleMapsScriptProtocol {
  * Token for the config of the LazyMapsAPILoader. Please provide an object of type {@link
  * LazyMapsAPILoaderConfig}.
  */
-export const LAZY_MAPS_API_CONFIG = new InjectionToken('angular-google-maps LAZY_MAPS_API_CONFIG');
+export const LAZY_MAPS_API_CONFIG = new InjectionToken<LazyMapsAPILoaderConfigLiteral>('angular-google-maps LAZY_MAPS_API_CONFIG');
 
 /**
  * Configuration for the {@link LazyMapsAPILoader}.
@@ -80,12 +80,14 @@ export interface LazyMapsAPILoaderConfigLiteral {
 
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
-  private _scriptLoadingPromise: Promise<void>;
-  private _config: LazyMapsAPILoaderConfigLiteral;
-  private _windowRef: WindowRef;
-  private _documentRef: DocumentRef;
+  protected _scriptLoadingPromise: Promise<void>;
+  protected _config: LazyMapsAPILoaderConfigLiteral;
+  protected _windowRef: WindowRef;
+  protected _documentRef: DocumentRef;
+  protected readonly _SCRIPT_ID: string = 'agmGoogleMapsApiScript';
+  protected readonly callbackName: string = `agmLazyMapsAPILoader`;
 
-  constructor(@Inject(LAZY_MAPS_API_CONFIG) config: any, w: WindowRef, d: DocumentRef) {
+  constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -93,7 +95,20 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   }
 
   load(): Promise<void> {
+    const window = <any>this._windowRef.getNativeWindow();
+    if (window.google && window.google.maps) {
+      // Google maps already loaded on the page.
+      return Promise.resolve();
+    }
+
     if (this._scriptLoadingPromise) {
+      return this._scriptLoadingPromise;
+    }
+
+    // this can happen in HMR situations or Stackblitz.io editors.
+    const scriptOnPage = this._documentRef.getNativeDocument().getElementById(this._SCRIPT_ID);
+    if (scriptOnPage) {
+      this._assignScriptLoadingPromise(scriptOnPage);
       return this._scriptLoadingPromise;
     }
 
@@ -101,24 +116,26 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    const callbackName: string = `angular2GoogleMapsLazyMapsAPILoader`;
-    script.src = this._getScriptSrc(callbackName);
-
-    this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[callbackName] = () => {
-        resolve();
-      };
-
-      script.onerror = (error: Event) => {
-        reject(error);
-      };
-    });
-
+    script.id = this._SCRIPT_ID;
+    script.src = this._getScriptSrc(this.callbackName);
+    this._assignScriptLoadingPromise(script);
     this._documentRef.getNativeDocument().body.appendChild(script);
     return this._scriptLoadingPromise;
   }
 
-  private _getScriptSrc(callbackName: string): string {
+  private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
+    this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
+      (<any>this._windowRef.getNativeWindow())[this.callbackName] = () => {
+        resolve();
+      };
+
+      scriptElem.onerror = (error: Event) => {
+        reject(error);
+      };
+    });
+  }
+
+  protected _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =
         (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
     let protocol: string;
@@ -137,7 +154,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
     const hostAndPath: string = this._config.hostAndPath || 'maps.googleapis.com/maps/api/js';
     const queryParams: {[key: string]: string | Array<string>} = {
-      v: this._config.apiVersion || '3',
+      v: this._config.apiVersion || 'quarterly',
       callback: callbackName,
       key: this._config.apiKey,
       client: this._config.clientId,

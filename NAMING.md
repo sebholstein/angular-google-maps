@@ -1,7 +1,7 @@
 Naming Conventions in angular-google-maps
 ---
 
-Based on the [Angular2](https://github.com/angular/angular/blob/master/NAMING.md) conventions:
+Based on the [Angular](https://github.com/angular/angular/blob/master/NAMING.md) conventions:
 
 In general, this project should follow TypeScript naming conventions.
 See: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines

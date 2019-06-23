@@ -7,12 +7,18 @@ title = "Getting started with Angular Google Maps (AGM)"
 
 ## Playing with Angular Google Maps (AGM)
 
-If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
+If you just want to play with AGM and don't want to set up a full project with NPM, you can use the following Stackblitz. It has all the dependencies to play with Angular, Typescript and of course `angular-google-maps`:
 
 
-<a href="http://plnkr.co/edit/YX7W20?p=preview" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  Play with angular-google-maps on Plunker
+<a href="https://stackblitz.com/edit/angular-google-maps-demo" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Play with AGM on Stackblitz.io
 </a>
+
+## Getting started guide video
+
+There's also a really great video tutorial that follows exactly this guide. So if you prefer videos, we recommend watching this tutorial:
+
+[![Google Maps & Angular | ANGULAR SNIPPETS](https://img.youtube.com/vi/lApggVS0icc/0.jpg)](https://www.youtube.com/watch?v=lApggVS0icc "")
 
 ## Setting up a basic project structure
 
@@ -50,7 +56,7 @@ npm install @agm/core --save
 
 ### Setup @NgModule
 
-Open `src/app/app.module.ts` and import the `AgmCoreModule`.  
+Open `src/app/app.module.ts` and import the `AgmCoreModule`.
 **You neeed to provide a Google Maps API key to be able to see a Map. Get an API key [here](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key).**
 
 ```typescript
@@ -79,7 +85,7 @@ export class AppModule {}
 ```
 
 ### Extending the app component
-Angular CLI already created an app component the we'll now use to create our first google map.  
+Angular CLI already created an app component the we'll now use to create our first google map.
 Open the file `src/app/app.component.ts` and modify it like below:
 
 ```typescript
@@ -146,6 +152,6 @@ The command starts the following things:
 
 When you have problems setting up **Angular Google Maps (AGM)** or questions in general, the best way is to join the chat where you find nice people from the community that can answer you questions:
 
-<a href="https://gitter.im/SebastianM/angular-google-maps" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  Chat on Gitter
+<a href="https://discord.gg/XAr2ACE" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Chat on Discord
 </a>
