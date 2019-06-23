@@ -6,7 +6,6 @@ import {AgmCircle} from '../../directives/circle';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
 import * as mapTypes from '../google-maps-types';
 
-// todo: add types for this
 declare var google: any;
 
 @Injectable()
@@ -17,10 +16,6 @@ export class CircleManager {
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
   addCircle(circle: AgmCircle) {
-    if (typeof circle.strokePosition === 'string') {
-      circle.strokePosition = google.maps.StrokePosition[circle.strokePosition];
-    }
-
     this._circles.set(circle, this._apiWrapper.createCircle({
       center: {lat: circle.latitude, lng: circle.longitude},
       clickable: circle.clickable,
@@ -52,7 +47,12 @@ export class CircleManager {
     if (typeof options.strokePosition === 'string') {
       options.strokePosition = google.maps.StrokePosition[options.strokePosition];
     }
-    return this._circles.get(circle).then((c) => c.setOptions(options));
+    return this._circles.get(circle).then((c) => {
+      if (typeof options.strokePosition === 'string') {
+        options.strokePosition = google.maps.StrokePosition[options.strokePosition];
+      }
+      c.setOptions(options);
+    });
   }
 
   getBounds(circle: AgmCircle): Promise<mapTypes.LatLngBounds> {

@@ -55,7 +55,7 @@ describe('CircleManager', () => {
           fillOpacity: undefined,
           strokeColor: undefined,
           strokeOpacity: undefined,
-          strokePosition: 1,
+          strokePosition: 'CENTER',
           strokeWeight: 0,
           visible: true,
           zIndex: undefined
