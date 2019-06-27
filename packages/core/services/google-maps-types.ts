@@ -2,7 +2,6 @@ export var google: any;
 
 export interface GoogleMap extends MVCObject {
   data?: Data;
-  constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   panBy(x: number, y: number): void;
   setZoom(zoom: number): void;
@@ -17,14 +16,13 @@ export interface GoogleMap extends MVCObject {
 }
 
 export interface LatLng {
-  constructor(lat: number, lng: number): void;
   lat(): number;
   lng(): number;
+  toJSON(): any;
   toString(): string;
 }
 
 export interface Marker extends MVCObject {
-  constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
   setPosition(latLng: LatLng|LatLngLiteral): void;
   setTitle(title: string): void;
@@ -160,6 +158,7 @@ export interface MapOptions {
   zoom?: number;
   minZoom?: number;
   maxZoom?: number;
+  controlSize?: number;
   disableDoubleClickZoom?: boolean;
   disableDefaultUI?: boolean;
   scrollwheel?: boolean;
@@ -186,6 +185,8 @@ export interface MapOptions {
   mapTypeId?: string|MapTypeId;
   clickableIcons?: boolean;
   gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  tilt?: number;
+  restriction?: MapRestriction;
 }
 
 export interface MapTypeStyle {
@@ -217,7 +218,6 @@ export interface MapTypeStyler {
 }
 
 export interface InfoWindow extends MVCObject {
-  constructor(opts?: InfoWindowOptions): void;
   close(): void;
   getContent(): string|Node;
   getPosition(): LatLng;
@@ -231,12 +231,30 @@ export interface InfoWindow extends MVCObject {
 
 export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
 
+export interface MVCArray<T> extends MVCObject {
+  clear(): void;
+  getArray(): Array<T>;
+  getAt(i: number): T;
+  getLength(): number;
+  insertAt(i: number, elem: T): void;
+  pop(): T;
+  push(elem: T): number;
+  removeAt(i: number): T;
+  setAt(i: number, elem: T): void;
+  /* tslint:disable */
+  /*
+  * Tslint configuration check-parameters will prompt errors for these lines of code.
+  * https://palantir.github.io/tslint/rules/no-unused-variable/
+  */
+  forEach(callback: (elem: T, i: number) => void): void;
+  /* tslint:enable */
+}
+
 export interface MapsEventListener { remove(): void; }
 
 export interface Size {
   height: number;
   width: number;
-  constructor(width: number, height: number, widthUnit?: string, heightUnit?: string): void;
   equals(other: Size): boolean;
   toString(): string;
 }
@@ -296,7 +314,7 @@ export interface Polyline extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
+  getPath(): MVCArray<LatLng>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -336,8 +354,8 @@ export interface Polygon extends MVCObject {
   getDraggable(): boolean;
   getEditable(): boolean;
   getMap(): GoogleMap;
-  getPath(): Array<LatLng>;
-  getPaths(): Array<Array<LatLng>>;
+  getPath(): MVCArray<LatLng>;
+  getPaths(): MVCArray<MVCArray<LatLng>>;
   getVisible(): boolean;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
@@ -411,7 +429,6 @@ export interface KmlMouseEvent extends MouseEvent {
 
 export interface Data extends MVCObject {
   features: Feature[];
-  constructor(options?: DataOptions): void;
   addGeoJson(geoJson: Object, options?: GeoJsonOptions): Feature[];
   remove(feature: Feature): void;
   setControlPosition(controlPosition: ControlPosition): void;
@@ -575,4 +592,10 @@ export interface FullscreenControlOptions {
    * The default position is RIGHT_TOP.
    */
   position?: ControlPosition;
+}
+
+/** Options for the restricting the bounds of the map. */
+export interface MapRestriction {
+  latLngBounds: LatLngBounds|LatLngBoundsLiteral;
+  strictBounds?: boolean;
 }

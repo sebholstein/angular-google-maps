@@ -20,7 +20,7 @@
     "url": "https://github.com/SebastianM/angular-google-maps/issues"
   },
   "peerDependencies": {
-    "@angular/core": "^6.0.0 || ^7.0.0",
+    "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "@agm/core": "^1.0.0-beta.6",
     "js-marker-clusterer": "^1.0.0"
   },
