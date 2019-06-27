@@ -14,6 +14,7 @@ import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/m
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
 import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 import {AgmFitBounds} from './directives/fit-bounds';
+import { AgmPolylineIcon } from './directives/polyline-icon';
 
 /**
  * @internal
@@ -22,7 +23,7 @@ export function coreDirectives() {
   return [
     AgmMap, AgmMarker, AgmInfoWindow, AgmCircle, AgmRectangle,
     AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
-    AgmDataLayer, AgmFitBounds
+    AgmDataLayer, AgmFitBounds, AgmPolylineIcon
   ];
 }
 
