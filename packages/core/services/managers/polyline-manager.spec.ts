@@ -1,5 +1,5 @@
 import {NgZone, QueryList} from '@angular/core';
-import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
+import {TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 
 import {AgmPolyline} from '../../directives/polyline';
 import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
@@ -68,6 +68,9 @@ describe('PolylineManager', () => {
              });
            }));
 
+  });
+
+  describe('Icons', () => {
     it('should call the mapsApiWrapper when creating a new polyline',
        fakeAsync(inject(
           [PolylineManager, GoogleMapsAPIWrapper],
@@ -124,7 +127,88 @@ describe('PolylineManager', () => {
                });
              })
     ));
+    it('should update the icons when the data structure changes',
+      fakeAsync(inject(
+      [PolylineManager, GoogleMapsAPIWrapper],
+      (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
+        const testPolyline = {
+          setOptions: jest.fn()
+        } as any as Polyline;
+        (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(testPolyline));
 
+        const iconArray = [{
+          fixedRotation: true,
+          offset: '1px',
+          repeat: '50px',
+          anchorX: 10,
+          anchorY: 15,
+          fillColor: 'blue',
+          fillOpacity: 0.5,
+          rotation: 60,
+          scale: 2,
+          strokeColor: 'green',
+          strokeOpacity: 0.7,
+          strokeWeight: 1.5,
+          path: 'CIRCLE',
+        }];
+        const iconChanges = new Subject<AgmPolyline>();
+
+        const newPolyline = new AgmPolyline(polylineManager);
+        newPolyline.iconSequences = Object.assign(
+          new QueryList<AgmPolylineIcon>(),
+          { changes: iconChanges, toArray: () => iconArray}) as QueryList<AgmPolylineIcon>;
+
+        polylineManager.addPolyline(newPolyline);
+
+        iconArray.push({
+          fixedRotation: false,
+          offset: '2px',
+          repeat: '20px',
+          anchorX: 11,
+          anchorY: 16,
+          fillColor: 'cyan',
+          fillOpacity: 0.6,
+          rotation: 120,
+          scale: 0.5,
+          strokeColor: 'yellow',
+          strokeOpacity: 0.2,
+          strokeWeight: 3,
+          path: 'BACKWARD_OPEN_ARROW',
+        });
+        polylineManager.updateIconSequences(newPolyline);
+
+        tick();
+        expect((testPolyline.setOptions as jest.Mock).mock.calls.length).toBe(1);
+        expect((testPolyline.setOptions as jest.Mock).mock.calls[0][0])
+          .toEqual( {'icons':
+            [{'fixedRotation': true,
+            'icon': {'anchor': {'x': 10, 'y': 15},
+              'fillColor': 'blue',
+              'fillOpacity': 0.5,
+              'path': 0,
+              'rotation': 60,
+              'scale': 2,
+              'strokeColor': 'green',
+              'strokeOpacity': 0.7,
+              'strokeWeight': 1.5},
+            'offset': '1px',
+            'repeat': '50px'},
+            {'fixedRotation': false,
+            'icon': {'anchor': {'x': 11, 'y': 16},
+                'fillColor': 'cyan',
+                'fillOpacity': 0.6,
+                'path': 4,
+                'rotation': 120,
+                'scale': 0.5,
+                'strokeColor': 'yellow',
+                'strokeOpacity': 0.2,
+                'strokeWeight': 3
+              },
+              'offset': '2px',
+              'repeat': '20px'}]
+          });
+      }
+    )));
   });
 
   describe('Delete a polyline', () => {
