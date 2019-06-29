@@ -1,5 +1,5 @@
 import {NgZone, QueryList} from '@angular/core';
-import {TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import {TestBed, inject, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 
 import {AgmPolyline} from '../../directives/polyline';
 import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
@@ -36,7 +36,8 @@ describe('PolylineManager', () => {
         PolylineManager, {
           provide: GoogleMapsAPIWrapper,
           useValue: {
-            createPolyline: jest.fn()
+            createPolyline: jest.fn(),
+            getNativeMap: () => Promise.resolve(),
           }
         }
       ]
@@ -46,13 +47,12 @@ describe('PolylineManager', () => {
   describe('Create a new polyline', () => {
 
     it('should call the mapsApiWrapper when creating a new polyline',
-       inject(
+       fakeAsync(inject(
            [PolylineManager, GoogleMapsAPIWrapper],
            (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
-
              const newPolyline = new AgmPolyline(polylineManager);
              polylineManager.addPolyline(newPolyline);
-
+             flushMicrotasks();
              expect(apiWrapper.createPolyline).toHaveBeenCalledWith({
                clickable: true,
                draggable: false,
@@ -66,7 +66,7 @@ describe('PolylineManager', () => {
                path: [],
                icons: [],
              });
-           }));
+           })));
 
   });
 
@@ -96,6 +96,7 @@ describe('PolylineManager', () => {
                 ]
               }) as QueryList<AgmPolylineIcon>;
               polylineManager.addPolyline(newPolyline);
+              flushMicrotasks();
 
               expect(apiWrapper.createPolyline).toHaveBeenCalledWith({
                  clickable: true,
@@ -159,7 +160,7 @@ describe('PolylineManager', () => {
           { changes: iconChanges, toArray: () => iconArray}) as QueryList<AgmPolylineIcon>;
 
         polylineManager.addPolyline(newPolyline);
-
+        flushMicrotasks();
         iconArray.push({
           fixedRotation: false,
           offset: '2px',
@@ -177,7 +178,7 @@ describe('PolylineManager', () => {
         });
         polylineManager.updateIconSequences(newPolyline);
 
-        tick();
+        flushMicrotasks();
         expect((testPolyline.setOptions as jest.Mock).mock.calls.length).toBe(1);
         expect((testPolyline.setOptions as jest.Mock).mock.calls[0][0])
           .toEqual( {'icons':
@@ -213,7 +214,7 @@ describe('PolylineManager', () => {
 
   describe('Delete a polyline', () => {
     it('should set the map to null when deleting a existing polyline',
-       inject(
+       fakeAsync(inject(
            [PolylineManager, GoogleMapsAPIWrapper],
            (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
              const newPolyline = new AgmPolyline(polylineManager);
@@ -224,10 +225,11 @@ describe('PolylineManager', () => {
              (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(polylineInstance));
 
              polylineManager.addPolyline(newPolyline);
-             polylineManager.deletePolyline(newPolyline).then(() => {
-               expect(polylineInstance.setMap).toHaveBeenCalledWith(null);
-             });
-           }));
+             flushMicrotasks();
+             polylineManager.deletePolyline(newPolyline);
+             flushMicrotasks();
+             expect(polylineInstance.setMap).toHaveBeenCalledWith(null);
+           })));
   });
 
 });

@@ -96,7 +96,7 @@ export class AgmPolylineIcon implements OnInit{
    * @memberof AgmPolylineIcon
    */
   @Input() path: 'CIRCLE'|'BACKWARD_CLOSED_ARROW'|'BACKWARD_OPEN_ARROW'|'FORWARD_CLOSED_ARROW'|
-        'FORWARD_CLOSED_ARROW' | string;
+        'FORWARD_OPEN_ARROW' | string;
 
   /**
    * The angle by which to rotate the symbol, expressed clockwise in degrees.

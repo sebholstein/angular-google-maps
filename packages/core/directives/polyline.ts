@@ -185,7 +185,6 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
 
     const iconSub = this.iconSequences.changes.subscribe(() => this._polylineManager.updateIconSequences(this));
     this._subscriptions.push(iconSub);
-    this._polylineManager.updateIconSequences(this);
   }
 
   ngOnChanges(changes: SimpleChanges): any {

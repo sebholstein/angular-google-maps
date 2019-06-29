@@ -50,25 +50,39 @@ export class PolylineManager {
         strokeWeight: agmIcon.strokeWeight,
       }
     }));
+    // prune undefineds;
+    icons.forEach(icon => {
+      Object.entries(icon).forEach(([key, val]) => {
+        if (typeof val === 'undefined') {
+          delete (icon as any)[key];
+        }
+      });
+      if (typeof icon.icon.anchor.x === 'undefined' ||
+        typeof icon.icon.anchor.y === 'undefined') {
+          delete icon.icon.anchor;
+        }
+    });
     return icons;
   }
 
   addPolyline(line: AgmPolyline) {
-    const path = PolylineManager._convertPoints(line);
-    const icons = PolylineManager._convertIcons(line);
-    const polylinePromise = this._mapsWrapper.createPolyline({
-      clickable: line.clickable,
-      draggable: line.draggable,
-      editable: line.editable,
-      geodesic: line.geodesic,
-      strokeColor: line.strokeColor,
-      strokeOpacity: line.strokeOpacity,
-      strokeWeight: line.strokeWeight,
-      visible: line.visible,
-      zIndex: line.zIndex,
-      path: path,
-      icons: icons,
-    });
+    const polylinePromise = this._mapsWrapper.getNativeMap()
+    .then(() => [ PolylineManager._convertPoints(line),
+                  PolylineManager._convertIcons(line)])
+    .then(([path, icons]: [LatLngLiteral[], IconSequence[]]) =>
+      this._mapsWrapper.createPolyline({
+        clickable: line.clickable,
+        draggable: line.draggable,
+        editable: line.editable,
+        geodesic: line.geodesic,
+        strokeColor: line.strokeColor,
+        strokeOpacity: line.strokeOpacity,
+        strokeWeight: line.strokeWeight,
+        visible: line.visible,
+        zIndex: line.zIndex,
+        path: path,
+        icons: icons,
+    }));
     this._polylines.set(line, polylinePromise);
   }
 
@@ -82,6 +96,7 @@ export class PolylineManager {
   }
 
   async updateIconSequences(line: AgmPolyline): Promise<void> {
+    const map = await this._mapsWrapper.getNativeMap();
     const icons = PolylineManager._convertIcons(line);
     const m = this._polylines.get(line);
     if (m == null) {
