@@ -44,7 +44,8 @@ export class AgmFitBounds implements OnInit, OnDestroy, OnChanges {
       .pipe(
         distinctUntilChanged(
           (x: FitBoundsDetails, y: FitBoundsDetails) =>
-            x.latLng.lat === y.latLng.lng
+            x.latLng.lat === y.latLng.lat &&
+            x.latLng.lng === y.latLng.lng
         ),
         takeUntil(this._destroyed$)
       )
