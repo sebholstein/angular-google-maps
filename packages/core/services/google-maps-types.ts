@@ -278,9 +278,9 @@ export interface Point {
 export interface GoogleSymbol {
   anchor?: Point;
   fillColor?: string;
-  fillOpacity?: string;
+  fillOpacity?: number;
   labelOrigin?: Point;
-  path?: string;
+  path?: string | SymbolPath;
   rotation?: number;
   scale?: number;
   strokeColor?: string;
@@ -293,6 +293,14 @@ export interface IconSequence {
   icon?: GoogleSymbol;
   offset?: string;
   repeat?: string;
+}
+
+export enum SymbolPath {
+  BACKWARD_CLOSED_ARROW = 3,
+  BACKWARD_OPEN_ARROW = 4,
+  CIRCLE = 0,
+  FORWARD_CLOSED_ARROW = 1,
+  FORWARD_OPEN_ARROW = 2,
 }
 
 export interface PolylineOptions {

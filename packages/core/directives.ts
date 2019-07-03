@@ -9,3 +9,4 @@ export {AgmPolygon} from './directives/polygon';
 export {AgmPolyline} from './directives/polyline';
 export {AgmPolylinePoint} from './directives/polyline-point';
 export {AgmFitBounds} from './directives/fit-bounds';
+export {AgmPolylineIcon} from './directives/polyline-icon';
