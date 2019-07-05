@@ -15,6 +15,7 @@ import { PolygonManager } from '../services/managers/polygon-manager';
 import { PolylineManager } from '../services/managers/polyline-manager';
 import { KmlLayerManager } from './../services/managers/kml-layer-manager';
 import { DataLayerManager } from './../services/managers/data-layer-manager';
+import { TransitLayerManager } from '../services/managers/transit-layer-manager';
 import { FitBoundsService } from '../services/fit-bounds';
 
 declare var google: any;
@@ -47,7 +48,7 @@ declare var google: any;
   providers: [
     GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
     PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, DataLayerManager,
-    FitBoundsService
+    TransitLayerManager, FitBoundsService
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
