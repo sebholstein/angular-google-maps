@@ -3,24 +3,23 @@ import { TransitLayerManager } from '../services/managers/transit-layer-manager'
 
 let layerId = 0;
 
+/*
+ * This directive adds a transit layer to a google map instance
+ * <agm-transit-layer [visible]="true|false"> <agm-transit-layer>
+ * */
 @Directive({
     selector: 'agm-transit-layer'
 })
 
-/*
-* This directive adds a transit layer to a google map instance
-* <agm-transit-layer [inVisible]="true|false"> <agm-transit-layer>
-* */
-
 export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
     private _addedToManager: boolean = false;
     private _id: string = (layerId++).toString();
-    private static _transitLayerOptions: string[] = [ 'inVisible'];
+    private static _transitLayerOptions: string[] = [ 'visible'];
 
     /**
      * Hide/show transit layer
      */
-    @Input() inVisible: boolean = false;
+    @Input() visible: boolean = true;
 
     constructor( private _manager: TransitLayerManager ) {}
 
@@ -28,7 +27,7 @@ export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
         if (this._addedToManager) {
             return;
         }
-        this._manager.addTransitLayer(this, {inVisible: this.inVisible});
+        this._manager.addTransitLayer(this, {visible: this.visible});
         this._addedToManager = true;
     }
 

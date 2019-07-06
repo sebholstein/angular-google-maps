@@ -442,7 +442,7 @@ export interface TransitLayer extends MVCObject {
 }
 
 export interface TransitLayerOptions {
-  inVisible: boolean;
+  visible: boolean;
 }
 
 export interface Data extends MVCObject {

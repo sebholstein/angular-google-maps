@@ -3,8 +3,6 @@ import {AgmTransitLayer} from '../../directives/transit-layer';
 import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
 import {TransitLayer, TransitLayerOptions, GoogleMap} from '../google-maps-types';
 
-declare var google: any;
-
 /**
  * This class manages a Transit Layer for a Google Map instance.
  */
@@ -34,7 +32,7 @@ export class TransitLayerManager {
      * @returns Promise<void>
      */
     setOptions(layer: AgmTransitLayer, options: TransitLayerOptions): Promise<void> {
-        return this.toggleTransitLayer(layer, options);
+        return this.toggleTransitLayerVisibility(layer, options);
     }
 
     /**
@@ -55,9 +53,9 @@ export class TransitLayerManager {
      * @param {options} TransitLayerOptions
      * @returns Promise<void>
      */
-    toggleTransitLayer(layer: AgmTransitLayer, options: TransitLayerOptions): Promise<void> {
+    toggleTransitLayerVisibility(layer: AgmTransitLayer, options: TransitLayerOptions): Promise<void> {
         return this._layers.get(layer).then(currentLayer => {
-            if (options.inVisible) {
+            if (!options.visible) {
                 currentLayer.setMap(null);
                 return Promise.resolve();
             } else {

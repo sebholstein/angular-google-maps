@@ -5,7 +5,6 @@ import * as mapTypes from './google-maps-types';
 import {Polyline} from './google-maps-types';
 import {PolylineOptions} from './google-maps-types';
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
-import {MapTypeStyle} from './google-maps-types';
 
 // todo: add types for this
 declare var google: any;
@@ -113,7 +112,7 @@ export class GoogleMapsAPIWrapper {
   createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
     return this._map.then((map: mapTypes.GoogleMap) => {
       let transitLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
-      transitLayer.setMap(options.inVisible ? null : map);
+      transitLayer.setMap(options.visible ? map : null);
       return transitLayer;
     });
   }
