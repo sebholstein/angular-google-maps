@@ -435,6 +435,16 @@ export interface KmlMouseEvent extends MouseEvent {
   pixelOffset: Size;
 }
 
+export interface TransitLayer extends MVCObject {
+  getMap(): GoogleMap;
+  setMap(map: GoogleMap): void;
+  setOptions(options: TransitLayerOptions): void;
+}
+
+export interface TransitLayerOptions {
+  visible: boolean;
+}
+
 export interface Data extends MVCObject {
   features: Feature[];
   addGeoJson(geoJson: Object, options?: GeoJsonOptions): Feature[];

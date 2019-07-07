@@ -105,6 +105,19 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
+   * Creates a Google Map transit layer instance add it to map
+   * @param {TransitLayerOptions} options - TransitLayerOptions options
+   * @returns {Promise<TransitLayer>} a new transit layer object
+   */
+  createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let transitLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
+      transitLayer.setMap(options.visible ? map : null);
+      return transitLayer;
+    });
+  }
+
+  /**
    * Determines if given coordinates are insite a Polygon path.
    */
   containsLocation(latLng: mapTypes.LatLngLiteral, polygon: mapTypes.Polygon): Promise<boolean> {
