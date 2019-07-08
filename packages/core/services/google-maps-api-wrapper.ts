@@ -105,15 +105,16 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
-   * Creates a Google Map transit layer instance add it to map
-   * @param {TransitLayerOptions} options - TransitLayerOptions options
-   * @returns {Promise<TransitLayer>} a new transit layer object
+   * Creates a MapLayer instance for a map
+   * @param {MapLayerOptions} options - used for setting layer options
+   * @param {string} name - the type of map layer to create
+   * @returns {Promise<MapLayer>} a new map layer object
    */
-  createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
+  createMapLayer(options: mapTypes.MapLayerOptions, name: string): Promise<mapTypes.MapLayer>{
     return this._map.then((map: mapTypes.GoogleMap) => {
-      let transitLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
-      transitLayer.setMap(options.visible ? map : null);
-      return transitLayer;
+      let newLayer: mapTypes.MapLayer = new google.maps[`${name}`]();
+        newLayer.setMap(options.visible ? map : null);
+      return newLayer;
     });
   }
 

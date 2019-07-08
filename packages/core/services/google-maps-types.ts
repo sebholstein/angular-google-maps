@@ -435,15 +435,17 @@ export interface KmlMouseEvent extends MouseEvent {
   pixelOffset: Size;
 }
 
-export interface TransitLayer extends MVCObject {
+export interface MapLayer extends MVCObject {
   getMap(): GoogleMap;
   setMap(map: GoogleMap): void;
-  setOptions(options: TransitLayerOptions): void;
+  setOptions(options: MapLayerOptions): void;
 }
 
-export interface TransitLayerOptions {
+export interface MapLayerOptions {
   visible: boolean;
 }
+
+export type MapLayerType  = 'TransitLayer' | 'BicyclingLayer' | 'TrafficLayer';
 
 export interface Data extends MVCObject {
   features: Feature[];
