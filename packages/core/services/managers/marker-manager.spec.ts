@@ -1,5 +1,5 @@
 import {NgZone} from '@angular/core';
-import {TestBed, inject, fakeAsync, flushMicrotasks, flush, tick} from '@angular/core/testing';
+import {TestBed, inject, fakeAsync, flushMicrotasks, tick} from '@angular/core/testing';
 
 import {AgmMarker} from './../../directives/marker';
 import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
