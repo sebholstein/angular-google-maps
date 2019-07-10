@@ -112,6 +112,9 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     if (changes['calculator']) {
       this._clusterManager.setCalculator(this);
     }
+    if (changes['styles']) {
+      this._clusterManager.setCalculator(this);
+    }
   }
 
   /** @internal */
