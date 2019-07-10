@@ -33,7 +33,7 @@ export interface MarkerClustererInstance {
   setGridSize(size: number): void;
   setMap(map: GoogleMap): void;
   setMaxZoom(maxZoom: number): void;
-  setStyles(styles: ClusterStyle): void;
+  setStyles(styles: ClusterStyle[]): void;
 }
 
 export interface ClusterOptions {
@@ -69,7 +69,7 @@ export interface ClusterOptions {
 
   imagePath?: string;
   imageExtension?: string;
-  calculator?: CalculateFunction
+  calculator?: CalculateFunction;
 }
 
 export interface ClusterStyle {
