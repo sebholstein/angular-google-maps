@@ -105,15 +105,27 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
-   * Creates a MapLayer instance for a map
-   * @param {MapLayerOptions} options - used for setting layer options
-   * @param {string} name - the type of map layer to create
-   * @returns {Promise<MapLayer>} a new map layer object
+   * Creates a TransitLayer instance for a map
+   * @param {TransitLayerOptions} options - used for setting layer options
+   * @returns {Promise<TransitLayer>} a new map layer object
    */
-  createMapLayer(options: mapTypes.MapLayerOptions, name: string): Promise<mapTypes.MapLayer>{
+  createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
     return this._map.then((map: mapTypes.GoogleMap) => {
-      let newLayer: mapTypes.MapLayer = new google.maps[`${name}`]();
+      let newLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
         newLayer.setMap(options.visible ? map : null);
+      return newLayer;
+    });
+  }
+
+  /**
+   * Creates a BicyclingLayer instance for a map
+   * @param {TransitLayerOptions} options - used for setting layer options
+   * @returns {Promise<TransitLayer>} a new map layer object
+   */
+  createBicyclingLayer(options: mapTypes.BicyclingLayerOptions): Promise<mapTypes.BicyclingLayer>{
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let newLayer: mapTypes.BicyclingLayer = new google.maps.BicyclingLayer();
+      newLayer.setMap(options.visible ? map : null);
       return newLayer;
     });
   }

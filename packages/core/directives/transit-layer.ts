@@ -1,6 +1,5 @@
 import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MapLayerManager } from '../services/managers/map-layer-manager';
-import { MapLayerType } from '../services/google-maps-types';
+import { LayerManager } from '../services/managers/layer-manager';
 
 let layerId = 0;
 
@@ -15,20 +14,19 @@ let layerId = 0;
 export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
     private _addedToManager: boolean = false;
     private _id: string = (layerId++).toString();
-    private _name: MapLayerType = 'TransitLayer';
 
     /**
      * Hide/show transit layer
      */
     @Input() visible: boolean = true;
 
-    constructor( private _manager: MapLayerManager ) {}
+    constructor( private _manager: LayerManager ) {}
 
     ngOnInit() {
         if (this._addedToManager) {
             return;
         }
-        this._manager.addMapLayer(this, {visible: this.visible});
+        this._manager.addTransitLayer(this, {visible: this.visible});
         this._addedToManager = true;
     }
 
@@ -36,21 +34,20 @@ export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
         if (!this._addedToManager) {
             return;
         }
-        this._manager.setOptions(this, changes);
+        if (changes['visible'] != null) {
+            this._manager.toggleLayerVisibility(this, {visible: changes['visible'].currentValue});
+        }
     }
 
     /** @internal */
     id(): string { return this._id; }
 
     /** @internal */
-    name(): MapLayerType { return this._name; }
-
-    /** @internal */
     toString(): string { return `AgmTransitLayer-${this._id.toString()}`; }
 
     /** @internal */
     ngOnDestroy() {
-        this._manager.deleteMapLayer(this);
+        this._manager.deleteLayer(this);
     }
 
 }

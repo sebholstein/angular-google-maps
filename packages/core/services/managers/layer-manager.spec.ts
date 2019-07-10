@@ -2,18 +2,24 @@ import {NgZone} from '@angular/core';
 import {TestBed, inject, fakeAsync} from '@angular/core/testing';
 import {AgmTransitLayer} from '../../directives/transit-layer';
 import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
-import {MapLayerManager} from './map-layer-manager';
+import {LayerManager} from './layer-manager';
 import {AgmBicyclingLayer} from '../../directives/bicycling-layer';
 
-describe('MapLayerManager', () => {
+describe('LayerManager', () => {
     beforeAll(() => {
         (<any>window).google = {
             maps: {
-                MapLayer: class MapLayer {
+                TransitLayer: class TransitLayer {
                     setMap = jest.fn();
                     getMap = jest.fn();
-                    setOptions = jest.fn();
+                    constructor() {
 
+                    }
+                },
+
+                BicyclingLayer: class BicyclingLayer {
+                    setMap = jest.fn();
+                    getMap = jest.fn();
                     constructor() {
 
                     }
@@ -31,10 +37,12 @@ describe('MapLayerManager', () => {
                     provide: GoogleMapsAPIWrapper,
                     useValue: {
                         getNativeMap: () => Promise.resolve(),
-                        createMapLayer: jest.fn()
+                        createTransitLayer: jest.fn(),
+                        createBicyclingLayer: jest.fn()
+
                     }
                 },
-                MapLayerManager,
+                LayerManager,
 
             ]
         });
@@ -44,13 +52,12 @@ describe('MapLayerManager', () => {
 
         it('should call mapsApiWrapper when creating a new transit layer',
             fakeAsync(inject(
-                [MapLayerManager, GoogleMapsAPIWrapper],
-                (mapLayerManager: MapLayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-                    const transitLayer = new AgmTransitLayer(mapLayerManager);
+                [LayerManager, GoogleMapsAPIWrapper],
+                (layerManager: LayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+                    const transitLayer = new AgmTransitLayer(layerManager);
                     const opt = {visible: false};
-                    mapLayerManager.addMapLayer(transitLayer, opt);
-                    expect(apiWrapper.createMapLayer).toHaveBeenCalledWith(opt, 'TransitLayer');
-
+                    layerManager.addTransitLayer(transitLayer, opt);
+                    expect(apiWrapper.createTransitLayer).toHaveBeenCalledWith(opt);
                 })
             )
         );
@@ -60,12 +67,12 @@ describe('MapLayerManager', () => {
 
         it('should call mapsApiWrapper when creating a new bicycling layer',
             fakeAsync(inject(
-                [MapLayerManager, GoogleMapsAPIWrapper],
-                (mapLayerManager: MapLayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
-                    const bicyclingLayer = new AgmBicyclingLayer(mapLayerManager);
+                [LayerManager, GoogleMapsAPIWrapper],
+                (layerManager: LayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
+                    const bicyclingLayer = new AgmBicyclingLayer(layerManager);
                     const opt = {visible: true};
-                    mapLayerManager.addMapLayer(bicyclingLayer, opt);
-                    expect(apiWrapper.createMapLayer).toHaveBeenCalledWith(opt, 'BicyclingLayer');
+                    layerManager.addBicyclingLayer(bicyclingLayer, opt);
+                    expect(apiWrapper.createBicyclingLayer).toHaveBeenCalledWith(opt);
 
                 })
             )
@@ -77,28 +84,26 @@ describe('MapLayerManager', () => {
         it('should update the visibility of a map layer when the visibility option changes', fakeAsync(
 
             inject(
-                [MapLayerManager, GoogleMapsAPIWrapper],
-                (mapLayerManager: MapLayerManager,
+                [LayerManager, GoogleMapsAPIWrapper],
+                (layerManager: LayerManager,
                  apiWrapper: GoogleMapsAPIWrapper) => {
-                    const newMapLayer = new AgmTransitLayer(mapLayerManager);
-                    newMapLayer.visible = true;
+                    const newLayer = new AgmTransitLayer(layerManager);
+                    newLayer.visible = true;
 
                     const transitLayerInstance: any = {
                         setMap: jest.fn(),
                         getMap: jest.fn(),
-                        setOptions: jest.fn()
-
                     };
 
-                    (<jest.Mock>apiWrapper.createMapLayer).mockReturnValue(
+                    (<jest.Mock>apiWrapper.createTransitLayer).mockReturnValue(
                         Promise.resolve(transitLayerInstance)
                     );
 
-                    mapLayerManager.addMapLayer(newMapLayer, {visible: true});
-                    expect(apiWrapper.createMapLayer).toHaveBeenCalledWith({visible: true}, 'TransitLayer');
+                    layerManager.addTransitLayer(newLayer, {visible: true});
+                    expect(apiWrapper.createTransitLayer).toHaveBeenCalledWith({visible: true});
 
-                    newMapLayer.visible = false;
-                    mapLayerManager.toggleLayerVisibility(newMapLayer, {visible: false}).then(() => {
+                    newLayer.visible = false;
+                    layerManager.toggleLayerVisibility(newLayer, {visible: false}).then(() => {
                         expect(transitLayerInstance.setMap).toHaveBeenCalledWith(null);
                     });
                 }

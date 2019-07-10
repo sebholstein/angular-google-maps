@@ -1,5 +1,5 @@
 import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MapLayerManager } from '../services/managers/map-layer-manager';
+import { LayerManager } from '../services/managers/layer-manager';
 
 let layerId = 0;
 
@@ -18,15 +18,15 @@ export class AgmBicyclingLayer implements OnInit, OnChanges, OnDestroy{
     /**
      * Hide/show bicycling layer
      */
-    @Input() visible: boolean = false;
+    @Input() visible: boolean = true;
 
-    constructor( private _manager: MapLayerManager ) {}
+    constructor( private _manager: LayerManager ) {}
 
     ngOnInit() {
         if (this._addedToManager) {
             return;
         }
-        this._manager.addMapLayer(this, {visible: this.visible});
+        this._manager.addBicyclingLayer(this, {visible: this.visible});
         this._addedToManager = true;
     }
 
@@ -34,21 +34,20 @@ export class AgmBicyclingLayer implements OnInit, OnChanges, OnDestroy{
         if (!this._addedToManager) {
             return;
         }
-        this._manager.setOptions(this, changes);
+        if (changes['visible'] != null) {
+            this._manager.toggleLayerVisibility(this, {visible: changes['visible'].currentValue});
+        }
     }
 
     /** @internal */
     id(): string { return this._id; }
 
     /** @internal */
-    name(): string { return 'BicyclingLayer'; }
-
-    /** @internal */
     toString(): string { return `AgmBicyclingLayer-${this._id.toString()}`; }
 
     /** @internal */
     ngOnDestroy() {
-        this._manager.deleteMapLayer(this);
+        this._manager.deleteLayer(this);
     }
 
 }
