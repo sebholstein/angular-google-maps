@@ -1,4 +1,4 @@
-import {Marker, GoogleMap, LatLngBounds} from '@agm/core/services/google-maps-types';
+import { Marker, GoogleMap, LatLngBounds } from '@agm/core/services/google-maps-types';
 
 export interface CalculatorResult {
   text: string;
@@ -65,10 +65,11 @@ export interface ClusterOptions {
   /**
    * An object that has style properties.
    */
-  styles?: ClusterStyle;
+  styles?: ClusterStyle[];
 
   imagePath?: string;
   imageExtension?: string;
+  calculator?: CalculateFunction
 }
 
 export interface ClusterStyle {

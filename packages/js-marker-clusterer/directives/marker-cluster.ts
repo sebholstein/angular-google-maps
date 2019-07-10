@@ -69,7 +69,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   /**
    * An object that has style properties.
    */
-  @Input() styles: ClusterStyle;
+  @Input() styles: ClusterStyle[];
 
   /**
    * A function that calculates the cluster style and text based on the markers in the cluster.
@@ -94,9 +94,6 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     if (changes['maxZoom']) {
       this._clusterManager.setMaxZoom(this);
     }
-    if (changes['styles']) {
-      this._clusterManager.setStyles(this);
-    }
     if (changes['zoomOnClick']) {
       this._clusterManager.setZoomOnClick(this);
     }
@@ -105,9 +102,6 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     }
     if (changes['minimumClusterSize']) {
       this._clusterManager.setMinimumClusterSize(this);
-    }
-    if (changes['styles']) {
-      this._clusterManager.setStyles(this);
     }
     if (changes['imagePath']) {
       this._clusterManager.setImagePath(this);
@@ -131,6 +125,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       styles: this.styles,
       imagePath: this.imagePath,
       imageExtension: this.imageExtension,
+      calculator: this.calculator
     });
   }
 }
