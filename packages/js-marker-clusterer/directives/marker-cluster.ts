@@ -1,9 +1,9 @@
-import {Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import { Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange } from '@angular/core';
 
-import {ClusterManager} from '../services/managers/cluster-manager';
-import {MarkerManager, InfoWindowManager} from '@agm/core';
+import { ClusterManager } from '../services/managers/cluster-manager';
+import { MarkerManager, InfoWindowManager } from '@agm/core';
 
-import {CalculateFunction, ClusterOptions, ClusterStyle} from '../services/google-clusterer-types';
+import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together
@@ -36,7 +36,7 @@ import {CalculateFunction, ClusterOptions, ClusterStyle} from '../services/googl
   selector: 'agm-marker-cluster',
   providers: [
     ClusterManager,
-    {provide: MarkerManager, useExisting: ClusterManager},
+    { provide: MarkerManager, useExisting: ClusterManager },
     InfoWindowManager,
   ]
 })
@@ -79,7 +79,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
-  constructor(private _clusterManager: ClusterManager) {}
+  constructor(private _clusterManager: ClusterManager) { }
 
   /** @internal */
   ngOnDestroy() {
@@ -87,7 +87,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   }
 
   /** @internal */
-  ngOnChanges(changes: {[key: string]: SimpleChange }) {
+  ngOnChanges(changes: { [key: string]: SimpleChange }) {
     if (changes['gridSize']) {
       this._clusterManager.setGridSize(this);
     }
@@ -113,7 +113,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       this._clusterManager.setCalculator(this);
     }
     if (changes['styles']) {
-      this._clusterManager.setCalculator(this);
+      this._clusterManager.setStyles(this);
     }
   }
 
