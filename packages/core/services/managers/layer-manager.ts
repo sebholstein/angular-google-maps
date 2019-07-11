@@ -59,10 +59,10 @@ export class LayerManager {
         return this._layers.get(layer).then(currentLayer => {
             if (!options.visible) {
                 currentLayer.setMap(null);
-                return Promise.resolve();
+                return;
             } else {
                return this._wrapper.getNativeMap().then( (map: GoogleMap) => {
-                    currentLayer.setMap(map);
+                   currentLayer.setMap(map);
                 });
             }
         });
