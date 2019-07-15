@@ -11,4 +11,4 @@ export {GoogleMapsScriptProtocol, LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyM
 export {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
 export {NoOpMapsAPILoader} from './services/maps-api-loader/noop-maps-api-loader';
 export {FitBoundsAccessor, FitBoundsDetails} from './services/fit-bounds';
-export {TransitLayerManager} from './services/managers/transit-layer-manager';
+export {LayerManager} from './services/managers/layer-manager';
