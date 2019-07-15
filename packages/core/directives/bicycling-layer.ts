@@ -4,19 +4,19 @@ import { LayerManager } from '../services/managers/layer-manager';
 let layerId = 0;
 
 /*
- * This directive adds a transit layer to a google map instance
- * <agm-transit-layer [visible]="true|false"> <agm-transit-layer>
+ * This directive adds a bicycling layer to a google map instance
+ * <agm-bicycling-layer [visible]="true|false"> <agm-bicycling-layer>
  * */
 @Directive({
-    selector: 'agm-transit-layer'
+    selector: 'agm-bicycling-layer'
 })
 
-export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
+export class AgmBicyclingLayer implements OnInit, OnChanges, OnDestroy{
     private _addedToManager: boolean = false;
     private _id: string = (layerId++).toString();
 
     /**
-     * Hide/show transit layer
+     * Hide/show bicycling layer
      */
     @Input() visible: boolean = true;
 
@@ -26,7 +26,7 @@ export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
         if (this._addedToManager) {
             return;
         }
-        this._manager.addTransitLayer(this, {visible: this.visible});
+        this._manager.addBicyclingLayer(this, {visible: this.visible});
         this._addedToManager = true;
     }
 
@@ -43,7 +43,7 @@ export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
     id(): string { return this._id; }
 
     /** @internal */
-    toString(): string { return `AgmTransitLayer-${this._id.toString()}`; }
+    toString(): string { return `AgmBicyclingLayer-${this._id.toString()}`; }
 
     /** @internal */
     ngOnDestroy() {

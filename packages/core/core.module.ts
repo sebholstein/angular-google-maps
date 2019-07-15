@@ -15,6 +15,7 @@ import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
 import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
 import {AgmFitBounds} from './directives/fit-bounds';
 import { AgmPolylineIcon } from './directives/polyline-icon';
+import { AgmBicyclingLayer } from './directives/bicycling-layer';
 import { AgmTransitLayer } from './directives/transit-layer';
 
 /**
@@ -24,7 +25,7 @@ export function coreDirectives() {
   return [
     AgmMap, AgmMarker, AgmInfoWindow, AgmCircle, AgmRectangle,
     AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
-    AgmDataLayer, AgmFitBounds, AgmPolylineIcon, AgmTransitLayer
+    AgmDataLayer, AgmFitBounds, AgmPolylineIcon, AgmTransitLayer, AgmBicyclingLayer
   ];
 }
 

@@ -438,10 +438,18 @@ export interface KmlMouseEvent extends MouseEvent {
 export interface TransitLayer extends MVCObject {
   getMap(): GoogleMap;
   setMap(map: GoogleMap): void;
-  setOptions(options: TransitLayerOptions): void;
 }
 
 export interface TransitLayerOptions {
+  visible: boolean;
+}
+
+export interface BicyclingLayer extends MVCObject {
+  getMap(): GoogleMap;
+  setMap(map: GoogleMap): void;
+}
+
+export interface BicyclingLayerOptions {
   visible: boolean;
 }
 
