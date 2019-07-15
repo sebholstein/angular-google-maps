@@ -1,3 +1,25 @@
+<a name="1.0.0-beta.7"></a>
+# [1.0.0-beta.7 green-ink](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.6...1.0.0-beta.7) (2019-07-14)
+
+
+### Bug Fixes
+
+* google is not defined when using fitBounds ([#1652](https://github.com/SebastianM/angular-google-maps/issues/1652)) ([c9e1313](https://github.com/SebastianM/angular-google-maps/commit/c9e1313)), closes [#1586](https://github.com/SebastianM/angular-google-maps/issues/1586)
+* Remove "constructors" from interfaces ([2bb6102](https://github.com/SebastianM/angular-google-maps/commit/2bb6102))
+* **AgmCircle:** circle strokeWeight error ([0442aa0](https://github.com/SebastianM/angular-google-maps/commit/0442aa0)), closes [#770](https://github.com/SebastianM/angular-google-maps/issues/770)
+* **FitBounds:** correct distinct algorythm ([#1673](https://github.com/SebastianM/angular-google-maps/issues/1673)) ([75bcfa0](https://github.com/SebastianM/angular-google-maps/commit/75bcfa0))
+* **PolylinePoint:** prevent accessing undefined variable on change ([21efc4f](https://github.com/SebastianM/angular-google-maps/commit/21efc4f)), closes [#1597](https://github.com/SebastianM/angular-google-maps/issues/1597)
+
+
+### Features
+
+* Add placeId to map click events ([34f651b](https://github.com/SebastianM/angular-google-maps/commit/34f651b)), closes [#691](https://github.com/SebastianM/angular-google-maps/issues/691) [#1539](https://github.com/SebastianM/angular-google-maps/issues/1539)
+* Support for Transit Layer ([0f71222](https://github.com/SebastianM/angular-google-maps/commit/0f71222))
+* **AgmMap:** add controlSize option ([7922546](https://github.com/SebastianM/angular-google-maps/commit/7922546)), closes [#1646](https://github.com/SebastianM/angular-google-maps/issues/1646)
+* **AgmMap:** add tilt option ([49890c5](https://github.com/SebastianM/angular-google-maps/commit/49890c5))
+* **AgmMap:** fix fitBounds causing protractor timeout ([#1611](https://github.com/SebastianM/angular-google-maps/issues/1611)) ([565b6a7](https://github.com/SebastianM/angular-google-maps/commit/565b6a7)), closes [#1548](https://github.com/SebastianM/angular-google-maps/issues/1548)
+* **Polyline:** add IconSequences to Polylines ([46a39b7](https://github.com/SebastianM/angular-google-maps/commit/46a39b7)), closes [#721](https://github.com/SebastianM/angular-google-maps/issues/721)
+
 <a name="1.0.0-beta.6"></a>
 # [1.0.0-beta.6 opal-clarinet](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2019-06-01)
 
