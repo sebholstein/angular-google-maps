@@ -9,7 +9,7 @@ export {
   LatLngLiteral,
   PolyMouseEvent,
   MarkerLabel,
-  ControlPosition
+  ControlPosition,
 } from './services/google-maps-types';
 
 /**

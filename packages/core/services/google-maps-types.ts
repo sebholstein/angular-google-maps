@@ -3,7 +3,6 @@ export var google: any;
 export interface GoogleMap extends MVCObject {
   data?: Data;
   controls: MVCArray<Node>[];
-  constructor(el: HTMLElement, opts?: MapOptions): void;
   panTo(latLng: LatLng|LatLngLiteral): void;
   panBy(x: number, y: number): void;
   setZoom(zoom: number): void;
@@ -18,7 +17,6 @@ export interface GoogleMap extends MVCObject {
 }
 
 export interface LatLng {
-  constructor(lat: number, lng: number): void;
   lat(): number;
   lng(): number;
   toJSON(): any;
@@ -26,7 +24,6 @@ export interface LatLng {
 }
 
 export interface Marker extends MVCObject {
-  constructor(options?: MarkerOptions): void;
   setMap(map: GoogleMap): void;
   setPosition(latLng: LatLng|LatLngLiteral): void;
   setTitle(title: string): void;
@@ -222,7 +219,6 @@ export interface MapTypeStyler {
 }
 
 export interface InfoWindow extends MVCObject {
-  constructor(opts?: InfoWindowOptions): void;
   close(): void;
   getContent(): string|Node;
   getPosition(): LatLng;
@@ -260,7 +256,6 @@ export interface MapsEventListener { remove(): void; }
 export interface Size {
   height: number;
   width: number;
-  constructor(width: number, height: number, widthUnit?: string, heightUnit?: string): void;
   equals(other: Size): boolean;
   toString(): string;
 }
@@ -284,9 +279,9 @@ export interface Point {
 export interface GoogleSymbol {
   anchor?: Point;
   fillColor?: string;
-  fillOpacity?: string;
+  fillOpacity?: number;
   labelOrigin?: Point;
-  path?: string;
+  path?: string | SymbolPath;
   rotation?: number;
   scale?: number;
   strokeColor?: string;
@@ -299,6 +294,14 @@ export interface IconSequence {
   icon?: GoogleSymbol;
   offset?: string;
   repeat?: string;
+}
+
+export enum SymbolPath {
+  BACKWARD_CLOSED_ARROW = 3,
+  BACKWARD_OPEN_ARROW = 4,
+  CIRCLE = 0,
+  FORWARD_CLOSED_ARROW = 1,
+  FORWARD_OPEN_ARROW = 2,
 }
 
 export interface PolylineOptions {
@@ -433,9 +436,26 @@ export interface KmlMouseEvent extends MouseEvent {
   pixelOffset: Size;
 }
 
+export interface TransitLayer extends MVCObject {
+  getMap(): GoogleMap;
+  setMap(map: GoogleMap): void;
+}
+
+export interface TransitLayerOptions {
+  visible: boolean;
+}
+
+export interface BicyclingLayer extends MVCObject {
+  getMap(): GoogleMap;
+  setMap(map: GoogleMap): void;
+}
+
+export interface BicyclingLayerOptions {
+  visible: boolean;
+}
+
 export interface Data extends MVCObject {
   features: Feature[];
-  constructor(options?: DataOptions): void;
   addGeoJson(geoJson: Object, options?: GeoJsonOptions): Feature[];
   remove(feature: Feature): void;
   setControlPosition(controlPosition: ControlPosition): void;

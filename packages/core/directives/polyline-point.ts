@@ -3,7 +3,7 @@ import {LatLngLiteral} from '../../core/services/google-maps-types';
 
 /**
  * AgmPolylinePoint represents one element of a polyline within a  {@link
- * SembGoogleMapPolyline}
+ * AgmPolyline}
  */
 @Directive({selector: 'agm-polyline-point'})
 export class AgmPolylinePoint implements OnChanges {
