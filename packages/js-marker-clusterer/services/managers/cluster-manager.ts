@@ -1,6 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 
-import 'markerclusterer';
+import '@google/markerclustererplus';
 
 import {MarkerManager} from '../../../core/services/managers/marker-manager';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
