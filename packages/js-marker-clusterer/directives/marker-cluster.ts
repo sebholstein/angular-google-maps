@@ -79,6 +79,56 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
+  /**
+   * The name of the CSS class defining general styles for the cluster markers.
+   * Use this class to define CSS styles that are not set up by the code that
+   * processes the `styles` array.
+   *
+   * @defaultValue 'cluster'
+   */
+  @Input() clusterClass: string;
+
+  /**
+   * Whether to allow the use of cluster icons that have sizes that are some
+   * multiple (typically double) of their actual display size. Icons such as
+   * these look better when viewed on high-resolution monitors such as Apple's
+   * Retina displays. Note: if this property is `true`, sprites cannot be used
+   * as cluster icons.
+   *
+   * @defaultValue false
+   */
+  @Input() enableRetinaIcons: boolean;
+
+  /**
+   * Whether to ignore hidden markers in clusters. You may want to set this to
+   * `true` to ensure that hidden markers are not included in the marker count
+   * that appears on a cluster marker (this count is the value of the `text`
+   * property of the result returned by the default `calculator`). If set to
+   * `true` and you change the visibility of a marker being clustered, be sure
+   * to also call `MarkerClusterer.repaint()`.
+   *
+   * @defaultValue false
+   */
+  @Input() ignoreHidden: boolean;
+
+  /**
+   * An array of numbers containing the widths of the group of
+   * `<imagePath><n>.<imageExtension>` image files. (The images are assumed to
+   * be square.)
+   *
+   * @defaultValue [53, 56, 66, 78, 90]
+   */
+  @Input() imageSizes: number[];
+
+  /**
+   * The tooltip to display when the mouse moves over a cluster marker.
+   * (Alternatively, you can use a custom `calculator` function to specify a
+   * different tooltip for each cluster marker.)
+   *
+   * @defaultValue ''
+   */
+  @Input() title: string;
+
   constructor(private _clusterManager: ClusterManager) { }
 
   /** @internal */
@@ -115,6 +165,21 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     if (changes['styles']) {
       this._clusterManager.setStyles(this);
     }
+    if (changes['clusterClass']) {
+      this._clusterManager.setClusterClass(this);
+    }
+    if (changes['enableRetinaIcons']) {
+      this._clusterManager.setEnableRetinaIcons(this);
+    }
+    if (changes['ignoreHidden']) {
+      this._clusterManager.setIgnoreHidden(this);
+    }
+    if (changes['imageSizes']) {
+      this._clusterManager.setImageSizes(this);
+    }
+    if (changes['title']) {
+      this._clusterManager.setTitle(this);
+    }
   }
 
   /** @internal */
@@ -128,7 +193,12 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       styles: this.styles,
       imagePath: this.imagePath,
       imageExtension: this.imageExtension,
-      calculator: this.calculator
+      calculator: this.calculator,
+      clusterClass: this.clusterClass,
+      enableRetinaIcons: this.enableRetinaIcons,
+      ignoreHidden: this.ignoreHidden,
+      imageSizes: this.imageSizes,
+      title: this.title,
     });
   }
 }

@@ -1,6 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 
-import 'js-marker-clusterer';
+import 'markerclusterer';
 
 import {MarkerManager} from '../../../core/services/managers/marker-manager';
 import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
@@ -104,7 +104,7 @@ export class ClusterManager extends MarkerManager {
   setZoomOnClick(c: AgmMarkerCluster): void {
     this.getClustererInstance().then(cluster => {
       if (c.zoomOnClick !== undefined) {
-        cluster.zoomOnClick_ = c.zoomOnClick;
+        cluster.setZoomOnClick(c.zoomOnClick);
       }
     });
   }
@@ -112,7 +112,7 @@ export class ClusterManager extends MarkerManager {
   setAverageCenter(c: AgmMarkerCluster): void {
     this.getClustererInstance().then(cluster => {
       if (c.averageCenter !== undefined) {
-        cluster.averageCenter_ = c.averageCenter;
+        cluster.setAverageCenter(c.averageCenter);
       }
     });
   }
@@ -120,7 +120,7 @@ export class ClusterManager extends MarkerManager {
   setImagePath(c: AgmMarkerCluster): void {
     this.getClustererInstance().then(cluster => {
       if (c.imagePath !== undefined) {
-        cluster.imagePath_ = c.imagePath;
+        cluster.setImagePath(c.imagePath);
       }
     });
   }
@@ -128,7 +128,7 @@ export class ClusterManager extends MarkerManager {
   setMinimumClusterSize(c: AgmMarkerCluster): void {
     this.getClustererInstance().then(cluster => {
       if (c.minimumClusterSize !== undefined) {
-        cluster.minimumClusterSize_ = c.minimumClusterSize;
+        cluster.setMinimumClusterSize(c.minimumClusterSize);
       }
     });
   }
@@ -136,7 +136,7 @@ export class ClusterManager extends MarkerManager {
   setImageExtension(c: AgmMarkerCluster): void {
     this.getClustererInstance().then(cluster => {
       if (c.imageExtension !== undefined) {
-        cluster.imageExtension_ = c.imageExtension;
+        cluster.setImageExtension(c.imageExtension);
       }
     });
   }
@@ -147,5 +147,40 @@ export class ClusterManager extends MarkerManager {
         cluster.setCalculator(c.calculator);
       }
     });
+  }
+
+  async setClusterClass (c: AgmMarkerCluster) {
+    if (typeof c.clusterClass !== 'undefined') {
+      const instance = await this.getClustererInstance();
+      instance.setClusterClass(c.clusterClass);
+    }
+  }
+
+  async setEnableRetinaIcons (c: AgmMarkerCluster) {
+    if (typeof c.enableRetinaIcons !== 'undefined') {
+      const instance = await this.getClustererInstance();
+      instance.setEnableRetinaIcons(c.enableRetinaIcons);
+    }
+  }
+
+  async setIgnoreHidden (c: AgmMarkerCluster) {
+    if (typeof c.ignoreHidden !== 'undefined') {
+      const instance = await this.getClustererInstance();
+      instance.setIgnoreHidden(c.ignoreHidden);
+    }
+  }
+
+  async setImageSizes (c: AgmMarkerCluster) {
+    if (typeof c.imageSizes !== 'undefined') {
+      const instance = await this.getClustererInstance();
+      instance.setImageSizes(c.imageSizes);
+    }
+  }
+
+  async setTitle (c: AgmMarkerCluster) {
+    if (typeof c.title !== 'undefined') {
+      const instance = await this.getClustererInstance();
+      instance.setTitle(c.title);
+    }
   }
 }
