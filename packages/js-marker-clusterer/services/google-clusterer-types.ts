@@ -323,7 +323,6 @@ export interface ClusterStyle {
    */
   fontStyle?: string;
 
-
   /**
    * The value of the CSS `font-family` property for the label text shown on
    * the cluster icon.
