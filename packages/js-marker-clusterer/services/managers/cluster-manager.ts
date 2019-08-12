@@ -2,11 +2,9 @@ import {Injectable, NgZone} from '@angular/core';
 
 import 'js-marker-clusterer';
 
-import {MarkerManager} from '../../../core/services/managers/marker-manager';
-import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {AgmMarker} from '../../../core/directives/marker';
-import {AgmMarkerCluster} from './../../directives/marker-cluster';
+import {AgmMarker, GoogleMapsAPIWrapper, MarkerManager} from '@agm/core';
 import {Marker} from '@agm/core/services/google-maps-types';
+import {AgmMarkerCluster} from '../../directives/marker-cluster';
 import {MarkerClustererInstance, ClusterOptions} from '../google-clusterer-types';
 
 declare var MarkerClusterer: any;
