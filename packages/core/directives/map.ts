@@ -361,7 +361,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * This event is fired when the visible tiles have finished loading.
    */
-  @Output() tilesLoaded: EventEmitter<void> = new EventEmitter<any>();
+  @Output() tilesLoaded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService, private _zone: NgZone) {
   }
@@ -585,7 +585,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _handleTilesLoadedEvent() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('tilesloaded').subscribe(
-      () => { this.tilesLoaded.emit(void 0); });
+      () => this.tilesLoaded.emit(void 0)
+    );
     this._observableSubscriptions.push(s);
   }
 
