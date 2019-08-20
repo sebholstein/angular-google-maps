@@ -51,7 +51,7 @@ cd my-maps-project
 `Angular Google Maps (short name: AGM)` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
 
 ```bash
-npm install @agm/core --save
+npm install @agm/core
 ```
 
 ### Setup @NgModule
@@ -61,20 +61,16 @@ Open `src/app/app.module.ts` and import the `AgmCoreModule`.
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
-
+import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
     BrowserModule,
-    CommonModule,
-    FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'YOUR_KEY'
+      apiKey: ''
     })
   ],
   providers: [],
@@ -97,9 +93,9 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.css'],
 })
 export class AppComponent {
-  title: string = 'My first AGM project';
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  title = 'My first AGM project';
+  lat = 51.678418;
+  lng = 7.809007;
 }
 ```
 

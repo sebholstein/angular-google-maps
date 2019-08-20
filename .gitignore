@@ -13,3 +13,4 @@ coverage/
 .idea/
 .DS_Store
 docs/public
+agm-*-*.tgz
