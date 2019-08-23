@@ -156,7 +156,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The enabled/disabled state of the Zoom control.
    */
-  @Input() zoomControl: boolean = true;
+  @Input() zoomControl: boolean;
 
   /**
    * Options for the Zoom control.
@@ -181,7 +181,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * This control is part of the default UI, and should be set to false when displaying a map type
    * on which the Street View road overlay should not appear (e.g. a non-Earth map type).
    */
-  @Input() streetViewControl: boolean = true;
+  @Input() streetViewControl: boolean;
 
   /**
    * Options for the Street View control.
