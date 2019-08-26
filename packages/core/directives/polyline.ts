@@ -1,9 +1,10 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
+import { PolyMouseEvent, LatLng } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
 import { AgmPolylinePoint } from './polyline-point';
+import { AgmPolylineIcon } from './polyline-icon';
 
 let polylineId = 0;
 /**
@@ -139,14 +140,21 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   @Output() lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This even is fired when the Polyline is right-clicked on.
+   * This event is fired when the Polyline is right-clicked on.
    */
   @Output() lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+
+  /**
+   * This event is fired after Polyline's path changes.
+   */
+  @Output() polyPathChange = new EventEmitter<PathEvent>();
 
   /**
    * @internal
    */
   @ContentChildren(AgmPolylinePoint) points: QueryList<AgmPolylinePoint>;
+
+  @ContentChildren(AgmPolylineIcon) iconSequences: QueryList<AgmPolylineIcon>;
 
   private static _polylineOptionsAttributes: Array<string> = [
     'draggable', 'editable', 'visible', 'geodesic', 'strokeColor', 'strokeOpacity', 'strokeWeight',
@@ -171,9 +179,12 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     if (!this._polylineAddedToManager) {
       this._init();
     }
-    const s = this.points.changes.subscribe(() => this._polylineManager.updatePolylinePoints(this));
-    this._subscriptions.push(s);
+    const pointSub = this.points.changes.subscribe(() => this._polylineManager.updatePolylinePoints(this));
+    this._subscriptions.push(pointSub);
     this._polylineManager.updatePolylinePoints(this);
+
+    const iconSub = this.iconSequences.changes.subscribe(() => this._polylineManager.updateIconSequences(this));
+    this._subscriptions.push(iconSub);
   }
 
   ngOnChanges(changes: SimpleChanges): any {
@@ -187,6 +198,10 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
         k => AgmPolyline._polylineOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach(k => options[k] = changes[k].currentValue);
     this._polylineManager.setPolylineOptions(this, options);
+  }
+
+  getPath(): Promise<Array<LatLng>> {
+    return this._polylineManager.getPath(this);
   }
 
   private _init() {
@@ -213,12 +228,24 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       const os = this._polylineManager.createEventObservable(obj.name, this).subscribe(obj.handler);
       this._subscriptions.push(os);
     });
+
+    this._polylineManager.createPathEventObservable(this).then((ob$) => {
+      const os = ob$.subscribe(pathEvent => this.polyPathChange.emit(pathEvent));
+      this._subscriptions.push(os);
+    });
   }
 
   /** @internal */
   _getPoints(): Array<AgmPolylinePoint> {
     if (this.points) {
       return this.points.toArray();
+    }
+    return [];
+  }
+
+  _getIcons(): Array<AgmPolylineIcon> {
+    if (this.iconSequences) {
+      return this.iconSequences.toArray();
     }
     return [];
   }
@@ -232,4 +259,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
+}
+
+export interface PathEvent {
+  newArr: LatLng[];
+  evName: 'insert_at' | 'remove_at' | 'set_at';
+  index: number;
+  previous?: LatLng;
 }

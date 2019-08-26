@@ -1,9 +1,9 @@
-import {Directive, Input, Output, EventEmitter, OnDestroy, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 
-import {ClusterManager} from '../services/managers/cluster-manager';
-import {MarkerManager, InfoWindowManager} from '@agm/core';
+import { ClusterManager } from '../services/managers/cluster-manager';
+import { MarkerManager, InfoWindowManager } from '@agm/core';
 
-import {CalculateFunction, ClusterOptions, ClusterStyle} from '../services/google-clusterer-types';
+import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
 
 import {MouseEvent} from '../../core/map-types';
 import * as mapTypes from '../../core/services/google-maps-types';
@@ -40,7 +40,7 @@ import { Subscription } from 'rxjs';
   selector: 'agm-marker-cluster',
   providers: [
     ClusterManager,
-    {provide: MarkerManager, useExisting: ClusterManager},
+    { provide: MarkerManager, useExisting: ClusterManager },
     InfoWindowManager,
   ]
 })
@@ -73,7 +73,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   /**
    * An object that has style properties.
    */
-  @Input() styles: ClusterStyle;
+  @Input() styles: ClusterStyle[];
 
   /**
    * A function that calculates the cluster style and text based on the markers in the cluster.
@@ -86,7 +86,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Output() clusterClick: EventEmitter<mapTypes.MouseEvent> = new EventEmitter<mapTypes.MouseEvent>();
 
   private _observableSubscriptions: Subscription[] = [];
-  constructor(private _clusterManager: ClusterManager) {}
+  constructor(private _clusterManager: ClusterManager) { }
 
   /** @internal */
   ngOnDestroy() {
@@ -95,15 +95,12 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   }
 
   /** @internal */
-  ngOnChanges(changes: {[key: string]: SimpleChange }) {
+  ngOnChanges(changes: { [key: string]: SimpleChange }) {
     if (changes['gridSize']) {
       this._clusterManager.setGridSize(this);
     }
     if (changes['maxZoom']) {
       this._clusterManager.setMaxZoom(this);
-    }
-    if (changes['styles']) {
-      this._clusterManager.setStyles(this);
     }
     if (changes['zoomOnClick']) {
       this._clusterManager.setZoomOnClick(this);
@@ -114,9 +111,6 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     if (changes['minimumClusterSize']) {
       this._clusterManager.setMinimumClusterSize(this);
     }
-    if (changes['styles']) {
-      this._clusterManager.setStyles(this);
-    }
     if (changes['imagePath']) {
       this._clusterManager.setImagePath(this);
     }
@@ -125,6 +119,9 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     }
     if (changes['calculator']) {
       this._clusterManager.setCalculator(this);
+    }
+    if (changes['styles']) {
+      this._clusterManager.setStyles(this);
     }
   }
 
@@ -153,6 +150,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       styles: this.styles,
       imagePath: this.imagePath,
       imageExtension: this.imageExtension,
+      calculator: this.calculator
     });
   }
 }

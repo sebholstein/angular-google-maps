@@ -1,8 +1,8 @@
 import { Directive, OnInit, Self, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FitBoundsService, FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 import { Subscription, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { LatLng, LatLngLiteral } from '@agm/core';
+
+import { FitBoundsService, FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 
 /**
  * Adds the given directive to the auto fit bounds feature when the value is true.
@@ -44,24 +44,37 @@ export class AgmFitBounds implements OnInit, OnDestroy, OnChanges {
       .pipe(
         distinctUntilChanged(
           (x: FitBoundsDetails, y: FitBoundsDetails) =>
-            x.latLng.lat === y.latLng.lng
+            x.latLng.lat === y.latLng.lat &&
+            x.latLng.lng === y.latLng.lng
         ),
         takeUntil(this._destroyed$)
       )
       .subscribe(details => this._updateBounds(details));
   }
 
+  /*
+   Either the location changed, or visible status changed.
+   Possible state changes are
+   invisible -> visible
+   visible -> invisible
+   visible -> visible (new location)
+  */
   private _updateBounds(newFitBoundsDetails?: FitBoundsDetails) {
+    // either visibility will change, or location, so remove the old one anyway
+    if (this._latestFitBoundsDetails) {
+      this._fitBoundsService.removeFromBounds(this._latestFitBoundsDetails.latLng);
+      // don't set latestFitBoundsDetails to null, because we can toggle visibility from
+      // true -> false -> true, in which case we still need old value cached here
+    }
+
     if (newFitBoundsDetails) {
       this._latestFitBoundsDetails = newFitBoundsDetails;
     }
     if (!this._latestFitBoundsDetails) {
       return;
     }
-    if (this.agmFitBounds) {
+    if (this.agmFitBounds === true) {
       this._fitBoundsService.addToBounds(this._latestFitBoundsDetails.latLng);
-    } else {
-      this._fitBoundsService.removeFromBounds(this._latestFitBoundsDetails.latLng);
     }
   }
 

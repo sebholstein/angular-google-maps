@@ -136,17 +136,17 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges 
   /**
    * @internal
    */
-  @ViewChild('outerWrapper', {read: ElementRef}) _outerWrapper: ElementRef;
+  @ViewChild('outerWrapper', {read: ElementRef, static: false}) _outerWrapper: ElementRef;
 
   /**
    * @internal
    */
-  @ViewChild('viewContainer', {read: ViewContainerRef}) _viewContainerRef: ViewContainerRef;
+  @ViewChild('viewContainer', {read: ViewContainerRef, static: false}) _viewContainerRef: ViewContainerRef;
 
   /**
    * @internal
    */
-  @ContentChild(TemplateRef) _templateRef: TemplateRef<any>;
+  @ContentChild(TemplateRef, {static: false}) _templateRef: TemplateRef<any>;
 
   protected _nativeSnazzyInfoWindow: any;
   protected _snazzyInfoWindowInitialized: Promise<any>|null = null;

@@ -1,5 +1,44 @@
+<a name="1.0.0-beta.7"></a>
+# [1.0.0-beta.7 green-ink](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.6...1.0.0-beta.7) (2019-07-14)
+
+
+### Bug Fixes
+
+* google is not defined when using fitBounds ([#1652](https://github.com/SebastianM/angular-google-maps/issues/1652)) ([c9e1313](https://github.com/SebastianM/angular-google-maps/commit/c9e1313)), closes [#1586](https://github.com/SebastianM/angular-google-maps/issues/1586)
+* Remove "constructors" from interfaces ([2bb6102](https://github.com/SebastianM/angular-google-maps/commit/2bb6102))
+* **AgmCircle:** circle strokeWeight error ([0442aa0](https://github.com/SebastianM/angular-google-maps/commit/0442aa0)), closes [#770](https://github.com/SebastianM/angular-google-maps/issues/770)
+* **FitBounds:** correct distinct algorythm ([#1673](https://github.com/SebastianM/angular-google-maps/issues/1673)) ([75bcfa0](https://github.com/SebastianM/angular-google-maps/commit/75bcfa0))
+* **PolylinePoint:** prevent accessing undefined variable on change ([21efc4f](https://github.com/SebastianM/angular-google-maps/commit/21efc4f)), closes [#1597](https://github.com/SebastianM/angular-google-maps/issues/1597)
+
+
+### Features
+
+* Add placeId to map click events ([34f651b](https://github.com/SebastianM/angular-google-maps/commit/34f651b)), closes [#691](https://github.com/SebastianM/angular-google-maps/issues/691) [#1539](https://github.com/SebastianM/angular-google-maps/issues/1539)
+* Support for Transit Layer ([0f71222](https://github.com/SebastianM/angular-google-maps/commit/0f71222))
+* **AgmMap:** add controlSize option ([7922546](https://github.com/SebastianM/angular-google-maps/commit/7922546)), closes [#1646](https://github.com/SebastianM/angular-google-maps/issues/1646)
+* **AgmMap:** add tilt option ([49890c5](https://github.com/SebastianM/angular-google-maps/commit/49890c5))
+* **AgmMap:** fix fitBounds causing protractor timeout ([#1611](https://github.com/SebastianM/angular-google-maps/issues/1611)) ([565b6a7](https://github.com/SebastianM/angular-google-maps/commit/565b6a7)), closes [#1548](https://github.com/SebastianM/angular-google-maps/issues/1548)
+* **Polyline:** add IconSequences to Polylines ([46a39b7](https://github.com/SebastianM/angular-google-maps/commit/46a39b7)), closes [#721](https://github.com/SebastianM/angular-google-maps/issues/721)
+
 <a name="1.0.0-beta.6"></a>
-# [1.0.0-beta.6](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2018-11-13)
+# [1.0.0-beta.6 opal-clarinet](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.5...1.0.0-beta.6) (2019-06-01)
+
+
+### Bug Fixes
+
+* **AgmCircle:** dragstart event misspelled ([8b2f2dc](https://github.com/SebastianM/angular-google-maps/commit/8b2f2dc)), closes [#1537](https://github.com/SebastianM/angular-google-maps/issues/1537)
+* **AgmMap:** _updateBounds not creating newBounds object ([#1553](https://github.com/SebastianM/angular-google-maps/issues/1553)) ([0e8f1ab](https://github.com/SebastianM/angular-google-maps/commit/0e8f1ab))
+* **core/marker:** drag and dragStart outputs ([#1604](https://github.com/SebastianM/angular-google-maps/issues/1604)) ([ba7c97e](https://github.com/SebastianM/angular-google-maps/commit/ba7c97e))
+
+
+### Features
+
+* add experimental angular 7/8 support ([e754bc7](https://github.com/SebastianM/angular-google-maps/commit/e754bc7))
+* **AgmMap:** add area restriction option ([7201a75](https://github.com/SebastianM/angular-google-maps/commit/7201a75)), closes [#1624](https://github.com/SebastianM/angular-google-maps/issues/1624)
+* **AgmMarker:** add drag and dragStart event support ([#1575](https://github.com/SebastianM/angular-google-maps/issues/1575)) ([1e6395d](https://github.com/SebastianM/angular-google-maps/commit/1e6395d))
+* **AgmMarkerCluster:** add calculator option ([#1599](https://github.com/SebastianM/angular-google-maps/issues/1599)) ([03ceb1c](https://github.com/SebastianM/angular-google-maps/commit/03ceb1c))
+* **GoogleMapsAPILoader:** change default API version ([#1577](https://github.com/SebastianM/angular-google-maps/issues/1577)) ([2fc1a21](https://github.com/SebastianM/angular-google-maps/commit/2fc1a21)), closes [#1573](https://github.com/SebastianM/angular-google-maps/issues/1573)
+* **polygon, polyline:** add path change event ([#1643](https://github.com/SebastianM/angular-google-maps/issues/1643)) ([f9352a8](https://github.com/SebastianM/angular-google-maps/commit/f9352a8))
 
 <a name="1.0.0-beta.5"></a>
 # [1.0.0-beta.5 yellow-tape](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.4...1.0.0-beta.5) (2018-09-24)
