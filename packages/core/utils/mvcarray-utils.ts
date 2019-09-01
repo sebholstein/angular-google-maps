@@ -1,12 +1,12 @@
-import { MVCArray, MapsEventListener } from '../services/google-maps-types';
-import { Observable, fromEventPattern } from 'rxjs';
+import { fromEventPattern, Observable } from 'rxjs';
+import { MapsEventListener, MVCArray } from '../services/google-maps-types';
 
 export function createMVCEventObservable<T>(array: MVCArray<T>): Observable<MVCEvent<T>>{
   const eventNames = ['insert_at', 'remove_at', 'set_at'];
   return fromEventPattern(
     (handler: Function) => eventNames.map(evName => array.addListener(evName,
       (index: number, previous?: T) => handler.apply(array, [ {'newArr': array.getArray(), evName, index, previous} as MVCEvent<T>]))),
-    (handler: Function, evListeners: MapsEventListener[]) => evListeners.forEach(evListener => evListener.remove()));
+    (_handler: Function, evListeners: MapsEventListener[]) => evListeners.forEach(evListener => evListener.remove()));
 }
 
 export interface MVCEvent<T> {
@@ -77,7 +77,7 @@ export class MvcArrayMock<T> implements MVCArray<T> {
     return {
         remove: () => {
             listenerArr.splice(listenerArr.indexOf(handler), 1);
-        }
+        },
     };
   }
 }

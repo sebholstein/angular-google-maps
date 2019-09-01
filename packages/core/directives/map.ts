@@ -1,22 +1,23 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, Input, Output, NgZone } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MouseEvent } from '../map-types';
+import { FitBoundsService } from '../services/fit-bounds';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
 import {
-  FullscreenControlOptions, LatLng, LatLngLiteral, MapTypeControlOptions, MapTypeId, PanControlOptions, MapRestriction,
-  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions} from '../services/google-maps-types';
-import { LatLngBounds, LatLngBoundsLiteral, MapTypeStyle } from '../services/google-maps-types';
+  FullscreenControlOptions, LatLng, LatLngBounds, LatLngBoundsLiteral, LatLngLiteral,
+  MapRestriction, MapTypeControlOptions, MapTypeId, MapTypeStyle, PanControlOptions,
+  RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions,
+} from '../services/google-maps-types';
 import { CircleManager } from '../services/managers/circle-manager';
-import { RectangleManager } from '../services/managers/rectangle-manager';
 import { InfoWindowManager } from '../services/managers/info-window-manager';
+import { LayerManager } from '../services/managers/layer-manager';
 import { MarkerManager } from '../services/managers/marker-manager';
 import { PolygonManager } from '../services/managers/polygon-manager';
 import { PolylineManager } from '../services/managers/polyline-manager';
-import { KmlLayerManager } from './../services/managers/kml-layer-manager';
+import { RectangleManager } from '../services/managers/rectangle-manager';
 import { DataLayerManager } from './../services/managers/data-layer-manager';
-import { LayerManager } from '../services/managers/layer-manager';
-import { FitBoundsService } from '../services/fit-bounds';
+import { KmlLayerManager } from './../services/managers/kml-layer-manager';
 
 declare var google: any;
 
@@ -46,13 +47,22 @@ declare var google: any;
 @Component({
   selector: 'agm-map',
   providers: [
-    GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager, RectangleManager,
-    PolylineManager, PolygonManager, KmlLayerManager, DataLayerManager, DataLayerManager,
-    LayerManager, FitBoundsService
+    CircleManager,
+    DataLayerManager,
+    DataLayerManager,
+    FitBoundsService,
+    GoogleMapsAPIWrapper,
+    InfoWindowManager,
+    KmlLayerManager,
+    LayerManager,
+    MarkerManager,
+    PolygonManager,
+    PolylineManager,
+    RectangleManager,
   ],
   host: {
     // todo: deprecated - we will remove it with the next version
-    '[class.sebm-google-map-container]': 'true'
+    '[class.sebm-google-map-container]': 'true',
   },
   styles: [`
     .agm-map-container-inner {
@@ -68,23 +78,23 @@ declare var google: any;
               <div class='agm-map-content'>
                 <ng-content></ng-content>
               </div>
-  `
+  `,
 })
 export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The longitude that defines the center of the map.
    */
-  @Input() longitude: number = 0;
+  @Input() longitude = 0;
 
   /**
    * The latitude that defines the center of the map.
    */
-  @Input() latitude: number = 0;
+  @Input() latitude = 0;
 
   /**
    * The zoom level of the map. The default zoom level is 8.
    */
-  @Input() zoom: number = 8;
+  @Input() zoom = 8;
 
   /**
    * The minimal zoom level of the map allowed. When not provided, no restrictions to the zoom level
@@ -107,23 +117,23 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * Enables/disables if map is draggable.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('mapDraggable') draggable: boolean = true;
+  @Input('mapDraggable') draggable = true;
 
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
    */
-  @Input() disableDoubleClickZoom: boolean = false;
+  @Input() disableDoubleClickZoom = false;
 
   /**
    * Enables/disables all default UI of the Google map. Please note: When the map is created, this
    * value cannot get updated.
    */
-  @Input() disableDefaultUI: boolean = false;
+  @Input() disableDefaultUI = false;
 
   /**
    * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
    */
-  @Input() scrollwheel: boolean = true;
+  @Input() scrollwheel = true;
 
   /**
    * Color used for the background of the Map div. This color will be visible when tiles have not
@@ -151,7 +161,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are
    * enabled by default.
    */
-  @Input() keyboardShortcuts: boolean = true;
+  @Input() keyboardShortcuts = true;
 
   /**
    * The enabled/disabled state of the Zoom control.
@@ -174,7 +184,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * used to
    * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
    */
-  @Input() usePanning: boolean = false;
+  @Input() usePanning = false;
 
   /**
    * The initial enabled/disabled state of the Street View Pegman control.
@@ -192,12 +202,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * Sets the viewport to contain the given bounds.
    * If this option to `true`, the bounds get automatically computed from all elements that use the {@link AgmFitBounds} directive.
    */
-  @Input() fitBounds: LatLngBoundsLiteral|LatLngBounds|boolean = false;
+  @Input() fitBounds: LatLngBoundsLiteral | LatLngBounds | boolean = false;
 
   /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
    */
-  @Input() scaleControl: boolean = false;
+  @Input() scaleControl = false;
 
   /**
    * Options for the scale control.
@@ -207,7 +217,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The initial enabled/disabled state of the Map type control.
    */
-  @Input() mapTypeControl: boolean = false;
+  @Input() mapTypeControl = false;
 
   /**
    * Options for the Map type control.
@@ -217,7 +227,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The initial enabled/disabled state of the Pan control.
    */
-  @Input() panControl: boolean  = false;
+  @Input() panControl  = false;
 
   /**
    * Options for the Pan control.
@@ -227,7 +237,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The initial enabled/disabled state of the Rotate control.
    */
-  @Input() rotateControl: boolean = false;
+  @Input() rotateControl = false;
 
   /**
    * Options for the Rotate control.
@@ -237,7 +247,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The initial enabled/disabled state of the Fullscreen control.
    */
-  @Input() fullscreenControl: boolean  = false;
+  @Input() fullscreenControl  = false;
 
   /**
    * Options for the Fullscreen control.
@@ -247,13 +257,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   /**
    * The map mapTypeId. Defaults to 'roadmap'.
    */
-  @Input() mapTypeId: 'roadmap'|'hybrid'|'satellite'|'terrain'|string = 'roadmap';
+  @Input() mapTypeId: 'roadmap' | 'hybrid' | 'satellite' | 'terrain' | string = 'roadmap';
 
   /**
    * When false, map icons are not clickable. A map icon represents a point of interest,
    * also known as a POI. By default map icons are clickable.
    */
-  @Input() clickableIcons: boolean = true;
+  @Input() clickableIcons = true;
 
   /**
    * A map icon represents a point of interest, also known as a POI.
@@ -261,7 +271,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * When this property is set to false, the info window will not be shown but the click event
    * will still fire
    */
-  @Input() showDefaultInfoWindow: boolean = true;
+  @Input() showDefaultInfoWindow = true;
 
   /**
    * This setting controls how gestures on the map are handled.
@@ -271,7 +281,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * - 'none'        (The map cannot be panned or zoomed by user gestures.)
    * - 'auto'        [default] (Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or not.
    */
-  @Input() gestureHandling: 'cooperative'|'greedy'|'none'|'auto' = 'auto';
+  @Input() gestureHandling: 'cooperative' | 'greedy' | 'none' | 'auto' = 'auto';
 
     /**
      * Controls the automatic switching behavior for the angle of incidence of
@@ -287,7 +297,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
      * different things, do not bind() the tilt property; doing so may yield
      * unpredictable effects. (Default of AGM is 0 (disabled). Enable it with value 45.)
      */
-  @Input() tilt: number = 0;
+  @Input() tilt = 0;
 
   /**
    * Options for restricting the bounds of the map.
@@ -303,7 +313,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
-    'mapTypeId', 'clickableIcons', 'gestureHandling', 'tilt', 'restriction'
+    'mapTypeId', 'clickableIcons', 'gestureHandling', 'tilt', 'restriction',
   ];
 
   private _observableSubscriptions: Subscription[] = [];
@@ -523,7 +533,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  protected _updateBounds(bounds: LatLngBounds|LatLngBoundsLiteral) {
+  protected _updateBounds(bounds: LatLngBounds | LatLngBoundsLiteral) {
     if (this._isLatLngBoundsLiteral(bounds) && typeof google !== 'undefined' && google && google.maps && google.maps.LatLngBounds) {
       const newBounds = new google.maps.LatLngBounds();
       newBounds.union(bounds);
@@ -536,8 +546,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     this._mapsWrapper.fitBounds(bounds);
   }
 
-  private _isLatLngBoundsLiteral(bounds: LatLngBounds|LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
-    return bounds != null && (<any>bounds).extend === undefined;
+  private _isLatLngBoundsLiteral(bounds: LatLngBounds | LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
+    return bounds != null && (bounds as any).extend === undefined;
   }
 
   private _handleMapCenterChange() {
@@ -545,7 +555,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       this._mapsWrapper.getCenter().then((center: LatLng) => {
         this.latitude = center.lat();
         this.longitude = center.lng();
-        this.centerChange.emit(<LatLngLiteral>{lat: this.latitude, lng: this.longitude});
+        this.centerChange.emit({lat: this.latitude, lng: this.longitude} as LatLngLiteral);
       });
     });
     this._observableSubscriptions.push(s);
@@ -585,7 +595,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _handleTilesLoadedEvent() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('tilesloaded').subscribe(
-      () => this.tilesLoaded.emit(void 0)
+      () => this.tilesLoaded.emit(void 0),
     );
     this._observableSubscriptions.push(s);
   }
@@ -609,13 +619,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
           let value: MouseEvent = {
             coords: {
               lat: event.latLng.lat(),
-              lng: event.latLng.lng()
+              lng: event.latLng.lng(),
             },
-            placeId: (<{latLng: LatLng, placeId: string}>event).placeId
+            placeId: (event as {latLng: LatLng, placeId: string}).placeId,
           };
           // the placeId will be undefined in case the event was not an IconMouseEvent (google types)
           if (value.placeId && !this.showDefaultInfoWindow) {
-            (<any>event).stop();
+            (event as any).stop();
           }
           e.emitter.emit(value);
         });

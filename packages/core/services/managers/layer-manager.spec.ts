@@ -1,13 +1,13 @@
-import {NgZone} from '@angular/core';
-import {TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {AgmTransitLayer} from '../../directives/transit-layer';
-import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
-import {LayerManager} from './layer-manager';
-import {AgmBicyclingLayer} from '../../directives/bicycling-layer';
+import { NgZone } from '@angular/core';
+import { fakeAsync, inject, TestBed } from '@angular/core/testing';
+import { AgmBicyclingLayer } from '../../directives/bicycling-layer';
+import { AgmTransitLayer } from '../../directives/transit-layer';
+import { GoogleMapsAPIWrapper } from '../../services/google-maps-api-wrapper';
+import { LayerManager } from './layer-manager';
 
 describe('LayerManager', () => {
     beforeAll(() => {
-        (<any>window).google = {
+        (window as any).google = {
             maps: {
                 TransitLayer: class TransitLayer {
                     setMap = jest.fn();
@@ -24,7 +24,7 @@ describe('LayerManager', () => {
 
                     }
                 },
-            }
+            },
         };
     });
 
@@ -38,13 +38,13 @@ describe('LayerManager', () => {
                     useValue: {
                         getNativeMap: () => Promise.resolve(),
                         createTransitLayer: jest.fn(),
-                        createBicyclingLayer: jest.fn()
+                        createBicyclingLayer: jest.fn(),
 
-                    }
+                    },
                 },
                 LayerManager,
 
-            ]
+            ],
         });
     }); // end beforeEach
 
@@ -58,8 +58,8 @@ describe('LayerManager', () => {
                     const opt = {visible: false};
                     layerManager.addTransitLayer(transitLayer, opt);
                     expect(apiWrapper.createTransitLayer).toHaveBeenCalledWith(opt);
-                })
-            )
+                }),
+            ),
         );
     });
 
@@ -74,8 +74,8 @@ describe('LayerManager', () => {
                     layerManager.addBicyclingLayer(bicyclingLayer, opt);
                     expect(apiWrapper.createBicyclingLayer).toHaveBeenCalledWith(opt);
 
-                })
-            )
+                }),
+            ),
         );
     });
 
@@ -95,8 +95,8 @@ describe('LayerManager', () => {
                         getMap: jest.fn(),
                     };
 
-                    (<jest.Mock>apiWrapper.createTransitLayer).mockReturnValue(
-                        Promise.resolve(transitLayerInstance)
+                    (apiWrapper.createTransitLayer as jest.Mock).mockReturnValue(
+                        Promise.resolve(transitLayerInstance),
                     );
 
                     layerManager.addTransitLayer(newLayer, {visible: true});
@@ -106,8 +106,8 @@ describe('LayerManager', () => {
                     layerManager.toggleLayerVisibility(newLayer, {visible: false}).then(() => {
                         expect(transitLayerInstance.setMap).toHaveBeenCalledWith(null);
                     });
-                }
-            )
+                },
+            ),
 
         ));
 
