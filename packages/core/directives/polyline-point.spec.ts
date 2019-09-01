@@ -1,5 +1,5 @@
-import {SimpleChange, SimpleChanges} from '@angular/core';
-import {AgmPolylinePoint} from './polyline-point';
+import { SimpleChange, SimpleChanges } from '@angular/core';
+import { AgmPolylinePoint } from './polyline-point';
 
 describe('AgmPolylinePoint', () => {
   describe('ngOnChanges', () => {
@@ -37,7 +37,7 @@ describe('AgmPolylinePoint', () => {
 
       const positionChanges: SimpleChanges = {
         'latitude': new SimpleChange('previousLat', 'newLat', false),
-        'longitude': new SimpleChange('previousLng', 'newLng', false)
+        'longitude': new SimpleChange('previousLng', 'newLng', false),
       };
 
       polylinePoint.ngOnChanges(positionChanges);

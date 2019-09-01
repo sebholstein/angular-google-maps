@@ -1,11 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable, Observer, merge } from 'rxjs';
-import { startWith, map, switchMap, skip } from 'rxjs/operators';
+import { merge, Observable, Observer } from 'rxjs';
+import { map, skip, startWith, switchMap } from 'rxjs/operators';
 
-import {AgmPolygon, PolygonPathEvent, PathCollectionChangePolygonPathEvent, PathChangePolygonPathEvent} from '../../directives/polygon';
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {Polygon, LatLng, MVCArray} from '../google-maps-types';
+import { AgmPolygon, PathChangePolygonPathEvent, PathCollectionChangePolygonPathEvent, PolygonPathEvent } from '../../directives/polygon';
 import { createMVCEventObservable, MVCEvent } from '../../utils/mvcarray-utils';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
+import { LatLng, MVCArray, Polygon } from '../google-maps-types';
 
 @Injectable()
 export class PolygonManager {
@@ -80,13 +80,13 @@ export class PolygonManager {
     const paths = polygon.getPaths();
     const pathsChanges$ = createMVCEventObservable(paths);
     return pathsChanges$.pipe(startWith(({ newArr: paths.getArray() } as MVCEvent<MVCArray<LatLng>>)), // in order to subscribe to them all
-      switchMap(parentMVEvent => merge(... // rest parameter
+      switchMap(parentMVEvent => merge(...// rest parameter
         parentMVEvent.newArr.map((chMVC, index) =>
           createMVCEventObservable(chMVC)
           .pipe(map(chMVCEvent => ({ parentMVEvent, chMVCEvent, pathIndex: index })))))
         .pipe(startWith({ parentMVEvent, chMVCEvent: null, pathIndex: null }))), // start the merged ob with an event signinifing change to parent
       skip(1), // skip the manually added event
-      map(({ parentMVEvent, chMVCEvent, pathIndex, }) => {
+      map(({ parentMVEvent, chMVCEvent, pathIndex }) => {
         let retVal;
         if (!chMVCEvent) {
           retVal = {
@@ -102,7 +102,7 @@ export class PolygonManager {
             newArr: parentMVEvent.newArr.map(subArr => subArr.getArray().map(latLng => latLng.toJSON())),
             pathIndex,
             eventName: chMVCEvent.evName,
-            index: chMVCEvent.index
+            index: chMVCEvent.index,
           } as PathChangePolygonPathEvent;
           if (chMVCEvent.previous) {
             retVal.previous = chMVCEvent.previous;

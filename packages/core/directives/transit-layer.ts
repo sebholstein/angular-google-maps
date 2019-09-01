@@ -8,17 +8,17 @@ let layerId = 0;
  * <agm-transit-layer [visible]="true|false"> <agm-transit-layer>
  * */
 @Directive({
-    selector: 'agm-transit-layer'
+    selector: 'agm-transit-layer',
 })
 
 export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
-    private _addedToManager: boolean = false;
+    private _addedToManager = false;
     private _id: string = (layerId++).toString();
 
     /**
      * Hide/show transit layer
      */
-    @Input() visible: boolean = true;
+    @Input() visible = true;
 
     constructor( private _manager: LayerManager ) {}
 

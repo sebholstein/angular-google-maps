@@ -1,24 +1,24 @@
 import {
   Directive,
   EventEmitter,
+  Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChange,
-  Input,
-  Output
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MouseEvent } from '../map-types';
 import {
   LatLngBounds,
-  LatLngBoundsLiteral
+  LatLngBoundsLiteral,
+  MouseEvent as MapMouseEvent,
 } from '../services/google-maps-types';
-import { MouseEvent as MapMouseEvent } from '../services/google-maps-types';
 import { RectangleManager } from '../services/managers/rectangle-manager';
 
 @Directive({
-  selector: 'agm-rectangle'
+  selector: 'agm-rectangle',
 })
 export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   /**
@@ -44,19 +44,19 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   /**
    * Indicates whether this Rectangle handles mouse events. Defaults to true.
    */
-  @Input() clickable: boolean = true;
+  @Input() clickable = true;
 
   /**
    * If set to true, the user can drag this rectangle over the map. Defaults to false.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('rectangleDraggable') draggable: boolean = false;
+  @Input('rectangleDraggable') draggable = false;
 
   /**
    * If set to true, the user can edit this rectangle by dragging the control points shown at
    * the center and around the circumference of the rectangle. Defaults to false.
    */
-  @Input() editable: boolean = false;
+  @Input() editable = false;
 
   /**
    * The fill color. All CSS3 colors are supported except for extended named colors.
@@ -87,12 +87,12 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   /**
    * The stroke width in pixels.
    */
-  @Input() strokeWeight: number = 0;
+  @Input() strokeWeight = 0;
 
   /**
    * Whether this rectangle is visible on the map. Defaults to true.
    */
-  @Input() visible: boolean = true;
+  @Input() visible = true;
 
   /**
    * The zIndex compared to other polys.
@@ -169,7 +169,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   @Output()
   rightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  private _rectangleAddedToManager: boolean = false;
+  private _rectangleAddedToManager = false;
 
   private static _mapOptions: string[] = [
     'fillColor',
@@ -180,7 +180,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
     'strokeWeight',
     'visible',
     'zIndex',
-    'clickable'
+    'clickable',
   ];
 
   private _eventSubscriptions: Subscription[] = [];
@@ -224,7 +224,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   }) {
     let options: { [propName: string]: any } = {};
     let optionKeys = Object.keys(changes).filter(
-      k => AgmRectangle._mapOptions.indexOf(k) !== -1
+      k => AgmRectangle._mapOptions.indexOf(k) !== -1,
     );
     optionKeys.forEach(k => {
       options[k] = changes[k].currentValue;
@@ -260,20 +260,20 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
             switch (eventName) {
               case 'bounds_changed':
                 this._manager.getBounds(this).then(bounds =>
-                  eventEmitter.emit(<LatLngBoundsLiteral>{
+                  eventEmitter.emit({
                     north: bounds.getNorthEast().lat(),
                     east: bounds.getNorthEast().lng(),
                     south: bounds.getSouthWest().lat(),
-                    west: bounds.getSouthWest().lng()
-                  })
+                    west: bounds.getSouthWest().lng(),
+                  } as LatLngBoundsLiteral),
                 );
                 break;
               default:
-                eventEmitter.emit(<MouseEvent>{
-                  coords: { lat: value.latLng.lat(), lng: value.latLng.lng() }
-                });
+                eventEmitter.emit({
+                  coords: { lat: value.latLng.lat(), lng: value.latLng.lng() },
+                } as MouseEvent);
             }
-          })
+          }),
       );
     });
   }

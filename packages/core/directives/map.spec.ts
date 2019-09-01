@@ -1,15 +1,10 @@
-// tslint:disable
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { Injectable, CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { By } from '@angular/platform-browser';
-// tslint:enable
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Injectable, SimpleChange } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {Component, Directive, ElementRef, NgZone} from '@angular/core';
-import {AgmMap} from './map';
-import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {FitBoundsService} from '../services/fit-bounds';
 import { Subject } from 'rxjs';
+import { FitBoundsService } from '../services/fit-bounds';
+import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
+import { AgmMap } from './map';
 
 @Injectable()
 class MockElementRef {
@@ -36,7 +31,7 @@ describe('AgmMap', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AgmMap
+        AgmMap,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]});
     TestBed.overrideComponent(AgmMap, {
@@ -47,7 +42,7 @@ describe('AgmMap', () => {
           {provide: FitBoundsService, useClass: MockFitBoundsService},
           // NgZone,
         ],
-      }
+      },
     }).compileComponents();
     fixture = TestBed.createComponent(AgmMap);
     component = fixture.debugElement.componentInstance;
