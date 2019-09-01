@@ -1,18 +1,41 @@
 export var google: any;
 
+export interface MVCObject {
+  addListener(eventName: string, handler: Function): MapsEventListener;
+}
+
+export interface MVCArray<T> extends MVCObject {
+  clear(): void;
+  getArray(): Array<T>;
+  getAt(i: number): T;
+  getLength(): number;
+  insertAt(i: number, elem: T): void;
+  pop(): T;
+  push(elem: T): number;
+  removeAt(i: number): T;
+  setAt(i: number, elem: T): void;
+  /* tslint:disable */
+  /*
+  * Tslint configuration check-parameters will prompt errors for these lines of code.
+  * https://palantir.github.io/tslint/rules/no-unused-variable/
+  */
+  forEach(callback: (elem: T, i: number) => void): void;
+  /* tslint:enable */
+}
+
 export interface GoogleMap extends MVCObject {
   data?: Data;
-  panTo(latLng: LatLng|LatLngLiteral): void;
+  panTo(latLng: LatLng | LatLngLiteral): void;
   panBy(x: number, y: number): void;
   setZoom(zoom: number): void;
   getCenter(): LatLng;
-  setCenter(latLng: LatLng|LatLngLiteral): void;
+  setCenter(latLng: LatLng | LatLngLiteral): void;
   getBounds(): LatLngBounds;
   getMapTypeId(): MapTypeId;
   getZoom(): number;
   setOptions(options: MapOptions): void;
-  panToBounds(latLngBounds: LatLngBounds|LatLngBoundsLiteral): void;
-  fitBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  panToBounds(latLngBounds: LatLngBounds | LatLngBoundsLiteral): void;
+  fitBounds(bounds: LatLngBounds | LatLngBoundsLiteral): void;
 }
 
 export interface LatLng {
@@ -24,9 +47,9 @@ export interface LatLng {
 
 export interface Marker extends MVCObject {
   setMap(map: GoogleMap): void;
-  setPosition(latLng: LatLng|LatLngLiteral): void;
+  setPosition(latLng: LatLng | LatLngLiteral): void;
   setTitle(title: string): void;
-  setLabel(label: string|MarkerLabel): void;
+  setLabel(label: string | MarkerLabel): void;
   setDraggable(draggable: boolean): void;
   setIcon(icon: string): void;
   setOpacity(opacity: number): void;
@@ -38,10 +61,10 @@ export interface Marker extends MVCObject {
 }
 
 export interface MarkerOptions {
-  position: LatLng|LatLngLiteral;
+  position: LatLng | LatLngLiteral;
   title?: string;
   map?: GoogleMap;
-  label?: string|MarkerLabel;
+  label?: string | MarkerLabel;
   draggable?: boolean;
   icon?: string;
   opacity?: number;
@@ -67,7 +90,7 @@ export interface Circle extends MVCObject {
   getMap(): GoogleMap;
   getRadius(): number;
   getVisible(): boolean;
-  setCenter(center: LatLng|LatLngLiteral): void;
+  setCenter(center: LatLng | LatLngLiteral): void;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
@@ -77,7 +100,7 @@ export interface Circle extends MVCObject {
 }
 
 export interface CircleOptions {
-  center?: LatLng|LatLngLiteral;
+  center?: LatLng | LatLngLiteral;
   clickable?: boolean;
   draggable?: boolean;
   editable?: boolean;
@@ -87,7 +110,7 @@ export interface CircleOptions {
   radius?: number;
   strokeColor?: string;
   strokeOpacity?: number;
-  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokePosition?: 'CENTER' | 'INSIDE' | 'OUTSIDE';
   strokeWeight?: number;
   visible?: boolean;
   zIndex?: number;
@@ -99,7 +122,7 @@ export interface Rectangle extends MVCObject {
   getEditable(): boolean;
   getMap(): GoogleMap;
   getVisible(): boolean;
-  setBounds(bounds: LatLngBounds|LatLngBoundsLiteral): void;
+  setBounds(bounds: LatLngBounds | LatLngBoundsLiteral): void;
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
@@ -108,7 +131,7 @@ export interface Rectangle extends MVCObject {
 }
 
 export interface RectangleOptions {
-  bounds?: LatLngBounds|LatLngBoundsLiteral;
+  bounds?: LatLngBounds | LatLngBoundsLiteral;
   clickable?: boolean;
   draggable?: boolean;
   editable?: boolean;
@@ -117,7 +140,7 @@ export interface RectangleOptions {
   map?: GoogleMap;
   strokeColor?: string;
   strokeOpacity?: number;
-  strokePosition?: 'CENTER'|'INSIDE'|'OUTSIDE';
+  strokePosition?: 'CENTER' | 'INSIDE' | 'OUTSIDE';
   strokeWeight?: number;
   visible?: boolean;
   zIndex?: number;
@@ -125,18 +148,18 @@ export interface RectangleOptions {
 
 export interface LatLngBounds {
   contains(latLng: LatLng): boolean;
-  equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
-  extend(point: LatLng|LatLngLiteral): void;
+  equals(other: LatLngBounds | LatLngBoundsLiteral): boolean;
+  extend(point: LatLng | LatLngLiteral): void;
   getCenter(): LatLng;
   getNorthEast(): LatLng;
   getSouthWest(): LatLng;
-  intersects(other: LatLngBounds|LatLngBoundsLiteral): boolean;
+  intersects(other: LatLngBounds | LatLngBoundsLiteral): boolean;
   isEmpty(): boolean;
   toJSON(): LatLngBoundsLiteral;
   toSpan(): LatLng;
   toString(): string;
   toUrlValue(precision?: number): string;
-  union(other: LatLngBounds|LatLngBoundsLiteral): LatLngBounds;
+  union(other: LatLngBounds | LatLngBoundsLiteral): LatLngBounds;
 }
 
 export interface LatLngBoundsLiteral {
@@ -154,7 +177,7 @@ export interface LatLngLiteral {
 export interface MouseEvent { latLng: LatLng; }
 
 export interface MapOptions {
-  center?: LatLng|LatLngLiteral;
+  center?: LatLng | LatLngLiteral;
   zoom?: number;
   minZoom?: number;
   maxZoom?: number;
@@ -182,24 +205,24 @@ export interface MapOptions {
   rotateControlOptions?: RotateControlOptions;
   fullscreenControl?: boolean;
   fullscreenControlOptions?: FullscreenControlOptions;
-  mapTypeId?: string|MapTypeId;
+  mapTypeId?: string | MapTypeId;
   clickableIcons?: boolean;
-  gestureHandling?: 'cooperative'|'greedy'|'none'|'auto';
+  gestureHandling?: 'cooperative' | 'greedy' | 'none' | 'auto';
   tilt?: number;
   restriction?: MapRestriction;
 }
 
 export interface MapTypeStyle {
-  elementType?: 'all'|'geometry'|'geometry.fill'|'geometry.stroke'|'labels'|'labels.icon'|
-      'labels.text'|'labels.text.fill'|'labels.text.stroke';
-  featureType?: 'administrative'|'administrative.country'|'administrative.land_parcel'|
-      'administrative.locality'|'administrative.neighborhood'|'administrative.province'|'all'|
-      'landscape'|'landscape.man_made'|'landscape.natural'|'landscape.natural.landcover'|
-      'landscape.natural.terrain'|'poi'|'poi.attraction'|'poi.business'|'poi.government'|
-      'poi.medical'|'poi.park'|'poi.place_of_worship'|'poi.school'|'poi.sports_complex'|'road'|
-      'road.arterial'|'road.highway'|'road.highway.controlled_access'|'road.local'|'transit'|
-      'transit.line'|'transit.station'|'transit.station.airport'|'transit.station.bus'|
-      'transit.station.rail'|'water';
+  elementType?: 'all' | 'geometry' | 'geometry.fill' | 'geometry.stroke' | 'labels' | 'labels.icon' |
+      'labels.text' | 'labels.text.fill' | 'labels.text.stroke';
+  featureType?: 'administrative' | 'administrative.country' | 'administrative.land_parcel' |
+      'administrative.locality' | 'administrative.neighborhood' | 'administrative.province' | 'all' |
+      'landscape' | 'landscape.man_made' | 'landscape.natural' | 'landscape.natural.landcover' |
+      'landscape.natural.terrain' | 'poi' | 'poi.attraction' | 'poi.business' | 'poi.government' |
+      'poi.medical' | 'poi.park' | 'poi.place_of_worship' | 'poi.school' | 'poi.sports_complex' | 'road' |
+      'road.arterial' | 'road.highway' | 'road.highway.controlled_access' | 'road.local' | 'transit' |
+      'transit.line' | 'transit.station' | 'transit.station.airport' | 'transit.station.bus' |
+      'transit.station.rail' | 'water';
   stylers: MapTypeStyler[];
 }
 
@@ -219,35 +242,14 @@ export interface MapTypeStyler {
 
 export interface InfoWindow extends MVCObject {
   close(): void;
-  getContent(): string|Node;
+  getContent(): string | Node;
   getPosition(): LatLng;
   getZIndex(): number;
   open(map?: GoogleMap, anchor?: MVCObject): void;
-  setContent(content: string|Node): void;
+  setContent(content: string | Node): void;
   setOptions(options: InfoWindowOptions): void;
-  setPosition(position: LatLng|LatLngLiteral): void;
+  setPosition(position: LatLng | LatLngLiteral): void;
   setZIndex(zIndex: number): void;
-}
-
-export interface MVCObject { addListener(eventName: string, handler: Function): MapsEventListener; }
-
-export interface MVCArray<T> extends MVCObject {
-  clear(): void;
-  getArray(): Array<T>;
-  getAt(i: number): T;
-  getLength(): number;
-  insertAt(i: number, elem: T): void;
-  pop(): T;
-  push(elem: T): number;
-  removeAt(i: number): T;
-  setAt(i: number, elem: T): void;
-  /* tslint:disable */
-  /*
-  * Tslint configuration check-parameters will prompt errors for these lines of code.
-  * https://palantir.github.io/tslint/rules/no-unused-variable/
-  */
-  forEach(callback: (elem: T, i: number) => void): void;
-  /* tslint:enable */
 }
 
 export interface MapsEventListener { remove(): void; }
@@ -260,11 +262,11 @@ export interface Size {
 }
 
 export interface InfoWindowOptions {
-  content?: string|Node;
+  content?: string | Node;
   disableAutoPan?: boolean;
   maxWidth?: number;
   pixelOffset?: Size;
-  position?: LatLng|LatLngLiteral;
+  position?: LatLng | LatLngLiteral;
   zIndex?: number;
 }
 
@@ -310,7 +312,7 @@ export interface PolylineOptions {
   geodesic?: boolean;
   icons?: Array<IconSequence>;
   map?: GoogleMap;
-  path?: Array<LatLng>|Array<LatLng|LatLngLiteral>;
+  path?: Array<LatLng> | Array<LatLng | LatLngLiteral>;
   strokeColor?: string;
   strokeOpacity?: number;
   strokeWeight?: number;
@@ -328,7 +330,7 @@ export interface Polyline extends MVCObject {
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
   setOptions(options: PolylineOptions): void;
-  setPath(path: Array<LatLng|LatLngLiteral>): void;
+  setPath(path: Array<LatLng | LatLngLiteral>): void;
   setVisible(visible: boolean): void;
 }
 
@@ -350,7 +352,7 @@ export interface PolygonOptions {
   geodesic?: boolean;
   icon?: Array<IconSequence>;
   map?: GoogleMap;
-  paths?: Array<LatLng|LatLngLiteral>|Array<Array<LatLng|LatLngLiteral>>;
+  paths?: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>>;
   strokeColor?: string;
   strokeOpacity?: number;
   strokeWeight?: number;
@@ -368,9 +370,9 @@ export interface Polygon extends MVCObject {
   setDraggable(draggable: boolean): void;
   setEditable(editable: boolean): void;
   setMap(map: GoogleMap): void;
-  setPath(path: Array<LatLng>|Array<LatLng|LatLngLiteral>): void;
+  setPath(path: Array<LatLng> | Array<LatLng | LatLngLiteral>): void;
   setOptions(options: PolygonOptions): void;
-  setPaths(paths: Array<Array<LatLng|LatLngLiteral>>|Array<LatLng|LatLngLiteral>): void;
+  setPaths(paths: Array<Array<LatLng | LatLngLiteral>> | Array<LatLng | LatLngLiteral>): void;
   setVisible(visible: boolean): void;
 }
 
@@ -473,7 +475,7 @@ export interface Data extends MVCObject {
 }
 
 export interface Feature extends MVCObject {
-  id?: number|string|undefined;
+  id?: number | string | undefined;
   geometry: Geometry;
   properties: any;
 }
@@ -516,7 +518,7 @@ export enum ControlPosition {
   RIGHT_CENTER,
   BOTTOM_RIGHT,
   BOTTOM_LEFT,
-  BOTTOM_CENTER
+  BOTTOM_CENTER,
 }
 
 export enum MapTypeId {
@@ -527,14 +529,14 @@ export enum MapTypeId {
   /** This map type displays satellite images. */
   SATELLITE,
   /** This map type displays maps with physical features such as terrain and vegetation. */
-  TERRAIN
+  TERRAIN,
 }
 
 /***** Controls *****/
 /** Options for the rendering of the map type control. */
 export interface MapTypeControlOptions {
   /** IDs of map types to show in the control. */
-  mapTypeIds?: (MapTypeId|string)[];
+  mapTypeIds?: (MapTypeId | string)[];
   /**
    * Position id. Used to specify the position of the control on the map.
    * The default position is TOP_RIGHT.
@@ -547,7 +549,7 @@ export interface MapTypeControlOptions {
 export enum MapTypeControlStyle {
   DEFAULT,
   DROPDOWN_MENU,
-  HORIZONTAL_BAR
+  HORIZONTAL_BAR,
 }
 
 export interface OverviewMapControlOptions {
@@ -579,7 +581,7 @@ export interface ScaleControlOptions {
 }
 
 export enum ScaleControlStyle {
-  DEFAULT
+  DEFAULT,
 }
 
 /** Options for the rendering of the Street View pegman control on the map. */
@@ -608,7 +610,7 @@ export interface ZoomControlOptions {
 export enum ZoomControlStyle {
   DEFAULT,
   LARGE,
-  SMALL
+  SMALL,
 }
 
 /** Options for the rendering of the fullscreen control. */
@@ -622,6 +624,6 @@ export interface FullscreenControlOptions {
 
 /** Options for the restricting the bounds of the map. */
 export interface MapRestriction {
-  latLngBounds: LatLngBounds|LatLngBoundsLiteral;
+  latLngBounds: LatLngBounds | LatLngBoundsLiteral;
   strictBounds?: boolean;
 }

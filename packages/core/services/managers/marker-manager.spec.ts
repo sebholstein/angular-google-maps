@@ -1,9 +1,9 @@
-import {NgZone} from '@angular/core';
-import {TestBed, inject, fakeAsync, flushMicrotasks, tick} from '@angular/core/testing';
+import { NgZone } from '@angular/core';
+import { fakeAsync, flushMicrotasks, inject, TestBed, tick } from '@angular/core/testing';
 
-import {AgmMarker} from './../../directives/marker';
-import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {MarkerManager} from './../managers/marker-manager';
+import { AgmMarker } from './../../directives/marker';
+import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
+import { MarkerManager } from './../managers/marker-manager';
 
 describe('MarkerManager', () => {
   const animMap = {
@@ -12,10 +12,10 @@ describe('MarkerManager', () => {
   };
 
   beforeAll(() => {
-    (<any>window).google = {
+    (window as any).google = {
       maps: {
         Animation: animMap,
-      }
+      },
     };
   });
 
@@ -28,9 +28,9 @@ describe('MarkerManager', () => {
           useValue: {
             createMarker: jest.fn().mockReturnValue(Promise.resolve()),
             getNativeMap: jest.fn().mockReturnValue(Promise.resolve()),
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   });
 
@@ -55,7 +55,7 @@ describe('MarkerManager', () => {
                zIndex: 1,
                title: undefined,
                clickable: true,
-               animation: undefined
+               animation: undefined,
              });
           })));
   });
@@ -71,9 +71,9 @@ describe('MarkerManager', () => {
              newMarker.label = 'A';
 
              const markerInstance: any = {
-              setMap: jest.fn()
+              setMap: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              markerManager.deleteMarker(newMarker).then(
@@ -93,9 +93,9 @@ describe('MarkerManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setIcon: jest.fn()
+              setIcon: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              flushMicrotasks();
@@ -109,7 +109,7 @@ describe('MarkerManager', () => {
                zIndex: 1,
                title: undefined,
                clickable: true,
-               animation: undefined
+               animation: undefined,
              });
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
@@ -130,9 +130,9 @@ describe('MarkerManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setOpacity: jest.fn()
+              setOpacity: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              flushMicrotasks();
@@ -146,7 +146,7 @@ describe('MarkerManager', () => {
                zIndex: 1,
                title: undefined,
                clickable: true,
-               animation: undefined
+               animation: undefined,
              });
              const opacity = 0.4;
              newMarker.opacity = opacity;
@@ -168,9 +168,9 @@ describe('MarkerManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setVisible: jest.fn()
+              setVisible: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              flushMicrotasks();
@@ -184,7 +184,7 @@ describe('MarkerManager', () => {
                zIndex: 1,
                title: undefined,
                clickable: true,
-               animation: undefined
+               animation: undefined,
              });
              newMarker.visible = true;
              return markerManager.updateVisible(newMarker).then(
@@ -205,9 +205,9 @@ describe('MarkerManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setZIndex: jest.fn()
+              setZIndex: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              flushMicrotasks();
@@ -221,7 +221,7 @@ describe('MarkerManager', () => {
                zIndex: 1,
                title: undefined,
                clickable: true,
-               animation: undefined
+               animation: undefined,
              });
              const zIndex = 10;
              newMarker.zIndex = zIndex;
@@ -244,9 +244,9 @@ describe('MarkerManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setAnimation: jest.fn().mockReturnValue(new Promise(resolve => setTimeout(resolve, 500)))
+              setAnimation: jest.fn().mockReturnValue(new Promise(resolve => setTimeout(resolve, 500))),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              flushMicrotasks();
@@ -260,7 +260,7 @@ describe('MarkerManager', () => {
                zIndex: 1,
                title: undefined,
                clickable: true,
-               animation: null
+               animation: null,
              });
              const animation = 'BOUNCE';
              newMarker.animation = animation;

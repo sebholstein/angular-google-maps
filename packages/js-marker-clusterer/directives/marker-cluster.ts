@@ -1,7 +1,7 @@
-import { Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
 
+import { InfoWindowManager, MarkerManager } from '@agm/core';
 import { ClusterManager } from '../services/managers/cluster-manager';
-import { MarkerManager, InfoWindowManager } from '@agm/core';
 
 import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
 
@@ -38,7 +38,7 @@ import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/goo
     ClusterManager,
     { provide: MarkerManager, useExisting: ClusterManager },
     InfoWindowManager,
-  ]
+  ],
 })
 export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOptions {
   /**
@@ -128,7 +128,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       styles: this.styles,
       imagePath: this.imagePath,
       imageExtension: this.imageExtension,
-      calculator: this.calculator
+      calculator: this.calculator,
     });
   }
 }

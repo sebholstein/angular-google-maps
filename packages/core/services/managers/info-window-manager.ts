@@ -1,11 +1,11 @@
-import { Observable ,  Observer } from 'rxjs';
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
-import {AgmInfoWindow} from '../../directives/info-window';
+import { AgmInfoWindow } from '../../directives/info-window';
 
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {InfoWindow, InfoWindowOptions} from '../google-maps-types';
-import {MarkerManager} from './marker-manager';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
+import { InfoWindow, InfoWindowOptions } from '../google-maps-types';
+import { MarkerManager } from './marker-manager';
 
 @Injectable()
 export class InfoWindowManager {
@@ -33,7 +33,7 @@ export class InfoWindowManager {
   setPosition(infoWindow: AgmInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setPosition({
       lat: infoWindow.latitude,
-      lng: infoWindow.longitude
+      lng: infoWindow.longitude,
     }));
   }
 
@@ -66,7 +66,7 @@ export class InfoWindowManager {
       content: infoWindow.content,
       maxWidth: infoWindow.maxWidth,
       zIndex: infoWindow.zIndex,
-      disableAutoPan: infoWindow.disableAutoPan
+      disableAutoPan: infoWindow.disableAutoPan,
     };
     if (typeof infoWindow.latitude === 'number' && typeof infoWindow.longitude === 'number') {
       options.position = {lat: infoWindow.latitude, lng: infoWindow.longitude};

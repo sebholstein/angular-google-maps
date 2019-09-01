@@ -1,7 +1,7 @@
-import { AfterContentInit, Directive, EventEmitter, OnChanges, OnDestroy, SimpleChanges, Input, Output } from '@angular/core';
+import { AfterContentInit, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { LatLng, LatLngLiteral, PolyMouseEvent, PolygonOptions } from '../services/google-maps-types';
+import { LatLng, LatLngLiteral, PolygonOptions, PolyMouseEvent } from '../services/google-maps-types';
 import { PolygonManager } from '../services/managers/polygon-manager';
 import { MvcEventType } from '../utils/mvcarray-utils';
 
@@ -55,26 +55,26 @@ import { MvcEventType } from '../utils/mvcarray-utils';
  * ```
  */
 @Directive({
-  selector: 'agm-polygon'
+  selector: 'agm-polygon',
 })
 export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polygon handles mouse events. Defaults to true.
    */
-  @Input() clickable: boolean = true;
+  @Input() clickable = true;
 
   /**
    * If set to true, the user can drag this shape over the map. The geodesic
    * property defines the mode of dragging. Defaults to false.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('polyDraggable') draggable: boolean = false;
+  @Input('polyDraggable') draggable = false;
 
   /**
    * If set to true, the user can edit this shape by dragging the control
    * points shown at the vertices and on each segment. Defaults to false.
    */
-  @Input() editable: boolean = false;
+  @Input() editable = false;
 
   /**
    * The fill color. All CSS3 colors are supported except for extended
@@ -94,7 +94,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * geodesic polygon may appear to change when dragged, as the dimensions
    * are maintained relative to the surface of the earth. Defaults to false.
    */
-  @Input() geodesic: boolean = false;
+  @Input() geodesic = false;
 
   /**
    * The ordered sequence of coordinates that designates a closed loop.
@@ -198,11 +198,11 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   private static _polygonOptionsAttributes: Array<string> = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
     'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex', 'draggable',
-    'editable', 'visible'
+    'editable', 'visible',
   ];
 
   private _id: string;
-  private _polygonAddedToManager: boolean = false;
+  private _polygonAddedToManager = false;
   private _subscriptions: Subscription[] = [];
 
   constructor(private _polygonManager: PolygonManager) { }
@@ -283,7 +283,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   }
 }
 
-export interface PolygonPathEvent<T extends (LatLng|Array<LatLng>)> {
+export interface PolygonPathEvent<T extends (LatLng | Array<LatLng>)> {
   newArr: LatLng[][];
   eventName: MvcEventType;
   index: number;

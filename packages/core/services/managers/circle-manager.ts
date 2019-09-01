@@ -1,9 +1,9 @@
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
-import {Observable, Observer} from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 
-import {AgmCircle} from '../../directives/circle';
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
+import { AgmCircle } from '../../directives/circle';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
 import * as mapTypes from '../google-maps-types';
 
 declare var google: any;
@@ -29,7 +29,7 @@ export class CircleManager {
       strokePosition: circle.strokePosition,
       strokeWeight: circle.strokeWeight,
       visible: circle.visible,
-      zIndex: circle.zIndex
+      zIndex: circle.zIndex,
     }));
   }
 

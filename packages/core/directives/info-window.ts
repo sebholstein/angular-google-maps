@@ -1,8 +1,8 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChange, Output, Input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 
-import {InfoWindowManager} from '../services/managers/info-window-manager';
+import { InfoWindowManager } from '../services/managers/info-window-manager';
 
-import {AgmMarker} from './marker';
+import { AgmMarker } from './marker';
 
 let infoWindowId = 0;
 
@@ -37,7 +37,7 @@ let infoWindowId = 0;
   template: `<div class='agm-info-window-content'>
       <ng-content></ng-content>
     </div>
-  `
+  `,
 })
 export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
@@ -86,7 +86,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   /**
    * Sets the open state for the InfoWindow. You can also call the open() and close() methods.
    */
-  @Input() isOpen: boolean = false;
+  @Input() isOpen = false;
 
   /**
    * Emits an event when the info window is closed.
@@ -94,7 +94,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   @Output() infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
 
   private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth'];
-  private _infoWindowAddedToManager: boolean = false;
+  private _infoWindowAddedToManager = false;
   private _id: string = (infoWindowId++).toString();
 
   constructor(private _infoWindowManager: InfoWindowManager, private _el: ElementRef) {}
