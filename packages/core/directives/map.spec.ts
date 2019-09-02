@@ -18,7 +18,7 @@ class MockGoogleMapsAPIWrapper {
   subscribeToMapEvent = jest.fn().mockReturnValue(new Subject());
   getNativeMap = jest.fn().mockReturnValue(Promise.resolve({}));
   fitBounds = jest.fn().mockReturnValue(Promise.resolve({}));
-  setMapOptions = jest.fn().mockReturnValue(Promise.resolve({}));
+  setMapOptions = jest.fn();
 }
 
 @Injectable()
