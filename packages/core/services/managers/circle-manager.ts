@@ -85,6 +85,10 @@ export class CircleManager {
     return this._circles.get(circle).then((c) => { return c.setRadius(circle.radius); });
   }
 
+  getNativeCircle(circle: AgmCircle): Promise<mapTypes.Circle> {
+    return this._circles.get(circle);
+  }
+
   createEventObservable<T>(eventName: string, circle: AgmCircle): Observable<T> {
     return new Observable((observer: Observer<T>) => {
       let listener: mapTypes.MapsEventListener = null;
