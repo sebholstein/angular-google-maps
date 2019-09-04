@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Injectable } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Injectable, SimpleChange } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Subject } from 'rxjs';
@@ -17,6 +17,8 @@ class MockGoogleMapsAPIWrapper {
   clearInstanceListeners = jest.fn();
   subscribeToMapEvent = jest.fn().mockReturnValue(new Subject());
   getNativeMap = jest.fn().mockReturnValue(Promise.resolve({}));
+  fitBounds = jest.fn().mockReturnValue(Promise.resolve({}));
+  setMapOptions = jest.fn();
 }
 
 @Injectable()
@@ -58,4 +60,15 @@ describe('AgmMap', () => {
     expect(mockApiWrapper.createMap.mock.calls[0][1].zoomControl).not.toBe(true);
   });
 
+  it('should not fit bounds if provided bounds are empty', () => {
+    component.fitBounds = null;
+    component.ngOnChanges({
+      latitude: new SimpleChange(null, 1, false),
+      longitude: new SimpleChange(null, 2, false),
+      fitBounds: new SimpleChange({}, null, false),
+    });
+
+    const mockApiWrapper: MockGoogleMapsAPIWrapper = fixture.debugElement.injector.get(GoogleMapsAPIWrapper) as any;
+    expect(mockApiWrapper.fitBounds.mock.calls).toHaveLength(0);
+  });
 });
