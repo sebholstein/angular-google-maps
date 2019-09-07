@@ -1,11 +1,9 @@
 import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 
+import { Subscription } from 'rxjs';
+
 import { InfoWindowManager, MarkerManager } from '@agm/core';
 import { ClusterManager } from '../services/managers/cluster-manager';
-
-import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
-
-import { Subscription } from 'rxjs';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together
@@ -42,7 +40,7 @@ import { Subscription } from 'rxjs';
     InfoWindowManager,
   ],
 })
-export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOptions {
+export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, MarkerClustererOptions {
   /**
    * The grid size of a cluster in pixels
    */
@@ -71,12 +69,12 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   /**
    * An object that has style properties.
    */
-  @Input() styles: ClusterStyle[];
+  @Input() styles: ClusterIconStyle[];
 
   /**
    * A function that calculates the cluster style and text based on the markers in the cluster.
    */
-  @Input() calculator: CalculateFunction;
+  @Input() calculator: Calculator;
 
   @Input() imagePath: string;
   @Input() imageExtension: string;

@@ -3,7 +3,6 @@ import { async, inject, TestBed } from '@angular/core/testing';
 
 import { AgmMarker, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmMarkerCluster } from '../../directives/marker-cluster';
-import { MarkerClustererInstance } from '../google-clusterer-types';
 import { ClusterManager } from './cluster-manager';
 
 describe('ClusterManager', () => {
@@ -214,8 +213,8 @@ describe('ClusterManager', () => {
         [ClusterManager],
         async (markerManager: ClusterManager) => {
 
-          const mockClusterer: Partial<MarkerClustererInstance> = { setCalculator: jest.fn() };
-          const instancePromise = Promise.resolve(mockClusterer as MarkerClustererInstance);
+          const mockClusterer: Partial<MarkerClusterer> = { setCalculator: jest.fn() };
+          const instancePromise = Promise.resolve(mockClusterer as MarkerClusterer);
 
           const spy = jest.spyOn(markerManager, 'getClustererInstance')
                           .mockImplementation(() => instancePromise);

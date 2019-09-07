@@ -4,13 +4,13 @@ draft = false
 title = "Markers cluster with Marker Clusterer – A Google Maps JavaScript API utility library"
 +++
 
-Angular Google Maps provides a package that allows you to use [Marker Clusterer](https://github.com/googlemaps/js-marker-clusterer) together with @agm/core. 'Marker Clustererc' allows you to create and manage per-zoom-level clusters for large amounts of markers.
+Angular Google Maps provides a package that allows you to use [markerclustererplus](https://github.com/googlemaps/v3-utility-library/tree/master/markerclustererplus) together with @agm/core. 'Marker Clustererc' allows you to create and manage per-zoom-level clusters for large amounts of markers.
 
 ## Install the needed packages
 First make sure that you install the following NPM packages:
 
 ```bash
-npm install @agm/core @agm/js-marker-clusterer js-marker-clusterer
+npm install @agm/core @agm/js-marker-clusterer @google/markerclustererplus
 ```
 
 Remember to add `--save` if you want npm to store the package in your packaje.json

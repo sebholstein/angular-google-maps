@@ -4,16 +4,17 @@
   "description": "Angular Google Maps (AGM) extension for js-marker-clusterer support",
   "author": "Jens Fahnenbruck <jigfox@me.com>",
   "keywords": [
-    "angular-google-maps",
+    "agm",
     "angular",
-    "js-marker-clusterer",
+    "angular-google-maps",
     "google-maps",
-    "agm"
+    "js-marker-clusterer",
+    "markerclustererplus"
   ],
   "peerDependencies": {
     "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "@agm/core": "^1.0.0-beta.7",
-    "js-marker-clusterer": "^1.0.0"
+    "@google/markerclustererplus": "^2.1.11"
   },
   "ngPackage": {
     "lib": {

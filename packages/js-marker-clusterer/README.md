@@ -2,17 +2,17 @@
 
 -----
 
-this package levereges the [js-marker-clusterer][js-marker-clusterer] to add clustering support to
+this package levereges the [markerclustererplus][markerclustererplus] to add clustering support to
 [AGM][agm].
 
 ## Installation
 
-@agm/js-marker-clusterer has a peer depedency on [js-marker-clusterer][js-marker-clusterer]
+@agm/js-marker-clusterer has a peer depedency on [markerclustererplus][markerclustererplus]
 
 ```shell
-npm install js-marker-clusterer @agm/js-marker-clusterer --save
+npm install @google/markerclustererplus @agm/js-marker-clusterer --save
 # or
-yarn add js-marker-clusterer @agm/js-marker-clusterer
+yarn add @google/markerclustererplus @agm/js-marker-clusterer
 ```
 
 ## Usage
@@ -56,5 +56,5 @@ yarn add js-marker-clusterer @agm/js-marker-clusterer
     ```
 
 
-[js-marker-clusterer]: https://github.com/googlemaps/js-marker-clusterer
+[markerclustererplus]: https://github.com/googlemaps/v3-utility-library/tree/master/markerclustererplus
 [agm]: https://angular-maps.com/

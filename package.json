@@ -67,6 +67,7 @@
     "@google/markerclustererplus": "2.1.11",
     "@types/googlemaps": "^3.37.7",
     "@types/jest": "^23.0.0",
+    "@types/markerclustererplus": "^2.1.33",
     "clang-format": "1.2.3",
     "codelyzer": "^5.1.0",
     "conventional-changelog": "^1.1.0",

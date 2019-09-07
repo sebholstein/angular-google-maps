@@ -1,4 +1,5 @@
 /// <reference types="@types/googlemaps" />
+/// <reference types="@types/markerclustererplus" />
 // main modules
 export * from './directives';
 export * from './services';

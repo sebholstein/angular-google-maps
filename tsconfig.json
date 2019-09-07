@@ -17,9 +17,6 @@
             "dom",
             "esnext"
         ],
-        "types": [
-            "jest"
-        ],
         "paths": {
             "@agm/*": ["./packages/*"]
         }

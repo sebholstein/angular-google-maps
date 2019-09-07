@@ -1,37 +1,34 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
-import MarkerClusterer from '@google/markerclustererplus';
-
 import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
 import { AgmMarkerCluster } from '../../directives/marker-cluster';
-import { ClusterOptions, MarkerClustererInstance } from '../google-clusterer-types';
 
 @Injectable()
 export class ClusterManager extends MarkerManager {
-  private _clustererInstance: Promise<MarkerClustererInstance>;
+  private _clustererInstance: Promise<MarkerClusterer>;
   private _resolver: Function;
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {
     super(_mapsWrapper, _zone);
-    this._clustererInstance = new Promise<MarkerClustererInstance>((resolver) => {
+    this._clustererInstance = new Promise<MarkerClusterer>((resolver) => {
       this._resolver = resolver;
     });
   }
 
-  init(options: ClusterOptions): void {
+  init(options: MarkerClustererOptions): void {
     this._mapsWrapper.getNativeMap().then(map => {
       const clusterer = new MarkerClusterer(map, [], options);
       this._resolver(clusterer);
     });
   }
 
-  getClustererInstance(): Promise<MarkerClustererInstance> {
+  getClustererInstance(): Promise<MarkerClusterer> {
     return this._clustererInstance;
   }
 
   addMarker(marker: AgmMarker): void {
-    const clusterPromise: Promise<MarkerClustererInstance> = this.getClustererInstance();
+    const clusterPromise: Promise<MarkerClusterer> = this.getClustererInstance();
     const markerPromise = this._mapsWrapper
       .createMarker({
         position: {
@@ -140,7 +137,7 @@ export class ClusterManager extends MarkerManager {
   createClusterEventObservable<T>(eventName: string): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
       this._zone.runOutsideAngular(() => {
-        this._clustererInstance.then((m: MarkerClustererInstance) => {
+        this._clustererInstance.then((m: MarkerClusterer) => {
           m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
         });
       });
