@@ -46,7 +46,7 @@ export class AgmPolylinePoint implements OnChanges, FitBoundsAccessor {
   getFitBoundsDetails$(): Observable<FitBoundsDetails> {
     return this.positionChanged.pipe(
       startWith({lat: this.latitude, lng: this.longitude}),
-      map(x => ({latLng: x}))
+      map(position => ({latLng: position}))
     );
   }
 }
