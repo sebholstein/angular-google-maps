@@ -34,8 +34,8 @@ export interface GoogleMap extends MVCObject {
   getMapTypeId(): MapTypeId;
   getZoom(): number;
   setOptions(options: MapOptions): void;
-  panToBounds(latLngBounds: LatLngBounds | LatLngBoundsLiteral): void;
-  fitBounds(bounds: LatLngBounds | LatLngBoundsLiteral): void;
+  panToBounds(latLngBounds: LatLngBounds | LatLngBoundsLiteral, padding?: number | Padding): void;
+  fitBounds(bounds: LatLngBounds | LatLngBoundsLiteral, padding?: number | Padding): void;
 }
 
 export interface LatLng {
@@ -160,6 +160,13 @@ export interface LatLngBounds {
   toString(): string;
   toUrlValue(precision?: number): string;
   union(other: LatLngBounds | LatLngBoundsLiteral): LatLngBounds;
+}
+
+export interface Padding {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
 }
 
 export interface LatLngBoundsLiteral {

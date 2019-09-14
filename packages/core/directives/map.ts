@@ -6,7 +6,7 @@ import { FitBoundsService } from '../services/fit-bounds';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
 import {
   FullscreenControlOptions, LatLng, LatLngBounds, LatLngBoundsLiteral, LatLngLiteral,
-  MapRestriction, MapTypeControlOptions, MapTypeId, MapTypeStyle, PanControlOptions,
+  MapRestriction, MapTypeControlOptions, MapTypeId, MapTypeStyle, Padding, PanControlOptions,
   RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions,
 } from '../services/google-maps-types';
 import { CircleManager } from '../services/managers/circle-manager';
@@ -203,6 +203,11 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * If this option to `true`, the bounds get automatically computed from all elements that use the {@link AgmFitBounds} directive.
    */
   @Input() fitBounds: LatLngBoundsLiteral | LatLngBounds | boolean = false;
+
+  /**
+   * Padding amount for the bounds.
+   */
+  @Input() fitBoundsPadding: number | Padding;
 
   /**
    * The initial enabled/disabled state of the Scale control. This is disabled by default.
@@ -521,19 +526,19 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
         }
         break;
       default:
-        this._updateBounds(this.fitBounds);
+        this._updateBounds(this.fitBounds, this.fitBoundsPadding);
     }
   }
 
   private _subscribeToFitBoundsUpdates() {
     this._zone.runOutsideAngular(() => {
       this._fitBoundsSubscription = this._fitBoundsService.getBounds$().subscribe(b => {
-        this._zone.run(() => this._updateBounds(b));
+        this._zone.run(() => this._updateBounds(b, this.fitBoundsPadding));
       });
     });
   }
 
-  protected _updateBounds(bounds: LatLngBounds | LatLngBoundsLiteral) {
+  protected _updateBounds(bounds: LatLngBounds | LatLngBoundsLiteral, padding?: number | Padding) {
     if (!bounds) {
       return;
     }
@@ -543,10 +548,10 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       bounds = newBounds;
     }
     if (this.usePanning) {
-      this._mapsWrapper.panToBounds(bounds);
+      this._mapsWrapper.panToBounds(bounds, padding);
       return;
     }
-    this._mapsWrapper.fitBounds(bounds);
+    this._mapsWrapper.fitBounds(bounds, padding);
   }
 
   private _isLatLngBoundsLiteral(bounds: LatLngBounds | LatLngBoundsLiteral): bounds is LatLngBoundsLiteral {
