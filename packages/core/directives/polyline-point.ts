@@ -1,12 +1,20 @@
-import { Directive, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Directive, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { LatLngLiteral } from '../../core/services/google-maps-types';
+import { FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 
 /**
  * AgmPolylinePoint represents one element of a polyline within a  {@link
  * AgmPolyline}
  */
-@Directive({selector: 'agm-polyline-point'})
-export class AgmPolylinePoint implements OnChanges {
+@Directive({
+  selector: 'agm-polyline-point',
+  providers: [
+    {provide: FitBoundsAccessor, useExisting: forwardRef(() => AgmPolylinePoint)},
+  ],
+})
+export class AgmPolylinePoint implements OnChanges, FitBoundsAccessor {
   /**
    * The latitude position of the point.
    */
@@ -32,5 +40,13 @@ export class AgmPolylinePoint implements OnChanges {
       } as LatLngLiteral;
       this.positionChanged.emit(position);
     }
+  }
+
+  /** @internal */
+  getFitBoundsDetails$(): Observable<FitBoundsDetails> {
+    return this.positionChanged.pipe(
+      startWith({lat: this.latitude, lng: this.longitude}),
+      map(position => ({latLng: position}))
+    );
   }
 }
