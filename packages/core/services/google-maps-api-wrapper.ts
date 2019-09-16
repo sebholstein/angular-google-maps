@@ -180,12 +180,12 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map) => map.panBy(x, y));
   }
 
-  fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.fitBounds(latLng));
+  fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
+    return this._map.then((map) => map.fitBounds(latLng, padding));
   }
 
-  panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.panToBounds(latLng));
+  panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
+    return this._map.then((map) => map.panToBounds(latLng, padding));
   }
 
   /**
