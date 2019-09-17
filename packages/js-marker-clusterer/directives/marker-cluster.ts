@@ -5,7 +5,6 @@ import { ClusterManager } from '../services/managers/cluster-manager';
 
 import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
 
-import * as mapTypes from '@agm/core/services/google-maps-types';
 import { Subscription } from 'rxjs';
 
 /**
@@ -82,7 +81,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
-  @Output() clusterClick: EventEmitter<mapTypes.MouseEvent> = new EventEmitter<mapTypes.MouseEvent>();
+  @Output() clusterClick: EventEmitter<void> = new EventEmitter<void>();
 
   private _observableSubscriptions: Subscription[] = [];
   constructor(private _clusterManager: ClusterManager) { }
@@ -128,7 +127,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     const handlers = [
       {
         name: 'clusterclick',
-        handler: (ev: mapTypes.MouseEvent) => this.clusterClick.emit(ev),
+        handler: () => this.clusterClick.emit(),
       },
     ];
     handlers.forEach((obj) => {
