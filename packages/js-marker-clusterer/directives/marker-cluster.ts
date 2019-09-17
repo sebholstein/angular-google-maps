@@ -1,12 +1,11 @@
 import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 
+import { InfoWindowManager, MarkerManager } from '@agm/core';
 import { ClusterManager } from '../services/managers/cluster-manager';
-import { MarkerManager, InfoWindowManager } from '@agm/core';
 
 import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
 
-import {MouseEvent} from '../../core/map-types';
-import * as mapTypes from '../../core/services/google-maps-types';
+import * as mapTypes from '@agm/core/services/google-maps-types';
 import { Subscription } from 'rxjs';
 
 /**
@@ -42,7 +41,7 @@ import { Subscription } from 'rxjs';
     ClusterManager,
     { provide: MarkerManager, useExisting: ClusterManager },
     InfoWindowManager,
-  ]
+  ],
 })
 export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOptions {
   /**
@@ -129,11 +128,11 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     const handlers = [
       {
         name: 'clusterclick',
-        handler: (ev: mapTypes.MouseEvent) => this.clusterClick.emit(ev)
+        handler: (ev: mapTypes.MouseEvent) => this.clusterClick.emit(ev),
       },
     ];
     handlers.forEach((obj) => {
-      const os = this._clusterManager.createClusterEventObservable(obj.name, this).subscribe(obj.handler);
+      const os = this._clusterManager.createClusterEventObservable(obj.name).subscribe(obj.handler);
       this._observableSubscriptions.push(os);
     });
   }
@@ -150,7 +149,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       styles: this.styles,
       imagePath: this.imagePath,
       imageExtension: this.imageExtension,
-      calculator: this.calculator
+      calculator: this.calculator,
     });
   }
 }

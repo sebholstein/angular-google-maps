@@ -1,13 +1,13 @@
-import {Inject, Injectable, InjectionToken, Optional} from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 
-import {DocumentRef, WindowRef} from '../../utils/browser-globals';
+import { DocumentRef, WindowRef } from '../../utils/browser-globals';
 
-import {MapsAPILoader} from './maps-api-loader';
+import { MapsAPILoader } from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
   HTTP = 1,
   HTTPS = 2,
-  AUTO = 3
+  AUTO = 3,
 }
 
 /**
@@ -95,7 +95,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   }
 
   load(): Promise<void> {
-    const window = <any>this._windowRef.getNativeWindow();
+    const window = this._windowRef.getNativeWindow() as any;
     if (window.google && window.google.maps) {
       // Google maps already loaded on the page.
       return Promise.resolve();
@@ -125,7 +125,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
   private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (<any>this._windowRef.getNativeWindow())[this.callbackName] = () => {
+      (this._windowRef.getNativeWindow() as any)[this.callbackName] = () => {
         resolve();
       };
 
@@ -161,7 +161,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       channel: this._config.channel,
       libraries: this._config.libraries,
       region: this._config.region,
-      language: this._config.language
+      language: this._config.language,
     };
     const params: string = Object.keys(queryParams)
                                .filter((k: string) => queryParams[k] != null)

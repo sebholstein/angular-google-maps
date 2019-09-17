@@ -1,4 +1,4 @@
-import {LatLngLiteral} from './services/google-maps-types';
+import { LatLngLiteral } from './services/google-maps-types';
 
 // exported map types
 export {

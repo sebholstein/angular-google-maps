@@ -1,15 +1,10 @@
-// tslint:disable
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { By } from '@angular/platform-browser';
-// tslint:enable
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Injectable, SimpleChange } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {Component, Directive, ElementRef, NgZone} from '@angular/core';
-import {AgmMap} from './map';
-import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {FitBoundsService} from '../services/fit-bounds';
 import { Subject } from 'rxjs';
+import { FitBoundsService } from '../services/fit-bounds';
+import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
+import { AgmMap } from './map';
 
 @Injectable()
 class MockElementRef {
@@ -22,6 +17,8 @@ class MockGoogleMapsAPIWrapper {
   clearInstanceListeners = jest.fn();
   subscribeToMapEvent = jest.fn().mockReturnValue(new Subject());
   getNativeMap = jest.fn().mockReturnValue(Promise.resolve({}));
+  fitBounds = jest.fn().mockReturnValue(Promise.resolve({}));
+  setMapOptions = jest.fn();
 }
 
 @Injectable()
@@ -34,7 +31,7 @@ describe('AgmMap', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AgmMap
+        AgmMap,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]});
     TestBed.overrideComponent(AgmMap, {
@@ -45,7 +42,7 @@ describe('AgmMap', () => {
           {provide: FitBoundsService, useClass: MockFitBoundsService},
           // NgZone,
         ],
-      }
+      },
     }).compileComponents();
     fixture = TestBed.createComponent(AgmMap);
     component = fixture.debugElement.componentInstance;
@@ -63,4 +60,15 @@ describe('AgmMap', () => {
     expect(mockApiWrapper.createMap.mock.calls[0][1].zoomControl).not.toBe(true);
   });
 
+  it('should not fit bounds if provided bounds are empty', () => {
+    component.fitBounds = null;
+    component.ngOnChanges({
+      latitude: new SimpleChange(null, 1, false),
+      longitude: new SimpleChange(null, 2, false),
+      fitBounds: new SimpleChange({}, null, false),
+    });
+
+    const mockApiWrapper: MockGoogleMapsAPIWrapper = fixture.debugElement.injector.get(GoogleMapsAPIWrapper) as any;
+    expect(mockApiWrapper.fitBounds.mock.calls).toHaveLength(0);
+  });
 });

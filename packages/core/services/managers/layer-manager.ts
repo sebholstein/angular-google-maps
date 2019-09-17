@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {AgmTransitLayer} from '../../directives/transit-layer';
-import {AgmBicyclingLayer} from '../../directives/bicycling-layer';
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {TransitLayer, TransitLayerOptions, BicyclingLayer, BicyclingLayerOptions, GoogleMap} from '../google-maps-types';
+import { Injectable } from '@angular/core';
+import { AgmBicyclingLayer } from '../../directives/bicycling-layer';
+import { AgmTransitLayer } from '../../directives/transit-layer';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
+import { BicyclingLayer, BicyclingLayerOptions, GoogleMap, TransitLayer, TransitLayerOptions } from '../google-maps-types';
 
 /**
  * This class manages Transit and Bicycling Layers for a Google Map instance.
@@ -10,8 +10,8 @@ import {TransitLayer, TransitLayerOptions, BicyclingLayer, BicyclingLayerOptions
 
 @Injectable()
 export class LayerManager {
-    private _layers: Map<AgmTransitLayer|AgmBicyclingLayer, Promise<TransitLayer|BicyclingLayer>> =
-        new Map<AgmTransitLayer|AgmBicyclingLayer, Promise<TransitLayer|BicyclingLayer>>();
+    private _layers: Map<AgmTransitLayer | AgmBicyclingLayer, Promise<TransitLayer | BicyclingLayer>> =
+        new Map<AgmTransitLayer | AgmBicyclingLayer, Promise<TransitLayer | BicyclingLayer>>();
 
     constructor(private _wrapper: GoogleMapsAPIWrapper) {}
 
@@ -42,7 +42,7 @@ export class LayerManager {
      * @param {AgmTransitLayer|AgmBicyclingLayer} layer - the layer to delete
      * @returns  Promise<void>
      */
-    deleteLayer(layer: AgmTransitLayer|AgmBicyclingLayer): Promise<void> {
+    deleteLayer(layer: AgmTransitLayer | AgmBicyclingLayer): Promise<void> {
         return this._layers.get(layer).then(currentLayer => {
             currentLayer.setMap(null);
             this._layers.delete(layer);
@@ -55,7 +55,7 @@ export class LayerManager {
      * @param {TransitLayerOptions|BicyclingLayerOptions} options - used to set visibility of the layer
      * @returns Promise<void>
      */
-    toggleLayerVisibility(layer: AgmTransitLayer|AgmBicyclingLayer, options: TransitLayerOptions|BicyclingLayerOptions): Promise<void> {
+    toggleLayerVisibility(layer: AgmTransitLayer | AgmBicyclingLayer, options: TransitLayerOptions | BicyclingLayerOptions): Promise<void> {
         return this._layers.get(layer).then(currentLayer => {
             if (!options.visible) {
                 currentLayer.setMap(null);

@@ -30,7 +30,7 @@
     "build:core": "ng-packagr -p packages/core/package.json",
     "build:js-marker-clusterer": "ng-packagr -p packages/js-marker-clusterer/package.json",
     "build:snazzy-info-window": "ng-packagr -p packages/snazzy-info-window/package.json",
-    "lint": "tslint -c tslint.json 'packages/**/*.ts'",
+    "lint": "tslint --project tsconfig.json -c tslint.json 'packages/**/*.ts'",
     "packagejson": "node ./scripts/update-package-json.js",
     "clang:format": "clang-format --glob=packages/**/*.ts -i",
     "test": "jest",
@@ -83,8 +83,7 @@
     "snazzy-info-window": "^1.1.1",
     "ts-jest": "^24.0.2",
     "tslib": "^1.9.0",
-    "tslint": "^5.8.0",
-    "tslint-loader": "^3.4.3",
+    "tslint": "^5.18.0",
     "typescript": "3.4.5",
     "zone.js": "~0.9.1"
   },
