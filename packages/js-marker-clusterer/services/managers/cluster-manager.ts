@@ -142,8 +142,10 @@ export class ClusterManager extends MarkerManager {
 
   createClusterEventObservable<T>(eventName: string): Observable<T> {
     return Observable.create((observer: Observer<T>) => {
-      this._clustererInstance.then((m: MarkerClustererInstance) => {
-        m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+      this._zone.runOutsideAngular(() => {
+        this._clustererInstance.then((m: MarkerClustererInstance) => {
+          m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+        });
       });
     });
   }
