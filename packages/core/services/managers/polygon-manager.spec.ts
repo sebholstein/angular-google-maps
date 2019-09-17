@@ -4,7 +4,6 @@ import { inject, TestBed } from '@angular/core/testing';
 import { AgmPolygon } from '../../directives/polygon';
 import { MvcArrayMock } from '../../utils/mvcarray-utils';
 import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
-import { LatLng, LatLngLiteral, MVCArray } from '../google-maps-types';
 import { PolygonManager } from './polygon-manager';
 
 describe('PolygonManager', () => {
@@ -68,15 +67,15 @@ describe('PolygonManager', () => {
 
   describe('Path changes', () => {
     let newPolygon: AgmPolygon;
-    let paths: MVCArray<MVCArray<LatLng>>;
-    const initLatLng = {lat: () => 15, lng: () => 15, toJSON: () => ({lat: 15, lng: 15})} as LatLng;
+    let paths: google.maps.MVCArray<google.maps.MVCArray<google.maps.LatLng>>;
+    const initLatLng = {lat: () => 15, lng: () => 15, toJSON: () => ({lat: 15, lng: 15})} as google.maps.LatLng;
 
     beforeEach(
       inject(
             [PolygonManager, GoogleMapsAPIWrapper],
             (polygonManager: PolygonManager, apiWrapper: GoogleMapsAPIWrapper) => {
-        paths = new MvcArrayMock<MVCArray<LatLng>>();
-        let path = new MvcArrayMock<LatLng>();
+        paths = new MvcArrayMock<google.maps.MVCArray<google.maps.LatLng>>();
+        let path = new MvcArrayMock<google.maps.LatLng>();
         path.push(initLatLng);
         paths.push(path);
 
@@ -123,7 +122,7 @@ describe('PolygonManager', () => {
 
     it('should emit a path change when a path is removed', (done) => {
       inject([PolygonManager], (polygonManager: PolygonManager) => {
-        const expectations = [{index: 2, previous: [] as LatLng[], newArr: [[{lat: 15, lng: 15}], []]},
+        const expectations = [{index: 2, previous: [] as google.maps.LatLng[], newArr: [[{lat: 15, lng: 15}], []]},
                               {index: 0, previous: [initLatLng], newArr: [[]]}];
         let expectationIndex = 0;
         expect.assertions(expectations.length);
@@ -151,7 +150,7 @@ describe('PolygonManager', () => {
     it('should emit a path change when a path is set', (done) => {
       inject([PolygonManager], (polygonManager: PolygonManager) => {
         const expectations = [{index: 0, previous: [initLatLng], newArr: [Array(2).fill({lat: 15, lng: 15}), []]},
-             {index: 1, previous: [] as LatLng[], newArr: [Array(2).fill({lat: 15, lng: 15}), [{lat: 15, lng: 15}]]}];
+             {index: 1, previous: [] as google.maps.LatLng[], newArr: [Array(2).fill({lat: 15, lng: 15}), [{lat: 15, lng: 15}]]}];
         let expectationIndex = 0;
         expect.assertions(expectations.length);
 
@@ -168,11 +167,11 @@ describe('PolygonManager', () => {
               done();
             }
           }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
-          const firstMvcArray = new MvcArrayMock<LatLng>();
+          const firstMvcArray = new MvcArrayMock<google.maps.LatLng>();
           firstMvcArray.push(initLatLng);
           firstMvcArray.push(initLatLng);
           paths.setAt(0, firstMvcArray);
-          const secondMvcArray = new MvcArrayMock<LatLng>();
+          const secondMvcArray = new MvcArrayMock<google.maps.LatLng>();
           secondMvcArray.push(initLatLng);
           paths.setAt(1, secondMvcArray);
         });
@@ -208,7 +207,7 @@ describe('PolygonManager', () => {
       inject([PolygonManager], (polygonManager: PolygonManager) => {
         const expectations = [
           {pathIndex: 0, index: 1, previous: initLatLng, newArr: [[{lat: 15, lng: 15}]]},
-          {pathIndex: 0, index: 0, previous: initLatLng, newArr: [[] as LatLngLiteral[]]}];
+          {pathIndex: 0, index: 0, previous: initLatLng, newArr: [[] as google.maps.LatLngLiteral[]]}];
         let expectationIndex = 0;
         expect.assertions(expectations.length);
 
@@ -251,7 +250,7 @@ describe('PolygonManager', () => {
               done();
             }
           }, fail /* shouldn't have errors */, fail /* shouldn't finish */);
-          paths.push(new MvcArrayMock<LatLng>());
+          paths.push(new MvcArrayMock<google.maps.LatLng>());
           paths.getAt(1).push(initLatLng);
         });
       })();
@@ -259,7 +258,7 @@ describe('PolygonManager', () => {
 
     it('should not emit a path change when a point is added to a removed path', (done) => {
       inject([PolygonManager], (polygonManager: PolygonManager) => {
-        const expectations = [{index: 0, newArr: [[]] as LatLngLiteral[][]}];
+        const expectations = [{index: 0, newArr: [[]] as google.maps.LatLngLiteral[][]}];
         let expectationIndex = 0;
         expect.assertions(expectations.length);
 

@@ -4,13 +4,12 @@ import { Observable, Observer } from 'rxjs';
 import { AgmInfoWindow } from '../../directives/info-window';
 
 import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
-import { InfoWindow, InfoWindowOptions } from '../google-maps-types';
 import { MarkerManager } from './marker-manager';
 
 @Injectable()
 export class InfoWindowManager {
-  private _infoWindows: Map<AgmInfoWindow, Promise<InfoWindow>> =
-      new Map<AgmInfoWindow, Promise<InfoWindow>>();
+  private _infoWindows: Map<AgmInfoWindow, Promise<google.maps.InfoWindow>> =
+      new Map<AgmInfoWindow, Promise<google.maps.InfoWindow>>();
 
   constructor(
       private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone,
@@ -22,7 +21,7 @@ export class InfoWindowManager {
       // info window already deleted
       return Promise.resolve();
     }
-    return iWindow.then((i: InfoWindow) => {
+    return iWindow.then((i: google.maps.InfoWindow) => {
       return this._zone.run(() => {
         i.close();
         this._infoWindows.delete(infoWindow);
@@ -31,7 +30,7 @@ export class InfoWindowManager {
   }
 
   setPosition(infoWindow: AgmInfoWindow): Promise<void> {
-    return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setPosition({
+    return this._infoWindows.get(infoWindow).then((i: google.maps.InfoWindow) => i.setPosition({
       lat: infoWindow.latitude,
       lng: infoWindow.longitude,
     }));
@@ -39,7 +38,7 @@ export class InfoWindowManager {
 
   setZIndex(infoWindow: AgmInfoWindow): Promise<void> {
     return this._infoWindows.get(infoWindow)
-        .then((i: InfoWindow) => i.setZIndex(infoWindow.zIndex));
+        .then((i: google.maps.InfoWindow) => i.setZIndex(infoWindow.zIndex));
   }
 
   open(infoWindow: AgmInfoWindow): Promise<void> {
@@ -57,12 +56,12 @@ export class InfoWindowManager {
     return this._infoWindows.get(infoWindow).then((w) => w.close());
   }
 
-  setOptions(infoWindow: AgmInfoWindow, options: InfoWindowOptions) {
-    return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setOptions(options));
+  setOptions(infoWindow: AgmInfoWindow, options: google.maps.InfoWindowOptions) {
+    return this._infoWindows.get(infoWindow).then((i: google.maps.InfoWindow) => i.setOptions(options));
   }
 
   addInfoWindow(infoWindow: AgmInfoWindow) {
-    const options: InfoWindowOptions = {
+    const options: google.maps.InfoWindowOptions = {
       content: infoWindow.content,
       maxWidth: infoWindow.maxWidth,
       zIndex: infoWindow.zIndex,
@@ -80,7 +79,7 @@ export class InfoWindowManager {
     */
   createEventObservable<T>(eventName: string, infoWindow: AgmInfoWindow): Observable<T> {
     return new Observable((observer: Observer<T>) => {
-      this._infoWindows.get(infoWindow).then((i: InfoWindow) => {
+      this._infoWindows.get(infoWindow).then((i: google.maps.InfoWindow) => {
         i.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
