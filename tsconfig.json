@@ -6,25 +6,33 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "outDir": ".tmp/esm",
-        "rootDir": ".",
+        "baseUrl": ".",
         "sourceMap": true,
         "removeComments": false,
         "moduleResolution": "node",
         "declaration": true,
+        "allowSyntheticDefaultImports": true,
         "lib": [
             "es2015",
-            "dom"
+            "dom",
+            "esnext"
         ],
         "types": [
-            "jasmine"
-        ]
+            "jest"
+        ],
+        "paths": {
+            "@agm/*": ["./packages/*"]
+        }
     },
     "angularCompilerOptions": {
         "genDir": ".tmp",
         "debug": false,
         "skipMetadataEmit": false
     },
+    "exclude": [
+        ".tmp"
+    ],
     "include": [
-        "src/**/*"
+        "packages/**/*"
     ]
 }

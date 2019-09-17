@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class="mdl-js">
+	<head>
+		{{ partial "head.html" . }}
+	</head>
+	<body>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      {{ partial "header.html" . }}
+      
+      <div class="android-content mdl-layout__content">
+        <div class="content-grid mdl-grid">
+          <div class="mdl-cell mdl-cell--3-col">
+            <div class="content-sidebar">
+              <section>
+                <h5 class="section-title">General</h5>
+                <ul>
+                  <li><a href="/guides/getting-started">Getting started</a></li>
+                  <li><a href="/guides/basic-info-window">Basic Info Windows</a></li>
+                </ul>
+              </section>
+
+              <section>
+                <h5 class="section-title">@agm/snazzy-info-window</h5>
+                <ul>
+                  <li><a href="/guides/snazzy-info-window/custom-info-windows-with-snazzy-info-window/">Styled info windows with 'Snazzy Info Window'</a></li>
+                </ul>
+              </section>
+
+            </div>
+          </div>
+          <div class="mdl-cell mdl-cell--9-col page-content-cell">
+            <div class="page-title">
+              <h1>{{ .Title }}</h1>
+            </div>
+            <div class="page-content">
+              {{ .Content }}
+            </div>
+          </div>
+        </div>
+        {{ partial "footer.html" . }}
+      </div>
+      
+    </div>
+	</body>
+</html>
+
+
+
