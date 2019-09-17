@@ -1,4 +1,4 @@
-import { GoogleMap, LatLngBounds, Marker } from '@agm/core/services/google-maps-types';
+import { GoogleMap, LatLngBounds, Marker, MVCObject } from '@agm/core/services/google-maps-types';
 
 export interface CalculatorResult {
   text: string;
@@ -7,7 +7,7 @@ export interface CalculatorResult {
 
 export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult;
 
-export interface MarkerClustererInstance {
+export interface MarkerClustererInstance extends MVCObject {
   zoomOnClick_: boolean;
   averageCenter_: boolean;
   imagePath_: string;
