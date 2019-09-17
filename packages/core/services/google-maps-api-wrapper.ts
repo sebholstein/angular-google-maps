@@ -93,6 +93,19 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
+   * Creates a BicyclingLayer instance for a map
+   * @param {BicyclingLayerOptions} options - used for setting layer options
+   * @returns {Promise<BicyclingLayer>} a new bicycling layer object
+   */
+  createBicyclingLayer(options: mapTypes.BicyclingLayerOptions): Promise<mapTypes.BicyclingLayer>{
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let newLayer: mapTypes.BicyclingLayer = new google.maps.BicyclingLayer();
+      newLayer.setMap(options.visible ? map : null);
+      return newLayer;
+    });
+  }
+
+  /**
    * Creates a new google.map.Data layer for the current map
    */
   createDataLayer(options?: mapTypes.DataOptions): Promise<mapTypes.Data> {
@@ -104,6 +117,19 @@ export class GoogleMapsAPIWrapper {
   }
 
   /**
+   * Creates a HeatpmapLayer instance for a map
+   * @param {HeatmapLayerOptions} options - used for setting layer options
+   * @returns {Promise<HeatmapLayer>} a new heatmap layer object
+   */
+  createHeatmapLayer(options: mapTypes.HeatmapLayerOptions): Promise<mapTypes.HeatmapLayer>{
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let newLayer: mapTypes.HeatmapLayer = new google.maps.visualization.HeatmapLayer();
+      newLayer.setMap(options.visible ? map : null);
+      return newLayer;
+    });
+  }
+
+  /**
    * Creates a TransitLayer instance for a map
    * @param {TransitLayerOptions} options - used for setting layer options
    * @returns {Promise<TransitLayer>} a new transit layer object
@@ -111,19 +137,6 @@ export class GoogleMapsAPIWrapper {
   createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
     return this._map.then((map: mapTypes.GoogleMap) => {
       let newLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
-      newLayer.setMap(options.visible ? map : null);
-      return newLayer;
-    });
-  }
-
-  /**
-   * Creates a BicyclingLayer instance for a map
-   * @param {BicyclingLayerOptions} options - used for setting layer options
-   * @returns {Promise<BicyclingLayer>} a new bicycling layer object
-   */
-  createBicyclingLayer(options: mapTypes.BicyclingLayerOptions): Promise<mapTypes.BicyclingLayer>{
-    return this._map.then((map: mapTypes.GoogleMap) => {
-      let newLayer: mapTypes.BicyclingLayer = new google.maps.BicyclingLayer();
       newLayer.setMap(options.visible ? map : null);
       return newLayer;
     });

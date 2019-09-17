@@ -1,7 +1,12 @@
 import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { HeatmapLayerManager } from '../services/managers/heatmap-layer-manager';
+import { HeatmapLayerOptions, LatLng, MVCArray, WeightedLocation } from '../services/google-maps-types';
+import { LayerManager } from '../services/managers/layer-manager';
 
 let layerId = 0;
+const OPTION_KEYS = [
+    'data', 'dissipating', 'gradient', 'maxIntensity', 'opacity',
+    'radius', 'options',
+];
 
 @Directive({
   selector: 'agm-heatmap-layer',
@@ -9,13 +14,11 @@ let layerId = 0;
 export class AgmHeatmapLayer implements OnInit, OnChanges, OnDestroy{
   private _addedToManager = false;
   private _id: string = (layerId++).toString();
-  private static _heatmapLayerOptions: string[] =
-    [ 'data', 'dissipating', 'gradient', 'maxIntensity', 'opacity', 'radius', 'options' ];
 
   /**
    * The data points to display. Required.
    */
-  @Input() data: any[] | null = null;
+  @Input() data: Array<LatLng | WeightedLocation> | MVCArray<LatLng | WeightedLocation> | null = null;
 
   /**
    * Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point
@@ -47,15 +50,24 @@ export class AgmHeatmapLayer implements OnInit, OnChanges, OnDestroy{
    */
   @Input() opacity: number | null = null;
 
-  constructor(
-    private _manager: HeatmapLayerManager
-  ) { }
+  /**
+   * Hide/show heatmap layer
+   */
+  @Input() visible = true;
+
+  constructor( private _manager: LayerManager) {}
 
   ngOnInit() {
     if (this._addedToManager) {
       return;
     }
-    this._manager.addHeatmapLayer(this);
+    this._manager.addHeatmapLayer(this, OPTION_KEYS.reduce((result, key) => {
+        if (this[key] != null) {
+            result[key] = this[key];
+        }
+
+        return result;
+    }, {visible: this.visible}) as HeatmapLayerOptions);
     this._addedToManager = true;
   }
 
@@ -63,16 +75,19 @@ export class AgmHeatmapLayer implements OnInit, OnChanges, OnDestroy{
     if (!this._addedToManager) {
       return;
     }
-    this._updatePolygonOptions(changes);
-  }
 
-  private _updatePolygonOptions(changes: SimpleChanges) {
-    const options = Object.keys(changes)
-      .filter(k => AgmHeatmapLayer._heatmapLayerOptions.indexOf(k) !== -1)
-      .reduce((obj: any, k: string) => {
-        obj[k] = changes[k].currentValue;
-        return obj;
-      }, {});
+    if (changes['visible'] != null) {
+        this._manager.setLayerVisibility(this, changes['visible'].currentValue);
+    }
+
+    const options = OPTION_KEYS.reduce((result, key) => {
+        if (changes[key] != null) {
+            result[key] = changes[key].currentValue;
+        }
+
+        return result;
+    }, {}) as HeatmapLayerOptions;
+
     if (Object.keys(options).length > 0) {
       this._manager.setOptions(this, options);
     }
@@ -86,7 +101,7 @@ export class AgmHeatmapLayer implements OnInit, OnChanges, OnDestroy{
 
   /** @internal */
   ngOnDestroy() {
-    this._manager.deleteHeatmapLayer(this);
+    this._manager.deleteLayer(this);
   }
 
 }

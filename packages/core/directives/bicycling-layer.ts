@@ -35,7 +35,7 @@ export class AgmBicyclingLayer implements OnInit, OnChanges, OnDestroy{
             return;
         }
         if (changes['visible'] != null) {
-            this._manager.toggleLayerVisibility(this, {visible: changes['visible'].currentValue});
+            this._manager.setLayerVisibility(this, changes['visible'].currentValue);
         }
     }
 

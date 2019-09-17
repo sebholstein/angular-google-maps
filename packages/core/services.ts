@@ -8,7 +8,6 @@ export {
   LazyMapsAPILoader,
   LazyMapsAPILoaderConfigLiteral,
 } from './services/maps-api-loader/lazy-maps-api-loader';
-export { HeatmapLayerManager } from './services/managers/heatmap-layer-manager';
 export { InfoWindowManager } from './services/managers/info-window-manager';
 export { KmlLayerManager } from './services/managers/kml-layer-manager';
 export { LayerManager } from './services/managers/layer-manager';

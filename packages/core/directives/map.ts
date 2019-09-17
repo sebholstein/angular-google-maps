@@ -10,7 +10,6 @@ import {
   RotateControlOptions, ScaleControlOptions, StreetViewControlOptions, ZoomControlOptions,
 } from '../services/google-maps-types';
 import { CircleManager } from '../services/managers/circle-manager';
-import { HeatmapLayerManager } from '../services/managers/heatmap-layer-manager';
 import { InfoWindowManager } from '../services/managers/info-window-manager';
 import { LayerManager } from '../services/managers/layer-manager';
 import { MarkerManager } from '../services/managers/marker-manager';
@@ -53,7 +52,6 @@ declare var google: any;
     DataLayerManager,
     FitBoundsService,
     GoogleMapsAPIWrapper,
-    HeatmapLayerManager,
     InfoWindowManager,
     KmlLayerManager,
     LayerManager,

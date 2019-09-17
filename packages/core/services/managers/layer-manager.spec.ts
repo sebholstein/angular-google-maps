@@ -103,7 +103,7 @@ describe('LayerManager', () => {
                     expect(apiWrapper.createTransitLayer).toHaveBeenCalledWith({visible: true});
 
                     newLayer.visible = false;
-                    layerManager.toggleLayerVisibility(newLayer, {visible: false}).then(() => {
+                    layerManager.setLayerVisibility(newLayer, false).then(() => {
                         expect(transitLayerInstance.setMap).toHaveBeenCalledWith(null);
                     });
                 },

@@ -389,21 +389,22 @@ export interface Polygon extends MVCObject {
 }
 
 export interface HeatmapLayer extends MVCObject {
-  getData():  Array<LatLng | WeightedLocation>;
+  getData(): MVCArray<LatLng | WeightedLocation>;
   getMap(): GoogleMap;
-  setData(data: Array<LatLng | WeightedLocation>): void;
+  setData(data: Array<LatLng | WeightedLocation> | MVCArray<LatLng | WeightedLocation>): void;
   setMap(map: GoogleMap): void;
   setOptions(options: HeatmapLayerOptions): void;
 }
 
 export interface HeatmapLayerOptions {
-  data: Array<LatLng | WeightedLocation>;
+  data: Array<LatLng | WeightedLocation> | MVCArray<LatLng | WeightedLocation>;
   dissipating: boolean;
   gradient: Array<string>;
   map: GoogleMap;
   maxIntensity: number;
   opacity: number;
   radius: number;
+  visible: boolean;
 }
 
 export interface KmlLayer extends MVCObject {
