@@ -1,4 +1,4 @@
-import { Marker, GoogleMap, LatLngBounds, LatLng } from '@agm/core/services/google-maps-types';
+import { GoogleMap, LatLng, LatLngBounds, Marker, MVCObject } from '@agm/core/services/google-maps-types';
 
 /**
  * This class is an object containing general information about a cluster icon.
@@ -33,7 +33,7 @@ export interface ClusterIconInfo {
  */
 export type CalculateFunction = (markers: Marker[], numStyles: number) => ClusterIconInfo;
 
-export interface MarkerClustererInstance {
+export interface MarkerClustererInstance extends MVCObject {
   zoomOnClick_: boolean;
   averageCenter_: boolean;
   /**

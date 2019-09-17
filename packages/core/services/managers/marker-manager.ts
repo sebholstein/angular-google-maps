@@ -1,10 +1,10 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
-import {AgmMarker} from './../../directives/marker';
+import { AgmMarker } from './../../directives/marker';
 
-import {GoogleMapsAPIWrapper} from './../google-maps-api-wrapper';
-import {Marker} from './../google-maps-types';
+import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
+import { Marker } from './../google-maps-types';
 
 declare var google: any;
 
@@ -80,7 +80,6 @@ export class MarkerManager {
   }
 
   addMarker(marker: AgmMarker) {
-
     const markerPromise = new Promise<Marker>(async (resolve) =>
      this._mapsWrapper.createMarker({
         position: {lat: marker.latitude, lng: marker.longitude},
@@ -92,7 +91,7 @@ export class MarkerManager {
         zIndex: marker.zIndex,
         title: marker.title,
         clickable: marker.clickable,
-        animation: await this.convertAnimation(marker.animation)
+        animation: await this.convertAnimation(marker.animation),
       }).then(resolve));
     this._markers.set(marker, markerPromise);
   }

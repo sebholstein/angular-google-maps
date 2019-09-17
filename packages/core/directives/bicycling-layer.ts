@@ -8,17 +8,17 @@ let layerId = 0;
  * <agm-bicycling-layer [visible]="true|false"> <agm-bicycling-layer>
  * */
 @Directive({
-    selector: 'agm-bicycling-layer'
+    selector: 'agm-bicycling-layer',
 })
 
 export class AgmBicyclingLayer implements OnInit, OnChanges, OnDestroy{
-    private _addedToManager: boolean = false;
+    private _addedToManager = false;
     private _id: string = (layerId++).toString();
 
     /**
      * Hide/show bicycling layer
      */
-    @Input() visible: boolean = true;
+    @Input() visible = true;
 
     constructor( private _manager: LayerManager ) {}
 

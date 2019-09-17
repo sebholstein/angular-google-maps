@@ -9,6 +9,8 @@ test-built
 npm-debug.log
 *.ngfactory.ts
 coverage/
+.*.swp
 .idea/
 .DS_Store
 docs/public
+agm-*-*.tgz

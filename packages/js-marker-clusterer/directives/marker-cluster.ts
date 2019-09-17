@@ -1,9 +1,11 @@
-import { Directive, Input, OnDestroy, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 
+import { InfoWindowManager, MarkerManager } from '@agm/core';
 import { ClusterManager } from '../services/managers/cluster-manager';
-import { MarkerManager, InfoWindowManager } from '@agm/core';
 
 import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/google-clusterer-types';
+
+import { Subscription } from 'rxjs';
 
 /**
  * AgmMarkerCluster clusters map marker if they are near together
@@ -38,7 +40,7 @@ import { CalculateFunction, ClusterOptions, ClusterStyle } from '../services/goo
     ClusterManager,
     { provide: MarkerManager, useExisting: ClusterManager },
     InfoWindowManager,
-  ]
+  ],
 })
 export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOptions {
   /**
@@ -129,11 +131,15 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
    */
   @Input() title: string;
 
+  @Output() clusterClick: EventEmitter<void> = new EventEmitter<void>();
+
+  private _observableSubscriptions: Subscription[] = [];
   constructor(private _clusterManager: ClusterManager) { }
 
   /** @internal */
   ngOnDestroy() {
     this._clusterManager.clearMarkers();
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
   }
 
   /** @internal */
@@ -182,8 +188,22 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     }
   }
 
+  private _addEventListeners() {
+    const handlers = [
+      {
+        name: 'clusterclick',
+        handler: () => this.clusterClick.emit(),
+      },
+    ];
+    handlers.forEach((obj) => {
+      const os = this._clusterManager.createClusterEventObservable(obj.name).subscribe(obj.handler);
+      this._observableSubscriptions.push(os);
+    });
+  }
+
   /** @internal */
   ngOnInit() {
+    this._addEventListeners();
     this._clusterManager.init({
       gridSize: this.gridSize,
       maxZoom: this.maxZoom,

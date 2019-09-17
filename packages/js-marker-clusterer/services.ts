@@ -1,1 +1,1 @@
-export {ClusterManager} from './services/managers/cluster-manager';
+export { ClusterManager } from './services/managers/cluster-manager';

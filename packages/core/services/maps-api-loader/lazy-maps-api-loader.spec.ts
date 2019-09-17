@@ -1,9 +1,9 @@
-import {TestBed, inject} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {DocumentRef, WindowRef} from '../../utils/browser-globals';
+import { DocumentRef, WindowRef } from '../../utils/browser-globals';
 
-import {GoogleMapsScriptProtocol, LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral} from './lazy-maps-api-loader';
-import {MapsAPILoader} from './maps-api-loader';
+import { GoogleMapsScriptProtocol, LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral } from './lazy-maps-api-loader';
+import { MapsAPILoader } from './maps-api-loader';
 
 describe('Service: LazyMapsAPILoader', () => {
   let documentRef: DocumentRef;
@@ -16,23 +16,23 @@ describe('Service: LazyMapsAPILoader', () => {
       createElement: jest.fn(),
       getElementById: jest.fn().mockReturnValue(null),
       body: {
-        appendChild: jest.fn()
-      }
+        appendChild: jest.fn(),
+      },
     };
-    documentRef = <DocumentRef>{
+    documentRef = {
       getNativeDocument: jest.fn().mockReturnValue(doc),
-    };
+    } as DocumentRef;
 
     windowObj = {};
-    windowRef = <WindowRef>{
-      getNativeWindow: jest.fn().mockReturnValue(windowObj)
-    };
+    windowRef = {
+      getNativeWindow: jest.fn().mockReturnValue(windowObj),
+    } as WindowRef;
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
         {provide: WindowRef, useValue: windowRef},
-        {provide: DocumentRef, useValue: documentRef}
-      ]
+        {provide: DocumentRef, useValue: documentRef},
+      ],
     });
   });
 
@@ -45,7 +45,7 @@ describe('Service: LazyMapsAPILoader', () => {
         id?: string;
       }
       const scriptElem: Script = {};
-      (<jest.Mock>doc.createElement).mockReturnValue(scriptElem);
+      (doc.createElement as jest.Mock).mockReturnValue(scriptElem);
 
       loader.load();
       expect(doc.createElement).toHaveBeenCalledWith('script');
@@ -61,14 +61,14 @@ describe('Service: LazyMapsAPILoader', () => {
   }));
 
   it('should not append a second script to body when theres already one with the fixed ID', inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
-      (<jest.Mock>doc.getElementById).mockReturnValue(document.createElement('script'));
+      (doc.getElementById as jest.Mock).mockReturnValue(document.createElement('script'));
       loader.load();
       expect(doc.body.appendChild).not.toHaveBeenCalledWith();
   }));
 
   it('should not append a second script to body when window.google.maps is defined', inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
     windowObj.google = {
-      maps: {}
+      maps: {},
     };
     loader.load();
     expect(doc.body.appendChild).not.toHaveBeenCalledWith();
@@ -83,8 +83,8 @@ describe('Service: LazyMapsAPILoader', () => {
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
         {provide: WindowRef, useValue: windowRef},
         {provide: DocumentRef, useValue: documentRef},
-        {provide: LAZY_MAPS_API_CONFIG, useValue: lazyLoadingConf}
-      ]
+        {provide: LAZY_MAPS_API_CONFIG, useValue: lazyLoadingConf},
+      ],
     });
 
     inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
@@ -95,7 +95,7 @@ describe('Service: LazyMapsAPILoader', () => {
         type?: string;
       }
       const scriptElem: Script = {};
-      (<jest.Mock>doc.createElement).mockReturnValue(scriptElem);
+      (doc.createElement as jest.Mock).mockReturnValue(scriptElem);
 
       loader.load();
       expect(doc.createElement).toHaveBeenCalled();

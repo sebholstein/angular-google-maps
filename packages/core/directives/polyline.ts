@@ -1,10 +1,10 @@
-import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, QueryList, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { PolyMouseEvent, LatLng } from '../services/google-maps-types';
+import { LatLng, PolyMouseEvent } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
-import { AgmPolylinePoint } from './polyline-point';
 import { AgmPolylineIcon } from './polyline-icon';
+import { AgmPolylinePoint } from './polyline-point';
 
 let polylineId = 0;
 /**
@@ -35,26 +35,26 @@ let polylineId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-polyline'
+  selector: 'agm-polyline',
 })
 export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polyline handles mouse events. Defaults to true.
    */
-  @Input() clickable: boolean = true;
+  @Input() clickable = true;
 
   /**
    * If set to true, the user can drag this shape over the map. The geodesic property defines the
    * mode of dragging. Defaults to false.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('polylineDraggable') draggable: boolean = false;
+  @Input('polylineDraggable') draggable = false;
 
   /**
    * If set to true, the user can edit this shape by dragging the control points shown at the
    * vertices and on each segment. Defaults to false.
    */
-  @Input() editable: boolean = false;
+  @Input() editable = false;
 
   /**
    * When true, edges of the polygon are interpreted as geodesic and will follow the curvature of
@@ -62,7 +62,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
    * Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions
    * are maintained relative to the surface of the earth. Defaults to false.
    */
-  @Input() geodesic: boolean = false;
+  @Input() geodesic = false;
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended named colors.
@@ -82,7 +82,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Whether this polyline is visible on the map. Defaults to true.
    */
-  @Input() visible: boolean = true;
+  @Input() visible = true;
 
   /**
    * The zIndex compared to other polys.
@@ -158,11 +158,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
 
   private static _polylineOptionsAttributes: Array<string> = [
     'draggable', 'editable', 'visible', 'geodesic', 'strokeColor', 'strokeOpacity', 'strokeWeight',
-    'zIndex'
+    'zIndex',
   ];
 
   private _id: string;
-  private _polylineAddedToManager: boolean = false;
+  private _polylineAddedToManager = false;
   private _subscriptions: Subscription[] = [];
 
   constructor(private _polylineManager: PolylineManager) { this._id = (polylineId++).toString(); }
