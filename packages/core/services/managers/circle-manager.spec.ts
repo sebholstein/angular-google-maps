@@ -2,18 +2,11 @@ import { NgZone } from '@angular/core';
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
 import { AgmCircle } from '../../directives/circle';
-import { Circle, CircleOptions } from '../google-maps-types';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
 import { CircleManager } from './circle-manager';
 
 describe('CircleManager', () => {
   beforeEach(() => {
-    (window as any).google = {
-      maps: {
-        StrokePosition: {CENTER: 1, INSIDE: 0, OUTSIDE: 2},
-      },
-    };
-
     TestBed.configureTestingModule({
       providers: [
         {
@@ -55,7 +48,7 @@ describe('CircleManager', () => {
           fillOpacity: undefined,
           strokeColor: undefined,
           strokeOpacity: undefined,
-          strokePosition: 'CENTER',
+          strokePosition: 0,
           strokeWeight: 0,
           visible: true,
           zIndex: undefined,
@@ -104,7 +97,7 @@ describe('CircleManager', () => {
           newCircle.latitude = 32.1;
           newCircle.longitude = 11.612;
 
-          const circleInstance: Circle = {
+          const circleInstance: google.maps.Circle = {
             setMap: jest.fn(),
             setRadius: jest.fn(),
           } as any;
@@ -228,7 +221,7 @@ describe('CircleManager', () => {
           const options = {
             strokeWeight: 2,
             strokePosition: 'OUTSIDE',
-          } as CircleOptions;
+          } as any as google.maps.CircleOptions;
 
           circleManager.setOptions(newCircle, options);
           tick();

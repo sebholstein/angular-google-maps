@@ -6,30 +6,7 @@ import { GoogleMapsAPIWrapper } from '../../services/google-maps-api-wrapper';
 import { LayerManager } from './layer-manager';
 
 describe('LayerManager', () => {
-    beforeAll(() => {
-        (window as any).google = {
-            maps: {
-                TransitLayer: class TransitLayer {
-                    setMap = jest.fn();
-                    getMap = jest.fn();
-                    constructor() {
-
-                    }
-                },
-
-                BicyclingLayer: class BicyclingLayer {
-                    setMap = jest.fn();
-                    getMap = jest.fn();
-                    constructor() {
-
-                    }
-                },
-            },
-        };
-    });
-
     beforeEach(() => {
-
         TestBed.configureTestingModule({
             providers: [
                 {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},

@@ -1,7 +1,6 @@
 import { discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { first } from 'rxjs/operators';
 import { FitBoundsService } from './fit-bounds';
-import { LatLngBounds } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 describe('FitBoundsService', () => {
@@ -18,17 +17,15 @@ describe('FitBoundsService', () => {
     latLngBoundsConstructs = 0;
     latLngBoundsExtend = jest.fn();
 
-    (window as any).google = {
-      maps: {
-        LatLngBounds: class LatLngBounds {
-          extend: jest.Mock = latLngBoundsExtend;
+    Object.assign((window as any).google.maps, {
+      LatLngBounds: class LatLngBounds {
+        extend: jest.Mock = latLngBoundsExtend;
 
-          constructor() {
-            latLngBoundsConstructs += 1;
-          }
-        },
+        constructor() {
+          latLngBoundsConstructs += 1;
+        }
       },
-    };
+    });
 
     TestBed.configureTestingModule({
       providers: [

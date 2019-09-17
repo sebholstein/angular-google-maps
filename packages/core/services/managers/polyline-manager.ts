@@ -1,31 +1,27 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
-import { AgmPolyline, PathEvent } from '../../directives/polyline';
+import { AgmPolyline } from '../../directives/polyline';
 import { AgmPolylinePoint } from '../../directives/polyline-point';
-import { createMVCEventObservable } from '../../utils/mvcarray-utils';
+import { createMVCEventObservable, MVCEvent } from '../../utils/mvcarray-utils';
 import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
-import { IconSequence, LatLng, LatLngLiteral, MVCArray, Polyline } from '../google-maps-types';
-
-declare var google: any;
 
 @Injectable()
 export class PolylineManager {
-  private _polylines: Map<AgmPolyline, Promise<Polyline>> =
-      new Map<AgmPolyline, Promise<Polyline>>();
+  private _polylines: Map<AgmPolyline, Promise<google.maps.Polyline>> =
+      new Map<AgmPolyline, Promise<google.maps.Polyline>>();
 
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
-  private static _convertPoints(line: AgmPolyline): Array<LatLngLiteral> {
+  private static _convertPoints(line: AgmPolyline): google.maps.LatLngLiteral[] {
     const path = line._getPoints().map((point: AgmPolylinePoint) => {
-      return {lat: point.latitude, lng: point.longitude} as LatLngLiteral;
+      return {lat: point.latitude, lng: point.longitude} as google.maps.LatLngLiteral;
     });
     return path;
   }
 
-  private static _convertPath(path: 'CIRCLE' | 'BACKWARD_CLOSED_ARROW' | 'BACKWARD_OPEN_ARROW' | 'FORWARD_CLOSED_ARROW' |
-  'FORWARD_CLOSED_ARROW' | string): number | string{
-    const symbolPath = google.maps.SymbolPath[path];
+  private static _convertPath(path: keyof typeof google.maps.SymbolPath | string): google.maps.SymbolPath | string {
+    const symbolPath = google.maps.SymbolPath[path as keyof typeof google.maps.SymbolPath];
     if (typeof symbolPath === 'number') {
       return symbolPath;
     } else{
@@ -33,7 +29,7 @@ export class PolylineManager {
     }
   }
 
-  private static _convertIcons(line: AgmPolyline): Array<IconSequence> {
+  private static _convertIcons(line: AgmPolyline): Array<google.maps.IconSequence> {
     const icons = line._getIcons().map(agmIcon => ({
       fixedRotation: agmIcon.fixedRotation,
       offset: agmIcon.offset,
@@ -49,7 +45,7 @@ export class PolylineManager {
         strokeOpacity: agmIcon.strokeOpacity,
         strokeWeight: agmIcon.strokeWeight,
       },
-    } as IconSequence));
+    } as google.maps.IconSequence));
     // prune undefineds;
     icons.forEach(icon => {
       Object.entries(icon).forEach(([key, val]) => {
@@ -69,7 +65,7 @@ export class PolylineManager {
     const polylinePromise = this._mapsWrapper.getNativeMap()
     .then(() => [ PolylineManager._convertPoints(line),
                   PolylineManager._convertIcons(line)])
-    .then(([path, icons]: [LatLngLiteral[], IconSequence[]]) =>
+    .then(([path, icons]: [google.maps.LatLngLiteral[], google.maps.IconSequence[]]) =>
       this._mapsWrapper.createPolyline({
         clickable: line.clickable,
         draggable: line.draggable,
@@ -92,7 +88,7 @@ export class PolylineManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polyline) => { return this._zone.run(() => { l.setPath(path); }); });
+    return m.then((l: google.maps.Polyline) => { return this._zone.run(() => { l.setPath(path); }); });
   }
 
   async updateIconSequences(line: AgmPolyline): Promise<void> {
@@ -107,7 +103,7 @@ export class PolylineManager {
 
   setPolylineOptions(line: AgmPolyline, options: {[propName: string]: any}):
       Promise<void> {
-    return this._polylines.get(line).then((l: Polyline) => { l.setOptions(options); });
+    return this._polylines.get(line).then((l: google.maps.Polyline) => { l.setOptions(options); });
   }
 
   deletePolyline(line: AgmPolyline): Promise<void> {
@@ -115,7 +111,7 @@ export class PolylineManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polyline) => {
+    return m.then((l: google.maps.Polyline) => {
       return this._zone.run(() => {
         l.setMap(null);
         this._polylines.delete(line);
@@ -123,24 +119,24 @@ export class PolylineManager {
     });
   }
 
-  private async getMVCPath(agmPolyline: AgmPolyline): Promise<MVCArray<LatLng>> {
+  private async getMVCPath(agmPolyline: AgmPolyline): Promise<google.maps.MVCArray<google.maps.LatLng>> {
     const polyline = await this._polylines.get(agmPolyline);
     return polyline.getPath();
   }
 
-  async getPath(agmPolyline: AgmPolyline): Promise<Array<LatLng>> {
+  async getPath(agmPolyline: AgmPolyline): Promise<google.maps.LatLng[]> {
     return (await this.getMVCPath(agmPolyline)).getArray();
   }
 
   createEventObservable<T>(eventName: string, line: AgmPolyline): Observable<T> {
     return new Observable((observer: Observer<T>) => {
-      this._polylines.get(line).then((l: Polyline) => {
+      this._polylines.get(line).then((l: google.maps.Polyline) => {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
   }
 
-  async createPathEventObservable(line: AgmPolyline): Promise<Observable<PathEvent>> {
+  async createPathEventObservable(line: AgmPolyline): Promise<Observable<MVCEvent<google.maps.LatLng>>> {
     const mvcPath = await this.getMVCPath(line);
     return createMVCEventObservable(mvcPath);
   }

@@ -2,15 +2,14 @@ import { Injectable, NgZone } from '@angular/core';
 import { merge, Observable, Observer } from 'rxjs';
 import { map, skip, startWith, switchMap } from 'rxjs/operators';
 
-import { AgmPolygon, PathChangePolygonPathEvent, PathCollectionChangePolygonPathEvent, PolygonPathEvent } from '../../directives/polygon';
+import { AgmPolygon } from '../../directives/polygon';
 import { createMVCEventObservable, MVCEvent } from '../../utils/mvcarray-utils';
 import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
-import { LatLng, MVCArray, Polygon } from '../google-maps-types';
 
 @Injectable()
 export class PolygonManager {
-  private _polygons: Map<AgmPolygon, Promise<Polygon>> =
-    new Map<AgmPolygon, Promise<Polygon>>();
+  private _polygons: Map<AgmPolygon, Promise<google.maps.Polygon>> =
+    new Map<AgmPolygon, Promise<google.maps.Polygon>>();
 
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) { }
 
@@ -37,11 +36,11 @@ export class PolygonManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
+    return m.then((l: google.maps.Polygon) => this._zone.run(() => { l.setPaths(polygon.paths); }));
   }
 
   setPolygonOptions(path: AgmPolygon, options: { [propName: string]: any }): Promise<void> {
-    return this._polygons.get(path).then((l: Polygon) => { l.setOptions(options); });
+    return this._polygons.get(path).then((l: google.maps.Polygon) => { l.setOptions(options); });
   }
 
   deletePolygon(paths: AgmPolygon): Promise<void> {
@@ -49,7 +48,7 @@ export class PolygonManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: Polygon) => {
+    return m.then((l: google.maps.Polygon) => {
       return this._zone.run(() => {
         l.setMap(null);
         this._polygons.delete(paths);
@@ -57,29 +56,29 @@ export class PolygonManager {
     });
   }
 
-  getPath(polygon: AgmPolygon): Promise<Array<LatLng>> {
+  getPath(polygon: AgmPolygon): Promise<google.maps.LatLng[]> {
     return this._polygons.get(polygon)
       .then((polygon) => polygon.getPath().getArray());
   }
 
-  getPaths(polygon: AgmPolygon): Promise<Array<Array<LatLng>>> {
+  getPaths(polygon: AgmPolygon): Promise<google.maps.LatLng[][]> {
     return this._polygons.get(polygon)
       .then((polygon) => polygon.getPaths().getArray().map((p) => p.getArray()));
   }
 
   createEventObservable<T>(eventName: string, path: AgmPolygon): Observable<T> {
     return new Observable((observer: Observer<T>) => {
-      this._polygons.get(path).then((l: Polygon) => {
+      this._polygons.get(path).then((l: google.maps.Polygon) => {
         l.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
       });
     });
   }
 
-  async createPathEventObservable(agmPolygon: AgmPolygon): Promise<Observable<PolygonPathEvent<any>>> {
+  async createPathEventObservable(agmPolygon: AgmPolygon): Promise<Observable<MVCEvent<google.maps.LatLng[] | google.maps.LatLngLiteral[]>>> {
     const polygon = await this._polygons.get(agmPolygon);
     const paths = polygon.getPaths();
     const pathsChanges$ = createMVCEventObservable(paths);
-    return pathsChanges$.pipe(startWith(({ newArr: paths.getArray() } as MVCEvent<MVCArray<LatLng>>)), // in order to subscribe to them all
+    return pathsChanges$.pipe(startWith(({ newArr: paths.getArray() } as MVCEvent<google.maps.MVCArray<google.maps.LatLng>>)), // in order to subscribe to them all
       switchMap(parentMVEvent => merge(...// rest parameter
         parentMVEvent.newArr.map((chMVC, index) =>
           createMVCEventObservable(chMVC)
@@ -91,9 +90,9 @@ export class PolygonManager {
         if (!chMVCEvent) {
           retVal = {
             newArr: parentMVEvent.newArr.map(subArr => subArr.getArray().map(latLng => latLng.toJSON())),
-            eventName: parentMVEvent.evName,
+            eventName: parentMVEvent.eventName,
             index: parentMVEvent.index,
-          } as PathCollectionChangePolygonPathEvent;
+          } as MVCEvent<google.maps.LatLng[] | google.maps.LatLngLiteral[]>;
           if (parentMVEvent.previous) {
             retVal.previous =  parentMVEvent.previous.getArray();
           }
@@ -101,9 +100,9 @@ export class PolygonManager {
           retVal = {
             newArr: parentMVEvent.newArr.map(subArr => subArr.getArray().map(latLng => latLng.toJSON())),
             pathIndex,
-            eventName: chMVCEvent.evName,
+            eventName: chMVCEvent.eventName,
             index: chMVCEvent.index,
-          } as PathChangePolygonPathEvent;
+          } as unknown as MVCEvent<google.maps.LatLng[] | google.maps.LatLngLiteral[]>;
           if (chMVCEvent.previous) {
             retVal.previous = chMVCEvent.previous;
           }

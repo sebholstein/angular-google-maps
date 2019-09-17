@@ -10,11 +10,6 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MouseEvent } from '../map-types';
-import {
-  LatLngBounds,
-  LatLngBoundsLiteral,
-  MouseEvent as MapMouseEvent,
-} from '../services/google-maps-types';
 import { RectangleManager } from '../services/managers/rectangle-manager';
 
 @Directive({
@@ -82,7 +77,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
    * The stroke position. Defaults to CENTER.
    * This property is not supported on Internet Explorer 8 and earlier.
    */
-  @Input() strokePosition: 'CENTER' | 'INSIDE' | 'OUTSIDE' = 'CENTER';
+  @Input() strokePosition: google.maps.StrokePosition | keyof typeof google.maps.StrokePosition = 'CENTER';
 
   /**
    * The stroke width in pixels.
@@ -103,8 +98,8 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
    * This event is fired when the rectangle's is changed.
    */
   @Output()
-  boundsChange: EventEmitter<LatLngBoundsLiteral> = new EventEmitter<
-    LatLngBoundsLiteral
+  boundsChange: EventEmitter<google.maps.LatLngBoundsLiteral> = new EventEmitter<
+    google.maps.LatLngBoundsLiteral
   >();
 
   /**
@@ -229,6 +224,11 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
     optionKeys.forEach(k => {
       options[k] = changes[k].currentValue;
     });
+
+    if (typeof options.strokePosition === 'string') {
+      options.strokePosition = google.maps.StrokePosition[options.strokePosition as keyof typeof google.maps.StrokePosition];
+    }
+
     if (optionKeys.length > 0) {
       this._manager.setOptions(this, options);
     }
@@ -255,7 +255,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
     events.forEach((eventEmitter, eventName) => {
       this._eventSubscriptions.push(
         this._manager
-          .createEventObservable<MapMouseEvent>(eventName, this)
+          .createEventObservable<google.maps.MouseEvent>(eventName, this)
           .subscribe(value => {
             switch (eventName) {
               case 'bounds_changed':
@@ -265,7 +265,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
                     east: bounds.getNorthEast().lng(),
                     south: bounds.getSouthWest().lat(),
                     west: bounds.getSouthWest().lng(),
-                  } as LatLngBoundsLiteral),
+                  } as google.maps.LatLngBoundsLiteral),
                 );
                 break;
               default:
@@ -290,7 +290,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   /**
    * Gets the LatLngBounds of this Rectangle.
    */
-  getBounds(): Promise<LatLngBounds> {
+  getBounds(): Promise<google.maps.LatLngBounds> {
     return this._manager.getBounds(this);
   }
 }

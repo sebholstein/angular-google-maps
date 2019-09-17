@@ -64,6 +64,7 @@
     "@angular/platform-browser-dynamic": "^8.2.1",
     "@angular/platform-server": "^8.2.1",
     "@compodoc/compodoc": "^1.1.10",
+    "@types/googlemaps": "^3.37.7",
     "@types/jest": "^23.0.0",
     "clang-format": "1.2.3",
     "codelyzer": "^5.1.0",

@@ -1,9 +1,8 @@
 import { AfterContentInit, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { LatLng, LatLngLiteral, PolygonOptions, PolyMouseEvent } from '../services/google-maps-types';
 import { PolygonManager } from '../services/managers/polygon-manager';
-import { MvcEventType } from '../utils/mvcarray-utils';
+import { MVCEvent } from '../utils/mvcarray-utils';
 
 /**
  * AgmPolygon renders a polygon on a {@link AgmMap}
@@ -30,7 +29,7 @@ import { MvcEventType } from '../utils/mvcarray-utils';
  *   lat: number = 0;
  *   lng: number = 0;
  *   zoom: number = 10;
- *   paths: Array<LatLngLiteral> = [
+ *   paths: LatLngLiteral[] = [
  *     { lat: 0,  lng: 10 },
  *     { lat: 0,  lng: 20 },
  *     { lat: 10, lng: 20 },
@@ -38,7 +37,7 @@ import { MvcEventType } from '../utils/mvcarray-utils';
  *     { lat: 0,  lng: 10 }
  *   ]
  *   // Nesting paths will create a hole where they overlap;
- *   nestedPaths: Array<Array<LatLngLiteral>> = [[
+ *   nestedPaths: LatLngLiteral[][] = [[
  *     { lat: 0,  lng: 10 },
  *     { lat: 0,  lng: 20 },
  *     { lat: 10, lng: 20 },
@@ -107,7 +106,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
    * Inserting or removing LatLngs from the Array will automatically update
    * the polygon on the map.
    */
-  @Input() paths: Array<LatLng | LatLngLiteral> | Array<Array<LatLng | LatLngLiteral>> = [];
+  @Input() paths: google.maps.LatLng[] | google.maps.LatLng[][] | google.maps.MVCArray<google.maps.LatLng> | google.maps.MVCArray<google.maps.MVCArray<google.maps.LatLng>> | google.maps.LatLngLiteral[] | google.maps.LatLngLiteral[][] = [];
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended
@@ -138,12 +137,12 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is fired when the DOM click event is fired on the Polygon.
    */
-  @Output() polyClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyClick: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM dblclick event is fired on the Polygon.
    */
-  @Output() polyDblClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyDblClick: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the polygon.
@@ -163,39 +162,39 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is fired when the DOM mousedown event is fired on the Polygon.
    */
-  @Output() polyMouseDown: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseDown: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the Polygon.
    */
-  @Output() polyMouseMove: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseMove: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired on Polygon mouseout.
    */
-  @Output() polyMouseOut: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseOut: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired on Polygon mouseover.
    */
-  @Output() polyMouseOver: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseOver: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired whe the DOM mouseup event is fired on the Polygon
    */
-  @Output() polyMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyMouseUp: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired when the Polygon is right-clicked on.
    */
-  @Output() polyRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+  @Output() polyRightClick: EventEmitter<google.maps.PolyMouseEvent> = new EventEmitter<google.maps.PolyMouseEvent>();
 
   /**
    * This event is fired after Polygon first path changes.
    */
-  @Output() polyPathsChange = new EventEmitter<PolygonPathEvent<any>>();
+  @Output() polyPathsChange = new EventEmitter<MVCEvent<google.maps.LatLng[] | google.maps.LatLngLiteral[]>>();
 
-  private static _polygonOptionsAttributes: Array<string> = [
+  private static _polygonOptionsAttributes: string[] = [
     'clickable', 'draggable', 'editable', 'fillColor', 'fillOpacity', 'geodesic', 'icon', 'map',
     'paths', 'strokeColor', 'strokeOpacity', 'strokeWeight', 'visible', 'zIndex', 'draggable',
     'editable', 'visible',
@@ -231,17 +230,17 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
 
   private _addEventListeners() {
     const handlers = [
-      { name: 'click', handler: (ev: PolyMouseEvent) => this.polyClick.emit(ev) },
-      { name: 'dblclick', handler: (ev: PolyMouseEvent) => this.polyDblClick.emit(ev) },
+      { name: 'click', handler: (ev: google.maps.PolyMouseEvent) => this.polyClick.emit(ev) },
+      { name: 'dblclick', handler: (ev: google.maps.PolyMouseEvent) => this.polyDblClick.emit(ev) },
       { name: 'drag', handler: (ev: MouseEvent) => this.polyDrag.emit(ev) },
       { name: 'dragend', handler: (ev: MouseEvent) => this.polyDragEnd.emit(ev) },
       { name: 'dragstart', handler: (ev: MouseEvent) => this.polyDragStart.emit(ev) },
-      { name: 'mousedown', handler: (ev: PolyMouseEvent) => this.polyMouseDown.emit(ev) },
-      { name: 'mousemove', handler: (ev: PolyMouseEvent) => this.polyMouseMove.emit(ev) },
-      { name: 'mouseout', handler: (ev: PolyMouseEvent) => this.polyMouseOut.emit(ev) },
-      { name: 'mouseover', handler: (ev: PolyMouseEvent) => this.polyMouseOver.emit(ev) },
-      { name: 'mouseup', handler: (ev: PolyMouseEvent) => this.polyMouseUp.emit(ev) },
-      { name: 'rightclick', handler: (ev: PolyMouseEvent) => this.polyRightClick.emit(ev) },
+      { name: 'mousedown', handler: (ev: google.maps.PolyMouseEvent) => this.polyMouseDown.emit(ev) },
+      { name: 'mousemove', handler: (ev: google.maps.PolyMouseEvent) => this.polyMouseMove.emit(ev) },
+      { name: 'mouseout', handler: (ev: google.maps.PolyMouseEvent) => this.polyMouseOut.emit(ev) },
+      { name: 'mouseover', handler: (ev: google.maps.PolyMouseEvent) => this.polyMouseOver.emit(ev) },
+      { name: 'mouseup', handler: (ev: google.maps.PolyMouseEvent) => this.polyMouseUp.emit(ev) },
+      { name: 'rightclick', handler: (ev: google.maps.PolyMouseEvent) => this.polyRightClick.emit(ev) },
     ];
     handlers.forEach((obj) => {
       const os = this._polygonManager.createEventObservable(obj.name, this).subscribe(obj.handler);
@@ -255,7 +254,7 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     });
   }
 
-  private _updatePolygonOptions(changes: SimpleChanges): PolygonOptions {
+  private _updatePolygonOptions(changes: SimpleChanges): google.maps.PolygonOptions {
     return Object.keys(changes)
       .filter(k => AgmPolygon._polygonOptionsAttributes.indexOf(k) !== -1)
       .reduce((obj: any, k: string) => {
@@ -274,25 +273,11 @@ export class AgmPolygon implements OnDestroy, OnChanges, AfterContentInit {
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  getPath(): Promise<Array<LatLng>> {
+  getPath(): Promise<google.maps.LatLng[]> {
     return this._polygonManager.getPath(this);
   }
 
-  getPaths(): Promise<Array<Array<LatLng>>> {
+  getPaths(): Promise<google.maps.LatLng[][]> {
     return this._polygonManager.getPaths(this);
   }
-}
-
-export interface PolygonPathEvent<T extends (LatLng | Array<LatLng>)> {
-  newArr: LatLng[][];
-  eventName: MvcEventType;
-  index: number;
-  previous?: T;
-}
-
-export interface PathCollectionChangePolygonPathEvent extends PolygonPathEvent <Array<LatLng>>{
-}
-
-export interface PathChangePolygonPathEvent extends PolygonPathEvent<LatLng> {
-  pathIndex: number;
 }

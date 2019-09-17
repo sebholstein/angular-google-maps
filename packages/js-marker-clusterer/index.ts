@@ -1,3 +1,4 @@
+/// <reference types="@types/googlemaps" />
 // main modules
 export * from './directives';
 export * from './services';

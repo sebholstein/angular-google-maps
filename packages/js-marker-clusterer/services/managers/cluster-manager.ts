@@ -4,7 +4,6 @@ import { Observable, Observer } from 'rxjs';
 import 'js-marker-clusterer';
 
 import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
-import { Marker } from '@agm/core/services/google-maps-types';
 import { AgmMarkerCluster } from '../../directives/marker-cluster';
 import { ClusterOptions, MarkerClustererInstance } from '../google-clusterer-types';
 
@@ -65,7 +64,7 @@ export class ClusterManager extends MarkerManager {
       // marker already deleted
       return Promise.resolve();
     }
-    return m.then((m: Marker) => {
+    return m.then((m: google.maps.Marker) => {
       this._zone.run(() => {
         m.setMap(null);
         this.getClustererInstance().then(cluster => {
