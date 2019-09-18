@@ -1,8 +1,7 @@
-import { TestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
+import { discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { first } from 'rxjs/operators';
 import { FitBoundsService } from './fit-bounds';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
-import { LatLngBounds } from '@agm/core';
-import { take, first } from 'rxjs/operators';
 
 describe('FitBoundsService', () => {
   let loader: MapsAPILoader;
@@ -12,29 +11,27 @@ describe('FitBoundsService', () => {
 
   beforeEach(fakeAsync(() => {
     loader = {
-      load: jest.fn().mockReturnValue(Promise.resolve())
+      load: jest.fn().mockReturnValue(Promise.resolve()),
     };
 
     latLngBoundsConstructs = 0;
     latLngBoundsExtend = jest.fn();
 
-    (<any>window).google = {
-      maps: {
-        LatLngBounds: class LatLngBounds {
-          extend: jest.Mock = latLngBoundsExtend;
+    Object.assign((window as any).google.maps, {
+      LatLngBounds: class LatLngBounds {
+        extend: jest.Mock = latLngBoundsExtend;
 
-          constructor() {
-            latLngBoundsConstructs += 1;
-          }
+        constructor() {
+          latLngBoundsConstructs += 1;
         }
-      }
-    };
+      },
+    });
 
     TestBed.configureTestingModule({
       providers: [
         {provide: MapsAPILoader, useValue: loader},
-        FitBoundsService
-      ]
+        FitBoundsService,
+      ],
     });
 
     fitBoundsService = TestBed.get(FitBoundsService);
@@ -76,7 +73,7 @@ describe('FitBoundsService', () => {
     const latLngs = [
       {lat: 2, lng: 2},
       {lat: 3, lng: 3},
-      {lat: 4, lng: 4}
+      {lat: 4, lng: 4},
     ];
     fitBoundsService.addToBounds(latLngs[0]);
     fitBoundsService.addToBounds(latLngs[1]);

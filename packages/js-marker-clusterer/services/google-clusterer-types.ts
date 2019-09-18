@@ -1,5 +1,3 @@
-import { Marker, GoogleMap, LatLngBounds, LatLng } from '@agm/core/services/google-maps-types';
-
 /**
  * This class is an object containing general information about a cluster icon.
  * This the object that a `calculator` function returns.
@@ -31,9 +29,9 @@ export interface ClusterIconInfo {
  * @param numStyles The number of marker styles available.
  * @return The information resource for the cluster.
  */
-export type CalculateFunction = (markers: Marker[], numStyles: number) => ClusterIconInfo;
+export type CalculateFunction = (markers: google.maps.Marker[], numStyles: number) => ClusterIconInfo;
 
-export interface MarkerClustererInstance {
+export interface MarkerClustererInstance extends google.maps.MVCObject {
   zoomOnClick_: boolean;
   averageCenter_: boolean;
   /**
@@ -50,9 +48,9 @@ export interface MarkerClustererInstance {
    * @memberof MarkerClustererInstance
    */
   imageExtension_: string;
-  new(map: GoogleMap, marker: Marker[], options: ClusterOptions): MarkerClustererInstance;
-  addMarker(marker: Marker, noDraw?: boolean): void;
-  addMarkers(markers: Marker[], noDraw?: boolean): void;
+  new(map: google.maps.Map, marker: google.maps.Marker[], options: ClusterOptions): MarkerClustererInstance;
+  addMarker(marker: google.maps.Marker, noDraw?: boolean): void;
+  addMarkers(markers: google.maps.Marker[], noDraw?: boolean): void;
   clearMarkers(): void;
   fitMapToMarkers(): void;
   getAverageCenter(): boolean;
@@ -60,25 +58,25 @@ export interface MarkerClustererInstance {
   getCalculator(): CalculateFunction;
   getClusterClass(): string;
   getClusters(): Cluster[];
-  getExtendedBounds(bounds: LatLngBounds): LatLngBounds;
+  getExtendedBounds(bounds: google.maps.LatLngBounds): google.maps.LatLngBounds;
   getEnableRetinaIcons(): boolean;
   getGridSize(): number;
   getIgnoreHidden(): boolean;
   getImageExtension(): string;
   getImagePath(): string;
   getImageSizes(): number[];
-  getMap(): GoogleMap;
-  getMarkers(): Marker[];
+  getMap(): google.maps.Map;
+  getMarkers(): google.maps.Marker[];
   getMaxZoom(): number;
   getMinimumClusterSize(): number;
   getStyles(): ClusterStyle[];
   getTitle(): string;
   getTotalClusters(): number;
-  getTotalMarkers(): Marker[];
+  getTotalMarkers(): google.maps.Marker[];
   getZoomOnClick(): boolean;
   repaint(): void;
-  removeMarker(marker: Marker, noDraw?: boolean): boolean;
-  removeMarkers(markers: Marker[], noDraw?: boolean): void;
+  removeMarker(marker: google.maps.Marker, noDraw?: boolean): boolean;
+  removeMarkers(markers: google.maps.Marker[], noDraw?: boolean): void;
   setAverageCenter(averageCenter: boolean): void;
   setBatchSizeIE(batchSizeIE: number): void;
   setCalculator(calculator: CalculateFunction): void;
@@ -89,7 +87,7 @@ export interface MarkerClustererInstance {
   setImageExtension(imageExtension: string): void;
   setImagePath(imagePath: string): void;
   setImageSizes(imageSizes: number[]): void;
-  setMap(map: GoogleMap): void;
+  setMap(map: google.maps.Map): void;
   setMaxZoom(maxZoom: number): void;
   setMinimumClusterSize(minimumClusterSize: number): void;
   setStyles(styles: ClusterStyle[]): void;
@@ -371,7 +369,7 @@ export interface Cluster {
    *
    * @return {Array} The array of markers in the cluster.
    */
-  getMarkers(): Marker[];
+  getMarkers(): google.maps.Marker[];
 
   /**
    * Returns the center of the cluster. You can call this from a `click`,
@@ -379,12 +377,12 @@ export interface Cluster {
    *
    * @return {google.maps.LatLng} The center of the cluster.
    */
-  getCenter(): LatLng;
+  getCenter(): google.maps.LatLng;
 
   /**
    * Returns the map with which the cluster is associated.
    */
-  getMap(): GoogleMap;
+  getMap(): google.maps.Map;
 
   /**
    * Returns the `MarkerClusterer` object with which the cluster is associated.
@@ -398,7 +396,7 @@ export interface Cluster {
    *
    * @return {google.maps.LatLngBounds} the cluster bounds.
    */
-  getBounds(): LatLngBounds;
+  getBounds(): google.maps.LatLngBounds;
 
   /**
    * Removes the cluster from the map.
@@ -411,7 +409,7 @@ export interface Cluster {
    * @param {google.maps.Marker} marker The marker to be added.
    * @return {boolean} True if the marker was added.
    */
-  addMarker(marker: Marker): boolean;
+  addMarker(marker: google.maps.Marker): boolean;
 
   /**
    * Determines if a marker lies within the cluster's bounds.
@@ -419,6 +417,6 @@ export interface Cluster {
    * @param {google.maps.Marker} marker The marker to check.
    * @return {boolean} True if the marker lies in the bounds.
    */
-  isMarkerInClusterBounds(marker: Marker): boolean;
+  isMarkerInClusterBounds(marker: google.maps.Marker): boolean;
 
 }

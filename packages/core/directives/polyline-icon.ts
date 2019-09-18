@@ -1,5 +1,4 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { SymbolPath } from '../services/google-maps-types';
 
 /**
  * AgmPolylineIcon enables to add polyline sequences to add arrows, circle,
@@ -95,8 +94,7 @@ export class AgmPolylineIcon implements OnInit{
    * @type {SymbolPath}
    * @memberof AgmPolylineIcon
    */
-  @Input() path: 'CIRCLE'|'BACKWARD_CLOSED_ARROW'|'BACKWARD_OPEN_ARROW'|'FORWARD_CLOSED_ARROW'|
-        'FORWARD_OPEN_ARROW' | string;
+  @Input() path: keyof typeof google.maps.SymbolPath | string;
 
   /**
    * The angle by which to rotate the symbol, expressed clockwise in degrees.

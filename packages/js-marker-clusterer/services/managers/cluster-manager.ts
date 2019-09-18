@@ -1,13 +1,11 @@
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
 import MarkerClusterer from '@google/markerclustererplus';
 
-import {MarkerManager} from '../../../core/services/managers/marker-manager';
-import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {AgmMarker} from '../../../core/directives/marker';
-import {AgmMarkerCluster} from './../../directives/marker-cluster';
-import {Marker} from '@agm/core/services/google-maps-types';
-import {MarkerClustererInstance, ClusterOptions} from '../google-clusterer-types';
+import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
+import { AgmMarkerCluster } from '../../directives/marker-cluster';
+import { ClusterOptions, MarkerClustererInstance } from '../google-clusterer-types';
 
 @Injectable()
 export class ClusterManager extends MarkerManager {
@@ -38,7 +36,7 @@ export class ClusterManager extends MarkerManager {
       .createMarker({
         position: {
           lat: marker.latitude,
-          lng: marker.longitude
+          lng: marker.longitude,
         },
         label: marker.label,
         draggable: marker.draggable,
@@ -64,7 +62,7 @@ export class ClusterManager extends MarkerManager {
       // marker already deleted
       return Promise.resolve();
     }
-    return m.then((m: Marker) => {
+    return m.then((m: google.maps.Marker) => {
       this._zone.run(() => {
         m.setMap(null);
         this.getClustererInstance().then(cluster => {
@@ -136,6 +134,16 @@ export class ClusterManager extends MarkerManager {
       if (c.imageExtension !== undefined) {
         cluster.setImageExtension(c.imageExtension);
       }
+    });
+  }
+
+  createClusterEventObservable<T>(eventName: string): Observable<T> {
+    return Observable.create((observer: Observer<T>) => {
+      this._zone.runOutsideAngular(() => {
+        this._clustererInstance.then((m: MarkerClustererInstance) => {
+          m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+        });
+      });
     });
   }
 

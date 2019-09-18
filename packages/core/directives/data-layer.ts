@@ -1,7 +1,6 @@
-import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { DataMouseEvent, DataOptions } from './../services/google-maps-types';
 import { DataLayerManager } from './../services/managers/data-layer-manager';
 
 let layerId = 0;
@@ -197,19 +196,19 @@ let layerId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-data-layer'
+  selector: 'agm-data-layer',
 })
 export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
-  private static _dataOptionsAttributes: Array<string> = ['style'];
+  private static _dataOptionsAttributes: string[] = ['style'];
 
-  private _addedToManager: boolean = false;
+  private _addedToManager = false;
   private _id: string = (layerId++).toString();
   private _subscriptions: Subscription[] = [];
 
   /**
    * This event is fired when a feature in the layer is clicked.
    */
-  @Output() layerClick: EventEmitter<DataMouseEvent> = new EventEmitter<DataMouseEvent>();
+  @Output() layerClick: EventEmitter<google.maps.Data.MouseEvent> = new EventEmitter<google.maps.Data.MouseEvent>();
 
   /**
    * The geoJson to be displayed
@@ -234,7 +233,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
 
   private _addEventListeners() {
     const listeners = [
-      { name: 'click', handler: (ev: DataMouseEvent) => this.layerClick.emit(ev) },
+      { name: 'click', handler: (ev: google.maps.Data.MouseEvent) => this.layerClick.emit(ev) },
     ];
     listeners.forEach((obj) => {
       const os = this._manager.createEventObservable(obj.name, this).subscribe(obj.handler);
@@ -266,9 +265,9 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
       this._manager.updateGeoJson(this, geoJsonChange.currentValue);
     }
 
-    let dataOptions: DataOptions = {};
+    let dataOptions: google.maps.Data.DataOptions = {};
 
-    AgmDataLayer._dataOptionsAttributes.forEach(k => (<any>dataOptions)[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (<any>this)[k]);
+    AgmDataLayer._dataOptionsAttributes.forEach(k => (dataOptions as any)[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (this as any)[k]);
 
     this._manager.setDataOptions(this, dataOptions);
   }

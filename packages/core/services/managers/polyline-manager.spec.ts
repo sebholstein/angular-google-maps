@@ -1,35 +1,22 @@
-import {NgZone, QueryList} from '@angular/core';
-import {TestBed, inject, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { NgZone, QueryList } from '@angular/core';
+import { fakeAsync, flushMicrotasks, inject, TestBed } from '@angular/core/testing';
 
-import {AgmPolyline} from '../../directives/polyline';
-import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
-import { Polyline } from '../../services/google-maps-types';
-import {PolylineManager} from '../../services/managers/polyline-manager';
 import { AgmPolylineIcon } from '@agm/core/directives/polyline-icon';
 import { Subject } from 'rxjs';
+import { AgmPolyline } from '../../directives/polyline';
+import { GoogleMapsAPIWrapper } from '../../services/google-maps-api-wrapper';
+import { PolylineManager } from '../../services/managers/polyline-manager';
 
 describe('PolylineManager', () => {
   beforeAll(() => {
-    (<any>window).google = {
-      maps: {
-        Point: class Point {
-          constructor(public x: number, public y: number) {
-
-          }
-        },
-        SymbolPath: {
-          BACKWARD_CLOSED_ARROW: 3,
-          BACKWARD_OPEN_ARROW: 4,
-          CIRCLE: 0,
-          FORWARD_CLOSED_ARROW: 1,
-          FORWARD_OPEN_ARROW: 2,
-        }
-      }
-    };
+    Object.assign((window as any).google.maps, {
+      Point: class Point {
+        constructor(public x: number, public y: number) { }
+      },
+    });
   });
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       providers: [
         {provide: NgZone, useFactory: () => new NgZone({enableLongStackTrace: true})},
@@ -38,9 +25,9 @@ describe('PolylineManager', () => {
           useValue: {
             createPolyline: jest.fn(),
             getNativeMap: () => Promise.resolve(),
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }); // end beforeEach
 
@@ -92,8 +79,8 @@ describe('PolylineManager', () => {
                     strokeOpacity: 0.7,
                     strokeWeight: 1.5,
                     path: 'CIRCLE',
-                  }
-                ]
+                  },
+                ],
               }) as QueryList<AgmPolylineIcon>;
               polylineManager.addPolyline(newPolyline);
               flushMicrotasks();
@@ -120,22 +107,22 @@ describe('PolylineManager', () => {
                     'scale': 2,
                     'strokeColor': 'green',
                     'strokeOpacity': 0.7,
-                    'strokeWeight': 1.5
+                    'strokeWeight': 1.5,
                   },
                   'offset': '1px',
-                  'repeat': '50px'
+                  'repeat': '50px',
                 }],
                });
-             })
+             }),
     ));
     it('should update the icons when the data structure changes',
       fakeAsync(inject(
       [PolylineManager, GoogleMapsAPIWrapper],
       (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
         const testPolyline = {
-          setOptions: jest.fn()
-        } as any as Polyline;
-        (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(testPolyline));
+          setOptions: jest.fn(),
+        } as any as google.maps.Polyline;
+        (apiWrapper.createPolyline as jest.Mock).mockReturnValue(Promise.resolve(testPolyline));
 
         const iconArray = [{
           fixedRotation: true,
@@ -203,12 +190,12 @@ describe('PolylineManager', () => {
                 'scale': 0.5,
                 'strokeColor': 'yellow',
                 'strokeOpacity': 0.2,
-                'strokeWeight': 3
+                'strokeWeight': 3,
               },
               'offset': '2px',
-              'repeat': '20px'}]
+              'repeat': '20px'}],
           });
-      }
+      },
     )));
   });
 
@@ -219,10 +206,10 @@ describe('PolylineManager', () => {
            (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
              const newPolyline = new AgmPolyline(polylineManager);
 
-             const polylineInstance: Partial<Polyline> = {
-              setMap: jest.fn()
+             const polylineInstance: Partial<google.maps.Polyline> = {
+              setMap: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(polylineInstance));
+             (apiWrapper.createPolyline as jest.Mock).mockReturnValue(Promise.resolve(polylineInstance));
 
              polylineManager.addPolyline(newPolyline);
              flushMicrotasks();

@@ -1,24 +1,23 @@
-import { MVCArray, MapsEventListener } from '../services/google-maps-types';
-import { Observable, fromEventPattern } from 'rxjs';
+import { fromEventPattern, Observable } from 'rxjs';
 
-export function createMVCEventObservable<T>(array: MVCArray<T>): Observable<MVCEvent<T>>{
+export function createMVCEventObservable<T>(array: google.maps.MVCArray<T>): Observable<MVCEvent<T>>{
   const eventNames = ['insert_at', 'remove_at', 'set_at'];
   return fromEventPattern(
-    (handler: Function) => eventNames.map(evName => array.addListener(evName,
-      (index: number, previous?: T) => handler.apply(array, [ {'newArr': array.getArray(), evName, index, previous} as MVCEvent<T>]))),
-    (handler: Function, evListeners: MapsEventListener[]) => evListeners.forEach(evListener => evListener.remove()));
-}
-
-export interface MVCEvent<T> {
-  newArr: T[];
-  evName: MvcEventType;
-  index: number;
-  previous?: T;
+    (handler: Function) => eventNames.map(eventName => array.addListener(eventName,
+      (index: number, previous?: T) => handler.apply(array, [ {'newArr': array.getArray(), eventName, index, previous} as MVCEvent<T>]))),
+    (_handler: Function, evListeners: google.maps.MapsEventListener[]) => evListeners.forEach(evListener => evListener.remove()));
 }
 
 export type MvcEventType = 'insert_at' | 'remove_at' | 'set_at';
 
-export class MvcArrayMock<T> implements MVCArray<T> {
+export interface MVCEvent<T> {
+  newArr: T[];
+  eventName: MvcEventType;
+  index: number;
+  previous?: T;
+}
+
+export class MvcArrayMock<T> implements google.maps.MVCArray<T> {
   private vals: T[] = [];
   private listeners: {
     'remove_at': Function[];
@@ -71,13 +70,22 @@ export class MvcArrayMock<T> implements MVCArray<T> {
   forEach(callback: (elem: T, i: number) => void): void {
     this.vals.forEach(callback);
   }
-  addListener(eventName: string, handler: Function): MapsEventListener {
+  addListener(eventName: string, handler: Function): google.maps.MapsEventListener {
     const listenerArr = this.listeners[eventName];
     listenerArr.push(handler);
     return {
         remove: () => {
             listenerArr.splice(listenerArr.indexOf(handler), 1);
-        }
+        },
     };
   }
+
+  bindTo(): never { throw new Error('Not implemented'); }
+  changed(): never { throw new Error('Not implemented'); }
+  get(): never { throw new Error('Not implemented'); }
+  notify(): never { throw new Error('Not implemented'); }
+  set(): never { throw new Error('Not implemented'); }
+  setValues(): never { throw new Error('Not implemented'); }
+  unbind(): never { throw new Error('Not implemented'); }
+  unbindAll(): never { throw new Error('Not implemented'); }
 }

@@ -1,3 +1,25 @@
+<a name="1.0.0"></a>
+# [1.0.0 emma-soon](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.7...1.0.0) (2019-09-17)
+
+
+### Bug Fixes
+
+* **AgmCluster:** styles type and remove code duplication ([e55daaa](https://github.com/SebastianM/angular-google-maps/commit/e55daaa))
+* **AgmMap:** respect disableDefaultUI ([#1709](https://github.com/SebastianM/angular-google-maps/issues/1709)) ([b70cbbc](https://github.com/SebastianM/angular-google-maps/commit/b70cbbc)), closes [#933](https://github.com/SebastianM/angular-google-maps/issues/933)
+* **FitBounds:** add null check for null fit-bounds input ([2bf73de](https://github.com/SebastianM/angular-google-maps/commit/2bf73de))
+* **FitBounds:** remove old location on loc change ([#1710](https://github.com/SebastianM/angular-google-maps/issues/1710)) ([b746ca3](https://github.com/SebastianM/angular-google-maps/commit/b746ca3)), closes [#1512](https://github.com/SebastianM/angular-google-maps/issues/1512)
+
+
+### Features
+
+* Support for Bicycling Layer ([#1678](https://github.com/SebastianM/angular-google-maps/issues/1678)) ([a9b2a9c](https://github.com/SebastianM/angular-google-maps/commit/a9b2a9c))
+* use packagr to build as angular package format ([#1634](https://github.com/SebastianM/angular-google-maps/issues/1634)) ([df05277](https://github.com/SebastianM/angular-google-maps/commit/df05277)), closes [#1647](https://github.com/SebastianM/angular-google-maps/issues/1647) [#1157](https://github.com/SebastianM/angular-google-maps/issues/1157)
+* **AgmCircle:** add getNativeMap function ([23c42cd](https://github.com/SebastianM/angular-google-maps/commit/23c42cd))
+* **AgmMap:** add optional fit bounds padding ([29e4ebb](https://github.com/SebastianM/angular-google-maps/commit/29e4ebb)), closes [#1660](https://github.com/SebastianM/angular-google-maps/issues/1660) [#1471](https://github.com/SebastianM/angular-google-maps/issues/1471)
+* **AgmMap:** Add tilesloaded event to AgmMap ([#1706](https://github.com/SebastianM/angular-google-maps/issues/1706)) ([d4f1371](https://github.com/SebastianM/angular-google-maps/commit/d4f1371)), closes [#1701](https://github.com/SebastianM/angular-google-maps/issues/1701)
+* **FitBounds:** add fitBounds to agm-polyline-point ([74ceb2f](https://github.com/SebastianM/angular-google-maps/commit/74ceb2f)), closes [#1693](https://github.com/SebastianM/angular-google-maps/issues/1693)
+* **MarkerClusterer:** enable clusterclick event ([1f2724b](https://github.com/SebastianM/angular-google-maps/commit/1f2724b)), closes [#1272](https://github.com/SebastianM/angular-google-maps/issues/1272)
+
 <a name="1.0.0-beta.7"></a>
 # [1.0.0-beta.7 green-ink](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.6...1.0.0-beta.7) (2019-07-14)
 

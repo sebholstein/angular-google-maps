@@ -1,31 +1,24 @@
 import { NgZone } from '@angular/core';
-import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
+import { AgmCircle } from '../../directives/circle';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
 import { CircleManager } from './circle-manager';
-import { AgmCircle } from '../../directives/circle';
-import { Circle, CircleOptions } from '../google-maps-types';
 
 describe('CircleManager', () => {
   beforeEach(() => {
-    (<any>window).google = {
-      maps: {
-        StrokePosition: {CENTER: 1, INSIDE: 0, OUTSIDE: 2},
-      }
-    };
-
     TestBed.configureTestingModule({
       providers: [
         {
           provide: NgZone,
-          useFactory: () => new NgZone({ enableLongStackTrace: true })
+          useFactory: () => new NgZone({ enableLongStackTrace: true }),
         },
         CircleManager,
         {
           provide: GoogleMapsAPIWrapper,
-          useValue: { createCircle: jest.fn() }
+          useValue: { createCircle: jest.fn() },
         },
-      ]
+      ],
     });
   });
 
@@ -34,7 +27,7 @@ describe('CircleManager', () => {
       [CircleManager, GoogleMapsAPIWrapper],
       (
         circleManager: CircleManager,
-        apiWrapper: GoogleMapsAPIWrapper
+        apiWrapper: GoogleMapsAPIWrapper,
       ) => {
         const newCircle = new AgmCircle(circleManager);
         newCircle.radius = 500;
@@ -55,12 +48,12 @@ describe('CircleManager', () => {
           fillOpacity: undefined,
           strokeColor: undefined,
           strokeOpacity: undefined,
-          strokePosition: 'CENTER',
+          strokePosition: 0,
           strokeWeight: 0,
           visible: true,
-          zIndex: undefined
+          zIndex: undefined,
         });
-      }
+      },
     ));
   });
   describe('Delete a circle', () => {
@@ -68,7 +61,7 @@ describe('CircleManager', () => {
       [CircleManager, GoogleMapsAPIWrapper],
       (
         circleManager: CircleManager,
-        apiWrapper: GoogleMapsAPIWrapper
+        apiWrapper: GoogleMapsAPIWrapper,
       ) => {
         const newCircle = new AgmCircle(circleManager);
         newCircle.radius = 500;
@@ -77,17 +70,17 @@ describe('CircleManager', () => {
         circleManager.addCircle(newCircle);
 
         const circleInstance: any = {
-          setMap: jest.fn()
+          setMap: jest.fn(),
         };
-        (<jest.Mock>apiWrapper.createCircle).mockReturnValue(
-          Promise.resolve(circleInstance)
+        (apiWrapper.createCircle as jest.Mock).mockReturnValue(
+          Promise.resolve(circleInstance),
         );
 
         circleManager.addCircle(newCircle);
         circleManager.removeCircle(newCircle).then(() => {
           expect(circleInstance.setMap).toHaveBeenCalledWith(null);
         });
-      }
+      },
     ));
   });
 
@@ -97,19 +90,19 @@ describe('CircleManager', () => {
         [CircleManager, GoogleMapsAPIWrapper],
         (
           circleManager: CircleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newCircle = new AgmCircle(circleManager);
           newCircle.radius = 500;
           newCircle.latitude = 32.1;
           newCircle.longitude = 11.612;
 
-          const circleInstance: Circle = <any>{
+          const circleInstance: google.maps.Circle = {
             setMap: jest.fn(),
-            setRadius: jest.fn()
-          };
-          (<jest.Mock>apiWrapper.createCircle).mockReturnValue(
-            Promise.resolve(circleInstance)
+            setRadius: jest.fn(),
+          } as any;
+          (apiWrapper.createCircle as jest.Mock).mockReturnValue(
+            Promise.resolve(circleInstance),
           );
           circleManager.addCircle(newCircle);
           newCircle.radius = 600;
@@ -117,8 +110,8 @@ describe('CircleManager', () => {
           circleManager.setRadius(newCircle);
           tick();
           expect(circleInstance.setRadius).toHaveBeenCalledWith(600);
-        }
-      )
+        },
+      ),
     ));
   });
 
@@ -128,7 +121,7 @@ describe('CircleManager', () => {
         [CircleManager, GoogleMapsAPIWrapper],
         (
           circleManager: CircleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newCircle = new AgmCircle(circleManager);
           newCircle.radius = 500;
@@ -139,11 +132,11 @@ describe('CircleManager', () => {
 
           const circleInstance: any = {
             setMap: jest.fn(),
-            setOptions: jest.fn()
+            setOptions: jest.fn(),
           };
 
-          (<jest.Mock>apiWrapper.createCircle).mockReturnValue(
-            Promise.resolve(circleInstance)
+          (apiWrapper.createCircle as jest.Mock).mockReturnValue(
+            Promise.resolve(circleInstance),
           );
 
           circleManager.addCircle(newCircle);
@@ -153,14 +146,14 @@ describe('CircleManager', () => {
 
           const options = {
             fillOpacity: 0.6,
-            strokeOpacity: 0.6
+            strokeOpacity: 0.6,
           };
 
           circleManager.setOptions(newCircle, options);
           tick();
           expect(circleInstance.setOptions).toHaveBeenCalledWith(options);
-        }
-      )
+        },
+      ),
     ));
 
     it('should update that circle via setOptions method when the color options change', fakeAsync(
@@ -168,7 +161,7 @@ describe('CircleManager', () => {
         [CircleManager, GoogleMapsAPIWrapper],
         (
           circleManager: CircleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newCircle = new AgmCircle(circleManager);
           newCircle.radius = 500;
@@ -179,10 +172,10 @@ describe('CircleManager', () => {
 
           const circleInstance: any = {
             setMap: jest.fn(),
-            setOptions: jest.fn()
+            setOptions: jest.fn(),
           };
 
-          (<jest.Mock>apiWrapper.createCircle).mockReturnValue(
+          (apiWrapper.createCircle as jest.Mock).mockReturnValue(
             Promise.resolve(circleInstance));
 
           circleManager.addCircle(newCircle);
@@ -191,14 +184,14 @@ describe('CircleManager', () => {
 
           const options = {
             fillColor: '#00008B',
-            strokeColor: '#00008B'
+            strokeColor: '#00008B',
           };
 
           circleManager.setOptions(newCircle, options);
           tick();
           expect(circleInstance.setOptions).toHaveBeenCalledWith(options);
-        }
-      )
+        },
+      ),
     ));
 
     it('should update that circle via setOptions method when the strokeWeight/position change', fakeAsync(
@@ -206,7 +199,7 @@ describe('CircleManager', () => {
         [CircleManager, GoogleMapsAPIWrapper],
         (
           circleManager: CircleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newCircle = new AgmCircle(circleManager);
           newCircle.radius = 500;
@@ -217,10 +210,10 @@ describe('CircleManager', () => {
 
           const circleInstance: any = {
             setMap: jest.fn(),
-            setOptions: jest.fn()
+            setOptions: jest.fn(),
           };
 
-          (<jest.Mock>apiWrapper.createCircle).mockReturnValue(
+          (apiWrapper.createCircle as jest.Mock).mockReturnValue(
             Promise.resolve(circleInstance));
 
           circleManager.addCircle(newCircle);
@@ -228,7 +221,7 @@ describe('CircleManager', () => {
           const options = {
             strokeWeight: 2,
             strokePosition: 'OUTSIDE',
-          } as CircleOptions;
+          } as any as google.maps.CircleOptions;
 
           circleManager.setOptions(newCircle, options);
           tick();
@@ -236,8 +229,8 @@ describe('CircleManager', () => {
             strokeWeight: 2,
             strokePosition: 2,
           });
-        }
-      )
+        },
+      ),
     ));
 
     it('should update that circle via setVisible method when the visible changes', fakeAsync(
@@ -245,7 +238,7 @@ describe('CircleManager', () => {
         [CircleManager, GoogleMapsAPIWrapper],
         (
           circleManager: CircleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newCircle = new AgmCircle(circleManager);
           newCircle.radius = 500;
@@ -255,10 +248,10 @@ describe('CircleManager', () => {
 
           const circleInstance: any = {
             setMap: jest.fn(),
-            setVisible: jest.fn()
+            setVisible: jest.fn(),
           };
-          (<jest.Mock>apiWrapper.createCircle).mockReturnValue(
-            Promise.resolve(circleInstance)
+          (apiWrapper.createCircle as jest.Mock).mockReturnValue(
+            Promise.resolve(circleInstance),
           );
           circleManager.addCircle(newCircle);
 
@@ -267,8 +260,8 @@ describe('CircleManager', () => {
 
           tick();
           expect(circleInstance.setVisible).toHaveBeenCalledWith(true);
-        }
-      )
+        },
+      ),
     ));
   });
 
