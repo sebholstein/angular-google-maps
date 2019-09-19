@@ -397,6 +397,12 @@ export interface HeatmapLayer extends MVCObject {
 }
 
 export interface HeatmapLayerOptions {
+  /*
+   * NOTE(terencehonles): Google Maps documentation does not explicitly call
+   *                      out WeightedLocation as part of HeatmapLayerOptions,
+   *                      but this has been tested, and an update to their
+   *                      documentation has been submitted.
+   */
   data: Array<LatLng | WeightedLocation> | MVCArray<LatLng | WeightedLocation>;
   dissipating: boolean;
   gradient: Array<string>;
