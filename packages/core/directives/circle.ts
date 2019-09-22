@@ -1,7 +1,6 @@
 import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { MouseEvent } from '../map-types';
 import { CircleManager } from '../services/managers/circle-manager';
 
 @Directive({
@@ -89,52 +88,52 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * This event emitter gets emitted when the user clicks on the circle.
    */
-  @Output() circleClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() circleClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user clicks on the circle.
    */
-  @Output() circleDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() circleDblClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the circle.
    */
-  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the circle.
    */
-  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the circle.
    */
-  @Output() dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragStart: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the circle.
    */
-  @Output() mouseDown: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseDown: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the circle.
    */
-  @Output() mouseMove: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseMove: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired on circle mouseout.
    */
-  @Output() mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOut: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired on circle mouseover.
    */
-  @Output() mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOver: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mouseup event is fired on the circle.
    */
-  @Output() mouseUp: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseUp: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the circle's radius is changed.
@@ -144,7 +143,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * This event is fired when the circle is right-clicked on.
    */
-  @Output() rightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() rightClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   private _circleAddedToManager = false;
 
@@ -231,8 +230,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
                         eventEmitter.emit({lat: center.lat(), lng: center.lng()} as google.maps.LatLngLiteral));
                 break;
               default:
-                eventEmitter.emit(
-                    {coords: {lat: value.latLng.lat(), lng: value.latLng.lng()}} as MouseEvent);
+                eventEmitter.emit(value);
             }
           }));
     });

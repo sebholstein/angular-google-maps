@@ -9,7 +9,6 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MouseEvent } from '../map-types';
 import { RectangleManager } from '../services/managers/rectangle-manager';
 
 @Directive({
@@ -106,63 +105,63 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
    * This event emitter gets emitted when the user clicks on the rectangle.
    */
   @Output()
-  rectangleClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  rectangleClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user clicks on the rectangle.
    */
   @Output()
-  rectangleDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  rectangleDblClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the rectangle.
    */
-  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the rectangle.
    */
-  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the rectangle.
    */
   @Output()
-  dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  dragStart: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the rectangle.
    */
   @Output()
-  mouseDown: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  mouseDown: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousemove event is fired on the rectangle.
    */
   @Output()
-  mouseMove: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  mouseMove: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired on rectangle mouseout.
    */
-  @Output() mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOut: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired on rectangle mouseover.
    */
   @Output()
-  mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  mouseOver: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mouseup event is fired on the rectangle.
    */
-  @Output() mouseUp: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseUp: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the rectangle is right-clicked on.
    */
   @Output()
-  rightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  rightClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   private _rectangleAddedToManager = false;
 
@@ -269,9 +268,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
                 );
                 break;
               default:
-                eventEmitter.emit({
-                  coords: { lat: value.latLng.lat(), lng: value.latLng.lng() },
-                } as MouseEvent);
+                eventEmitter.emit(value);
             }
           }),
       );

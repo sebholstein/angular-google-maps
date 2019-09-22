@@ -102,17 +102,17 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * This event is repeatedly fired while the user drags the polyline.
    */
-  @Output() lineDrag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() lineDrag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the polyline.
    */
-  @Output() lineDragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() lineDragEnd: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user starts dragging the polyline.
    */
-  @Output() lineDragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() lineDragStart: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the DOM mousedown event is fired on the Polyline.
@@ -214,9 +214,9 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     const handlers = [
       {name: 'click', handler: (ev: google.maps.PolyMouseEvent) => this.lineClick.emit(ev)},
       {name: 'dblclick', handler: (ev: google.maps.PolyMouseEvent) => this.lineDblClick.emit(ev)},
-      {name: 'drag', handler: (ev: MouseEvent) => this.lineDrag.emit(ev)},
-      {name: 'dragend', handler: (ev: MouseEvent) => this.lineDragEnd.emit(ev)},
-      {name: 'dragstart', handler: (ev: MouseEvent) => this.lineDragStart.emit(ev)},
+      {name: 'drag', handler: (ev: google.maps.MouseEvent) => this.lineDrag.emit(ev)},
+      {name: 'dragend', handler: (ev: google.maps.MouseEvent) => this.lineDragEnd.emit(ev)},
+      {name: 'dragstart', handler: (ev: google.maps.MouseEvent) => this.lineDragStart.emit(ev)},
       {name: 'mousedown', handler: (ev: google.maps.PolyMouseEvent) => this.lineMouseDown.emit(ev)},
       {name: 'mousemove', handler: (ev: google.maps.PolyMouseEvent) => this.lineMouseMove.emit(ev)},
       {name: 'mouseout', handler: (ev: google.maps.PolyMouseEvent) => this.lineMouseOut.emit(ev)},

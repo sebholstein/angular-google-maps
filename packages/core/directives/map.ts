@@ -1,7 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { MouseEvent } from '../map-types';
 import { FitBoundsService } from '../services/fit-bounds';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
 import { CircleManager } from '../services/managers/circle-manager';
@@ -321,19 +320,19 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
-  @Output() mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapClick: EventEmitter<google.maps.MouseEvent | google.maps.IconMouseEvent> = new EventEmitter<google.maps.MouseEvent | google.maps.IconMouseEvent>();
 
   /**
    * This event emitter gets emitted when the user right-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  @Output() mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapRightClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user double-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  @Output() mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapDblClick: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event emitter is fired when the map center changes.
@@ -602,11 +601,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   }
 
   private _handleMapMouseEvents() {
-    interface Emitter {
-      emit(value: any): void;
-    }
-
-    type Event = { name: string, emitter: Emitter };
+    type Event = { name: string, emitter: EventEmitter<google.maps.MouseEvent> };
 
     const events: Event[] = [
       {name: 'click', emitter: this.mapClick},
@@ -615,20 +610,13 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     ];
 
     events.forEach((e: Event) => {
-      const s = this._mapsWrapper.subscribeToMapEvent<{latLng: google.maps.LatLng}>(e.name).subscribe(
-        (event: {latLng: google.maps.LatLng}) => {
-          let value: MouseEvent = {
-            coords: {
-              lat: event.latLng.lat(),
-              lng: event.latLng.lng(),
-            },
-            placeId: (event as {latLng: google.maps.LatLng, placeId: string}).placeId,
-          };
+      const s = this._mapsWrapper.subscribeToMapEvent<google.maps.IconMouseEvent | google.maps.MouseEvent>(e.name).subscribe(
+        (event: google.maps.IconMouseEvent | google.maps.MouseEvent) => {
           // the placeId will be undefined in case the event was not an IconMouseEvent (google types)
-          if (value.placeId && !this.showDefaultInfoWindow) {
-            (event as any).stop();
+          if ( (event as google.maps.IconMouseEvent).placeId && !this.showDefaultInfoWindow) {
+            event.stop();
           }
-          e.emitter.emit(value);
+          e.emitter.emit(event);
         });
       this._observableSubscriptions.push(s);
     });

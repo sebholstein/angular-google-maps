@@ -1,6 +1,5 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, forwardRef, Input, OnChanges, OnDestroy, Output, QueryList, SimpleChange } from '@angular/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
-import { MouseEvent } from '../map-types';
 import { FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 import { MarkerManager } from '../services/managers/marker-manager';
 import { AgmInfoWindow } from './info-window';
@@ -128,27 +127,27 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
   /**
    * This event is fired when the user starts dragging the marker.
    */
-  @Output() dragStart: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragStart: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is repeatedly fired while the user drags the marker.
    */
-  @Output() drag: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user stops dragging the marker.
    */
-  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user mouses over the marker.
    */
-  @Output() mouseOver: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOver: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
    * This event is fired when the user mouses outside the marker.
    */
-  @Output() mouseOut: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mouseOut: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /** @internal */
   @ContentChildren(AgmInfoWindow) infoWindow: QueryList<AgmInfoWindow> = new QueryList<AgmInfoWindow>();
@@ -252,37 +251,27 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
 
     const ds =
         this._markerManager.createEventObservable<google.maps.MouseEvent>('dragstart', this)
-            .subscribe((e: google.maps.MouseEvent) => {
-              this.dragStart.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}} as MouseEvent);
-            });
+            .subscribe(e => this.dragStart.emit(e));
     this._observableSubscriptions.push(ds);
 
     const d =
         this._markerManager.createEventObservable<google.maps.MouseEvent>('drag', this)
-            .subscribe((e: google.maps.MouseEvent) => {
-              this.drag.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}} as MouseEvent);
-            });
+          .subscribe(e => this.drag.emit(e));
     this._observableSubscriptions.push(d);
 
     const de =
         this._markerManager.createEventObservable<google.maps.MouseEvent>('dragend', this)
-            .subscribe((e: google.maps.MouseEvent) => {
-              this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}} as MouseEvent);
-            });
+          .subscribe(e => this.dragEnd.emit(e));
     this._observableSubscriptions.push(de);
 
     const mover =
         this._markerManager.createEventObservable<google.maps.MouseEvent>('mouseover', this)
-            .subscribe((e: google.maps.MouseEvent) => {
-              this.mouseOver.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}} as MouseEvent);
-            });
+          .subscribe(e => this.mouseOver.emit(e));
     this._observableSubscriptions.push(mover);
 
     const mout =
         this._markerManager.createEventObservable<google.maps.MouseEvent>('mouseout', this)
-            .subscribe((e: google.maps.MouseEvent) => {
-              this.mouseOut.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}} as MouseEvent);
-            });
+          .subscribe(e => this.mouseOut.emit(e));
     this._observableSubscriptions.push(mout);
 
     const anChng =
