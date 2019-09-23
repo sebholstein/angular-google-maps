@@ -18,6 +18,20 @@ export {
   GeocoderRequest,
   GeocoderResult,
   GeocoderStatus,
+  MapTypeStyle,
+  Padding,
+  ControlPosition,
+  OverviewMapControlOptions,
+  PanControlOptions,
+  RotateControlOptions,
+  MapTypeControlOptions,
+  MapTypeId,
+  ScaleControlOptions,
+  ScaleControlStyle,
+  StreetViewControlOptions,
+  ZoomControlOptions,
+  ZoomControlStyle,
+  FullscreenControlOptions,
 } from './services/google-maps-types';
 
 /**
