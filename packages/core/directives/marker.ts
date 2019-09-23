@@ -1,6 +1,6 @@
 import { AfterContentInit, ContentChildren, Directive, EventEmitter, forwardRef, Input, OnChanges, OnDestroy, Output, QueryList, SimpleChange } from '@angular/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
-import { MarkerLabel, MouseEvent } from '../map-types';
+import { MouseEvent } from '../map-types';
 import { FitBoundsAccessor, FitBoundsDetails } from '../services/fit-bounds';
 import * as mapTypes from '../services/google-maps-types';
 import { MarkerManager } from '../services/managers/marker-manager';
@@ -61,7 +61,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
   /**
    * The label (a single uppercase character) for the marker.
    */
-  @Input() label: string | MarkerLabel;
+  @Input() label: string | mapTypes.MarkerLabel;
 
   /**
    * If true, the marker can be dragged. Default value is false.
