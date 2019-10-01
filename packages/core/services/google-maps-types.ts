@@ -635,14 +635,13 @@ export interface MapRestriction {
   strictBounds?: boolean;
 }
 
-export interface Geocoder {
-  geocode: (request: GeocoderRequest, googleCallback: (results: GeocoderResult[], status: GeocoderStatus) => void) => void;
-}
-
-export interface GeocoderAddressComponent {
-  long_name: string;
-  short_name: string;
-  types: string[];
+export interface GeocoderRequest {
+  address?: string;
+  location?: LatLng;
+  placeId?: string;
+  bounds?: LatLngBounds;
+  componentRestrictions?: GeocoderComponentRestrictions;
+  region?: string;
 }
 
 /** Options for restricting the geocoder results */
@@ -654,31 +653,8 @@ export interface GeocoderComponentRestrictions {
   route?: string;
 }
 
-export interface GeocoderGeometry {
-  bounds: LatLngBounds;
-  location: LatLng;
-  location_type: GeocoderLocationType;
-  viewport: LatLngBounds;
-}
-
-export enum GeocoderLocationType {
-  APPROXIMATE = 'APPROXIMATE',
-  GEOMETRIC_CENTER = 'GEOMETRIC_CENTER',
-  RANGE_INTERPOLATED = 'RANGE_INTERPOLATED',
-  ROOFTOP = 'ROOFTOP',
-}
-
-export interface GeocoderRequest {
-  address?: string;
-  bounds?: LatLngBounds | LatLngBoundsLiteral;
-  componentRestrictions?: GeocoderComponentRestrictions;
-  location?: LatLng | LatLngLiteral;
-  placeId?: string;
-  region?: string;
-}
-
 export interface GeocoderResult {
-  address_components: GeocoderAddressComponent[];
+  address_components: GeocoderAddressComponent;
   formatted_address: string;
   geometry: GeocoderGeometry;
   partial_match: boolean;
@@ -687,12 +663,32 @@ export interface GeocoderResult {
   types: string[];
 }
 
+export interface GeocoderAddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
+export interface GeocoderGeometry {
+  bounds: LatLngBounds;
+  location: LatLng;
+  location_type: GeocoderLocationType;
+  viewport: LatLngBounds;
+}
+
+export enum GeocoderLocationType {
+  APPROXIMATE,
+  GEOMETRIC_CENTER,
+  RANGE_INTERPOLATED,
+  ROOFTOP,
+}
+
 export enum GeocoderStatus {
-  ERROR = 'ERROR',
-  INVALID_REQUEST = 'INVALID_REQUEST',
-  OK = 'OK',
-  OVER_QUERY_LIMIT = 'OVER_QUERY_LIMIT',
-  REQUEST_DENIED = 'REQUEST_DENIED',
-  UNKNOWN_ERROR = 'UNKNOWN_ERROR',
-  ZERO_RESULTS = 'ZERO_RESULTS',
+  ERROR,
+  INVALID_REQUEST,
+  OK,
+  OVER_QUERY_LIMIT,
+  REQUEST_DENIED,
+  UNKNOWN_ERROR,
+  ZERO_RESULTS,
 }
