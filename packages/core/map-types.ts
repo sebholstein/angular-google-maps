@@ -6,9 +6,18 @@ export {
   DataMouseEvent,
   LatLngBounds,
   LatLngBoundsLiteral,
+  LatLng,
   LatLngLiteral,
   PolyMouseEvent,
   MarkerLabel,
+  Geocoder,
+  GeocoderAddressComponent,
+  GeocoderComponentRestrictions,
+  GeocoderGeometry,
+  GeocoderLocationType,
+  GeocoderRequest,
+  GeocoderResult,
+  GeocoderStatus,
 } from './services/google-maps-types';
 
 /**

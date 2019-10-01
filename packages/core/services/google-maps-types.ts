@@ -634,3 +634,65 @@ export interface MapRestriction {
   latLngBounds: LatLngBounds | LatLngBoundsLiteral;
   strictBounds?: boolean;
 }
+
+export interface Geocoder {
+  geocode: (request: GeocoderRequest, googleCallback: (results: GeocoderResult[], status: GeocoderStatus) => void) => void;
+}
+
+export interface GeocoderAddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
+/** Options for restricting the geocoder results */
+export interface GeocoderComponentRestrictions {
+  administrativeArea?: string;
+  country?: string;
+  locality?: string;
+  postalCode?: string;
+  route?: string;
+}
+
+export interface GeocoderGeometry {
+  bounds: LatLngBounds;
+  location: LatLng;
+  location_type: GeocoderLocationType;
+  viewport: LatLngBounds;
+}
+
+export enum GeocoderLocationType {
+  APPROXIMATE = 'APPROXIMATE',
+  GEOMETRIC_CENTER = 'GEOMETRIC_CENTER',
+  RANGE_INTERPOLATED = 'RANGE_INTERPOLATED',
+  ROOFTOP = 'ROOFTOP',
+}
+
+export interface GeocoderRequest {
+  address?: string;
+  bounds?: LatLngBounds | LatLngBoundsLiteral;
+  componentRestrictions?: GeocoderComponentRestrictions;
+  location?: LatLng | LatLngLiteral;
+  placeId?: string;
+  region?: string;
+}
+
+export interface GeocoderResult {
+  address_components: GeocoderAddressComponent[];
+  formatted_address: string;
+  geometry: GeocoderGeometry;
+  partial_match: boolean;
+  place_id: string;
+  postcode_localities: string[];
+  types: string[];
+}
+
+export enum GeocoderStatus {
+  ERROR = 'ERROR',
+  INVALID_REQUEST = 'INVALID_REQUEST',
+  OK = 'OK',
+  OVER_QUERY_LIMIT = 'OVER_QUERY_LIMIT',
+  REQUEST_DENIED = 'REQUEST_DENIED',
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR',
+  ZERO_RESULTS = 'ZERO_RESULTS',
+}

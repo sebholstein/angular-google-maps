@@ -1,6 +1,7 @@
 export { CircleManager } from './services/managers/circle-manager';
 export { DataLayerManager } from './services/managers/data-layer-manager';
 export { FitBoundsAccessor, FitBoundsDetails } from './services/fit-bounds';
+export { AgmGeocoder } from './services/geocoder-service';
 export { GoogleMapsAPIWrapper } from './services/google-maps-api-wrapper';
 export {
   GoogleMapsScriptProtocol,
