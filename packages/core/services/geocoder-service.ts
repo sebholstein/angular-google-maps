@@ -1,30 +1,35 @@
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
-import { GeocoderRequest, GeocoderResult, GeocoderStatus, google } from './google-maps-types';
+import { of, throwError, from } from 'rxjs';
+import { GeocoderRequest, GeocoderStatus, google, Geocoder } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
+import { WindowRef } from '../utils/browser-globals';
+import { map } from 'rxjs/operators';
 
 @Injectable()
-export class AgmGeocoder {
-  private googleGeocoderInstance: any;
+export class AgmGeocoder extends MapsAPILoader {
+  protected _windowRef: WindowRef;
 
-  constructor(private loader: MapsAPILoader) {
-    this.loader.load().then(() => {
-      this.googleGeocoderInstance = new google.maps.Geocoder();
-    });
-
+  load() {
+    const window = this._windowRef.getNativeWindow() as any;
+    if (window.gooogle && window.google.maps) {
+      //
+      return Promise.resolve();
+    }
   }
 
   geocode(request: GeocoderRequest) {
-    if (!this.googleGeocoderInstance) {
-      return of([]);
-    }
+    return from(this.load()).pipe(
+      map(() => {
+        const geocoder = new google.maps.Geocoder() as Geocoder;
 
-    this.googleGeocoderInstance.geocode(request, (results: GeocoderResult, status: GeocoderStatus) => {
-      if (status === GeocoderStatus.OK) {
-        return of(results);
-      }
+        geocoder.geocode(request, (results, status) => {
+          if (status === GeocoderStatus.OK) {
+            return of(results);
+          }
 
-      return throwError(status);
-    });
+          return throwError(status);
+        });
+      })
+    )
   }
 }

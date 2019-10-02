@@ -635,6 +635,10 @@ export interface MapRestriction {
   strictBounds?: boolean;
 }
 
+export interface Geocoder {
+  geocode: (request: GeocoderRequest, googleCallback: (results: GeocoderResult, status: GeocoderStatus) => void) => void;
+}
+
 export interface GeocoderRequest {
   address?: string;
   location?: LatLng;
