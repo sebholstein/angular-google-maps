@@ -6,19 +6,14 @@ import { WindowRef } from '../utils/browser-globals';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class AgmGeocoder extends MapsAPILoader {
+export class AgmGeocoder {
   protected _windowRef: WindowRef;
 
-  load() {
-    const window = this._windowRef.getNativeWindow() as any;
-    if (window.gooogle && window.google.maps) {
-      //
-      return Promise.resolve();
-    }
-  }
+  constructor(private loader: MapsAPILoader) { }
+
 
   geocode(request: GeocoderRequest) {
-    return from(this.load()).pipe(
+    return from(this.loader.load()).pipe(
       map(() => {
         const geocoder = new google.maps.Geocoder() as Geocoder;
 
