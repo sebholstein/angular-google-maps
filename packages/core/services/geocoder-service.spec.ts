@@ -8,10 +8,7 @@ describe('GeocoderService', () => {
   let loader: MapsAPILoader;
   let geocoderService: AgmGeocoder;
   let geocoderConstructs: number;
-  let geocodeMock: jest.Mock = jest
-    .fn()
-    .mockReturnValue(of([]))
-    .mockRejectedValue(throwError(''));
+  let geocodeMock: jest.Mock = jest.fn();
 
   beforeEach(fakeAsync(() => {
     loader = {
