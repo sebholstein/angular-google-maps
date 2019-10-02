@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { of, throwError, from, Observable } from 'rxjs';
-import { GeocoderRequest, GeocoderStatus, google, Geocoder, GeocoderResult } from './google-maps-types';
+import { GeocoderRequest, GeocoderStatus, Geocoder } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 import { WindowRef } from '../utils/browser-globals';
 import { map } from 'rxjs/operators';
+
+declare var google: any;
 
 @Injectable()
 export class AgmGeocoder {
