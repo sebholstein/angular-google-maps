@@ -57,9 +57,6 @@ export class GoogleMapsAPIWrapper {
    */
   createCircle(options: google.maps.CircleOptions): Promise<google.maps.Circle> {
     return this._map.then((map: google.maps.Map) => {
-      if (typeof options.strokePosition === 'string') {
-        options.strokePosition = (google.maps.StrokePosition[options.strokePosition] as unknown) as google.maps.StrokePosition;
-      }
       options.map = map;
       return new google.maps.Circle(options);
     });

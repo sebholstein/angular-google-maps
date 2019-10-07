@@ -63,7 +63,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
    * The stroke position. Defaults to CENTER.
    * This property is not supported on Internet Explorer 8 and earlier.
    */
-  @Input() strokePosition: google.maps.StrokePosition | keyof typeof google.maps.StrokePosition = 'CENTER';
+  @Input() strokePosition: keyof typeof google.maps.StrokePosition = 'CENTER';
 
   /**
    * The stroke width in pixels.
@@ -191,10 +191,6 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
     let optionKeys =
         Object.keys(changes).filter(k => AgmCircle._mapOptions.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
-
-    if (typeof options.strokePosition === 'string') {
-      options.strokePosition = google.maps.StrokePosition[options.strokePosition as keyof typeof google.maps.StrokePosition];
-    }
 
     if (optionKeys.length > 0) {
       this._manager.setOptions(this, options);

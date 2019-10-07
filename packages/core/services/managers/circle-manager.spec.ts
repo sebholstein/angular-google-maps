@@ -1,5 +1,5 @@
 import { NgZone } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, inject, TestBed, tick } from '@angular/core/testing';
 
 import { AgmCircle } from '../../directives/circle';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
@@ -16,14 +16,17 @@ describe('CircleManager', () => {
         CircleManager,
         {
           provide: GoogleMapsAPIWrapper,
-          useValue: { createCircle: jest.fn() },
+          useValue: {
+            createCircle: jest.fn(),
+            getNativeMap: jest.fn().mockReturnValue(Promise.resolve()),
+          },
         },
       ],
     });
   });
 
   describe('Create a new circle', () => {
-    it('should call the mapsApiWrapper when creating a new circle', inject(
+    it('should call the mapsApiWrapper when creating a new circle', fakeAsync(inject(
       [CircleManager, GoogleMapsAPIWrapper],
       (
         circleManager: CircleManager,
@@ -34,6 +37,8 @@ describe('CircleManager', () => {
         newCircle.latitude = 32.1;
         newCircle.longitude = 11.612;
         circleManager.addCircle(newCircle);
+
+        flushMicrotasks();
 
         expect(apiWrapper.createCircle).toHaveBeenCalledWith({
           center: {
@@ -54,10 +59,10 @@ describe('CircleManager', () => {
           zIndex: undefined,
         });
       },
-    ));
+    )));
   });
   describe('Delete a circle', () => {
-    it('should set the map to null when deleting a existing circle', inject(
+    it('should set the map to null when deleting a existing circle', fakeAsync(inject(
       [CircleManager, GoogleMapsAPIWrapper],
       (
         circleManager: CircleManager,
@@ -77,11 +82,12 @@ describe('CircleManager', () => {
         );
 
         circleManager.addCircle(newCircle);
+        flushMicrotasks();
         circleManager.removeCircle(newCircle).then(() => {
           expect(circleInstance.setMap).toHaveBeenCalledWith(null);
         });
       },
-    ));
+    )));
   });
 
   describe('Set radius option', () => {
@@ -105,10 +111,12 @@ describe('CircleManager', () => {
             Promise.resolve(circleInstance),
           );
           circleManager.addCircle(newCircle);
-          newCircle.radius = 600;
+          flushMicrotasks();
 
+          newCircle.radius = 600;
           circleManager.setRadius(newCircle);
-          tick();
+          flushMicrotasks();
+
           expect(circleInstance.setRadius).toHaveBeenCalledWith(600);
         },
       ),
@@ -130,7 +138,7 @@ describe('CircleManager', () => {
           newCircle.fillOpacity = 0.4;
           newCircle.strokeOpacity = 0.4;
 
-          const circleInstance: any = {
+          const circleInstance = {
             setMap: jest.fn(),
             setOptions: jest.fn(),
           };
@@ -140,6 +148,7 @@ describe('CircleManager', () => {
           );
 
           circleManager.addCircle(newCircle);
+          flushMicrotasks();
 
           newCircle.fillOpacity = 0.6;
           newCircle.strokeOpacity = 0.6;
@@ -179,6 +188,8 @@ describe('CircleManager', () => {
             Promise.resolve(circleInstance));
 
           circleManager.addCircle(newCircle);
+          flushMicrotasks();
+
           newCircle.fillColor = '#00008B';
           newCircle.strokeColor = '#00008B';
 
@@ -188,7 +199,7 @@ describe('CircleManager', () => {
           };
 
           circleManager.setOptions(newCircle, options);
-          tick();
+          flushMicrotasks();
           expect(circleInstance.setOptions).toHaveBeenCalledWith(options);
         },
       ),
@@ -217,6 +228,7 @@ describe('CircleManager', () => {
             Promise.resolve(circleInstance));
 
           circleManager.addCircle(newCircle);
+          flushMicrotasks();
 
           const options = {
             strokeWeight: 2,
@@ -254,6 +266,7 @@ describe('CircleManager', () => {
             Promise.resolve(circleInstance),
           );
           circleManager.addCircle(newCircle);
+          flushMicrotasks();
 
           newCircle.visible = true;
           circleManager.setVisible(newCircle);

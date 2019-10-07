@@ -13,26 +13,27 @@ export class RectangleManager {
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
   addRectangle(rectangle: AgmRectangle) {
-    this._rectangles.set(rectangle, this._apiWrapper.createRectangle({
-      bounds: {
-        north: rectangle.north,
-        east: rectangle.east,
-        south: rectangle.south,
-        west: rectangle.west,
-      },
-      clickable: rectangle.clickable,
-      draggable: rectangle.draggable,
-      editable: rectangle.editable,
-      fillColor: rectangle.fillColor,
-      fillOpacity: rectangle.fillOpacity,
-      strokeColor: rectangle.strokeColor,
-      strokeOpacity: rectangle.strokeOpacity,
-      strokePosition: (typeof rectangle.strokePosition === 'string')
-        ? google.maps.StrokePosition[rectangle.strokePosition] : rectangle.strokePosition,
-      strokeWeight: rectangle.strokeWeight,
-      visible: rectangle.visible,
-      zIndex: rectangle.zIndex,
-    }));
+    this._apiWrapper.getNativeMap().then(() =>
+      this._rectangles.set(rectangle, this._apiWrapper.createRectangle({
+        bounds: {
+          north: rectangle.north,
+          east: rectangle.east,
+          south: rectangle.south,
+          west: rectangle.west,
+        },
+        clickable: rectangle.clickable,
+        draggable: rectangle.draggable,
+        editable: rectangle.editable,
+        fillColor: rectangle.fillColor,
+        fillOpacity: rectangle.fillOpacity,
+        strokeColor: rectangle.strokeColor,
+        strokeOpacity: rectangle.strokeOpacity,
+        strokePosition: google.maps.StrokePosition[rectangle.strokePosition],
+        strokeWeight: rectangle.strokeWeight,
+        visible: rectangle.visible,
+        zIndex: rectangle.zIndex,
+      }))
+    );
   }
 
   /**
@@ -46,7 +47,11 @@ export class RectangleManager {
   }
 
   setOptions(rectangle: AgmRectangle, options: google.maps.RectangleOptions): Promise<void> {
-    return this._rectangles.get(rectangle).then((r) => r.setOptions(options));
+    return this._rectangles.get(rectangle).then((r) => {
+      const actualStrokePosition = options.strokePosition as any as keyof typeof google.maps.StrokePosition;
+      options.strokePosition = google.maps.StrokePosition[actualStrokePosition];
+      r.setOptions(options);
+    });
   }
 
   getBounds(rectangle: AgmRectangle): Promise<google.maps.LatLngBounds> {

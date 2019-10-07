@@ -12,7 +12,7 @@ export class MarkerManager {
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {}
 
-  async convertAnimation(uiAnim: keyof typeof google.maps.Animation | null): Promise<any>{
+  async convertAnimation(uiAnim: keyof typeof google.maps.Animation | null) {
     if (uiAnim === null) {
       return null;
     } else {

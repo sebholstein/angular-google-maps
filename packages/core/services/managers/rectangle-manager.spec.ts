@@ -1,5 +1,5 @@
 import { NgZone } from '@angular/core';
-import { async, inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, inject, TestBed } from '@angular/core/testing';
 
 import { AgmRectangle } from './../../directives/rectangle';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
@@ -16,14 +16,18 @@ describe('RectangleManager', () => {
         RectangleManager,
         {
           provide: GoogleMapsAPIWrapper,
-          useValue: { createRectangle: jest.fn() },
+          useValue: {
+            createRectangle: jest.fn(),
+            removeRectangle: jest.fn().mockReturnValue(Promise.resolve()),
+            getNativeMap: jest.fn().mockReturnValue(Promise.resolve()),
+          },
         },
       ],
     });
   });
 
   describe('Create a new rectangle', () => {
-    it('should call the mapsApiWrapper when creating a new rectangle', inject(
+    it('should call the mapsApiWrapper when creating a new rectangle', fakeAsync(inject(
       [RectangleManager, GoogleMapsAPIWrapper],
       (
         rectangleManager: RectangleManager,
@@ -35,6 +39,8 @@ describe('RectangleManager', () => {
         newRectangle.south = 89.2;
         newRectangle.west = 52.6;
         rectangleManager.addRectangle(newRectangle);
+
+        flushMicrotasks();
 
         expect(apiWrapper.createRectangle).toHaveBeenCalledWith({
           bounds: {
@@ -56,11 +62,11 @@ describe('RectangleManager', () => {
           zIndex: undefined,
         });
       },
-    ));
+    )));
   });
 
   describe('Delete a rectangle', () => {
-    it('should set the map to null when deleting a existing rectangle', inject(
+    it('should set the map to null when deleting a existing rectangle', fakeAsync(inject(
       [RectangleManager, GoogleMapsAPIWrapper],
       (
         rectangleManager: RectangleManager,
@@ -80,15 +86,16 @@ describe('RectangleManager', () => {
         );
 
         rectangleManager.addRectangle(newRectangle);
+        flushMicrotasks();
         rectangleManager.removeRectangle(newRectangle).then(() => {
           expect(rectangleInstance.setMap).toHaveBeenCalledWith(null);
         });
       },
-    ));
+    )));
   });
 
   describe('Set bounds option', () => {
-    it('should update that rectangle via setBounds method when the bounds changes', async(
+    it('should update that rectangle via setBounds method when the bounds changes', fakeAsync(
       inject(
         [RectangleManager, GoogleMapsAPIWrapper],
         (
@@ -110,25 +117,8 @@ describe('RectangleManager', () => {
           );
 
           rectangleManager.addRectangle(newRectangle);
-          expect(apiWrapper.createRectangle).toHaveBeenCalledWith({
-            bounds: {
-              north: 12.7,
-              east: 56.6,
-              south: 89.2,
-              west: 52.6,
-            },
-            clickable: true,
-            draggable: false,
-            editable: false,
-            fillColor: undefined,
-            fillOpacity: undefined,
-            strokeColor: undefined,
-            strokeOpacity: undefined,
-            strokePosition: 0,
-            strokeWeight: 0,
-            visible: true,
-            zIndex: undefined,
-          });
+          flushMicrotasks();
+
           newRectangle.north = 15.6;
           newRectangle.east = 45.2;
           newRectangle.south = 12.6;
@@ -141,7 +131,7 @@ describe('RectangleManager', () => {
             west: 41.3,
           };
 
-          return rectangleManager.setBounds(newRectangle).then(() => {
+          rectangleManager.setBounds(newRectangle).then(() => {
             expect(rectangleInstance.setBounds).toHaveBeenCalledWith(bounds);
           });
         },
@@ -150,7 +140,7 @@ describe('RectangleManager', () => {
   });
 
   describe('Set fill/stroke opacity option', () => {
-    it('should update that rectangle via setOptions method when the options changes', async(
+    it('should update that rectangle via setOptions method when the options changes', fakeAsync(
       inject(
         [RectangleManager, GoogleMapsAPIWrapper],
         (
@@ -175,28 +165,10 @@ describe('RectangleManager', () => {
           );
 
           rectangleManager.addRectangle(newRectangle);
-          expect(apiWrapper.createRectangle).toHaveBeenCalledWith({
-            bounds: {
-              north: 12.7,
-              east: 56.6,
-              south: 89.2,
-              west: 52.6,
-            },
-            clickable: true,
-            draggable: false,
-            editable: false,
-            fillColor: undefined,
-            fillOpacity: 0.4,
-            strokeColor: undefined,
-            strokeOpacity: 0.4,
-            strokePosition: 0,
-            strokeWeight: 0,
-            visible: true,
-            zIndex: undefined,
-          });
+          flushMicrotasks();
+
           newRectangle.fillOpacity = 0.6;
           newRectangle.strokeOpacity = 0.6;
-
           const options = {
             fillOpacity: 0.6,
             strokeOpacity: 0.6,
@@ -211,7 +183,7 @@ describe('RectangleManager', () => {
   });
 
   describe('Set fill/stroke color option', () => {
-    it('should update that rectangle via setOptions method when the options changes', async(
+    it('should update that rectangle via setOptions method when the options changes', fakeAsync(
       inject(
         [RectangleManager, GoogleMapsAPIWrapper],
         (
@@ -235,25 +207,7 @@ describe('RectangleManager', () => {
           );
 
           rectangleManager.addRectangle(newRectangle);
-          expect(apiWrapper.createRectangle).toHaveBeenCalledWith({
-            bounds: {
-              north: 12.7,
-              east: 56.6,
-              south: 89.2,
-              west: 52.6,
-            },
-            clickable: true,
-            draggable: false,
-            editable: false,
-            fillColor: '#FF7F50',
-            fillOpacity: undefined,
-            strokeColor: '#FF7F50',
-            strokeOpacity: undefined,
-            strokePosition: 0,
-            strokeWeight: 0,
-            visible: true,
-            zIndex: undefined,
-          });
+          flushMicrotasks();
           newRectangle.fillColor = '#00008B';
           newRectangle.strokeColor = '#00008B';
 
@@ -262,7 +216,7 @@ describe('RectangleManager', () => {
             strokeColor: '#00008B',
           };
 
-          return rectangleManager.setOptions(newRectangle, options).then(() => {
+          rectangleManager.setOptions(newRectangle, options).then(() => {
             expect(rectangleInstance.setOptions).toHaveBeenCalledWith(options);
           });
         },
@@ -271,7 +225,7 @@ describe('RectangleManager', () => {
   });
 
   describe('Set visible option', () => {
-    it('should update that rectangle via setVisible method when the visible changes', async(
+    it('should update that rectangle via setVisible method when the visible changes', fakeAsync(
       inject(
         [RectangleManager, GoogleMapsAPIWrapper],
         (
@@ -294,27 +248,9 @@ describe('RectangleManager', () => {
           );
 
           rectangleManager.addRectangle(newRectangle);
-          expect(apiWrapper.createRectangle).toHaveBeenCalledWith({
-            bounds: {
-              north: 12.7,
-              east: 56.6,
-              south: 89.2,
-              west: 52.6,
-            },
-            clickable: true,
-            draggable: false,
-            editable: false,
-            fillColor: undefined,
-            fillOpacity: undefined,
-            strokeColor: undefined,
-            strokeOpacity: undefined,
-            strokePosition: 0,
-            strokeWeight: 0,
-            visible: false,
-            zIndex: undefined,
-          });
+          flushMicrotasks();
           newRectangle.visible = true;
-          return rectangleManager.setVisible(newRectangle).then(() => {
+          rectangleManager.setVisible(newRectangle).then(() => {
             expect(rectangleInstance.setVisible).toHaveBeenCalledWith(true);
           });
         },

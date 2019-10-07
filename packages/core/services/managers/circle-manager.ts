@@ -13,22 +13,23 @@ export class CircleManager {
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
   addCircle(circle: AgmCircle) {
-    this._circles.set(circle, this._apiWrapper.createCircle({
-      center: {lat: circle.latitude, lng: circle.longitude},
-      clickable: circle.clickable,
-      draggable: circle.draggable,
-      editable: circle.editable,
-      fillColor: circle.fillColor,
-      fillOpacity: circle.fillOpacity,
-      radius: circle.radius,
-      strokeColor: circle.strokeColor,
-      strokeOpacity: circle.strokeOpacity,
-      strokePosition: (typeof circle.strokePosition === 'string')
-        ? google.maps.StrokePosition[circle.strokePosition] : circle.strokePosition,
-      strokeWeight: circle.strokeWeight,
-      visible: circle.visible,
-      zIndex: circle.zIndex,
-    }));
+    this._apiWrapper.getNativeMap().then( () =>
+      this._circles.set(circle, this._apiWrapper.createCircle({
+        center: {lat: circle.latitude, lng: circle.longitude},
+        clickable: circle.clickable,
+        draggable: circle.draggable,
+        editable: circle.editable,
+        fillColor: circle.fillColor,
+        fillOpacity: circle.fillOpacity,
+        radius: circle.radius,
+        strokeColor: circle.strokeColor,
+        strokeOpacity: circle.strokeOpacity,
+        strokePosition: google.maps.StrokePosition[circle.strokePosition],
+        strokeWeight: circle.strokeWeight,
+        visible: circle.visible,
+        zIndex: circle.zIndex,
+      }))
+    );
   }
 
   /**
@@ -41,11 +42,10 @@ export class CircleManager {
     });
   }
 
-  setOptions(circle: AgmCircle, options: google.maps.CircleOptions): Promise<void> {
+  async setOptions(circle: AgmCircle, options: google.maps.CircleOptions) {
     return this._circles.get(circle).then((c) => {
-      if (typeof options.strokePosition === 'string') {
-        options.strokePosition = (google.maps.StrokePosition[options.strokePosition] as unknown) as google.maps.StrokePosition;
-      }
+      const actualParam = options.strokePosition as any as keyof typeof google.maps.StrokePosition;
+      options.strokePosition = google.maps.StrokePosition[actualParam];
       c.setOptions(options);
     });
   }
