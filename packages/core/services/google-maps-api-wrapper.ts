@@ -25,7 +25,7 @@ export class GoogleMapsAPIWrapper {
     return this._zone.runOutsideAngular( () => {
       return this._loader.load().then(() => {
         const map = new google.maps.Map(el, mapOptions);
-        this._mapResolver(map as google.maps.Map);
+        this._mapResolver(map);
         return;
       });
     });
