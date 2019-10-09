@@ -16,7 +16,6 @@ cache:
 
 before_install:
   - yarn global add codecov
-# - time npm i -g yarn --cache-min 999999999
 
 install:
   - time yarn

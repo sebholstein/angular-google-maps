@@ -1,10 +1,9 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
 import * as mapTypes from './google-maps-types';
-import {Polyline} from './google-maps-types';
-import {PolylineOptions} from './google-maps-types';
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import { Polyline, PolylineOptions } from './google-maps-types';
+import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;
@@ -27,7 +26,7 @@ export class GoogleMapsAPIWrapper {
     return this._zone.runOutsideAngular( () => {
       return this._loader.load().then(() => {
         const map = new google.maps.Map(el, mapOptions);
-        this._mapResolver(<mapTypes.GoogleMap>map);
+        this._mapResolver(map as mapTypes.GoogleMap);
         return;
       });
     });
@@ -40,7 +39,7 @@ export class GoogleMapsAPIWrapper {
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}, addToMap: boolean = true):
+  createMarker(options: mapTypes.MarkerOptions = {} as mapTypes.MarkerOptions, addToMap: boolean = true):
       Promise<mapTypes.Marker> {
     return this._map.then((map: mapTypes.GoogleMap) => {
       if (addToMap) {
@@ -59,6 +58,9 @@ export class GoogleMapsAPIWrapper {
    */
   createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle> {
     return this._map.then((map: mapTypes.GoogleMap) => {
+      if (typeof options.strokePosition === 'string') {
+        options.strokePosition = google.maps.StrokePosition[options.strokePosition];
+      }
       options.map = map;
       return new google.maps.Circle(options);
     });
@@ -98,6 +100,32 @@ export class GoogleMapsAPIWrapper {
       let data = new google.maps.Data(options);
       data.setMap(m);
       return data;
+    });
+  }
+
+  /**
+   * Creates a TransitLayer instance for a map
+   * @param {TransitLayerOptions} options - used for setting layer options
+   * @returns {Promise<TransitLayer>} a new transit layer object
+   */
+  createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let newLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
+      newLayer.setMap(options.visible ? map : null);
+      return newLayer;
+    });
+  }
+
+  /**
+   * Creates a BicyclingLayer instance for a map
+   * @param {BicyclingLayerOptions} options - used for setting layer options
+   * @returns {Promise<BicyclingLayer>} a new bicycling layer object
+   */
+  createBicyclingLayer(options: mapTypes.BicyclingLayerOptions): Promise<mapTypes.BicyclingLayer>{
+    return this._map.then((map: mapTypes.GoogleMap) => {
+      let newLayer: mapTypes.BicyclingLayer = new google.maps.BicyclingLayer();
+      newLayer.setMap(options.visible ? map : null);
+      return newLayer;
     });
   }
 
@@ -144,7 +172,7 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
   }
 
-  panTo(latLng: mapTypes.LatLng|mapTypes.LatLngLiteral): Promise<void> {
+  panTo(latLng: mapTypes.LatLng | mapTypes.LatLngLiteral): Promise<void> {
     return this._map.then((map) => map.panTo(latLng));
   }
 
@@ -152,12 +180,12 @@ export class GoogleMapsAPIWrapper {
     return this._map.then((map) => map.panBy(x, y));
   }
 
-  fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.fitBounds(latLng));
+  fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
+    return this._map.then((map) => map.fitBounds(latLng, padding));
   }
 
-  panToBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.panToBounds(latLng));
+  panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
+    return this._map.then((map) => map.panToBounds(latLng, padding));
   }
 
   /**

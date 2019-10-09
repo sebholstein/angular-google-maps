@@ -1,4 +1,4 @@
-import {LatLngLiteral} from './services/google-maps-types';
+import { LatLngLiteral } from './services/google-maps-types';
 
 // exported map types
 export {
@@ -8,10 +8,13 @@ export {
   LatLngBoundsLiteral,
   LatLngLiteral,
   PolyMouseEvent,
-  MarkerLabel
+  MarkerLabel,
 } from './services/google-maps-types';
 
 /**
  * MouseEvent gets emitted when the user triggers mouse events on the map.
  */
-export interface MouseEvent { coords: LatLngLiteral; }
+export interface MouseEvent {
+  coords: LatLngLiteral;
+  placeId?: string;
+}

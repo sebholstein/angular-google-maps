@@ -1,28 +1,44 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
-import {AgmMap} from './directives/map';
-import {AgmCircle} from './directives/circle';
-import {AgmFitBounds} from './directives/fit-bounds';
-import {AgmRectangle} from './directives/rectangle';
-import {AgmInfoWindow} from './directives/info-window';
-import {AgmMarker} from './directives/marker';
-import {AgmPolygon} from './directives/polygon';
-import {AgmPolyline} from './directives/polyline';
-import {AgmPolylinePoint} from './directives/polyline-point';
-import {AgmKmlLayer} from './directives/kml-layer';
-import {AgmDataLayer} from './directives/data-layer';
-import {LazyMapsAPILoader} from './services/maps-api-loader/lazy-maps-api-loader';
-import {LAZY_MAPS_API_CONFIG, LazyMapsAPILoaderConfigLiteral} from './services/maps-api-loader/lazy-maps-api-loader';
-import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
-import {BROWSER_GLOBALS_PROVIDERS} from './utils/browser-globals';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+
+import { AgmBicyclingLayer } from './directives/bicycling-layer';
+import { AgmCircle } from './directives/circle';
+import { AgmDataLayer } from './directives/data-layer';
+import { AgmFitBounds } from './directives/fit-bounds';
+import { AgmInfoWindow } from './directives/info-window';
+import { AgmKmlLayer } from './directives/kml-layer';
+import { AgmMap } from './directives/map';
+import { AgmMarker } from './directives/marker';
+import { AgmPolygon } from './directives/polygon';
+import { AgmPolyline } from './directives/polyline';
+import { AgmPolylineIcon } from './directives/polyline-icon';
+import { AgmPolylinePoint } from './directives/polyline-point';
+import { AgmRectangle } from './directives/rectangle';
+import { AgmTransitLayer } from './directives/transit-layer';
+
+import { LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral } from './services/maps-api-loader/lazy-maps-api-loader';
+import { MapsAPILoader } from './services/maps-api-loader/maps-api-loader';
+
+import { BROWSER_GLOBALS_PROVIDERS } from './utils/browser-globals';
 
 /**
  * @internal
  */
 export function coreDirectives() {
   return [
-    AgmMap, AgmMarker, AgmInfoWindow, AgmCircle, AgmRectangle,
-    AgmPolygon, AgmPolyline, AgmPolylinePoint, AgmKmlLayer,
-    AgmDataLayer, AgmFitBounds
+    AgmBicyclingLayer,
+    AgmCircle,
+    AgmDataLayer,
+    AgmFitBounds,
+    AgmInfoWindow,
+    AgmKmlLayer,
+    AgmMap,
+    AgmMarker,
+    AgmPolygon,
+    AgmPolyline,
+    AgmPolylineIcon,
+    AgmPolylinePoint,
+    AgmRectangle,
+    AgmTransitLayer,
   ];
 }
 
@@ -40,7 +56,7 @@ export class AgmCoreModule {
       ngModule: AgmCoreModule,
       providers: [
         ...BROWSER_GLOBALS_PROVIDERS, {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
-        {provide: LAZY_MAPS_API_CONFIG, useValue: lazyMapsAPILoaderConfig}
+        {provide: LAZY_MAPS_API_CONFIG, useValue: lazyMapsAPILoaderConfig},
       ],
     };
   }

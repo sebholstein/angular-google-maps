@@ -18,7 +18,7 @@ If you just want to play with AGM and don't want to set up a full project with N
 
 There's also a really great video tutorial that follows exactly this guide. So if you prefer videos, we recommend watching this tutorial:
 
-[![Google Maps & Angular | ANGULAR SNIPPETS](http://img.youtube.com/vi/lApggVS0icc/0.jpg)](http://www.youtube.com/watch?v=lApggVS0icc "")
+[![Google Maps & Angular | ANGULAR SNIPPETS](https://img.youtube.com/vi/lApggVS0icc/0.jpg)](https://www.youtube.com/watch?v=lApggVS0icc "")
 
 ## Setting up a basic project structure
 
@@ -51,30 +51,26 @@ cd my-maps-project
 `Angular Google Maps (short name: AGM)` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
 
 ```bash
-npm install @agm/core --save
+npm install @agm/core
 ```
 
 ### Setup @NgModule
 
-Open `src/app/app.module.ts` and import the `AgmCoreModule`.  
+Open `src/app/app.module.ts` and import the `AgmCoreModule`.
 **You neeed to provide a Google Maps API key to be able to see a Map. Get an API key [here](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key).**
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
-
+import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
     BrowserModule,
-    CommonModule,
-    FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'YOUR_KEY'
+      apiKey: ''
     })
   ],
   providers: [],
@@ -85,7 +81,7 @@ export class AppModule {}
 ```
 
 ### Extending the app component
-Angular CLI already created an app component the we'll now use to create our first google map.  
+Angular CLI already created an app component the we'll now use to create our first google map.
 Open the file `src/app/app.component.ts` and modify it like below:
 
 ```typescript
@@ -97,9 +93,9 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.css'],
 })
 export class AppComponent {
-  title: string = 'My first AGM project';
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  title = 'My first AGM project';
+  lat = 51.678418;
+  lng = 7.809007;
 }
 ```
 
