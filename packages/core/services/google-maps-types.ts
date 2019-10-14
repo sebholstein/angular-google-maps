@@ -221,15 +221,15 @@ export interface MapOptions {
 
 export interface MapTypeStyle {
   elementType?: 'all' | 'geometry' | 'geometry.fill' | 'geometry.stroke' | 'labels' | 'labels.icon' |
-      'labels.text' | 'labels.text.fill' | 'labels.text.stroke';
+  'labels.text' | 'labels.text.fill' | 'labels.text.stroke';
   featureType?: 'administrative' | 'administrative.country' | 'administrative.land_parcel' |
-      'administrative.locality' | 'administrative.neighborhood' | 'administrative.province' | 'all' |
-      'landscape' | 'landscape.man_made' | 'landscape.natural' | 'landscape.natural.landcover' |
-      'landscape.natural.terrain' | 'poi' | 'poi.attraction' | 'poi.business' | 'poi.government' |
-      'poi.medical' | 'poi.park' | 'poi.place_of_worship' | 'poi.school' | 'poi.sports_complex' | 'road' |
-      'road.arterial' | 'road.highway' | 'road.highway.controlled_access' | 'road.local' | 'transit' |
-      'transit.line' | 'transit.station' | 'transit.station.airport' | 'transit.station.bus' |
-      'transit.station.rail' | 'water';
+  'administrative.locality' | 'administrative.neighborhood' | 'administrative.province' | 'all' |
+  'landscape' | 'landscape.man_made' | 'landscape.natural' | 'landscape.natural.landcover' |
+  'landscape.natural.terrain' | 'poi' | 'poi.attraction' | 'poi.business' | 'poi.government' |
+  'poi.medical' | 'poi.park' | 'poi.place_of_worship' | 'poi.school' | 'poi.sports_complex' | 'road' |
+  'road.arterial' | 'road.highway' | 'road.highway.controlled_access' | 'road.local' | 'transit' |
+  'transit.line' | 'transit.station' | 'transit.station.airport' | 'transit.station.bus' |
+  'transit.station.rail' | 'water';
   stylers: MapTypeStyler[];
 }
 
@@ -400,8 +400,8 @@ export interface KmlLayer extends MVCObject {
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerStatus
  */
 export type KmlLayerStatus = 'DOCUMENT_NOT_FOUND' |
-    'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' |
-    'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
+  'DOCUMENT_TOO_LARGE' | 'FETCH_ERROR' | 'INVALID_DOCUMENT' | 'INVALID_REQUEST' |
+  'LIMITS_EXCEEDED' | 'OK' | 'TIMED_OUT' | 'UNKNOWN';
 
 /**
  * See: https://developers.google.com/maps/documentation/javascript/reference?hl=de#KmlLayerMetadata
@@ -554,9 +554,9 @@ export interface MapTypeControlOptions {
 }
 
 export enum MapTypeControlStyle {
-  DEFAULT,
-  DROPDOWN_MENU,
-  HORIZONTAL_BAR,
+  DEFAULT = 0,
+  DROPDOWN_MENU = 2,
+  HORIZONTAL_BAR = 1,
 }
 
 export interface OverviewMapControlOptions {
