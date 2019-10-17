@@ -32,6 +32,16 @@ export {
   ZoomControlOptions,
   ZoomControlStyle,
   FullscreenControlOptions,
+  CircleOptions,
+  Circle,
+  Polyline,
+  PolylineOptions,
+  Polygon,
+  PolygonOptions,
+  Rectangle,
+  RectangleOptions,
+  Marker,
+  MarkerOptions,
 } from './services/google-maps-types';
 
 /**
