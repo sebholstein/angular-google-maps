@@ -1,37 +1,41 @@
 import { Injectable } from '@angular/core';
-import { of, throwError, from, Observable } from 'rxjs';
-import { GeocoderRequest, GeocoderStatus, Geocoder } from './google-maps-types';
+import { bindCallback, from, Observable, of, throwError } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Geocoder, GeocoderRequest, GeocoderResult, GeocoderStatus } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
-import { WindowRef } from '../utils/browser-globals';
-import { map } from 'rxjs/operators';
 
 declare var google: any;
 
 @Injectable()
 export class AgmGeocoder {
-  private geocoder$: Observable<Geocoder>;
-  protected _windowRef: WindowRef;
+  protected readonly geocoder$: Observable<Geocoder>;
 
-  constructor(private loader: MapsAPILoader) {
+  constructor(loader: MapsAPILoader) {
     this.geocoder$ = from(loader.load()).pipe(
-      map(() => {
-        return new google.maps.Geocoder() as Geocoder;
-      })
-    )
+      map(() => this._createGeocoder())
+    );
   }
 
-
-  geocode(request: GeocoderRequest) {
+  geocode(request: GeocoderRequest): Observable<GeocoderResult[]> {
     return this.geocoder$.pipe(
-      map(geocoder => {
-        geocoder.geocode(request, (results, status) => {
-          if (status === GeocoderStatus.OK) {
-            return of(results);
-          }
+      switchMap((geocoder) => this._getGoogleResults(geocoder, request))
+    );
+  }
 
-          return throwError(status);
-        });
+  private _getGoogleResults(geocoder: Geocoder, request: GeocoderRequest): Observable<GeocoderResult[]> {
+    const geocodeObservable = bindCallback(geocoder.geocode);
+    return geocodeObservable(request).pipe(
+      switchMap(([results, status]) => {
+        if (status === GeocoderStatus.OK) {
+          return of(results);
+        }
+
+        return throwError(status);
       })
-    )
+    );
+  }
+
+  private _createGeocoder(): Geocoder {
+    return new google.maps.Geocoder() as Geocoder;
   }
 }
