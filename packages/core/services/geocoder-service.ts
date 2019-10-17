@@ -6,7 +6,7 @@ import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 declare var google: any;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AgmGeocoder {
   protected readonly geocoder$: Observable<Geocoder>;
 
