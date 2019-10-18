@@ -11,15 +11,17 @@ export class AgmGeocoder {
   protected readonly geocoder$: Observable<Geocoder>;
 
   constructor(loader: MapsAPILoader) {
-    const connectableGeocoder$ = defer(() => new Observable(subscriber => {
+    const connectableGeocoder$ = new Observable(subscriber => {
       loader.load().then(() => subscriber.next());
-    }))
+    })
       .pipe(
         map(() => this._createGeocoder()),
         multicast(new ReplaySubject(1)),
       ) as ConnectableObservable<Geocoder>;
+
     connectableGeocoder$.connect(); // ignore the subscription
     // since we will remain subscribed till application exits
+
     this.geocoder$ = connectableGeocoder$;
   }
 
