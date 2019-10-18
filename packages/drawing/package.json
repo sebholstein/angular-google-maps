@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@agm/drawing-manager",
-  "description": "Angular Google Maps (AGM) extension for google drawing manager",
+  "name": "@agm/drawing",
+  "description": "Angular Google Maps (AGM) extension for google maps drawing library",
   "keywords": [
     "angular-google-maps",
     "angular",
@@ -16,11 +16,11 @@
   "ngPackage": {
     "lib": {
       "entryFile": "./index.ts",
-      "umdId": "ngmaps.drawingManager",
+      "umdId": "ngmaps.drawing",
       "umdModuleIds": {
         "@agm/core": "ngmaps.core"
       }
     },
-    "dest": "../../dist/@agm/drawing-manager"
+    "dest": "../../dist/@agm/drawing"
   }
 }

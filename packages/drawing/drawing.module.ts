@@ -8,5 +8,5 @@ import { AgmDrawingManagerTrigger } from './directives/drawing-manager-trigger';
   declarations: [AgmDrawingManager, AgmDrawingManagerTrigger],
   exports: [AgmDrawingManager, AgmDrawingManagerTrigger],
 })
-export class AgmDrawingManagerModule {
+export class AgmDrawingModule {
 }
