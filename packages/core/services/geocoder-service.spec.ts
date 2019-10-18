@@ -123,8 +123,6 @@ describe('GeocoderService', () => {
 
     geocoderService.geocode(geocodeRequest).subscribe(success);
 
-    expect(geocodeMock).toHaveBeenCalledTimes(0);
-
     tick();
 
     expect(success).toHaveBeenCalledTimes(1);

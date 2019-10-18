@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { bindCallback, from, Observable, of, throwError } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { bindCallback, ConnectableObservable, defer, Observable, of, ReplaySubject, throwError } from 'rxjs';
+import { map, multicast, switchMap } from 'rxjs/operators';
 import { Geocoder, GeocoderRequest, GeocoderResult, GeocoderStatus } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
@@ -11,9 +11,16 @@ export class AgmGeocoder {
   protected readonly geocoder$: Observable<Geocoder>;
 
   constructor(loader: MapsAPILoader) {
-    this.geocoder$ = from(loader.load()).pipe(
-      map(() => this._createGeocoder())
-    );
+    const connectableGeocoder$ = defer(() => new Observable(subscriber => {
+      loader.load().then(() => subscriber.next());
+    }))
+      .pipe(
+        map(() => this._createGeocoder()),
+        multicast(new ReplaySubject(1)),
+      ) as ConnectableObservable<Geocoder>;
+    connectableGeocoder$.connect(); // ignore the subscription
+    // since we will remain subscribed till application exits
+    this.geocoder$ = connectableGeocoder$;
   }
 
   geocode(request: GeocoderRequest): Observable<GeocoderResult[]> {
