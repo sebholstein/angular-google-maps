@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { bindCallback, ConnectableObservable, defer, Observable, of, ReplaySubject, throwError } from 'rxjs';
+import { bindCallback, ConnectableObservable, Observable, of, ReplaySubject, throwError } from 'rxjs';
 import { map, multicast, switchMap } from 'rxjs/operators';
 import { Geocoder, GeocoderRequest, GeocoderResult, GeocoderStatus } from './google-maps-types';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
