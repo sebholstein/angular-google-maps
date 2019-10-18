@@ -6,10 +6,10 @@ export {
   DataMouseEvent,
   LatLngBounds,
   LatLngBoundsLiteral,
+  LatLng,
   LatLngLiteral,
   PolyMouseEvent,
   MarkerLabel,
-  LatLng,
   MapTypeStyle,
   Padding,
   ControlPosition,
@@ -24,6 +24,14 @@ export {
   ZoomControlOptions,
   ZoomControlStyle,
   FullscreenControlOptions,
+  Geocoder,
+  GeocoderAddressComponent,
+  GeocoderComponentRestrictions,
+  GeocoderGeometry,
+  GeocoderLocationType,
+  GeocoderRequest,
+  GeocoderResult,
+  GeocoderStatus,
 } from './services/google-maps-types';
 
 /**
