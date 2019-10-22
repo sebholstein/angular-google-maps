@@ -1,11 +1,12 @@
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
 import 'js-marker-clusterer';
 
-import {AgmMarker, GoogleMapsAPIWrapper, MarkerManager} from '@agm/core';
-import {Marker} from '@agm/core/services/google-maps-types';
-import {AgmMarkerCluster} from '../../directives/marker-cluster';
-import {MarkerClustererInstance, ClusterOptions} from '../google-clusterer-types';
+import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
+import { Marker } from '@agm/core/services/google-maps-types';
+import { AgmMarkerCluster } from '../../directives/marker-cluster';
+import { ClusterOptions, MarkerClustererInstance } from '../google-clusterer-types';
 
 declare var MarkerClusterer: any;
 
@@ -38,7 +39,7 @@ export class ClusterManager extends MarkerManager {
       .createMarker({
         position: {
           lat: marker.latitude,
-          lng: marker.longitude
+          lng: marker.longitude,
         },
         label: marker.label,
         draggable: marker.draggable,
@@ -136,6 +137,16 @@ export class ClusterManager extends MarkerManager {
       if (c.imageExtension !== undefined) {
         cluster.imageExtension_ = c.imageExtension;
       }
+    });
+  }
+
+  createClusterEventObservable<T>(eventName: string): Observable<T> {
+    return Observable.create((observer: Observer<T>) => {
+      this._zone.runOutsideAngular(() => {
+        this._clustererInstance.then((m: MarkerClustererInstance) => {
+          m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+        });
+      });
     });
   }
 

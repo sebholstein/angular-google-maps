@@ -1,11 +1,11 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
-import {AgmPolyline, PathEvent} from '../../directives/polyline';
-import {AgmPolylinePoint} from '../../directives/polyline-point';
-import {GoogleMapsAPIWrapper} from '../google-maps-api-wrapper';
-import {LatLng, LatLngLiteral, Polyline, MVCArray, IconSequence } from '../google-maps-types';
-import { MVCEvent, createMVCEventObservable } from '../../utils/mvcarray-utils';
+import { AgmPolyline, PathEvent } from '../../directives/polyline';
+import { AgmPolylinePoint } from '../../directives/polyline-point';
+import { createMVCEventObservable } from '../../utils/mvcarray-utils';
+import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
+import { IconSequence, LatLng, LatLngLiteral, MVCArray, Polyline } from '../google-maps-types';
 
 declare var google: any;
 
@@ -18,12 +18,12 @@ export class PolylineManager {
 
   private static _convertPoints(line: AgmPolyline): Array<LatLngLiteral> {
     const path = line._getPoints().map((point: AgmPolylinePoint) => {
-      return <LatLngLiteral>{lat: point.latitude, lng: point.longitude};
+      return {lat: point.latitude, lng: point.longitude} as LatLngLiteral;
     });
     return path;
   }
 
-  private static _convertPath(path: 'CIRCLE'|'BACKWARD_CLOSED_ARROW'|'BACKWARD_OPEN_ARROW'|'FORWARD_CLOSED_ARROW'|
+  private static _convertPath(path: 'CIRCLE' | 'BACKWARD_CLOSED_ARROW' | 'BACKWARD_OPEN_ARROW' | 'FORWARD_CLOSED_ARROW' |
   'FORWARD_CLOSED_ARROW' | string): number | string{
     const symbolPath = google.maps.SymbolPath[path];
     if (typeof symbolPath === 'number') {
@@ -34,7 +34,7 @@ export class PolylineManager {
   }
 
   private static _convertIcons(line: AgmPolyline): Array<IconSequence> {
-    const icons = line._getIcons().map(agmIcon => (<IconSequence>{
+    const icons = line._getIcons().map(agmIcon => ({
       fixedRotation: agmIcon.fixedRotation,
       offset: agmIcon.offset,
       repeat: agmIcon.repeat,
@@ -48,8 +48,8 @@ export class PolylineManager {
         strokeColor: agmIcon.strokeColor,
         strokeOpacity: agmIcon.strokeOpacity,
         strokeWeight: agmIcon.strokeWeight,
-      }
-    }));
+      },
+    } as IconSequence));
     // prune undefineds;
     icons.forEach(icon => {
       Object.entries(icon).forEach(([key, val]) => {
@@ -96,7 +96,7 @@ export class PolylineManager {
   }
 
   async updateIconSequences(line: AgmPolyline): Promise<void> {
-    const map = await this._mapsWrapper.getNativeMap();
+    await this._mapsWrapper.getNativeMap();
     const icons = PolylineManager._convertIcons(line);
     const m = this._polylines.get(line);
     if (m == null) {

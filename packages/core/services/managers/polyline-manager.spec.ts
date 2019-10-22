@@ -1,16 +1,16 @@
-import {NgZone, QueryList} from '@angular/core';
-import {TestBed, inject, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { NgZone, QueryList } from '@angular/core';
+import { fakeAsync, flushMicrotasks, inject, TestBed } from '@angular/core/testing';
 
-import {AgmPolyline} from '../../directives/polyline';
-import {GoogleMapsAPIWrapper} from '../../services/google-maps-api-wrapper';
-import { Polyline } from '../../services/google-maps-types';
-import {PolylineManager} from '../../services/managers/polyline-manager';
 import { AgmPolylineIcon } from '@agm/core/directives/polyline-icon';
 import { Subject } from 'rxjs';
+import { AgmPolyline } from '../../directives/polyline';
+import { GoogleMapsAPIWrapper } from '../../services/google-maps-api-wrapper';
+import { Polyline } from '../../services/google-maps-types';
+import { PolylineManager } from '../../services/managers/polyline-manager';
 
 describe('PolylineManager', () => {
   beforeAll(() => {
-    (<any>window).google = {
+    (window as any).google = {
       maps: {
         Point: class Point {
           constructor(public x: number, public y: number) {
@@ -23,8 +23,8 @@ describe('PolylineManager', () => {
           CIRCLE: 0,
           FORWARD_CLOSED_ARROW: 1,
           FORWARD_OPEN_ARROW: 2,
-        }
-      }
+        },
+      },
     };
   });
 
@@ -38,9 +38,9 @@ describe('PolylineManager', () => {
           useValue: {
             createPolyline: jest.fn(),
             getNativeMap: () => Promise.resolve(),
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }); // end beforeEach
 
@@ -92,8 +92,8 @@ describe('PolylineManager', () => {
                     strokeOpacity: 0.7,
                     strokeWeight: 1.5,
                     path: 'CIRCLE',
-                  }
-                ]
+                  },
+                ],
               }) as QueryList<AgmPolylineIcon>;
               polylineManager.addPolyline(newPolyline);
               flushMicrotasks();
@@ -120,22 +120,22 @@ describe('PolylineManager', () => {
                     'scale': 2,
                     'strokeColor': 'green',
                     'strokeOpacity': 0.7,
-                    'strokeWeight': 1.5
+                    'strokeWeight': 1.5,
                   },
                   'offset': '1px',
-                  'repeat': '50px'
+                  'repeat': '50px',
                 }],
                });
-             })
+             }),
     ));
     it('should update the icons when the data structure changes',
       fakeAsync(inject(
       [PolylineManager, GoogleMapsAPIWrapper],
       (polylineManager: PolylineManager, apiWrapper: GoogleMapsAPIWrapper) => {
         const testPolyline = {
-          setOptions: jest.fn()
+          setOptions: jest.fn(),
         } as any as Polyline;
-        (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(testPolyline));
+        (apiWrapper.createPolyline as jest.Mock).mockReturnValue(Promise.resolve(testPolyline));
 
         const iconArray = [{
           fixedRotation: true,
@@ -203,12 +203,12 @@ describe('PolylineManager', () => {
                 'scale': 0.5,
                 'strokeColor': 'yellow',
                 'strokeOpacity': 0.2,
-                'strokeWeight': 3
+                'strokeWeight': 3,
               },
               'offset': '2px',
-              'repeat': '20px'}]
+              'repeat': '20px'}],
           });
-      }
+      },
     )));
   });
 
@@ -220,9 +220,9 @@ describe('PolylineManager', () => {
              const newPolyline = new AgmPolyline(polylineManager);
 
              const polylineInstance: Partial<Polyline> = {
-              setMap: jest.fn()
+              setMap: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createPolyline).mockReturnValue(Promise.resolve(polylineInstance));
+             (apiWrapper.createPolyline as jest.Mock).mockReturnValue(Promise.resolve(polylineInstance));
 
              polylineManager.addPolyline(newPolyline);
              flushMicrotasks();

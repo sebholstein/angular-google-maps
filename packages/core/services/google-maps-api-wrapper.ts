@@ -1,10 +1,9 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
 import * as mapTypes from './google-maps-types';
-import {Polyline} from './google-maps-types';
-import {PolylineOptions} from './google-maps-types';
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import { Polyline, PolylineOptions } from './google-maps-types';
+import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;
@@ -27,7 +26,7 @@ export class GoogleMapsAPIWrapper {
     return this._zone.runOutsideAngular(() => {
       return this._loader.load().then(() => {
         const map = new google.maps.Map(el, mapOptions);
-        this._mapResolver(<mapTypes.GoogleMap>map);
+        this._mapResolver(map as mapTypes.GoogleMap);
         return;
       });
     });
@@ -42,7 +41,7 @@ export class GoogleMapsAPIWrapper {
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}, addToMap: boolean = true):
+  createMarker(options: mapTypes.MarkerOptions = {} as mapTypes.MarkerOptions, addToMap: boolean = true):
       Promise<mapTypes.Marker> {
     return this._zone.runOutsideAngular(() => {
       return this._map.then((map: mapTypes.GoogleMap) => {
@@ -221,15 +220,15 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
+  fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
     return this._zone.runOutsideAngular(() => {
-      return this._map.then((map) => map.fitBounds(latLng));
+      return this._map.then((map) => map.fitBounds(latLng, padding));
     });
   }
 
-  panToBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
+  panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
     return this._zone.runOutsideAngular(() => {
-      return this._map.then((map) => map.panToBounds(latLng));
+      return this._map.then((map) => map.panToBounds(latLng, padding));
     });
   }
 

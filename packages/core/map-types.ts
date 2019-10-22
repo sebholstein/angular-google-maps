@@ -1,4 +1,4 @@
-import {LatLngLiteral} from './services/google-maps-types';
+import { LatLngLiteral } from './services/google-maps-types';
 
 // exported map types
 export {
@@ -6,9 +6,18 @@ export {
   DataMouseEvent,
   LatLngBounds,
   LatLngBoundsLiteral,
+  LatLng,
   LatLngLiteral,
   PolyMouseEvent,
   MarkerLabel,
+  Geocoder,
+  GeocoderAddressComponent,
+  GeocoderComponentRestrictions,
+  GeocoderGeometry,
+  GeocoderLocationType,
+  GeocoderRequest,
+  GeocoderResult,
+  GeocoderStatus,
 } from './services/google-maps-types';
 
 /**

@@ -1,5 +1,5 @@
 import { NgZone } from '@angular/core';
-import { TestBed, async, inject } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
 import { AgmRectangle } from './../../directives/rectangle';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
@@ -12,14 +12,14 @@ describe('RectangleManager', () => {
       providers: [
         {
           provide: NgZone,
-          useFactory: () => new NgZone({ enableLongStackTrace: true })
+          useFactory: () => new NgZone({ enableLongStackTrace: true }),
         },
         RectangleManager,
         {
           provide: GoogleMapsAPIWrapper,
-          useValue: { createRectangle: jest.fn() }
-        }
-      ]
+          useValue: { createRectangle: jest.fn() },
+        },
+      ],
     });
   });
 
@@ -28,7 +28,7 @@ describe('RectangleManager', () => {
       [RectangleManager, GoogleMapsAPIWrapper],
       (
         rectangleManager: RectangleManager,
-        apiWrapper: GoogleMapsAPIWrapper
+        apiWrapper: GoogleMapsAPIWrapper,
       ) => {
         const newRectangle = new AgmRectangle(rectangleManager);
         newRectangle.north = 12.7;
@@ -42,7 +42,7 @@ describe('RectangleManager', () => {
             north: 12.7,
             east: 56.6,
             south: 89.2,
-            west: 52.6
+            west: 52.6,
           },
           clickable: true,
           draggable: false,
@@ -54,9 +54,9 @@ describe('RectangleManager', () => {
           strokePosition: 'CENTER',
           strokeWeight: 0,
           visible: true,
-          zIndex: undefined
+          zIndex: undefined,
         });
-      }
+      },
     ));
   });
 
@@ -65,7 +65,7 @@ describe('RectangleManager', () => {
       [RectangleManager, GoogleMapsAPIWrapper],
       (
         rectangleManager: RectangleManager,
-        apiWrapper: GoogleMapsAPIWrapper
+        apiWrapper: GoogleMapsAPIWrapper,
       ) => {
         const newRectangle = new AgmRectangle(rectangleManager);
         newRectangle.north = 12.7;
@@ -74,17 +74,17 @@ describe('RectangleManager', () => {
         newRectangle.west = 52.6;
 
         const rectangleInstance: any = {
-          setMap: jest.fn()
+          setMap: jest.fn(),
         };
-        (<jest.Mock>apiWrapper.createRectangle).mockReturnValue(
-          Promise.resolve(rectangleInstance)
+        (apiWrapper.createRectangle as jest.Mock).mockReturnValue(
+          Promise.resolve(rectangleInstance),
         );
 
         rectangleManager.addRectangle(newRectangle);
         rectangleManager.removeRectangle(newRectangle).then(() => {
           expect(rectangleInstance.setMap).toHaveBeenCalledWith(null);
         });
-      }
+      },
     ));
   });
 
@@ -94,7 +94,7 @@ describe('RectangleManager', () => {
         [RectangleManager, GoogleMapsAPIWrapper],
         (
           rectangleManager: RectangleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newRectangle = new AgmRectangle(rectangleManager);
           newRectangle.north = 12.7;
@@ -102,12 +102,12 @@ describe('RectangleManager', () => {
           newRectangle.south = 89.2;
           newRectangle.west = 52.6;
 
-          const rectangleInstance: Rectangle = <any>{
+          const rectangleInstance: Rectangle = {
             setMap: jest.fn(),
-            setBounds: jest.fn()
-          };
-          (<jest.Mock>apiWrapper.createRectangle).mockReturnValue(
-            Promise.resolve(rectangleInstance)
+            setBounds: jest.fn(),
+          } as any;
+          (apiWrapper.createRectangle as jest.Mock).mockReturnValue(
+            Promise.resolve(rectangleInstance),
           );
 
           rectangleManager.addRectangle(newRectangle);
@@ -116,7 +116,7 @@ describe('RectangleManager', () => {
               north: 12.7,
               east: 56.6,
               south: 89.2,
-              west: 52.6
+              west: 52.6,
             },
             clickable: true,
             draggable: false,
@@ -128,7 +128,7 @@ describe('RectangleManager', () => {
             strokePosition: 'CENTER',
             strokeWeight: 0,
             visible: true,
-            zIndex: undefined
+            zIndex: undefined,
           });
           newRectangle.north = 15.6;
           newRectangle.east = 45.2;
@@ -139,14 +139,14 @@ describe('RectangleManager', () => {
             north: 15.6,
             east: 45.2,
             south: 12.6,
-            west: 41.3
+            west: 41.3,
           };
 
           return rectangleManager.setBounds(newRectangle).then(() => {
             expect(rectangleInstance.setBounds).toHaveBeenCalledWith(bounds);
           });
-        }
-      )
+        },
+      ),
     ));
   });
 
@@ -156,7 +156,7 @@ describe('RectangleManager', () => {
         [RectangleManager, GoogleMapsAPIWrapper],
         (
           rectangleManager: RectangleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newRectangle = new AgmRectangle(rectangleManager);
           newRectangle.north = 12.7;
@@ -168,11 +168,11 @@ describe('RectangleManager', () => {
 
           const rectangleInstance: any = {
             setMap: jest.fn(),
-            setOptions: jest.fn()
+            setOptions: jest.fn(),
           };
 
-          (<jest.Mock>apiWrapper.createRectangle).mockReturnValue(
-            Promise.resolve(rectangleInstance)
+          (apiWrapper.createRectangle as jest.Mock).mockReturnValue(
+            Promise.resolve(rectangleInstance),
           );
 
           rectangleManager.addRectangle(newRectangle);
@@ -181,7 +181,7 @@ describe('RectangleManager', () => {
               north: 12.7,
               east: 56.6,
               south: 89.2,
-              west: 52.6
+              west: 52.6,
             },
             clickable: true,
             draggable: false,
@@ -193,21 +193,21 @@ describe('RectangleManager', () => {
             strokePosition: 'CENTER',
             strokeWeight: 0,
             visible: true,
-            zIndex: undefined
+            zIndex: undefined,
           });
           newRectangle.fillOpacity = 0.6;
           newRectangle.strokeOpacity = 0.6;
 
           const options = {
             fillOpacity: 0.6,
-            strokeOpacity: 0.6
+            strokeOpacity: 0.6,
           };
 
           return rectangleManager.setOptions(newRectangle, options).then(() => {
             expect(rectangleInstance.setOptions).toHaveBeenCalledWith(options);
           });
-        }
-      )
+        },
+      ),
     ));
   });
 
@@ -217,7 +217,7 @@ describe('RectangleManager', () => {
         [RectangleManager, GoogleMapsAPIWrapper],
         (
           rectangleManager: RectangleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newRectangle = new AgmRectangle(rectangleManager);
           newRectangle.north = 12.7;
@@ -229,10 +229,10 @@ describe('RectangleManager', () => {
 
           const rectangleInstance: any = {
             setMap: jest.fn(),
-            setOptions: jest.fn()
+            setOptions: jest.fn(),
           };
-          (<jest.Mock>apiWrapper.createRectangle).mockReturnValue(
-            Promise.resolve(rectangleInstance)
+          (apiWrapper.createRectangle as jest.Mock).mockReturnValue(
+            Promise.resolve(rectangleInstance),
           );
 
           rectangleManager.addRectangle(newRectangle);
@@ -241,7 +241,7 @@ describe('RectangleManager', () => {
               north: 12.7,
               east: 56.6,
               south: 89.2,
-              west: 52.6
+              west: 52.6,
             },
             clickable: true,
             draggable: false,
@@ -253,21 +253,21 @@ describe('RectangleManager', () => {
             strokePosition: 'CENTER',
             strokeWeight: 0,
             visible: true,
-            zIndex: undefined
+            zIndex: undefined,
           });
           newRectangle.fillColor = '#00008B';
           newRectangle.strokeColor = '#00008B';
 
           const options = {
             fillColor: '#00008B',
-            strokeColor: '#00008B'
+            strokeColor: '#00008B',
           };
 
           return rectangleManager.setOptions(newRectangle, options).then(() => {
             expect(rectangleInstance.setOptions).toHaveBeenCalledWith(options);
           });
-        }
-      )
+        },
+      ),
     ));
   });
 
@@ -277,7 +277,7 @@ describe('RectangleManager', () => {
         [RectangleManager, GoogleMapsAPIWrapper],
         (
           rectangleManager: RectangleManager,
-          apiWrapper: GoogleMapsAPIWrapper
+          apiWrapper: GoogleMapsAPIWrapper,
         ) => {
           const newRectangle = new AgmRectangle(rectangleManager);
           newRectangle.north = 12.7;
@@ -288,10 +288,10 @@ describe('RectangleManager', () => {
 
           const rectangleInstance: any = {
             setMap: jest.fn(),
-            setVisible: jest.fn()
+            setVisible: jest.fn(),
           };
-          (<jest.Mock>apiWrapper.createRectangle).mockReturnValue(
-            Promise.resolve(rectangleInstance)
+          (apiWrapper.createRectangle as jest.Mock).mockReturnValue(
+            Promise.resolve(rectangleInstance),
           );
 
           rectangleManager.addRectangle(newRectangle);
@@ -300,7 +300,7 @@ describe('RectangleManager', () => {
               north: 12.7,
               east: 56.6,
               south: 89.2,
-              west: 52.6
+              west: 52.6,
             },
             clickable: true,
             draggable: false,
@@ -312,14 +312,14 @@ describe('RectangleManager', () => {
             strokePosition: 'CENTER',
             strokeWeight: 0,
             visible: false,
-            zIndex: undefined
+            zIndex: undefined,
           });
           newRectangle.visible = true;
           return rectangleManager.setVisible(newRectangle).then(() => {
             expect(rectangleInstance.setVisible).toHaveBeenCalledWith(true);
           });
-        }
-      )
+        },
+      ),
     ));
   });
 });
