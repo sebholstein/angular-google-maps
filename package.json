@@ -23,7 +23,7 @@
     "packages/snazzy-info-window"
   ],
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf dist node_modules/@agm 'packages/**/*.ngfactory.ts' && mkdirp dist",
     "prebuild": "yarn clean",
     "build": "yarn lint && yarn build:all",
     "build:all": "yarn build:core && yarn packagejson && mkdirp node_modules/@agm/core && ncp dist/@agm/core node_modules/@agm/core && yarn build:js-marker-clusterer && yarn build:snazzy-info-window && yarn packagejson",

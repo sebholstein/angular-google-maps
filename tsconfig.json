@@ -5,6 +5,7 @@
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "outDir": ".tmp/esm",
         "baseUrl": ".",
         "sourceMap": true,
         "removeComments": false,
@@ -22,5 +23,16 @@
         "paths": {
             "@agm/*": ["./packages/*"]
         }
-    }
+    },
+    "angularCompilerOptions": {
+        "genDir": ".tmp",
+        "debug": false,
+        "skipMetadataEmit": false
+    },
+    "exclude": [
+        ".tmp"
+    ],
+    "include": [
+        "packages/**/*"
+    ]
 }
