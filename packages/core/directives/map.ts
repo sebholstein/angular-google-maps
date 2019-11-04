@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -389,7 +389,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   /** @internal */
   ngOnInit() {
-    if (!isPlatformBrowser(this._platformId)) {
+    if (isPlatformServer(this._platformId)) {
       // The code is running on the server, do nothing
       return;
     }
