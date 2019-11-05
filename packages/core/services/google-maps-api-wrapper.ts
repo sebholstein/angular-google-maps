@@ -208,7 +208,7 @@ export class GoogleMapsAPIWrapper {
     });
   }
 
-  panTo(latLng: mapTypes.LatLng|mapTypes.LatLngLiteral): Promise<void> {
+  panTo(latLng: mapTypes.LatLng | mapTypes.LatLngLiteral): Promise<void> {
     return this._zone.runOutsideAngular(() => {
       return this._map.then((map) => map.panTo(latLng));
     });
