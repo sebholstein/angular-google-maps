@@ -1,4 +1,4 @@
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken, LOCALE_ID, Optional } from '@angular/core';
 
 import { DocumentRef, WindowRef } from '../../utils/browser-globals';
 
@@ -87,7 +87,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   protected readonly _SCRIPT_ID: string = 'agmGoogleMapsApiScript';
   protected readonly callbackName: string = `agmLazyMapsAPILoader`;
 
-  constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef) {
+  constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef,
+   @Inject(LOCALE_ID) private localeId: string) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -161,7 +162,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       channel: this._config.channel,
       libraries: this._config.libraries,
       region: this._config.region,
-      language: this._config.language,
+      language: this._config.language || this.localeId !== 'en-US' ? this.localeId : null,
     };
     const params: string = Object.keys(queryParams)
                                .filter((k: string) => queryParams[k] != null)
