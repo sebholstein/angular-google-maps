@@ -20,16 +20,18 @@
   "packages": [
     "packages/core",
     "packages/js-marker-clusterer",
-    "packages/snazzy-info-window"
+    "packages/snazzy-info-window",
+    "packages/drawing-manager"
   ],
   "scripts": {
     "clean": "rimraf dist node_modules/@agm 'packages/**/*.ngfactory.ts' && mkdirp dist",
     "prebuild": "yarn clean",
     "build": "yarn lint && yarn build:all",
-    "build:all": "yarn build:core && yarn packagejson && mkdirp node_modules/@agm/core && ncp dist/@agm/core node_modules/@agm/core && yarn build:js-marker-clusterer && yarn build:snazzy-info-window && yarn packagejson",
+    "build:all": "yarn build:core && yarn packagejson && mkdirp node_modules/@agm/core && ncp dist/@agm/core node_modules/@agm/core && yarn build:js-marker-clusterer && yarn build:snazzy-info-window && yarn build:drawing && yarn packagejson",
     "build:core": "ng-packagr -p packages/core/package.json",
     "build:js-marker-clusterer": "ng-packagr -p packages/js-marker-clusterer/package.json",
     "build:snazzy-info-window": "ng-packagr -p packages/snazzy-info-window/package.json",
+    "build:drawing": "ng-packagr -p packages/drawing/package.json",
     "lint": "tslint --project tsconfig.json -c tslint.json 'packages/**/*.ts'",
     "packagejson": "node ./scripts/update-package-json.js",
     "clang:format": "clang-format --glob=packages/**/*.ts -i",
@@ -39,10 +41,11 @@
     "docs:clean": "rimraf docs/public",
     "docs:hugo": "cd docs && hugo",
     "docs:injectga": "node scripts/inject-google-analytics.js",
-    "docs": "yarn docs:hugo && yarn apidocs:core && yarn apidocs:snazzy && yarn apidocs:jsmarkerclusterer",
+    "docs": "yarn docs:hugo && yarn apidocs:core && yarn apidocs:snazzy && yarn apidocs:jsmarkerclusterer && yarn apidocs:drawing",
     "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/  --hideGenerator --disableCoverage",
     "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --hideGenerator --disableCoverage",
-    "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --hideGenerator --disableCoverage"
+    "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --hideGenerator --disableCoverage",
+    "apidocs:drawing": "compodoc -p packages/drawing/tsconfig.compodoc.json --name @agm/drawing  --output docs/public/api-docs/drawing/ --hideGenerator --disableCoverage"
   },
   "author": "Sebastian Holstein <info@sebastian-holstein.de>",
   "license": "MIT",
