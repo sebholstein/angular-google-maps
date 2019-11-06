@@ -1,7 +1,6 @@
+import { LOCALE_ID } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-
 import { DocumentRef, WindowRef } from '../../utils/browser-globals';
-
 import { GoogleMapsScriptProtocol, LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral } from './lazy-maps-api-loader';
 import { MapsAPILoader } from './maps-api-loader';
 
@@ -32,6 +31,7 @@ describe('Service: LazyMapsAPILoader', () => {
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
         {provide: WindowRef, useValue: windowRef},
         {provide: DocumentRef, useValue: documentRef},
+        {provide: LOCALE_ID, useValue: 'en-US'},
       ],
     });
   });
@@ -83,24 +83,51 @@ describe('Service: LazyMapsAPILoader', () => {
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
         {provide: WindowRef, useValue: windowRef},
         {provide: DocumentRef, useValue: documentRef},
+        {provide: LOCALE_ID, useValue: 'en-US'},
         {provide: LAZY_MAPS_API_CONFIG, useValue: lazyLoadingConf},
       ],
     });
 
-    inject([MapsAPILoader], (loader: LazyMapsAPILoader) => {
-      interface Script {
-        src?: string;
-        async?: boolean;
-        defer?: boolean;
-        type?: string;
-      }
-      const scriptElem: Script = {};
-      (doc.createElement as jest.Mock).mockReturnValue(scriptElem);
+    const loader: LazyMapsAPILoader = TestBed.get(MapsAPILoader);
 
-      loader.load();
-      expect(doc.createElement).toHaveBeenCalled();
-      expect(scriptElem.src).toContain('http://maps.googleapis.com/maps/api/js');
-      expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
+    interface Script {
+      src?: string;
+      async?: boolean;
+      defer?: boolean;
+      type?: string;
+    }
+    const scriptElem: Script = {};
+    (doc.createElement as jest.Mock).mockReturnValue(scriptElem);
+
+    loader.load();
+    expect(doc.createElement).toHaveBeenCalled();
+    expect(scriptElem.src).toContain('http://maps.googleapis.com/maps/api/js');
+    expect(doc.body.appendChild).toHaveBeenCalledWith(scriptElem);
+  });
+
+  it('should load language based on locale', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
+        {provide: WindowRef, useValue: windowRef},
+        {provide: DocumentRef, useValue: documentRef},
+        {provide: LOCALE_ID, useValue: 'es'},
+      ],
     });
+
+    const loader: LazyMapsAPILoader = TestBed.get(MapsAPILoader);
+    interface Script {
+      src?: string;
+      async?: boolean;
+      defer?: boolean;
+      type?: string;
+    }
+    const scriptElem: Script = {};
+    (doc.createElement as jest.Mock).mockReturnValue(scriptElem);
+
+    loader.load();
+    expect(doc.createElement).toHaveBeenCalled();
+    const url = new URL(scriptElem.src);
+    expect(url.searchParams.get('language')).toEqual('es');
   });
 });

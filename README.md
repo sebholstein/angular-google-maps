@@ -23,6 +23,7 @@ This project is a mono repo and hosts multiple packages:
 | @agm/core                | [![@agm/core](https://img.shields.io/npm/dm/@agm/core.svg)](https://www.npmjs.com/package/@agm/core)                                              |
 | @agm/snazzy-info-window  | [![@agm/snazzy-info-window](https://img.shields.io/npm/dm/@agm/snazzy-info-window.svg)](https://www.npmjs.com/package/@agm/snazzy-info-window)    |
 | @agm/js-marker-clusterer | [![@agm/js-marker-clusterer](https://img.shields.io/npm/dm/@agm/js-marker-clusterer.svg)](https://www.npmjs.com/package/@agm/js-marker-clusterer) |
+| @agm/drawing | [![@agm/drawing](https://img.shields.io/npm/dm/@agm/drawing.svg)](https://www.npmjs.com/package/@agm/drawing) |
 
 ---
 
@@ -34,7 +35,7 @@ If you just want to play with AGM and don't want to set up a full project, you c
 
 ## Installation
 
-`AGM` gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.  
+`AGM` gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.
 You can install the package with the following command:
 
 ```shell
