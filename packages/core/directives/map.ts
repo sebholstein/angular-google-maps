@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MouseEvent } from '../map-types';
@@ -378,11 +379,20 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output() tilesLoaded: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper, protected _fitBoundsService: FitBoundsService, private _zone: NgZone) {
-  }
+  constructor(
+    private _elem: ElementRef,
+    private _mapsWrapper: GoogleMapsAPIWrapper,
+    @Inject(PLATFORM_ID) private _platformId: Object,
+    protected _fitBoundsService: FitBoundsService,
+    private _zone: NgZone
+  ) {}
 
   /** @internal */
   ngOnInit() {
+    if (isPlatformServer(this._platformId)) {
+      // The code is running on the server, do nothing
+      return;
+    }
     // todo: this should be solved with a new component and a viewChild decorator
     const container = this._elem.nativeElement.querySelector('.agm-map-container-inner');
     this._initMapInstance(container);
