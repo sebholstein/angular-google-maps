@@ -1,0 +1,28 @@
+{
+  "name": "@agm/marker-spiderfier",
+  "version": "INSERT_HERE_VIA_BUILD_PROCESS",
+  "private": true,
+  "description": "Angular Google Maps (AGM) extension for OverlappingMarkerSpiderfier support",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebastianM/angular-google-maps.git"
+  },
+  "keywords": [
+    "angular-google-maps",
+    "angular",
+    "OverlappingMarkerSpiderfier",
+    "google-maps",
+    "agm"
+  ],
+  "author": "Jens Fahnenbruck <jigfox@me.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+  },
+  "peerDependencies": {
+    "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0",
+    "@agm/core": "^1.1.0",
+    "ts-overlapping-marker-spiderfier": "1.0.2"
+  },
+  "homepage": "https://github.com/SebastianM/angular-google-maps#readme"
+}

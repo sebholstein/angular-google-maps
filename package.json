@@ -21,16 +21,18 @@
     "packages/core",
     "packages/js-marker-clusterer",
     "packages/snazzy-info-window",
-    "packages/drawing-manager"
+    "packages/drawing-manager",
+    "packages/marker-spiderfier"
   ],
   "scripts": {
     "clean": "rimraf dist node_modules/@agm 'packages/**/*.ngfactory.ts' && mkdirp dist",
     "prebuild": "yarn clean",
     "build": "yarn lint && yarn build:all",
-    "build:all": "yarn build:core && yarn packagejson && mkdirp node_modules/@agm/core && ncp dist/@agm/core node_modules/@agm/core && yarn build:js-marker-clusterer && yarn build:snazzy-info-window && yarn build:drawing && yarn packagejson",
+    "build:all": "yarn build:core && yarn packagejson && mkdirp node_modules/@agm/core && ncp dist/@agm/core node_modules/@agm/core && yarn build:js-marker-clusterer && yarn build:snazzy-info-window && yarn build:drawing && yarn build:marker-spiderfier && yarn packagejson",
     "build:core": "ng-packagr -p packages/core/package.json",
     "build:js-marker-clusterer": "ng-packagr -p packages/js-marker-clusterer/package.json",
     "build:snazzy-info-window": "ng-packagr -p packages/snazzy-info-window/package.json",
+    "build:marker-spiderfier": "ng-packagr -p packages/marker-spiderfier/package.json",
     "build:drawing": "ng-packagr -p packages/drawing/package.json",
     "lint": "tslint --project tsconfig.json -c tslint.json 'packages/**/*.ts'",
     "packagejson": "node ./scripts/update-package-json.js",
@@ -85,6 +87,7 @@
     "rxjs": "^6.5.2",
     "snazzy-info-window": "^1.1.1",
     "ts-jest": "^24.0.2",
+    "ts-overlapping-marker-spiderfier": "^1.0.2",
     "tslib": "^1.9.0",
     "tslint": "^5.18.0",
     "typescript": "3.4.5",

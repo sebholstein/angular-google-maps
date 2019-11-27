@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@agm/marker-spiderfier",
+  "version": "1.0.3",
+  "description": "Angular Google Maps (AGM) extension for google maps marker spiderfier library",
+  "keywords": [
+    "angular-google-maps",
+    "angular",
+    "google-maps",
+    "agm",
+    "spiderfier",
+    "marker"
+  ],
+  "peerDependencies": {
+    "@angular/core": "^7.0.0 || ^8.0.0",
+    "@agm/core": "^1.0.0"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "./index.ts",
+      "umdId": "ngmaps.marker-spiderfier",
+      "umdModuleIds": {
+        "@agm/core": "ngmaps.core"
+      }
+    },
+    "dest": "../../dist/@agm/marker-spiderfier"
+  }
+}
