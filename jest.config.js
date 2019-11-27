@@ -9,6 +9,7 @@ module.exports = {
     'ts'
   ],
   collectCoverageFrom: [
+    "!node_modules/ts-overlapping-marker-spiderfier/**",
     'packages/**/*.ts',
     '!packages/**/index.ts'
   ]
