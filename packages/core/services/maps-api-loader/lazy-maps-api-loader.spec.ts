@@ -137,7 +137,7 @@ describe('Service: LazyMapsAPILoader', () => {
         {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
         {provide: WindowRef, useValue: windowRef},
         {provide: DocumentRef, useValue: documentRef},
-        {provide: LAZY_MAPS_API_CONFIG, useValue: <LazyMapsAPILoaderConfigLiteral> {language: 'tr'}},
+        {provide: LAZY_MAPS_API_CONFIG, useValue: {language: 'tr'} as LazyMapsAPILoaderConfigLiteral},
       ],
     });
 
