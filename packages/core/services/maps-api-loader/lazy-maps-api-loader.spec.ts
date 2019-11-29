@@ -130,4 +130,30 @@ describe('Service: LazyMapsAPILoader', () => {
     const url = new URL(scriptElem.src);
     expect(url.searchParams.get('language')).toEqual('es');
   });
+
+  it('should load language based on config', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: MapsAPILoader, useClass: LazyMapsAPILoader},
+        {provide: WindowRef, useValue: windowRef},
+        {provide: DocumentRef, useValue: documentRef},
+        {provide: LAZY_MAPS_API_CONFIG, useValue: <LazyMapsAPILoaderConfigLiteral> {language: 'tr'}},
+      ],
+    });
+
+    const loader: LazyMapsAPILoader = TestBed.get(MapsAPILoader);
+    interface Script {
+      src?: string;
+      async?: boolean;
+      defer?: boolean;
+      type?: string;
+    }
+    const scriptElem: Script = {};
+    (doc.createElement as jest.Mock).mockReturnValue(scriptElem);
+
+    loader.load();
+    expect(doc.createElement).toHaveBeenCalled();
+    const url = new URL(scriptElem.src);
+    expect(url.searchParams.get('language')).toEqual('tr');
+  });
 });
