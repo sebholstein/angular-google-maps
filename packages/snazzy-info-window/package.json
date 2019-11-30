@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@agm/snazzy-info-window",
+  "description": "Angular Google Maps (AGM) package for Snazzy Info Window support",
+  "author": "Sebastian Holstein",
+  "keywords": [
+    "angular-google-maps",
+    "angular",
+    "snazzy-info-window",
+    "info-window",
+    "google-maps",
+    "agm"
+  ],
+  "peerDependencies": {
+    "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@agm/core": "^1.0.0-beta.7",
+    "snazzy-info-window": "^1.1.0"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "./index.ts",
+      "umdId": "ngmaps.snazzyInfoWindow",
+      "umdModuleIds": {
+        "@agm/core": "ngmaps.core",
+        "snazzy-info-window": "SnazzyInfoWindow"
+      }
+    },
+    "dest": "../../dist/@agm/snazzy-info-window"
+  }
+}

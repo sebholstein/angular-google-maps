@@ -1,10 +1,9 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
 import * as mapTypes from './google-maps-types';
-import {Polyline} from './google-maps-types';
-import {PolylineOptions} from './google-maps-types';
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import { Polyline, PolylineOptions } from './google-maps-types';
+import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
 // todo: add types for this
 declare var google: any;
@@ -24,43 +23,54 @@ export class GoogleMapsAPIWrapper {
   }
 
   createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
-    return this._zone.runOutsideAngular( () => {
+    return this._zone.runOutsideAngular(() => {
       return this._loader.load().then(() => {
         const map = new google.maps.Map(el, mapOptions);
-        this._mapResolver(<mapTypes.GoogleMap>map);
+        this._mapResolver(map as mapTypes.GoogleMap);
         return;
       });
     });
   }
 
   setMapOptions(options: mapTypes.MapOptions) {
-    this._map.then((m: mapTypes.GoogleMap) => { m.setOptions(options); });
+    return this._zone.runOutsideAngular(() => {
+      this._map.then((m: mapTypes.GoogleMap) => { m.setOptions(options); });
+    });
   }
 
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}, addToMap: boolean = true):
+  createMarker(options: mapTypes.MarkerOptions = {} as mapTypes.MarkerOptions, addToMap: boolean = true):
       Promise<mapTypes.Marker> {
-    return this._map.then((map: mapTypes.GoogleMap) => {
-      if (addToMap) {
-        options.map = map;
-      }
-      return new google.maps.Marker(options);
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => {
+        if (addToMap) {
+          options.map = map;
+        }
+        return new google.maps.Marker(options);
+      });
     });
   }
 
   createInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
-    return this._map.then(() => { return new google.maps.InfoWindow(options); });
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then(() => { return new google.maps.InfoWindow(options); });
+    });
   }
 
   /**
    * Creates a google.map.Circle for the current map.
    */
   createCircle(options: mapTypes.CircleOptions): Promise<mapTypes.Circle> {
-    return this._map.then((map: mapTypes.GoogleMap) => {
-      options.map = map;
-      return new google.maps.Circle(options);
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => {
+        if (typeof options.strokePosition === 'string') {
+          options.strokePosition = google.maps.StrokePosition[options.strokePosition];
+        }
+        options.map = map;
+        return new google.maps.Circle(options);
+      });
     });
   }
 
@@ -68,25 +78,31 @@ export class GoogleMapsAPIWrapper {
    * Creates a google.map.Rectangle for the current map.
    */
   createRectangle(options: mapTypes.RectangleOptions): Promise<mapTypes.Rectangle> {
-    return this._map.then((map: mapTypes.GoogleMap) => {
-      options.map = map;
-      return new google.maps.Rectangle(options);
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => {
+        options.map = map;
+        return new google.maps.Rectangle(options);
+      });
     });
   }
 
   createPolyline(options: PolylineOptions): Promise<Polyline> {
-    return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
-      let line = new google.maps.Polyline(options);
-      line.setMap(map);
-      return line;
+    return this._zone.runOutsideAngular(() => {
+      return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
+        let line = new google.maps.Polyline(options);
+        line.setMap(map);
+        return line;
+      });
     });
   }
 
   createPolygon(options: mapTypes.PolygonOptions): Promise<mapTypes.Polygon> {
-    return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
-      let polygon = new google.maps.Polygon(options);
-      polygon.setMap(map);
-      return polygon;
+    return this._zone.runOutsideAngular(() => {
+      return this.getNativeMap().then((map: mapTypes.GoogleMap) => {
+        let polygon = new google.maps.Polygon(options);
+        polygon.setMap(map);
+        return polygon;
+      });
     });
   }
 
@@ -94,10 +110,42 @@ export class GoogleMapsAPIWrapper {
    * Creates a new google.map.Data layer for the current map
    */
   createDataLayer(options?: mapTypes.DataOptions): Promise<mapTypes.Data> {
-    return this._map.then(m => {
-      let data = new google.maps.Data(options);
-      data.setMap(m);
-      return data;
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then(m => {
+        let data = new google.maps.Data(options);
+        data.setMap(m);
+        return data;
+      });
+    });
+  }
+
+  /**
+   * Creates a TransitLayer instance for a map
+   * @param {TransitLayerOptions} options - used for setting layer options
+   * @returns {Promise<TransitLayer>} a new transit layer object
+   */
+  createTransitLayer(options: mapTypes.TransitLayerOptions): Promise<mapTypes.TransitLayer>{
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => {
+        let newLayer: mapTypes.TransitLayer = new google.maps.TransitLayer();
+        newLayer.setMap(options.visible ? map : null);
+        return newLayer;
+      });
+    });
+  }
+
+  /**
+   * Creates a BicyclingLayer instance for a map
+   * @param {BicyclingLayerOptions} options - used for setting layer options
+   * @returns {Promise<BicyclingLayer>} a new bicycling layer object
+   */
+  createBicyclingLayer(options: mapTypes.BicyclingLayerOptions): Promise<mapTypes.BicyclingLayer>{
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => {
+        let newLayer: mapTypes.BicyclingLayer = new google.maps.BicyclingLayer();
+        newLayer.setMap(options.visible ? map : null);
+        return newLayer;
+      });
     });
   }
 
@@ -117,47 +165,71 @@ export class GoogleMapsAPIWrapper {
   }
 
   clearInstanceListeners() {
-    this._map.then((map: mapTypes.GoogleMap) => {
-      google.maps.event.clearInstanceListeners(map);
+    return this._zone.runOutsideAngular(() => {
+      this._map.then((map: mapTypes.GoogleMap) => {
+        google.maps.event.clearInstanceListeners(map);
+      });
     });
   }
 
   setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng));
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => map.setCenter(latLng));
+    });
   }
 
-  getZoom(): Promise<number> { return this._map.then((map: mapTypes.GoogleMap) => map.getZoom()); }
+  getZoom(): Promise<number> {
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => map.getZoom());
+    });
+  }
 
   getBounds(): Promise<mapTypes.LatLngBounds> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.getBounds());
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => map.getBounds());
+    });
   }
 
   getMapTypeId(): Promise<mapTypes.MapTypeId> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.getMapTypeId());
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => map.getMapTypeId());
+    });
   }
 
   setZoom(zoom: number): Promise<void> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => map.setZoom(zoom));
+    });
   }
 
   getCenter(): Promise<mapTypes.LatLng> {
-    return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map: mapTypes.GoogleMap) => map.getCenter());
+    });
   }
 
-  panTo(latLng: mapTypes.LatLng|mapTypes.LatLngLiteral): Promise<void> {
-    return this._map.then((map) => map.panTo(latLng));
+  panTo(latLng: mapTypes.LatLng | mapTypes.LatLngLiteral): Promise<void> {
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map) => map.panTo(latLng));
+    });
   }
 
   panBy(x: number, y: number): Promise<void> {
-    return this._map.then((map) => map.panBy(x, y));
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map) => map.panBy(x, y));
+    });
   }
 
-  fitBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.fitBounds(latLng));
+  fitBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map) => map.fitBounds(latLng, padding));
+    });
   }
 
-  panToBounds(latLng: mapTypes.LatLngBounds|mapTypes.LatLngBoundsLiteral): Promise<void> {
-    return this._map.then((map) => map.panToBounds(latLng));
+  panToBounds(latLng: mapTypes.LatLngBounds | mapTypes.LatLngBoundsLiteral, padding?: number | mapTypes.Padding): Promise<void> {
+    return this._zone.runOutsideAngular(() => {
+      return this._map.then((map) => map.panToBounds(latLng, padding));
+    });
   }
 
   /**

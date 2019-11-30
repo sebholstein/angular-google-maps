@@ -1,8 +1,9 @@
-import { AfterContentInit, ContentChildren, Directive, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges, Input, Output } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, EventEmitter, Input, OnChanges, OnDestroy, Output, QueryList, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { PolyMouseEvent } from '../services/google-maps-types';
+import { LatLng, PolyMouseEvent } from '../services/google-maps-types';
 import { PolylineManager } from '../services/managers/polyline-manager';
+import { AgmPolylineIcon } from './polyline-icon';
 import { AgmPolylinePoint } from './polyline-point';
 
 let polylineId = 0;
@@ -34,26 +35,26 @@ let polylineId = 0;
  * ```
  */
 @Directive({
-  selector: 'agm-polyline'
+  selector: 'agm-polyline',
 })
 export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Indicates whether this Polyline handles mouse events. Defaults to true.
    */
-  @Input() clickable: boolean = true;
+  @Input() clickable = true;
 
   /**
    * If set to true, the user can drag this shape over the map. The geodesic property defines the
    * mode of dragging. Defaults to false.
    */
   // tslint:disable-next-line:no-input-rename
-  @Input('polylineDraggable') draggable: boolean = false;
+  @Input('polylineDraggable') draggable = false;
 
   /**
    * If set to true, the user can edit this shape by dragging the control points shown at the
    * vertices and on each segment. Defaults to false.
    */
-  @Input() editable: boolean = false;
+  @Input() editable = false;
 
   /**
    * When true, edges of the polygon are interpreted as geodesic and will follow the curvature of
@@ -61,7 +62,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
    * Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions
    * are maintained relative to the surface of the earth. Defaults to false.
    */
-  @Input() geodesic: boolean = false;
+  @Input() geodesic = false;
 
   /**
    * The stroke color. All CSS3 colors are supported except for extended named colors.
@@ -81,7 +82,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * Whether this polyline is visible on the map. Defaults to true.
    */
-  @Input() visible: boolean = true;
+  @Input() visible = true;
 
   /**
    * The zIndex compared to other polys.
@@ -139,22 +140,29 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
   @Output() lineMouseUp: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
 
   /**
-   * This even is fired when the Polyline is right-clicked on.
+   * This event is fired when the Polyline is right-clicked on.
    */
   @Output() lineRightClick: EventEmitter<PolyMouseEvent> = new EventEmitter<PolyMouseEvent>();
+
+  /**
+   * This event is fired after Polyline's path changes.
+   */
+  @Output() polyPathChange = new EventEmitter<PathEvent>();
 
   /**
    * @internal
    */
   @ContentChildren(AgmPolylinePoint) points: QueryList<AgmPolylinePoint>;
 
+  @ContentChildren(AgmPolylineIcon) iconSequences: QueryList<AgmPolylineIcon>;
+
   private static _polylineOptionsAttributes: Array<string> = [
     'draggable', 'editable', 'visible', 'geodesic', 'strokeColor', 'strokeOpacity', 'strokeWeight',
-    'zIndex'
+    'zIndex',
   ];
 
   private _id: string;
-  private _polylineAddedToManager: boolean = false;
+  private _polylineAddedToManager = false;
   private _subscriptions: Subscription[] = [];
 
   constructor(private _polylineManager: PolylineManager) { this._id = (polylineId++).toString(); }
@@ -171,9 +179,12 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     if (!this._polylineAddedToManager) {
       this._init();
     }
-    const s = this.points.changes.subscribe(() => this._polylineManager.updatePolylinePoints(this));
-    this._subscriptions.push(s);
+    const pointSub = this.points.changes.subscribe(() => this._polylineManager.updatePolylinePoints(this));
+    this._subscriptions.push(pointSub);
     this._polylineManager.updatePolylinePoints(this);
+
+    const iconSub = this.iconSequences.changes.subscribe(() => this._polylineManager.updateIconSequences(this));
+    this._subscriptions.push(iconSub);
   }
 
   ngOnChanges(changes: SimpleChanges): any {
@@ -187,6 +198,10 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
         k => AgmPolyline._polylineOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach(k => options[k] = changes[k].currentValue);
     this._polylineManager.setPolylineOptions(this, options);
+  }
+
+  getPath(): Promise<Array<LatLng>> {
+    return this._polylineManager.getPath(this);
   }
 
   private _init() {
@@ -213,12 +228,24 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       const os = this._polylineManager.createEventObservable(obj.name, this).subscribe(obj.handler);
       this._subscriptions.push(os);
     });
+
+    this._polylineManager.createPathEventObservable(this).then((ob$) => {
+      const os = ob$.subscribe(pathEvent => this.polyPathChange.emit(pathEvent));
+      this._subscriptions.push(os);
+    });
   }
 
   /** @internal */
   _getPoints(): Array<AgmPolylinePoint> {
     if (this.points) {
       return this.points.toArray();
+    }
+    return [];
+  }
+
+  _getIcons(): Array<AgmPolylineIcon> {
+    if (this.iconSequences) {
+      return this.iconSequences.toArray();
     }
     return [];
   }
@@ -232,4 +259,11 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
     // unsubscribe all registered observable subscriptions
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
+}
+
+export interface PathEvent {
+  newArr: LatLng[];
+  evName: 'insert_at' | 'remove_at' | 'set_at';
+  index: number;
+  previous?: LatLng;
 }

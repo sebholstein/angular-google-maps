@@ -1,10 +1,10 @@
-import {NgZone} from '@angular/core';
-import {TestBed, async, inject} from '@angular/core/testing';
+import { NgZone } from '@angular/core';
+import { async, inject, TestBed } from '@angular/core/testing';
 
-import {AgmMarker} from '../../../core/directives/marker';
-import {GoogleMapsAPIWrapper} from '../../../core/services/google-maps-api-wrapper';
-import {Marker} from '../../../core/services/google-maps-types';
-import {ClusterManager} from './cluster-manager';
+import { AgmMarker, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmMarkerCluster } from '../../directives/marker-cluster';
+import { MarkerClustererInstance } from '../google-clusterer-types';
+import { ClusterManager } from './cluster-manager';
 
 describe('ClusterManager', () => {
   beforeEach(() => {
@@ -14,10 +14,10 @@ describe('ClusterManager', () => {
         ClusterManager, {
           provide: GoogleMapsAPIWrapper,
           useValue: {
-            createMarker: jest.fn()
-          }
-        }
-      ]
+            createMarker: jest.fn(),
+          },
+        },
+      ],
     });
   });
 
@@ -41,7 +41,7 @@ describe('ClusterManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
              }, false);
            }));
   });
@@ -59,7 +59,7 @@ describe('ClusterManager', () => {
              const markerInstance: any = {
               setMap: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              clusterManager.addMarker(newMarker);
              clusterManager.deleteMarker(newMarker).then(
@@ -79,9 +79,9 @@ describe('ClusterManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setIcon: jest.fn()
+              setIcon: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -93,7 +93,7 @@ describe('ClusterManager', () => {
                visible: true,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
              }, false);
              const iconUrl = 'http://angular-maps.com/icon.png';
              newMarker.iconUrl = iconUrl;
@@ -114,9 +114,9 @@ describe('ClusterManager', () => {
 
              const markerInstance: any = {
               setMap: jest.fn(),
-              setOpacity: jest.fn()
+              setOpacity: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -128,7 +128,7 @@ describe('ClusterManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
              }, false);
              const opacity = 0.4;
              newMarker.opacity = opacity;
@@ -150,9 +150,9 @@ describe('ClusterManager', () => {
 
              const markerInstance: any = {
                setMap: jest.fn(),
-               setVisible: jest.fn()
+               setVisible: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -164,7 +164,7 @@ describe('ClusterManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
              }, false);
              newMarker.visible = true;
              return markerManager.updateVisible(newMarker).then(
@@ -185,9 +185,9 @@ describe('ClusterManager', () => {
 
              const markerInstance = {
                setMap: jest.fn(),
-               setZIndex: jest.fn()
+               setZIndex: jest.fn(),
              };
-             (<jest.Mock>apiWrapper.createMarker).mockReturnValue(Promise.resolve(markerInstance));
+             (apiWrapper.createMarker as jest.Mock).mockReturnValue(Promise.resolve(markerInstance));
 
              markerManager.addMarker(newMarker);
              expect(apiWrapper.createMarker).toHaveBeenCalledWith({
@@ -199,12 +199,42 @@ describe('ClusterManager', () => {
                opacity: 1,
                zIndex: 1,
                title: undefined,
-               clickable: true
+               clickable: true,
              }, false);
              const zIndex = 10;
              newMarker.zIndex = zIndex;
              return markerManager.updateZIndex(newMarker).then(
                  () => { expect(markerInstance.setZIndex).toHaveBeenCalledWith(zIndex); });
            })));
+  });
+
+  describe('set calculator', () => {
+    it('should call the setCalculator method when the calculator changes and is a function',
+      inject(
+        [ClusterManager],
+        async (markerManager: ClusterManager) => {
+
+          const mockClusterer: Partial<MarkerClustererInstance> = { setCalculator: jest.fn() };
+          const instancePromise = Promise.resolve(mockClusterer as MarkerClustererInstance);
+
+          const spy = jest.spyOn(markerManager, 'getClustererInstance')
+                          .mockImplementation(() => instancePromise);
+
+          const markerCluster: Partial<AgmMarkerCluster> = {};
+
+          // negative case
+          markerCluster.calculator = null;
+          markerManager.setCalculator(markerCluster as AgmMarkerCluster);
+          await instancePromise;
+          expect(mockClusterer.setCalculator).not.toHaveBeenCalled();
+
+          // positive case
+          markerCluster.calculator = jest.fn();
+          markerManager.setCalculator(markerCluster as AgmMarkerCluster);
+          await instancePromise;
+          expect(mockClusterer.setCalculator).toHaveBeenCalledTimes(1);
+
+          spy.mockReset();
+        }));
   });
 });

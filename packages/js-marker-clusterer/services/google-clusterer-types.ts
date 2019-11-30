@@ -1,4 +1,4 @@
-import {Marker, GoogleMap, LatLngBounds} from '@agm/core/services/google-maps-types';
+import { GoogleMap, LatLngBounds, Marker, MVCObject } from '@agm/core/services/google-maps-types';
 
 export interface CalculatorResult {
   text: string;
@@ -7,7 +7,7 @@ export interface CalculatorResult {
 
 export type CalculateFunction = (marker: Marker[], count: number) => CalculatorResult;
 
-export interface MarkerClustererInstance {
+export interface MarkerClustererInstance extends MVCObject {
   zoomOnClick_: boolean;
   averageCenter_: boolean;
   imagePath_: string;
@@ -33,7 +33,7 @@ export interface MarkerClustererInstance {
   setGridSize(size: number): void;
   setMap(map: GoogleMap): void;
   setMaxZoom(maxZoom: number): void;
-  setStyles(styles: ClusterStyle): void;
+  setStyles(styles: ClusterStyle[]): void;
 }
 
 export interface ClusterOptions {
@@ -65,10 +65,11 @@ export interface ClusterOptions {
   /**
    * An object that has style properties.
    */
-  styles?: ClusterStyle;
+  styles?: ClusterStyle[];
 
   imagePath?: string;
   imageExtension?: string;
+  calculator?: CalculateFunction;
 }
 
 export interface ClusterStyle {

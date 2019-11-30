@@ -1,11 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable ,  Observer } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 
 import { AgmDataLayer } from './../../directives/data-layer';
 import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
 import { Data, DataOptions, Feature } from './../google-maps-types';
-
-declare var google: any;
 
 /**
  * Manages all Data Layers for a Google Map instance.
@@ -21,9 +19,9 @@ export class DataLayerManager {
    * Adds a new Data Layer to the map.
    */
   addDataLayer(layer: AgmDataLayer) {
-    const newLayer = this._wrapper.createDataLayer(<DataOptions>{
-      style: layer.style
-    })
+    const newLayer = this._wrapper.createDataLayer({
+      style: layer.style,
+    } as DataOptions)
     .then(d => {
       if (layer.geoJson) {
         this.getDataFeatures(d, layer.geoJson).then(features => d.features = features);
