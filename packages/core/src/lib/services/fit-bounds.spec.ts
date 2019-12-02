@@ -124,4 +124,12 @@ describe('FitBoundsService', () => {
     discardPeriodicTasks();
   }));
 
+  it('should emit null bounds when there are no latLngs', fakeAsync(() => {
+    const success = jest.fn();
+    fitBoundsService.getBounds$().subscribe(success);
+    tick();
+    expect(success).toBeCalledTimes(1);
+    expect(success).toHaveBeenCalledWith(null);
+    discardPeriodicTasks();
+  }));
 });

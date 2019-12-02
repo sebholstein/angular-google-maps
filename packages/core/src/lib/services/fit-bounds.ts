@@ -49,9 +49,13 @@ export class FitBoundsService {
   private _generateBounds(
     includeInBounds: Map<string, google.maps.LatLng | google.maps.LatLngLiteral>
   ) {
-    const bounds = new google.maps.LatLngBounds();
-    includeInBounds.forEach(b => bounds.extend(b));
-    return bounds;
+    if (includeInBounds.size === 0) {
+      return null;
+    } else {
+      const bounds = new google.maps.LatLngBounds();
+      includeInBounds.forEach(b => bounds.extend(b));
+      return bounds;
+    }
   }
 
   addToBounds(latLng: google.maps.LatLng | google.maps.LatLngLiteral) {
