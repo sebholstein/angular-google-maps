@@ -325,8 +325,8 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _observableSubscriptions: Subscription[] = [];
   private _fitBoundsSubscription: Subscription;
 
-  private _currentCenterLongitude: number = 0;
-  private _currentCenterLatitude: number = 0;
+  private _currentCenterLongitude = 0;
+  private _currentCenterLatitude = 0;
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
