@@ -2,6 +2,7 @@ import { LatLngLiteral } from './services/google-maps-types';
 
 // exported map types
 export {
+  GoogleMap,
   KmlMouseEvent,
   DataMouseEvent,
   LatLngBounds,

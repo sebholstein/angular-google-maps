@@ -13,7 +13,7 @@
   ],
   "peerDependencies": {
     "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0",
-    "@agm/core": "^1.0.0-beta.7",
+    "@agm/core": "^1.0.0",
     "snazzy-info-window": "^1.1.0"
   },
   "ngPackage": {

@@ -147,7 +147,7 @@ export interface RectangleOptions {
 }
 
 export interface LatLngBounds {
-  contains(latLng: LatLng): boolean;
+  contains(latLng: LatLng | LatLngLiteral): boolean;
   equals(other: LatLngBounds | LatLngBoundsLiteral): boolean;
   extend(point: LatLng | LatLngLiteral): void;
   getCenter(): LatLng;
