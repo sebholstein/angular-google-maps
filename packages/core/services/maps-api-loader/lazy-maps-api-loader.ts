@@ -162,7 +162,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       channel: this._config.channel,
       libraries: this._config.libraries,
       region: this._config.region,
-      language: this._config.language || this.localeId !== 'en-US' ? this.localeId : null,
+      language: this._config.language || (this.localeId !== 'en-US' ? this.localeId : null),
     };
     const params: string = Object.keys(queryParams)
                                .filter((k: string) => queryParams[k] != null)
