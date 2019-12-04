@@ -1,9 +1,8 @@
-import { GoogleMap, Marker } from '@agm/core/services/google-maps-types';
+import { Marker } from '@agm/core';
 import { LegColorOptions, SpiderOptions } from 'ts-overlapping-marker-spiderfier';
 
 export interface MarkerSpiderInstance extends SpiderOptions {
   legColors: LegColorOptions;
-  new(map: GoogleMap, options: SpiderOptions): MarkerSpiderInstance;
   trackMarker(marker: Marker, listener?: Function): MarkerSpiderInstance;
   addMarker(marker: Marker, listener?: Function): MarkerSpiderInstance;
   forgetMarker(marker: Marker): MarkerSpiderInstance;
