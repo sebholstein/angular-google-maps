@@ -46,7 +46,7 @@
     "url": "https://github.com/SebastianM/angular-google-maps/issues"
   },
   "homepage": "https://angular-maps.com",
-  "peerDependencies": {
+  "dependencies": {
     "@angular/animations": "~8.2.13",
     "@angular/common": "~8.2.13",
     "@angular/compiler": "~8.2.13",
@@ -55,6 +55,7 @@
     "@angular/platform-browser": "~8.2.13",
     "@angular/platform-browser-dynamic": "~8.2.13",
     "@angular/router": "~8.2.13",
+    "jest-environment-jsdom-thirteen": "^1.0.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

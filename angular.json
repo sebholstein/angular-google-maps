@@ -5,23 +5,23 @@
   "projects": {
     "@agm/core": {
       "projectType": "library",
-      "root": "packages/agm/core",
-      "sourceRoot": "packages/agm/core/src",
+      "root": "packages/core",
+      "sourceRoot": "packages/core/src",
       "prefix": "agm",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "packages/agm/core/tsconfig.lib.json",
-            "project": "packages/agm/core/ng-package.json"
+            "tsConfig": "packages/core/tsconfig.lib.json",
+            "project": "packages/core/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "packages/agm/core/tsconfig.lib.json",
-              "packages/agm/core/tsconfig.spec.json"
+              "packages/core/tsconfig.lib.json",
+              "packages/core/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
