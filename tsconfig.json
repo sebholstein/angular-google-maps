@@ -1,38 +1,34 @@
 {
-    "compilerOptions": {
-        "module": "es2015",
-        "target": "es5",
-        "noImplicitAny": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "outDir": ".tmp/esm",
-        "baseUrl": ".",
-        "sourceMap": true,
-        "removeComments": false,
-        "moduleResolution": "node",
-        "declaration": true,
-        "allowSyntheticDefaultImports": true,
-        "lib": [
-            "es2015",
-            "dom",
-            "esnext"
-        ],
-        "types": [
-            "jest"
-        ],
-        "paths": {
-            "@agm/*": ["./packages/*"]
-        }
-    },
-    "angularCompilerOptions": {
-        "genDir": ".tmp",
-        "debug": false,
-        "skipMetadataEmit": false
-    },
-    "exclude": [
-        ".tmp"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
     ],
-    "include": [
-        "packages/**/*"
-    ]
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@agm/core": [
+        "dist/agm/core"
+      ],
+      "@agm/core/*": [
+        "dist/agm/core/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
 }
