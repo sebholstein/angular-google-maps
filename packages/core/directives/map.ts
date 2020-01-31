@@ -486,7 +486,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
       setTimeout(() => {
         return this._mapsWrapper.triggerMapEvent('resize').then(() => {
           if (recenter) {
-            this.fitBounds != null ? this._fitBounds() : this._setCenter();
+            this.fitBounds != null && this.fitBounds != false ? this._fitBounds() : this._setCenter();
           }
           resolve();
         });
