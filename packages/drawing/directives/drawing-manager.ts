@@ -9,7 +9,7 @@ declare var google: any;
   selector: 'agm-drawing-manager',
   exportAs: 'agmDrawingManager',
 })
-export class AgmDrawingManager implements OnChanges, OnDestroy{
+export class AgmDrawingManager implements OnChanges, OnDestroy {
 
   /**
    * The enabled/disabled state of the drawing control. Defaults to `true`.
@@ -77,7 +77,7 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
    * @type {RectangleOptions}
    * @memberof AgmDrawingManager
    */
-  @Input() rectangeOptions: RectangleOptions;
+  @Input() rectangleOptions: RectangleOptions;
 
   /**
    * This event is fired when the user has finished drawing a circle.
@@ -126,15 +126,15 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
     }
     if (map && !this.drawingManager) {
       this.drawingManager = new google.maps.drawing.DrawingManager({
-          map,
-          circleOptions: this.circleOptions,
-          markerOptions: this.markerOptions,
-          polygonOptions: this.polygonOptions,
-          polylineOptions: this.polylineOptions,
-          rectangeOptions: this.rectangeOptions,
-          drawingControl: this.drawingControl,
-          drawingControlOptions: this.drawingControlOptions,
-          drawingMode: this.drawingMode,
+        map,
+        circleOptions: this.circleOptions,
+        markerOptions: this.markerOptions,
+        polygonOptions: this.polygonOptions,
+        polylineOptions: this.polylineOptions,
+        rectangleOptions: this.rectangleOptions,
+        drawingControl: this.drawingControl,
+        drawingControlOptions: this.drawingControlOptions,
+        drawingMode: this.drawingMode,
       });
       this.initEvents(this.drawingManager);
     } else if (!map && this.drawingManager) {
@@ -146,27 +146,27 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
   initEvents(drawingManager: any) {
     this.eventSubscriptions.push(
       this.createMvcObservable<Circle>('circlecomplete', drawingManager)
-      .subscribe(circle => this._zone.run(() => this.circleComplete.next(circle)))
+        .subscribe(circle => this._zone.run(() => this.circleComplete.next(circle)))
     );
     this.eventSubscriptions.push(
       this.createMvcObservable<Marker>('markercomplete', drawingManager)
-      .subscribe(marker => this._zone.run(() => this.markerComplete.next(marker)))
+        .subscribe(marker => this._zone.run(() => this.markerComplete.next(marker)))
     );
     this.eventSubscriptions.push(
       this.createMvcObservable<Polygon>('polygoncomplete', drawingManager)
-      .subscribe(polygon => this._zone.run(() => this.polygonComplete.next(polygon)))
+        .subscribe(polygon => this._zone.run(() => this.polygonComplete.next(polygon)))
     );
     this.eventSubscriptions.push(
       this.createMvcObservable<Polyline>('polylinecomplete', drawingManager)
-      .subscribe(polyline => this._zone.run(() => this.polylineComplete.next(polyline)))
+        .subscribe(polyline => this._zone.run(() => this.polylineComplete.next(polyline)))
     );
     this.eventSubscriptions.push(
       this.createMvcObservable<OverlayCompleteEvent>('overlaycomplete', drawingManager)
-      .subscribe(overlayevent => this._zone.run(() => this.overlayComplete.next(overlayevent)))
+        .subscribe(overlayevent => this._zone.run(() => this.overlayComplete.next(overlayevent)))
     );
     this.eventSubscriptions.push(
       this.createMvcObservable<Rectangle>('rectanglecomplete', drawingManager)
-      .subscribe(rectangle => this._zone.run(() => this.rectangleComplete.next(rectangle)))
+        .subscribe(rectangle => this._zone.run(() => this.rectangleComplete.next(rectangle)))
     );
   }
 
@@ -184,11 +184,11 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
     }
 
     const options = Object.entries(changes)
-    .map(([prop, change]) => [prop, change.currentValue])
-    .reduce((obj: any, [propName, propValue]) => {
-      obj[propName] = propValue;
-      return obj;
-    }, {});
+      .map(([prop, change]) => [prop, change.currentValue])
+      .reduce((obj: any, [propName, propValue]) => {
+        obj[propName] = propValue;
+        return obj;
+      }, {});
     this.drawingManager.setOptions(options);
   }
 
