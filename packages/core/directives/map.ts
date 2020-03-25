@@ -536,6 +536,9 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
         }
         break;
       default:
+        if (this._fitBoundsSubscription) {
+          this._fitBoundsSubscription.unsubscribe();
+        }
         this._updateBounds(this.fitBounds, this.fitBoundsPadding);
     }
   }
