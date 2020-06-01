@@ -31,6 +31,7 @@ import { AgmDrawingModule } from '@agm/drawing
     BrowserModule,
     AgmCoreModule.forRoot({
       apiKey: ['YOUR_API_KEY_HERE']
+      libraries: ['drawing']
     }),
     AgmDrawingModule
   ],
