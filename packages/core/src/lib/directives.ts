@@ -4,7 +4,8 @@ export { AgmDataLayer } from './directives/data-layer';
 export { AgmFitBounds } from './directives/fit-bounds';
 export { AgmInfoWindow } from './directives/info-window';
 export { AgmKmlLayer } from './directives/kml-layer';
-export { AgmMap } from './directives/map';
+export { AgmMap, AgmFullscreenControl, AgmMapTypeControl, AgmPanControl, AgmRotateControl,
+  AgmScaleControl, AgmStreetViewControl, AgmZoomControl } from './directives/map';
 export { AgmMarker } from './directives/marker';
 export { AgmPolygon } from './directives/polygon';
 export { AgmPolyline } from './directives/polyline';

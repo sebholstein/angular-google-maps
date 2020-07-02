@@ -1,9 +1,9 @@
 import { NgZone, QueryList } from '@angular/core';
 import { fakeAsync, flushMicrotasks, inject, TestBed } from '@angular/core/testing';
 
-import { AgmPolylineIcon } from '@agm/core/directives/polyline-icon';
 import { Subject } from 'rxjs';
 import { AgmPolyline } from '../../directives/polyline';
+import { AgmPolylineIcon } from '../../directives/polyline-icon';
 import { GoogleMapsAPIWrapper } from '../../services/google-maps-api-wrapper';
 import { PolylineManager } from '../../services/managers/polyline-manager';
 

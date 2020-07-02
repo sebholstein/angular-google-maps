@@ -27,7 +27,7 @@ export class KmlLayerManager {
         suppressInfoWindows: layer.suppressInfoWindows,
         url: layer.url,
         zIndex: layer.zIndex,
-      } as google.maps.KmlLayerOptions);
+      });
     });
     this._layers.set(layer, newLayer);
   }

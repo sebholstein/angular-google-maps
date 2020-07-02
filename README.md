@@ -1,27 +1,45 @@
-# AngularGoogleMaps
+[![AGM - Angular Google Maps](assets/images/angular-google-maps-logo.png)](https://angular-maps.com/)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.18.
+# AGM - Angular Google Maps
 
-## Development server
+Angular 2+ components for Google Maps. (Previously known as angular2-google-maps)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+[Website](https://angular-maps.com/) | [Demo](https://stackblitz.com/edit/angular-google-maps-demo) | [Twitter](https://twitter.com/Sebholstein) | [Chat](https://discord.gg/XAr2ACE) | [API Documentation](https://angular-maps.com/api-docs/)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+[![Build Status](https://travis-ci.org/SebastianM/angular-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular-google-maps) [![Questions?: join the chat](https://img.shields.io/badge/questions%3F-join%20the%20chat-blue.svg)](https://discord.gg/XAr2ACE) [![npm version](https://badge.fury.io/js/%40agm%2Fcore.svg)](https://www.npmjs.com/package/@agm/core) ![supported angular versions: 6+](https://img.shields.io/badge/supported%20angular%20versions-6+-green.svg)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+---
 
-## Running unit tests
+## Packages
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This project is a mono repo and hosts multiple packages:
 
-## Running end-to-end tests
+| Package                  | Downloads                                                                                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @agm/core                | [![@agm/core](https://img.shields.io/npm/dm/@agm/core.svg)](https://www.npmjs.com/package/@agm/core)                                              |
+| @agm/snazzy-info-window  | [![@agm/snazzy-info-window](https://img.shields.io/npm/dm/@agm/snazzy-info-window.svg)](https://www.npmjs.com/package/@agm/snazzy-info-window)    |
+| @agm/js-marker-clusterer | [![@agm/js-marker-clusterer](https://img.shields.io/npm/dm/@agm/js-marker-clusterer.svg)](https://www.npmjs.com/package/@agm/js-marker-clusterer) |
+| @agm/drawing | [![@agm/drawing](https://img.shields.io/npm/dm/@agm/drawing.svg)](https://www.npmjs.com/package/@agm/drawing) |
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+---
 
-## Further help
+## Playing with AGM (Angular Google Maps)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+If you just want to play with AGM and don't want to set up a full project, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `AGM`:
+
+[&raquo; Play with Angular Google Maps on Stackblitz](https://stackblitz.com/edit/angular-google-maps-demo)
+
+## Installation
+
+`AGM` gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.  
+You can install the package with the following command:
+
+```shell
+npm install @agm/core
+```
+
+You should also checkout the [Getting started](https://angular-maps.com/guides/getting-started/) guide for further information.

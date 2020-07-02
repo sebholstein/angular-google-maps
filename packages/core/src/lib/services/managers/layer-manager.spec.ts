@@ -32,8 +32,7 @@ describe('LayerManager', () => {
         [LayerManager, GoogleMapsAPIWrapper],
         (layerManager: LayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
           const transitLayer = new AgmTransitLayer(layerManager);
-          const opt = { visible: false };
-          layerManager.addTransitLayer(transitLayer, opt);
+          layerManager.addTransitLayer(transitLayer);
           expect(apiWrapper.createTransitLayer).toHaveBeenCalled();
         }),
       ),
@@ -47,46 +46,11 @@ describe('LayerManager', () => {
         [LayerManager, GoogleMapsAPIWrapper],
         (layerManager: LayerManager, apiWrapper: GoogleMapsAPIWrapper) => {
           const bicyclingLayer = new AgmBicyclingLayer(layerManager);
-          const opt = { visible: true };
-          layerManager.addBicyclingLayer(bicyclingLayer, opt);
+          layerManager.addBicyclingLayer(bicyclingLayer);
           expect(apiWrapper.createBicyclingLayer).toHaveBeenCalled();
         }),
       ),
     );
-  });
-
-  describe('Toggling visibility of a MapLayer', () => {
-
-    it('should update the visibility of a map layer when the visibility option changes', fakeAsync(
-
-      inject(
-        [LayerManager, GoogleMapsAPIWrapper],
-        (layerManager: LayerManager,
-          apiWrapper: GoogleMapsAPIWrapper) => {
-          const newLayer = new AgmTransitLayer(layerManager);
-          newLayer.visible = true;
-
-          const transitLayerInstance: any = {
-            setMap: jest.fn(),
-            getMap: jest.fn(),
-          };
-
-          (apiWrapper.createTransitLayer as jest.Mock).mockReturnValue(
-            Promise.resolve(transitLayerInstance),
-          );
-
-          layerManager.addTransitLayer(newLayer, { visible: true });
-          expect(apiWrapper.createTransitLayer).toHaveBeenCalled();
-
-          newLayer.visible = false;
-          layerManager.toggleLayerVisibility(newLayer, { visible: false }).then(() => {
-            expect(transitLayerInstance.setMap).toHaveBeenCalledWith(null);
-          });
-        },
-      ),
-
-    ));
-
   });
 
 });

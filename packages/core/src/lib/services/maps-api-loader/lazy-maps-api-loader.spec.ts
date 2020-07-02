@@ -1,7 +1,7 @@
 import { LOCALE_ID } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { DocumentRef, WindowRef } from '../../utils/browser-globals';
-import { GoogleMapsScriptProtocol, LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral } from './lazy-maps-api-loader';
+import { GoogleMapsScriptProtocol, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral, LAZY_MAPS_API_CONFIG } from './lazy-maps-api-loader';
 import { MapsAPILoader } from './maps-api-loader';
 
 describe('Service: LazyMapsAPILoader', () => {
@@ -88,7 +88,7 @@ describe('Service: LazyMapsAPILoader', () => {
       ],
     });
 
-    const loader: LazyMapsAPILoader = TestBed.get(MapsAPILoader);
+    const loader = TestBed.inject(MapsAPILoader);
 
     interface Script {
       src?: string;
@@ -115,7 +115,7 @@ describe('Service: LazyMapsAPILoader', () => {
       ],
     });
 
-    const loader: LazyMapsAPILoader = TestBed.get(MapsAPILoader);
+    const loader = TestBed.inject(MapsAPILoader);
     interface Script {
       src?: string;
       async?: boolean;
@@ -142,7 +142,7 @@ describe('Service: LazyMapsAPILoader', () => {
       ],
     });
 
-    const loader: LazyMapsAPILoader = TestBed.get(MapsAPILoader);
+    const loader = TestBed.inject(MapsAPILoader);
     interface Script {
       src?: string;
       async?: boolean;

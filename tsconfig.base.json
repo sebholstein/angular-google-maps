@@ -1,0 +1,42 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@agm/core": [
+        "dist/core/agm-core",
+        "dist/core"
+      ],
+      "@agm/markerclusterer": [
+        "dist/markerclusterer/agm-markerclusterer",
+        "dist/markerclusterer"
+      ],
+      "@agm/snazzy-info-window": [
+        "dist/snazzy-info-window/agm-snazzy-info-window",
+        "dist/snazzy-info-window"
+      ],
+      "@agm/drawing": [
+        "dist/drawing/drawing",
+        "dist/drawing"
+      ]
+    },
+    "types": [
+      "googlemaps"
+    ]
+  }
+}

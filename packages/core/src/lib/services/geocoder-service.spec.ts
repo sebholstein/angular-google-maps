@@ -32,7 +32,7 @@ describe('GeocoderService', () => {
       ],
     });
 
-    geocoderService = TestBed.get(AgmGeocoder);
+    geocoderService = TestBed.inject(AgmGeocoder);
     tick();
   }));
 

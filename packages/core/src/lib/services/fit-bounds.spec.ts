@@ -34,7 +34,7 @@ describe('FitBoundsService', () => {
       ],
     });
 
-    fitBoundsService = TestBed.get(FitBoundsService);
+    fitBoundsService = TestBed.inject(FitBoundsService);
     tick();
   }));
 

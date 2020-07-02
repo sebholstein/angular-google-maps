@@ -16,6 +16,7 @@ import { KmlLayerManager } from './../services/managers/kml-layer-manager';
 
 export type ControlPosition = keyof typeof google.maps.ControlPosition;
 
+@Directive()
 export abstract class AgmMapControl {
   @Input() position: ControlPosition;
   abstract getOptions(): Partial<google.maps.MapOptions>;

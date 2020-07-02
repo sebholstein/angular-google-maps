@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { LayerManager } from '../services/managers/layer-manager';
 
 let layerId = 0;
@@ -10,7 +10,7 @@ let layerId = 0;
 @Directive({
     selector: 'agm-transit-layer',
 })
-export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
+export class AgmTransitLayer implements OnInit, OnDestroy{
     private _addedToManager = false;
     private _id: string = (layerId++).toString();
 
@@ -25,17 +25,8 @@ export class AgmTransitLayer implements OnInit, OnChanges, OnDestroy{
         if (this._addedToManager) {
             return;
         }
-        this._manager.addTransitLayer(this, {visible: this.visible});
+        this._manager.addTransitLayer(this);
         this._addedToManager = true;
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (!this._addedToManager) {
-            return;
-        }
-        if (changes['visible'] != null) {
-            this._manager.toggleLayerVisibility(this, {visible: changes['visible'].currentValue});
-        }
     }
 
     /** @internal */

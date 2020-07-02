@@ -1,0 +1,25 @@
+{
+  "name": "@agm/snazzy-info-window",
+  "version": "3.0.0-beta.0",
+  "description": "Angular Google Maps (AGM) extension for google maps drawing library",
+  "author": "Feliks Khantsis",
+  "keywords": [
+    "angular-google-maps",
+    "angular",
+    "google-maps",
+    "agm",
+    "map-drawing"
+  ],
+  "peerDependencies": {
+    "@agm/core": "3.0.0-beta.0",
+    "@angular/common": "^9.1.0 || ^10.0.0",
+    "@angular/core": "^9.1.0 || ^10.0.0",
+    "snazzy-info-window": "^1.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/googlemaps": "^3.39.8"
+  }
+}

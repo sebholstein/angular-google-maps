@@ -3,10 +3,6 @@ import { Observable, Observer } from 'rxjs';
 
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
-interface IVisibility {
-  visible: boolean;
-}
-
 /**
  * Wrapper class that handles the communication with the Google Maps Javascript
  * API v3
@@ -40,7 +36,7 @@ export class GoogleMapsAPIWrapper {
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: google.maps.MarkerOptions = {} as google.maps.MarkerOptions, addToMap: boolean = true):
+  createMarker(options: google.maps.MarkerOptions = {}, addToMap: boolean = true):
       Promise<google.maps.Marker> {
     return this._zone.runOutsideAngular(() => {
       return this._map.then((map: google.maps.Map) => {
@@ -122,7 +118,8 @@ export class GoogleMapsAPIWrapper {
   createTransitLayer(): Promise<google.maps.TransitLayer>{
     return this._zone.runOutsideAngular(() => {
       return this._map.then((map: google.maps.Map) => {
-        let newLayer: google.maps.TransitLayer = new google.maps.TransitLayer();
+        const newLayer: google.maps.TransitLayer = new google.maps.TransitLayer();
+        newLayer.setMap(map);
         return newLayer;
       });
     });
@@ -135,7 +132,8 @@ export class GoogleMapsAPIWrapper {
   createBicyclingLayer(): Promise<google.maps.BicyclingLayer>{
     return this._zone.runOutsideAngular(() => {
       return this._map.then((map: google.maps.Map) => {
-        let newLayer: google.maps.BicyclingLayer = new google.maps.BicyclingLayer();
+        const newLayer: google.maps.BicyclingLayer = new google.maps.BicyclingLayer();
+        newLayer.setMap(map);
         return newLayer;
       });
     });

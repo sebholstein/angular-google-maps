@@ -3,8 +3,6 @@ import { bindCallback, ConnectableObservable, Observable, of, ReplaySubject, thr
 import { map, multicast, switchMap } from 'rxjs/operators';
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
-declare var google: any;
-
 @Injectable({ providedIn: 'root' })
 export class AgmGeocoder {
   protected readonly geocoder$: Observable<google.maps.Geocoder>;

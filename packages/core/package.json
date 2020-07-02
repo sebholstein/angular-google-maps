@@ -1,19 +1,26 @@
 {
   "name": "@agm/core",
-  "version": "0.0.1",
-  "description": "Angular components for Google Maps",
-  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
+  "version": "3.0.0-beta.0",
+  "description": "Angular Google Maps (AGM) extension for marker-clusterer support",
+  "author": "Jens Fahnenbruck <jigfox@me.com>",
   "keywords": [
+    "angular-google-maps",
     "angular",
-    "ng",
+    "marker-clusterer",
     "google-maps",
-    "maps",
-    "google",
-    "gmaps",
-    "angular2"
+    "agm"
   ],
   "peerDependencies": {
-    "@angular/common": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "@angular/core": "^7.0.0 || ^8.0.0 || ^9.0.0"
+    "@angular/common": "^9.1.0 || ^10.0.0",
+    "@angular/core": "^9.1.0 || ^10.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/googlemaps": "^3.39.8",
+    "@types/jest": "^26.0.3",
+    "jest": "^26.1.0",
+    "jest-preset-angular": "^8.2.1"
   }
 }
