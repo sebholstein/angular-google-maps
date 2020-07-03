@@ -1,3 +1,20 @@
+<a name="1.1.0"></a>
+# [1.1.0 emma](https://github.com/SebastianM/angular-google-maps/compare/1.0.0...1.1.0) (2019-11-21)
+
+
+### Bug Fixes
+
+* MapTypeControlStyle enum values ([8abe038](https://github.com/SebastianM/angular-google-maps/commit/8abe038)), closes [#1688](https://github.com/SebastianM/angular-google-maps/issues/1688)
+* **GoogleMapsAPIWrapper:** run Google Maps Apis outside of Angular ([#1714](https://github.com/SebastianM/angular-google-maps/issues/1714)) ([57685f2](https://github.com/SebastianM/angular-google-maps/commit/57685f2)), closes [#815](https://github.com/SebastianM/angular-google-maps/issues/815)
+
+
+### Features
+
+* **AgmGeocoder:** add geocoder service and tests ([#1743](https://github.com/SebastianM/angular-google-maps/issues/1743)) ([3549ccf](https://github.com/SebastianM/angular-google-maps/commit/3549ccf)), closes [#1694](https://github.com/SebastianM/angular-google-maps/issues/1694)
+* **AgmMarker:** add dblclick observable ([#1739](https://github.com/SebastianM/angular-google-maps/issues/1739)) ([c16e666](https://github.com/SebastianM/angular-google-maps/commit/c16e666)), closes [#1601](https://github.com/SebastianM/angular-google-maps/issues/1601)
+* google map language to default to LOCALE_ID ([#1754](https://github.com/SebastianM/angular-google-maps/issues/1754)) ([56a858e](https://github.com/SebastianM/angular-google-maps/commit/56a858e))
+* support google maps drawing library ([#1749](https://github.com/SebastianM/angular-google-maps/issues/1749)) ([a1a17a6](https://github.com/SebastianM/angular-google-maps/commit/a1a17a6))
+
 <a name="1.0.0"></a>
 # [1.0.0 emma-soon](https://github.com/SebastianM/angular-google-maps/compare/1.0.0-beta.7...1.0.0) (2019-09-17)
 
