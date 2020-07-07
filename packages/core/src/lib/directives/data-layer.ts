@@ -218,7 +218,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * The layer's style function.
    */
-  @Input() style: () => void;
+  @Input() style: (param: google.maps.Data.Feature) => google.maps.Data.StyleOptions;
 
   constructor(private _manager: DataLayerManager) { }
 
