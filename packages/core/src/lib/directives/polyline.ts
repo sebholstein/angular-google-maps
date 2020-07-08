@@ -193,7 +193,7 @@ export class AgmPolyline implements OnDestroy, OnChanges, AfterContentInit {
       return;
     }
 
-    let options: {[propName: string]: any} = {};
+    const options: {[propName: string]: any} = {};
     const optionKeys = Object.keys(changes).filter(
         k => AgmPolyline._polylineOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach(k => options[k] = changes[k].currentValue);

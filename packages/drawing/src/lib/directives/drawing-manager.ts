@@ -10,7 +10,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
   /**
    * The enabled/disabled state of the drawing control. Defaults to `true`.
    *
-   * @type {boolean}
    */
   @Input() drawingControl: boolean;
 
@@ -24,7 +23,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
   /**
    * The display options for the drawing control.
    *
-   * @type {DrawingControlOptions}
    */
   @Input() drawingControlOptions: google.maps.drawing.DrawingControlOptions;
 
@@ -33,7 +31,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
    * The `center` and `radius` properties are ignored, and the `map` property of a
    * new circle is always set to the DrawingManager's map.
    *
-   * @type {CircleOptions}
    */
   @Input() circleOptions: google.maps.CircleOptions;
 
@@ -42,7 +39,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
    * The `position` property is ignored, and the `map` property of a new marker
    * is always set to the DrawingManager's map.
    *
-   * @type {MarkerOptions}
    */
   @Input() markerOptions: google.maps.MarkerOptions;
 
@@ -51,7 +47,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
    * The `paths` property is ignored, and the map property of a new polygon is
    * always set to the DrawingManager's map.
    *
-   * @type {PolygonOptions}
    */
   @Input() polygonOptions: google.maps.PolygonOptions;
 
@@ -60,8 +55,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
    * The `path` property is ignored, and the map property of a new polyline is
    * always set to the DrawingManager's map.
    *
-   * @type {PolylineOptions}
-   * @memberof AgmDrawingManager
    */
   @Input() polylineOptions: google.maps.PolylineOptions;
 
@@ -70,8 +63,6 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
    * The `bounds` property is ignored, and the map property of a new rectangle
    * is always set to the DrawingManager's map.
    *
-   * @type {RectangleOptions}
-   * @memberof AgmDrawingManager
    */
   @Input() rectangleOptions: google.maps.RectangleOptions;
 
@@ -170,7 +161,7 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
     return fromEventPattern(
       handler => mvcObject.addListener(eventName,
         (event?: E) => handler.apply(null, [event])),
-      (_handler: Function, evListener: google.maps.MapsEventListener) => evListener.remove()
+      (_handler, evListener: google.maps.MapsEventListener) => evListener.remove()
     );
   }
 

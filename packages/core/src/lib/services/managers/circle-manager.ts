@@ -64,23 +64,23 @@ export class CircleManager {
 
   setCenter(circle: AgmCircle): Promise<void> {
     return this._circles.get(circle).then(
-        (c) => { return c.setCenter({lat: circle.latitude, lng: circle.longitude}); });
+        c => c.setCenter({lat: circle.latitude, lng: circle.longitude}));
   }
 
   setEditable(circle: AgmCircle): Promise<void> {
-    return this._circles.get(circle).then((c) => { return c.setEditable(circle.editable); });
+    return this._circles.get(circle).then(c => c.setEditable(circle.editable));
   }
 
   setDraggable(circle: AgmCircle): Promise<void> {
-    return this._circles.get(circle).then((c) => { return c.setDraggable(circle.draggable); });
+    return this._circles.get(circle).then(c => c.setDraggable(circle.draggable));
   }
 
   setVisible(circle: AgmCircle): Promise<void> {
-    return this._circles.get(circle).then((c) => { return c.setVisible(circle.visible); });
+    return this._circles.get(circle).then(c => c.setVisible(circle.visible));
   }
 
   setRadius(circle: AgmCircle): Promise<void> {
-    return this._circles.get(circle).then((c) => { return c.setRadius(circle.radius); });
+    return this._circles.get(circle).then(c => c.setRadius(circle.radius));
   }
 
   getNativeCircle(circle: AgmCircle): Promise<google.maps.Circle> {

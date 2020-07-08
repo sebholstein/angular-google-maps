@@ -363,6 +363,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
+  // tslint:disable-next-line: max-line-length
   @Output() mapClick: EventEmitter<google.maps.MouseEvent | google.maps.IconMouseEvent> = new EventEmitter<google.maps.MouseEvent | google.maps.IconMouseEvent>();
 
   /**
@@ -418,6 +419,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   constructor(
     private _elem: ElementRef,
     private _mapsWrapper: GoogleMapsAPIWrapper,
+    // tslint:disable-next-line: ban-types
     @Inject(PLATFORM_ID) private _platformId: Object,
     protected _fitBoundsService: FitBoundsService,
     private _zone: NgZone
@@ -489,8 +491,8 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _updateMapOptionsChanges(changes: SimpleChanges) {
-    let options: {[propName: string]: any} = {};
-    let optionKeys =
+    const options: {[propName: string]: any} = {};
+    const optionKeys =
       Object.keys(changes).filter(k => AgmMap._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
@@ -518,11 +520,13 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _updatePosition(changes: SimpleChanges) {
+    // tslint:disable: no-string-literal
     if (changes['latitude'] == null && changes['longitude'] == null &&
         !changes['fitBounds']) {
       // no position update needed
       return;
     }
+    // tslint:enable: no-string-literal
 
     // we prefer fitBounds in changes
     if ('fitBounds' in changes) {
@@ -537,7 +541,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _setCenter() {
-    let newCenter = {
+    const newCenter = {
       lat: this.latitude,
       lng: this.longitude,
     };

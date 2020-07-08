@@ -199,7 +199,7 @@ let layerId = 0;
   selector: 'agm-data-layer',
 })
 export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
-  private static _dataOptionsAttributes: string[] = ['style'];
+  private static _dataOptionsAttributes = ['style'];
 
   private _addedToManager = false;
   private _id: string = (layerId++).toString();
@@ -213,7 +213,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * The geoJson to be displayed
    */
-  @Input() geoJson: Object | string | null = null;
+  @Input() geoJson: object | string | null = null;
 
   /**
    * The layer's style function.
@@ -260,14 +260,14 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    var geoJsonChange = changes['geoJson'];
+    // tslint:disable-next-line: no-string-literal
+    const geoJsonChange = changes['geoJson'];
     if (geoJsonChange) {
       this._manager.updateGeoJson(this, geoJsonChange.currentValue);
     }
 
-    let dataOptions: google.maps.Data.DataOptions = {};
-
-    AgmDataLayer._dataOptionsAttributes.forEach(k => (dataOptions as any)[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (this as any)[k]);
+    const dataOptions = AgmDataLayer._dataOptionsAttributes.reduce<google.maps.Data.DataOptions>((options, k) =>
+      options[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (this as any)[k], {});
 
     this._manager.setDataOptions(this, dataOptions);
   }

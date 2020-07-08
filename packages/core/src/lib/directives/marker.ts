@@ -34,11 +34,6 @@ let markerId = 0;
   providers: [
     { provide: FitBoundsAccessor, useExisting: forwardRef(() => AgmMarker) },
   ],
-  inputs: [
-    'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation',
-  ],
-  outputs: ['markerClick', 'dragStart', 'drag', 'dragEnd', 'mouseOver', 'mouseOut'],
 })
 export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBoundsAccessor {
   /**
@@ -109,8 +104,6 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
 
   /**
    * This event is fired when the marker's animation property changes.
-   *
-   * @memberof AgmMarker
    */
   @Output() animationChange = new EventEmitter<keyof typeof google.maps.Animation>();
 
@@ -137,6 +130,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
   /**
    * This event is repeatedly fired while the user drags the marker.
    */
+  // tslint:disable-next-line: no-output-native
   @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
@@ -198,6 +192,7 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
       this._addEventListeners();
       return;
     }
+    // tslint:disable: no-string-literal
     if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
       this._updateFitBoundsDetails();
@@ -229,6 +224,8 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit, FitBou
     if (changes['animation']) {
       this._markerManager.updateAnimation(this);
     }
+    // tslint:enable: no-string-literal
+
   }
 
   /** @internal */

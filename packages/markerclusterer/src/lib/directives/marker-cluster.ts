@@ -3,10 +3,11 @@ import { Directive, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { Subscription } from 'rxjs';
 
 import { InfoWindowManager, MarkerManager } from '@agm/core';
-import { ClusterManager } from '../services/managers/cluster-manager';
-import { Calculator } from '@google/markerclustererplus/dist/markerclusterer';
 import { ClusterIconStyle, MarkerClustererOptions } from '@google/markerclustererplus';
+import { Calculator } from '@google/markerclustererplus/dist/markerclusterer';
+import { ClusterManager } from '../services/managers/cluster-manager';
 
+// tslint:disable: jsdoc-format
 /**
  * AgmMarkerCluster clusters map marker if they are near together
  *
@@ -32,8 +33,9 @@ import { Component } from '@angular/core';
    </agm-map>
  `
 })
- * ```
+```
  */
+// tslint:enable: jsdoc-format
 @Directive({
   selector: 'agm-marker-cluster',
   providers: [
@@ -145,6 +147,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, MarkerClu
 
   /** @internal */
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    // tslint:disable: no-string-literal
     if (changes['gridSize']) {
       this._clusterManager.setGridSize(this);
     }
@@ -187,6 +190,8 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, MarkerClu
     if (changes['title']) {
       this._clusterManager.setTitle(this);
     }
+    // tslint:enable: no-string-literal
+
   }
 
   private _addEventListeners() {

@@ -97,7 +97,8 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges 
   @Input() openOnMarkerClick = true;
 
   /**
-   * Determines if the info window will close when the map is clicked. An internal listener is added to the Google Maps click event which calls the close() method.
+   * Determines if the info window will close when the map is clicked. An internal listener is added to
+   * the Google Maps click event which calls the close() method.
    * This will not activate on the Google Maps drag event when the user is panning the map.
    */
   @Input() closeOnMapClick = true;
@@ -227,11 +228,11 @@ export class AgmSnazzyInfoWindow implements AfterViewInit, OnDestroy, OnChanges 
         }
         this._nativeSnazzyInfoWindow = new elems[0](options);
       });
-      this._snazzyInfoWindowInitialized.then(() => {
+    this._snazzyInfoWindowInitialized.then(() => {
         if (this.isOpen) {
           this._openInfoWindow();
         }
-      });
+    });
   }
 
   protected _openInfoWindow() {

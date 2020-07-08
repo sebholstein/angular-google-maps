@@ -59,15 +59,15 @@ export class FitBoundsService {
     if (this._includeInBounds$.value.has(id)) {
       return;
     }
-    const map = this._includeInBounds$.value;
-    map.set(id, latLng);
-    this._includeInBounds$.next(map);
+    const boundsMap = this._includeInBounds$.value;
+    boundsMap.set(id, latLng);
+    this._includeInBounds$.next(boundsMap);
   }
 
   removeFromBounds(latLng: google.maps.LatLng | google.maps.LatLngLiteral) {
-    const map = this._includeInBounds$.value;
-    map.delete(this._createIdentifier(latLng));
-    this._includeInBounds$.next(map);
+    const boundsMap = this._includeInBounds$.value;
+    boundsMap.delete(this._createIdentifier(latLng));
+    this._includeInBounds$.next(boundsMap);
   }
 
   changeFitBoundsChangeSampleTime(timeMs: number) {

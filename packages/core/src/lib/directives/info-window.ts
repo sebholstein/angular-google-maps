@@ -112,6 +112,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
     if (!this._infoWindowAddedToManager) {
       return;
     }
+    // tslint:disable: no-string-literal
     if ((changes['latitude'] || changes['longitude']) && typeof this.latitude === 'number' &&
         typeof this.longitude === 'number') {
       this._infoWindowManager.setPosition(this);
@@ -124,6 +125,7 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
     }
     this._setInfoWindowOptions(changes);
   }
+  // tslint:enable: no-string-literal
 
   private _registerEventListeners() {
     this._infoWindowManager.createEventObservable('closeclick', this).subscribe(() => {
@@ -137,8 +139,8 @@ export class AgmInfoWindow implements OnDestroy, OnChanges, OnInit {
   }
 
   private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
-    let options: {[propName: string]: any} = {};
-    let optionKeys = Object.keys(changes).filter(
+    const options: {[propName: string]: any} = {};
+    const optionKeys = Object.keys(changes).filter(
         k => AgmInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._infoWindowManager.setOptions(this, options);

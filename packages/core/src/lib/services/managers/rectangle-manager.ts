@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 
-import { Observable, Observer } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 import { AgmRectangle } from '../../directives/rectangle';
 import { GoogleMapsAPIWrapper } from '../google-maps-api-wrapper';
@@ -88,10 +88,10 @@ export class RectangleManager {
   }
 
   createEventObservable<T>(eventName: string, rectangle: AgmRectangle): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((subsrciber: Subscriber<T>) => {
       let listener: google.maps.MapsEventListener = null;
       this._rectangles.get(rectangle).then((r) => {
-        listener = r.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+        listener = r.addListener(eventName, (e: T) => this._zone.run(() => subsrciber.next(e)));
       });
 
       return () => {

@@ -98,6 +98,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * This event is repeatedly fired while the user drags the circle.
    */
+  // tslint:disable-next-line: no-output-native
   @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
@@ -168,6 +169,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
     if (!this._circleAddedToManager) {
       return;
     }
+    // tslint:disable: no-string-literal
     if (changes['latitude'] || changes['longitude']) {
       this._manager.setCenter(this);
     }
@@ -183,12 +185,13 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
     if (changes['radius']) {
       this._manager.setRadius(this);
     }
+    // tslint:enable: no-string-literal
     this._updateCircleOptionsChanges(changes);
   }
 
   private _updateCircleOptionsChanges(changes: {[propName: string]: SimpleChange}) {
-    let options: {[propName: string]: any} = {};
-    let optionKeys =
+    const options: {[propName: string]: any} = {};
+    const optionKeys =
         Object.keys(changes).filter(k => AgmCircle._mapOptions.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
 
@@ -198,7 +201,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
   }
 
   private _registerEventListeners() {
-    let events: Map<string, EventEmitter<any>> = new Map<string, EventEmitter<any>>();
+    const events: Map<string, EventEmitter<any>> = new Map<string, EventEmitter<any>>();
     events.set('center_changed', this.centerChange);
     events.set('click', this.circleClick);
     events.set('dblclick', this.circleDblClick);
@@ -234,7 +237,7 @@ export class AgmCircle implements OnInit, OnChanges, OnDestroy {
 
   /** @internal */
   ngOnDestroy() {
-    this._eventSubscriptions.forEach(function(s: Subscription) { s.unsubscribe(); });
+    this._eventSubscriptions.forEach(s => s.unsubscribe());
     this._eventSubscriptions = null;
     this._manager.removeCircle(this);
   }

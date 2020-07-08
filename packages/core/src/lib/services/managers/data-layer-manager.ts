@@ -38,13 +38,13 @@ export class DataLayerManager {
     });
   }
 
-  updateGeoJson(layer: AgmDataLayer, geoJson: Object | string) {
+  updateGeoJson(layer: AgmDataLayer, geoJson: object | string) {
     this._layers.get(layer).then(l => {
-      l.forEach(function (feature: google.maps.Data.Feature) {
+      l.forEach(feature => {
         l.remove(feature);
 
         // NOTE: accessing "features" on google.maps.Data is undocumented
-        var index = (l as any).features.indexOf(feature, 0);
+        const index = (l as any).features.indexOf(feature, 0);
         if (index > -1) {
           (l as any).features.splice(index, 1);
         }
@@ -79,7 +79,7 @@ export class DataLayerManager {
    * @param d : google.maps.Data class instance
    * @param geoJson : url or geojson object
    */
-  getDataFeatures(d: google.maps.Data, geoJson: Object | string): Promise<google.maps.Data.Feature[]> {
+  getDataFeatures(d: google.maps.Data, geoJson: object | string): Promise<google.maps.Data.Feature[]> {
     return new Promise<google.maps.Data.Feature[]>((resolve, reject) => {
         if (typeof geoJson === 'object') {
           try {

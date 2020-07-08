@@ -88,7 +88,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   protected readonly callbackName: string = `agmLazyMapsAPILoader`;
 
   constructor(@Optional() @Inject(LAZY_MAPS_API_CONFIG) config: any = null, w: WindowRef, d: DocumentRef,
-   @Inject(LOCALE_ID) private localeId: string) {
+              @Inject(LOCALE_ID) private localeId: string) {
     super();
     this._config = config || {};
     this._windowRef = w;
@@ -125,8 +125,8 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   }
 
   private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
-    this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
-      (this._windowRef.getNativeWindow() as any)[this.callbackName] = () => {
+    this._scriptLoadingPromise = new Promise((resolve, reject) => {
+      this._windowRef.getNativeWindow()[this.callbackName] = () => {
         resolve();
       };
 
@@ -137,7 +137,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
   }
 
   protected _getScriptSrc(callbackName: string): string {
-    let protocolType: GoogleMapsScriptProtocol =
+    const protocolType: GoogleMapsScriptProtocol =
         (this._config && this._config.protocol) || GoogleMapsScriptProtocol.HTTPS;
     let protocol: string;
 
@@ -173,7 +173,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
                                })
                                .map((k: string) => {
                                  // join arrays as comma seperated strings
-                                 let i = queryParams[k];
+                                 const i = queryParams[k];
                                  if (Array.isArray(i)) {
                                    return {key: k, value: i.join(',')};
                                  }

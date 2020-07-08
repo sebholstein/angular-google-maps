@@ -50,7 +50,7 @@ export class GoogleMapsAPIWrapper {
 
   createInfoWindow(options?: google.maps.InfoWindowOptions): Promise<google.maps.InfoWindow> {
     return this._zone.runOutsideAngular(() => {
-      return this._map.then(() => { return new google.maps.InfoWindow(options); });
+      return this._map.then(() => new google.maps.InfoWindow(options));
     });
   }
 
@@ -81,7 +81,7 @@ export class GoogleMapsAPIWrapper {
   createPolyline(options: google.maps.PolylineOptions): Promise<google.maps.Polyline> {
     return this._zone.runOutsideAngular(() => {
       return this.getNativeMap().then((map: google.maps.Map) => {
-        let line = new google.maps.Polyline(options);
+        const line = new google.maps.Polyline(options);
         line.setMap(map);
         return line;
       });
@@ -91,7 +91,7 @@ export class GoogleMapsAPIWrapper {
   createPolygon(options: google.maps.PolygonOptions): Promise<google.maps.Polygon> {
     return this._zone.runOutsideAngular(() => {
       return this.getNativeMap().then((map: google.maps.Map) => {
-        let polygon = new google.maps.Polygon(options);
+        const polygon = new google.maps.Polygon(options);
         polygon.setMap(map);
         return polygon;
       });
@@ -104,7 +104,7 @@ export class GoogleMapsAPIWrapper {
   createDataLayer(options?: google.maps.Data.DataOptions): Promise<google.maps.Data> {
     return this._zone.runOutsideAngular(() => {
       return this._map.then(m => {
-        let data = new google.maps.Data(options);
+        const data = new google.maps.Data(options);
         data.setMap(m);
         return data;
       });

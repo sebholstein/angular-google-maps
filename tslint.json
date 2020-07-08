@@ -24,7 +24,10 @@
     "max-classes-per-file": false,
     "max-line-length": [
       true,
-      140
+      {
+        "limit": 140,
+        "ignore-pattern": "^import |^export {(.*?)}|class [a-zA-Z]+ implements"
+      }
     ],
     "member-ordering": [
       true,
@@ -133,7 +136,7 @@
     "component-selector": [true, "element", "agm", "kebab-case"],
     "contextual-lifecycle": true,
     "directive-class-suffix": false,
-    "directive-selector": [true, ["element", "attribute"], "agm", "kebab-case"],
+    "directive-selector": [true, ["element", "attribute"], "agm", ["kebab-case", "camelCase"]],
     "import-destructuring-spacing": false,
     "no-attribute-decorator": true,
     "no-conflicting-lifecycle": true,

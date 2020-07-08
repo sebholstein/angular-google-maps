@@ -28,7 +28,8 @@ export class AgmGeocoder {
     );
   }
 
-  private _getGoogleResults(geocoder: google.maps.Geocoder, request: google.maps.GeocoderRequest): Observable<google.maps.GeocoderResult[]> {
+  private _getGoogleResults(geocoder: google.maps.Geocoder, request: google.maps.GeocoderRequest):
+       Observable<google.maps.GeocoderResult[]> {
     const geocodeObservable = bindCallback(geocoder.geocode);
     return geocodeObservable(request).pipe(
       switchMap(([results, status]) => {

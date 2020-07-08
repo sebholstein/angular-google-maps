@@ -2,14 +2,13 @@ import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
 import { Injectable, NgZone } from '@angular/core';
 import { MarkerClustererOptions } from '@google/markerclustererplus';
 import MarkerClusterer from '@google/markerclustererplus';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { AgmMarkerCluster } from '../../directives/marker-cluster';
-
 
 @Injectable()
 export class ClusterManager extends MarkerManager {
   private _clustererInstance: Promise<MarkerClusterer>;
-  private _resolver: Function;
+  private _resolver: (cluster: MarkerClusterer) => void;
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, protected _zone: NgZone) {
     super(_mapsWrapper, _zone);
@@ -29,39 +28,37 @@ export class ClusterManager extends MarkerManager {
     return this._clustererInstance;
   }
 
-  addMarker(marker: AgmMarker): void {
+  addMarker(markerDirective: AgmMarker): void {
     const clusterPromise: Promise<MarkerClusterer> = this.getClustererInstance();
     const markerPromise = this._mapsWrapper
       .createMarker({
         position: {
-          lat: marker.latitude,
-          lng: marker.longitude,
+          lat: markerDirective.latitude,
+          lng: markerDirective.longitude,
         },
-        label: marker.label,
-        draggable: marker.draggable,
-        icon: marker.iconUrl,
-        opacity: marker.opacity,
-        visible: marker.visible,
-        zIndex: marker.zIndex,
-        title: marker.title,
-        clickable: marker.clickable,
+        label: markerDirective.label,
+        draggable: markerDirective.draggable,
+        icon: markerDirective.iconUrl,
+        opacity: markerDirective.opacity,
+        visible: markerDirective.visible,
+        zIndex: markerDirective.zIndex,
+        title: markerDirective.title,
+        clickable: markerDirective.clickable,
       }, false);
 
     Promise
       .all([clusterPromise, markerPromise])
-      .then(([cluster, marker]) => {
-        return cluster.addMarker(marker);
-      });
-    this._markers.set(marker, markerPromise);
+      .then(([cluster, marker]) => cluster.addMarker(marker));
+    this._markers.set(markerDirective, markerPromise);
   }
 
   deleteMarker(marker: AgmMarker): Promise<void> {
-    const m = this._markers.get(marker);
-    if (m == null) {
+    const markerPromise = this._markers.get(marker);
+    if (markerPromise == null) {
       // marker already deleted
       return Promise.resolve();
     }
-    return m.then((m: google.maps.Marker) => {
+    return markerPromise.then((m: google.maps.Marker) => {
       this._zone.run(() => {
         m.setMap(null);
         this.getClustererInstance().then(cluster => {
@@ -137,16 +134,16 @@ export class ClusterManager extends MarkerManager {
   }
 
   createClusterEventObservable<T>(eventName: string): Observable<T> {
-    return Observable.create((observer: Observer<T>) => {
+    return new Observable((subscriber: Subscriber<T>) => {
       this._zone.runOutsideAngular(() => {
         this._clustererInstance.then((m: MarkerClusterer) => {
-          m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
+          m.addListener(eventName, (e: T) => this._zone.run(() => subscriber.next(e)));
         });
       });
     });
   }
 
-  setCalculator (c: AgmMarkerCluster): void {
+  setCalculator(c: AgmMarkerCluster): void {
     this.getClustererInstance().then(cluster => {
       if (typeof c.calculator === 'function') {
         cluster.setCalculator(c.calculator);
@@ -154,35 +151,35 @@ export class ClusterManager extends MarkerManager {
     });
   }
 
-  async setClusterClass (c: AgmMarkerCluster) {
+  async setClusterClass(c: AgmMarkerCluster) {
     if (typeof c.clusterClass !== 'undefined') {
       const instance = await this.getClustererInstance();
       instance.setClusterClass(c.clusterClass);
     }
   }
 
-  async setEnableRetinaIcons (c: AgmMarkerCluster) {
+  async setEnableRetinaIcons(c: AgmMarkerCluster) {
     if (typeof c.enableRetinaIcons !== 'undefined') {
       const instance = await this.getClustererInstance();
       instance.setEnableRetinaIcons(c.enableRetinaIcons);
     }
   }
 
-  async setIgnoreHidden (c: AgmMarkerCluster) {
+  async setIgnoreHidden(c: AgmMarkerCluster) {
     if (typeof c.ignoreHidden !== 'undefined') {
       const instance = await this.getClustererInstance();
       instance.setIgnoreHidden(c.ignoreHidden);
     }
   }
 
-  async setImageSizes (c: AgmMarkerCluster) {
+  async setImageSizes(c: AgmMarkerCluster) {
     if (typeof c.imageSizes !== 'undefined') {
       const instance = await this.getClustererInstance();
       instance.setImageSizes(c.imageSizes);
     }
   }
 
-  async setTitle (c: AgmMarkerCluster) {
+  async setTitle(c: AgmMarkerCluster) {
     if (typeof c.title !== 'undefined') {
       const instance = await this.getClustererInstance();
       instance.setTitle(c.title);

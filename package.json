@@ -62,7 +62,7 @@
     "@compodoc/compodoc": "^1.1.10",
     "@types/jest": "^23.0.0",
     "@types/node": "^12.11.1",
-    "codelyzer": "^6.0.0-next.1",
+    "codelyzer": "^6.0.0",
     "conventional-changelog": "^1.1.0",
     "jest": "^26.1.0",
     "jest-preset-angular": "^8.2.1",

@@ -20,16 +20,16 @@ export class MarkerManager {
     }
   }
 
-  deleteMarker(marker: AgmMarker): Promise<void> {
-    const m = this._markers.get(marker);
-    if (m == null) {
+  deleteMarker(markerDirective: AgmMarker): Promise<void> {
+    const markerPromise = this._markers.get(markerDirective);
+    if (markerPromise == null) {
       // marker already deleted
       return Promise.resolve();
     }
-    return m.then((m: google.maps.Marker) => {
+    return markerPromise.then((marker: google.maps.Marker) => {
       return this._zone.run(() => {
-        m.setMap(null);
-        this._markers.delete(marker);
+        marker.setMap(null);
+        this._markers.delete(markerDirective);
       });
     });
   }

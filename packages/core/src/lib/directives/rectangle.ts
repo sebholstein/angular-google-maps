@@ -116,6 +116,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   /**
    * This event is repeatedly fired while the user drags the rectangle.
    */
+  // tslint:disable-next-line: no-output-native
   @Output() drag: EventEmitter<google.maps.MouseEvent> = new EventEmitter<google.maps.MouseEvent>();
 
   /**
@@ -193,6 +194,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
     if (!this._rectangleAddedToManager) {
       return;
     }
+    // tslint:disable: no-string-literal
     if (
       changes['north'] ||
       changes['east'] ||
@@ -210,14 +212,15 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
     if (changes['visible']) {
       this._manager.setVisible(this);
     }
+    // tslint:enable: no-string-literal
     this._updateRectangleOptionsChanges(changes);
   }
 
   private _updateRectangleOptionsChanges(changes: {
     [propName: string]: SimpleChange;
   }) {
-    let options: { [propName: string]: any } = {};
-    let optionKeys = Object.keys(changes).filter(
+    const options: google.maps.RectangleOptions = {};
+    const optionKeys = Object.keys(changes).filter(
       k => AgmRectangle._mapOptions.indexOf(k) !== -1,
     );
     optionKeys.forEach(k => {
@@ -230,7 +233,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
   }
 
   private _registerEventListeners() {
-    let events: Map<string, EventEmitter<any>> = new Map<
+    const events: Map<string, EventEmitter<any>> = new Map<
       string,
       EventEmitter<any>
     >();
@@ -273,9 +276,7 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
 
   /** @internal */
   ngOnDestroy() {
-    this._eventSubscriptions.forEach(function(s: Subscription) {
-      s.unsubscribe();
-    });
+    this._eventSubscriptions.forEach(s => s.unsubscribe());
     this._eventSubscriptions = null;
     this._manager.removeRectangle(this);
   }

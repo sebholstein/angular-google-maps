@@ -15,7 +15,7 @@ import { AgmPolylinePoint } from './directives/polyline-point';
 import { AgmRectangle } from './directives/rectangle';
 import { AgmTransitLayer } from './directives/transit-layer';
 
-import { LAZY_MAPS_API_CONFIG, LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral } from './services/maps-api-loader/lazy-maps-api-loader';
+import { LazyMapsAPILoader, LazyMapsAPILoaderConfigLiteral, LAZY_MAPS_API_CONFIG } from './services/maps-api-loader/lazy-maps-api-loader';
 import { MapsAPILoader } from './services/maps-api-loader/maps-api-loader';
 
 import { BROWSER_GLOBALS_PROVIDERS } from './utils/browser-globals';

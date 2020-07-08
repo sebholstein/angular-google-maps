@@ -76,8 +76,8 @@ export class PolylineManager {
         strokeWeight: line.strokeWeight,
         visible: line.visible,
         zIndex: line.zIndex,
-        path: path,
-        icons: icons,
+        path,
+        icons,
     }));
     this._polylines.set(line, polylinePromise);
   }
@@ -88,7 +88,7 @@ export class PolylineManager {
     if (m == null) {
       return Promise.resolve();
     }
-    return m.then((l: google.maps.Polyline) => { return this._zone.run(() => { l.setPath(path); }); });
+    return m.then((l) => this._zone.run(() => l.setPath(path)));
   }
 
   async updateIconSequences(line: AgmPolyline): Promise<void> {
@@ -98,7 +98,7 @@ export class PolylineManager {
     if (m == null) {
       return;
     }
-    return m.then(l => this._zone.run(() => l.setOptions({icons: icons}) ) );
+    return m.then(l => this._zone.run(() => l.setOptions({icons}) ) );
   }
 
   setPolylineOptions(line: AgmPolyline, options: {[propName: string]: any}):

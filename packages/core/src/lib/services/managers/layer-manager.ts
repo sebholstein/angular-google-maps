@@ -39,7 +39,6 @@ export class LayerManager {
     /**
      * Deletes a map layer
      * @param layer - the layer to delete
-     * @returns
      */
     deleteLayer(layer: AgmTransitLayer | AgmBicyclingLayer): Promise<void> {
         return this._layers.get(layer).then(currentLayer => {
