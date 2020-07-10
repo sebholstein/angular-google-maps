@@ -169,10 +169,6 @@ export class AgmZoomControl extends AgmMapControl{
     PolylineManager,
     RectangleManager,
   ],
-  host: {
-    // todo: deprecated - we will remove it with the next version
-    '[class.sebm-google-map-container]': 'true',
-  },
   styles: [`
     .agm-map-container-inner {
       width: inherit;
