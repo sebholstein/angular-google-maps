@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 
@@ -146,11 +146,12 @@ export class GoogleMapsAPIWrapper {
     return this._map.then(() => google.maps.geometry.poly.containsLocation(latLng, polygon));
   }
 
-  subscribeToMapEvent<E>(eventName: string): Observable<E> {
-    return new Observable((observer: Observer<E>) => {
-      this._map.then((m: google.maps.Map) => {
-        m.addListener(eventName, (arg: E) => { this._zone.run(() => observer.next(arg)); });
-      });
+  subscribeToMapEvent<N extends keyof google.maps.MapHandlerMap>(eventName: N)
+      : Observable<google.maps.MapHandlerMap[N]> {
+    return new Observable((observer) => {
+      this._map.then(m =>
+        m.addListener(eventName, () => this._zone.run(() => observer.next(arguments[0])))
+      );
     });
   }
 

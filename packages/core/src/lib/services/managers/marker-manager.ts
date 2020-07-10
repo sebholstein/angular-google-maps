@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AgmMarker } from './../../directives/marker';
 
@@ -97,11 +97,13 @@ export class MarkerManager {
     return this._markers.get(marker);
   }
 
-  createEventObservable<T>(eventName: string, marker: AgmMarker): Observable<T> {
-    return new Observable((observer: Observer<T>) => {
-      this._markers.get(marker).then((m: google.maps.Marker) => {
-        m.addListener(eventName, (e: T) => this._zone.run(() => observer.next(e)));
-      });
+  createEventObservable<T extends (google.maps.MouseEvent | void)>(
+      eventName: google.maps.MarkerMouseEventNames | google.maps.MarkerChangeOptionEventNames,
+      marker: AgmMarker): Observable<T> {
+    return new Observable(observer => {
+      this._markers.get(marker).then(m =>
+        m.addListener(eventName, e => this._zone.run(() => observer.next(e)))
+      );
     });
   }
 }

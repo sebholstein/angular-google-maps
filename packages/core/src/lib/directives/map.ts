@@ -590,12 +590,12 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
     this._mapsWrapper.fitBounds(bounds, padding);
   }
 
-  private _isLatLngBoundsLiteral(bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral): bounds is google.maps.LatLngBoundsLiteral {
+  private _isLatLngBoundsLiteral(bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral): boolean {
     return bounds != null && (bounds as any).extend === undefined;
   }
 
   private _handleMapCenterChange() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
+    const s = this._mapsWrapper.subscribeToMapEvent('center_changed').subscribe(() => {
       this._mapsWrapper.getCenter().then((center: google.maps.LatLng) => {
         this.latitude = center.lat();
         this.longitude = center.lng();
@@ -606,7 +606,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _handleBoundsChange() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('bounds_changed').subscribe(() => {
+    const s = this._mapsWrapper.subscribeToMapEvent('bounds_changed').subscribe(() => {
       this._mapsWrapper.getBounds().then(
         (bounds: google.maps.LatLngBounds) => { this.boundsChange.emit(bounds); });
     });
@@ -614,7 +614,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _handleMapTypeIdChange() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('maptypeid_changed').subscribe(() => {
+    const s = this._mapsWrapper.subscribeToMapEvent('maptypeid_changed').subscribe(() => {
       this._mapsWrapper.getMapTypeId().then(
         (mapTypeId: google.maps.MapTypeId) => { this.mapTypeIdChange.emit(mapTypeId); });
     });
@@ -622,7 +622,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _handleMapZoomChange() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
+    const s = this._mapsWrapper.subscribeToMapEvent('zoom_changed').subscribe(() => {
       this._mapsWrapper.getZoom().then((z: number) => {
         this.zoom = z;
         this.zoomChange.emit(z);
@@ -632,20 +632,20 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   }
 
   private _handleIdleEvent() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('idle').subscribe(
+    const s = this._mapsWrapper.subscribeToMapEvent('idle').subscribe(
       () => { this.idle.emit(void 0); });
     this._observableSubscriptions.push(s);
   }
 
   private _handleTilesLoadedEvent() {
-    const s = this._mapsWrapper.subscribeToMapEvent<void>('tilesloaded').subscribe(
+    const s = this._mapsWrapper.subscribeToMapEvent('tilesloaded').subscribe(
       () => this.tilesLoaded.emit(void 0),
     );
     this._observableSubscriptions.push(s);
   }
 
   private _handleMapMouseEvents() {
-    type Event = { name: string, emitter: EventEmitter<google.maps.MouseEvent> };
+    type Event = { name: 'rightclick' | 'click' | 'dblclick', emitter: EventEmitter<google.maps.MouseEvent> };
 
     const events: Event[] = [
       {name: 'click', emitter: this.mapClick},
@@ -653,9 +653,9 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
       {name: 'dblclick', emitter: this.mapDblClick},
     ];
 
-    events.forEach((e: Event) => {
-      const s = this._mapsWrapper.subscribeToMapEvent<google.maps.IconMouseEvent | google.maps.MouseEvent>(e.name).subscribe(
-        (event: google.maps.IconMouseEvent | google.maps.MouseEvent) => {
+    events.forEach(e => {
+      const s = this._mapsWrapper.subscribeToMapEvent(e.name).subscribe(
+        ([event]) => {
           // the placeId will be undefined in case the event was not an IconMouseEvent (google types)
           if ( (event as google.maps.IconMouseEvent).placeId && !this.showDefaultInfoWindow) {
             event.stop();
