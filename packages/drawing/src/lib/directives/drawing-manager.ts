@@ -99,7 +99,7 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
 
   private eventSubscriptions: Subscription[] = [];
 
-  private drawingManager: any;
+  private drawingManager: google.maps.drawing.DrawingManager;
 
   constructor(private _zone: NgZone) {
   }
@@ -130,7 +130,7 @@ export class AgmDrawingManager implements OnChanges, OnDestroy{
     // else do nothing
   }
 
-  initEvents(drawingManager: any) {
+  initEvents(drawingManager: google.maps.drawing.DrawingManager) {
     this.eventSubscriptions.push(
       this.createMvcObservable<google.maps.Circle>('circlecomplete', drawingManager)
       .subscribe(circle => this._zone.run(() => this.circleComplete.next(circle)))
