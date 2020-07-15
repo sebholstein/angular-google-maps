@@ -10,6 +10,7 @@ export {
   LatLngLiteral,
   PolyMouseEvent,
   MarkerLabel,
+  MarkerIcon,
   Geocoder,
   GeocoderAddressComponent,
   GeocoderComponentRestrictions,

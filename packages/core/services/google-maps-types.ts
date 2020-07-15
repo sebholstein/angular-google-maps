@@ -66,7 +66,7 @@ export interface MarkerOptions {
   map?: GoogleMap;
   label?: string | MarkerLabel;
   draggable?: boolean;
-  icon?: string;
+  icon?: string | MarkerIcon;
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
@@ -83,10 +83,12 @@ export interface MarkerLabel {
 }
 
 export interface MarkerIcon {
-  url: string;
-  scaledSize?: any | Size;
-  origin?: any | Point;
   anchor?: any | Point;
+  labelOrigin?: any | Point;
+  origin?: any | Point;
+  scaledSize?: any | Size;
+  size?: any | Size;
+  url: string;
 }
 
 export interface Circle extends MVCObject {
