@@ -43,6 +43,7 @@ export {
   RectangleOptions,
   Marker,
   MarkerOptions,
+  GoogleSymbol,
 } from './services/google-maps-types';
 
 /**
