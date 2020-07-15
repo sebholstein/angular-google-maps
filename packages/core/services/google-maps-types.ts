@@ -82,6 +82,13 @@ export interface MarkerLabel {
   text: string;
 }
 
+export interface MarkerIcon {
+  url: string;
+  scaledSize?: any | Size;
+  origin?: any | Point;
+  anchor?: any | Point;
+}
+
 export interface Circle extends MVCObject {
   getBounds(): LatLngBounds;
   getCenter(): LatLng;
