@@ -83,11 +83,11 @@ export interface MarkerLabel {
 }
 
 export interface MarkerIcon {
-  anchor?: any | Point;
-  labelOrigin?: any | Point;
-  origin?: any | Point;
-  scaledSize?: any | Size;
-  size?: any | Size;
+  anchor?: Point;
+  labelOrigin?: Point;
+  origin?: Point;
+  scaledSize?: Size;
+  size?: Size;
   url: string;
 }
 
