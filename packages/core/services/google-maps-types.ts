@@ -66,7 +66,7 @@ export interface MarkerOptions {
   map?: GoogleMap;
   label?: string | MarkerLabel;
   draggable?: boolean;
-  icon?: string | MarkerIcon;
+  icon?: string | MarkerIcon | GoogleSymbol;
   opacity?: number;
   visible?: boolean;
   zIndex?: number;
