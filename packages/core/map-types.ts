@@ -10,6 +10,7 @@ export {
   LatLngLiteral,
   PolyMouseEvent,
   MarkerLabel,
+  MarkerIcon,
   Geocoder,
   GeocoderAddressComponent,
   GeocoderComponentRestrictions,
@@ -42,6 +43,7 @@ export {
   RectangleOptions,
   Marker,
   MarkerOptions,
+  GoogleSymbol,
 } from './services/google-maps-types';
 
 /**
