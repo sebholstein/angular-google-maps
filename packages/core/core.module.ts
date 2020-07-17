@@ -51,7 +51,7 @@ export class AgmCoreModule {
   /**
    * Please use this method when you register the module at the root level.
    */
-  static forRoot(lazyMapsAPILoaderConfig?: LazyMapsAPILoaderConfigLiteral): ModuleWithProviders {
+  static forRoot(lazyMapsAPILoaderConfig?: LazyMapsAPILoaderConfigLiteral): ModuleWithProviders<AgmCoreModule> {
     return {
       ngModule: AgmCoreModule,
       providers: [
