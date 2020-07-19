@@ -20,6 +20,13 @@
     "google",
     "gmaps"
   ],
+  "scripts": {
+    "build": "./node_modules/.bin/tsc -p tsconfig.schematics.json",
+    "copy:schemas": "cpy --parents schematics/*/schema.json ../../dist/core/",
+    "copy:files": "cpy --parents schematics/*/files/** ../../dist/core/",
+    "copy:collection": "cpy schematics/collection.json ../../dist/core/schematics/",
+    "postbuild": "yarn copy:schemas && yarn copy:files && yarn copy:collection"
+  },
   "peerDependencies": {
     "@angular/common": "^9.1.0 || ^10.0.0",
     "@angular/core": "^9.1.0 || ^10.0.0"
@@ -28,9 +35,15 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@types/common-tags": "^1.8.0",
     "@types/googlemaps": "^3.39.8",
     "@types/jest": "^26.0.3",
+    "common-tags": "^1.8.0",
+    "cpy": "^8.1.0",
+    "cpy-cli": "^3.1.1",
     "jest": "^26.1.0",
-    "jest-preset-angular": "^8.2.1"
-  }
+    "jest-preset-angular": "^8.2.1",
+    "typescript": "^3.9.7"
+  },
+  "schematics": "./schematics/collection.json"
 }

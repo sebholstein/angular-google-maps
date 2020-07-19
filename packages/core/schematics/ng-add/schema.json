@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "@agm/core/ng-add",
+  "title": "Add Angular model to the project",
+  "description": "NOTE: Does not work in the --dry-run mode",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "apiKey": {
+      "type": "string",
+      "description": "Google Cloud API key",
+      "x-prompt": "Enter your Google Cloud API key"
+    }
+  },
+  "required": ["apiKey"],
+  "additionalProperties": false
+}

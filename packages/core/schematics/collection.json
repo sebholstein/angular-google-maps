@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Add AGM to the project.",
+      "schema": "./ng-add/schema.json",
+      "factory": "./ng-add/index#ngAdd"
+    },
+    "ng-add-setup-project": {
+      "description": "Sets up the specified project after the ng-add dependencies have been installed.",
+      "private": true,
+      "schema": "./ng-add/schema.json",
+      "factory": "./ng-add/index#ngAddSetup"
+    }
+  }
+}
