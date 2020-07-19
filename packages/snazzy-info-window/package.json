@@ -1,14 +1,23 @@
 {
   "name": "@agm/snazzy-info-window",
   "version": "3.0.0-beta.0",
-  "description": "Angular Google Maps (AGM) extension for google maps drawing library",
-  "author": "Feliks Khantsis",
+  "description": "Angular Google Maps (AGM) package for Snazzy Info Window support",
+  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastianM/angular-google-maps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+  },
+  "homepage": "https://angular-maps.com",
   "keywords": [
     "angular-google-maps",
     "angular",
     "google-maps",
     "agm",
-    "map-drawing"
+    "snazzy-info-window"
   ],
   "peerDependencies": {
     "@agm/core": "3.0.0-beta.0",
