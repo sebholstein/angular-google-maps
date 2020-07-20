@@ -1,15 +1,9 @@
 module.exports = {
-  setupTestFrameworkScriptFile: './jest.setup.js',
-  transform: {
-    '^.+\\.ts?$': 'ts-jest'
+  preset: 'jest-preset-angular',
+  //https://github.com/thymikee/jest-preset-angular/issues/167#issuecomment-459686655
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
+  moduleNameMapper: {
+    "^@agm/(.*)$": "<rootDir>/dist/$1",
   },
-  testRegex: '(/packages/.*\\.spec)\\.ts$',
-  moduleFileExtensions: [
-    'js',
-    'ts'
-  ],
-  collectCoverageFrom: [
-    'packages/**/*.ts',
-    '!packages/**/index.ts'
-  ]
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

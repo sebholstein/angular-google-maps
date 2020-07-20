@@ -11,6 +11,6 @@ title = "API Docs for Angular Google Maps"
 * [@agm/snazzy-info-window](https://angular-maps.com/api-docs/agm-snazzy-info-window/modules/AgmSnazzyInfoWindowModule.html)
   Styled Info Windows with [Snazzy Info Window](https://github.com/atmist/snazzy-info-window)
 * [@agm/js-marker-clusterer](https://angular-maps.com/api-docs/js-marker-clusterer/modules/AgmJsMarkerClustererModule.html)
-  Clustered markers with [googlemaps/js-marker-clusterer](https://github.com/googlemaps/js-marker-clusterer)
+  Clustered markers with [markerclustererplus](https://github.com/googlemaps/v3-utility-library/tree/master/packages/markerclustererplus)
 * [@agm/drawing](https://angular-maps.com/api-docs/drawing/modules/AgmDrawingModule.html)
   Drawing on the map with

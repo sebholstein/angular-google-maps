@@ -1,0 +1,133 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "yarn"
+  },
+  "newProjectRoot": "packages",
+  "projects": {
+    "core": {
+      "projectType": "library",
+      "root": "packages/core",
+      "sourceRoot": "packages/core/src",
+      "prefix": "agm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "packages/core/tsconfig.lib.json",
+            "project": "packages/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/core/tsconfig.lint.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "markerclusterer": {
+      "projectType": "library",
+      "root": "packages/markerclusterer",
+      "sourceRoot": "packages/markerclusterer/src",
+      "prefix": "agm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "packages/markerclusterer/tsconfig.lib.json",
+            "project": "packages/markerclusterer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/markerclusterer/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/markerclusterer/tsconfig.lint.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "snazzy-info-window": {
+      "projectType": "library",
+      "root": "packages/snazzy-info-window",
+      "sourceRoot": "packages/snazzy-info-window/src",
+      "prefix": "agm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "packages/snazzy-info-window/tsconfig.lib.json",
+            "project": "packages/snazzy-info-window/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/snazzy-info-window/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/snazzy-info-window/tsconfig.lint.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "drawing": {
+      "projectType": "library",
+      "root": "packages/drawing",
+      "sourceRoot": "packages/drawing/src",
+      "prefix": "agm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "packages/drawing/tsconfig.lib.json",
+            "project": "packages/drawing/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/drawing/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/drawing/tsconfig.lint.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+}

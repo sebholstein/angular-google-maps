@@ -19,10 +19,10 @@ yarn add @agm/drawing
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component
+import { AppComponent } from './app.component'
 // add these imports
 import { AgmCoreModule } from '@agm/core';
-import { AgmDrawingModule } from '@agm/drawing
+import { AgmDrawingModule } from '@agm/drawing'
 @NgModule({
   declarations: [
     AppComponent
@@ -30,7 +30,8 @@ import { AgmDrawingModule } from '@agm/drawing
   imports: [
     BrowserModule,
     AgmCoreModule.forRoot({
-      apiKey: ['YOUR_API_KEY_HERE']
+      apiKey: ['YOUR_API_KEY_HERE'],
+      libraries: ['drawing']
     }),
     AgmDrawingModule
   ],

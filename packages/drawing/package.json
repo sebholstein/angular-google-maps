@@ -1,7 +1,17 @@
 {
-  "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@agm/drawing",
+  "version": "3.0.0-beta.0",
   "description": "Angular Google Maps (AGM) extension for google maps drawing library",
+  "author": "Feliks Khantsis",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastianM/angular-google-maps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+  },
+  "homepage": "https://angular-maps.com",
   "keywords": [
     "angular-google-maps",
     "angular",
@@ -10,17 +20,10 @@
     "map-drawing"
   ],
   "peerDependencies": {
-    "@angular/core": "^7.0.0 || ^8.0.0",
-    "@agm/core": "^1.0.0"
+    "@angular/common": "^9.1.0 || ^10.0.0",
+    "@angular/core": "^9.1.0 || ^10.0.0"
   },
-  "ngPackage": {
-    "lib": {
-      "entryFile": "./index.ts",
-      "umdId": "ngmaps.drawing",
-      "umdModuleIds": {
-        "@agm/core": "ngmaps.core"
-      }
-    },
-    "dest": "../../dist/@agm/drawing"
+  "dependencies": {
+    "tslib": "^2.0.0"
   }
 }

@@ -1,38 +1,26 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-    "compilerOptions": {
-        "module": "es2015",
-        "target": "es5",
-        "noImplicitAny": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "outDir": ".tmp/esm",
-        "baseUrl": ".",
-        "sourceMap": true,
-        "removeComments": false,
-        "moduleResolution": "node",
-        "declaration": true,
-        "allowSyntheticDefaultImports": true,
-        "lib": [
-            "es2015",
-            "dom",
-            "esnext"
-        ],
-        "types": [
-            "jest"
-        ],
-        "paths": {
-            "@agm/*": ["./packages/*"]
-        }
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/core/tsconfig.lib.json"
     },
-    "angularCompilerOptions": {
-        "genDir": ".tmp",
-        "debug": false,
-        "skipMetadataEmit": false
+    {
+      "path": "./packages/markerclusterer/tsconfig.lib.json"
     },
-    "exclude": [
-        ".tmp"
-    ],
-    "include": [
-        "packages/**/*"
-    ]
+    {
+      "path": "./packages/snazzy-info-window/tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./packages/drawing/tsconfig.lib.json"
+    }
+]
 }
