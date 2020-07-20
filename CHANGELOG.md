@@ -1,3 +1,19 @@
+# [3.0.0-beta.0](https://github.com/SebastianM/angular-google-maps/compare/1.1.0...3.0.0-beta.0) (2020-07-20)
+
+
+### Bug Fixes
+
+* **AgmMarker:** match Marker iconUrl input type to native api ([4e38075](https://github.com/SebastianM/angular-google-maps/commit/4e3807590d4a2fe54e4b52bf72369978544fd98d)), closes [#1740](https://github.com/SebastianM/angular-google-maps/issues/1740) [#1622](https://github.com/SebastianM/angular-google-maps/issues/1622) [#1580](https://github.com/SebastianM/angular-google-maps/issues/1580)
+* **FitBounds:** unsubscribe after unsuccessful computation ([ea471aa](https://github.com/SebastianM/angular-google-maps/commit/ea471aa689484784f8a591092e5d417a29ce8009)), closes [#1810](https://github.com/SebastianM/angular-google-maps/issues/1810)
+* Language config bug fixed ([#1775](https://github.com/SebastianM/angular-google-maps/issues/1775)) ([d2ef77c](https://github.com/SebastianM/angular-google-maps/commit/d2ef77c2a43305ac1e03167da2f908125614b6f5))
+
+
+### Features
+
+* update to angular 9/10 and @types/googlemaps ([7982bfb](https://github.com/SebastianM/angular-google-maps/commit/7982bfbcf0abeff3f2b77f03300a7b7e97fec9ce))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0 emma](https://github.com/SebastianM/angular-google-maps/compare/1.0.0...1.1.0) (2019-11-21)
 
