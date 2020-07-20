@@ -5,7 +5,6 @@ import MarkerClusterer from '@google/markerclustererplus';
 import { AgmMarkerCluster } from '../../directives/marker-cluster';
 import { ClusterManager } from './cluster-manager';
 
-
 describe('ClusterManager', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({

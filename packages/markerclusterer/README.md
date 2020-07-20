@@ -2,17 +2,17 @@
 
 -----
 
-this package levereges the [markerclustererplus][markerclustererplus] to add clustering support to
+this package levereges the [@google/markerclustererplus][markerclustererplus] to add clustering support to
 [AGM][agm].
 
 ## Installation
 
-@agm/js-marker-clusterer has a peer depedency on [markerclustererplus][markerclustererplus]
+@agm/markerclusterer has a peer depedency on [markerclustererplus][markerclustererplus]
 
 ```shell
-npm install @google/markerclustererplus @agm/js-marker-clusterer --save
+npm install @google/markerclustererplus @agm/markerclusterer --save
 # or
-yarn add @google/markerclustererplus @agm/js-marker-clusterer
+yarn add @google/markerclustererplus @agm/markerclusterer
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ yarn add @google/markerclustererplus @agm/js-marker-clusterer
 
     // add these imports
     import { AgmCoreModule } from '@agm/core';
-    import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+    import { AgmMarkerClustererModule } from '@agm/markerclusterer';
 
     @NgModule({
       declarations: [
@@ -42,7 +42,7 @@ yarn add @google/markerclustererplus @agm/js-marker-clusterer
         AgmCoreModule.forRoot({
           apiKey: ['YOUR_API_KEY_HERE']
         }),
-        AgmJsMarkerClustererModule
+        AgmMarkerClustererModule
       ],
       providers: [],
       bootstrap: [AppComponent]

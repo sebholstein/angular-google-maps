@@ -52,12 +52,11 @@ export class AppModule { }
 
 ## Using the directive
 
-When you import the `AgmMarkerClustererModule`, you can use the `agmMarkerCluster` directive  in your template. As you can note, you should use the `imagePath` attribute if you want an image appears behind the markers count in the cluster (js-marker-clusterer use 3 images, with different sizes, in the examplo, the library looks for `m1.png`, `m2.png` and `m3.png`, so adds the number and extension to the given `imagePath`)
-
+When you import the `AgmMarkerClustererModule`, you can use the `agmMarkerCluster` directive  in your template. 
 
 ```html
 <agm-map style="height: 300px" [latitude]="51.673858" [longitude]="7.815982">
-  <agm-marker-cluster [imagePath]="'https://googlemaps.github.io/js-marker-clusterer/images/m'">
+  <agm-marker-cluster>
     <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude"></agm-marker>
   </agm-marker-cluster>
 </agm-map>
