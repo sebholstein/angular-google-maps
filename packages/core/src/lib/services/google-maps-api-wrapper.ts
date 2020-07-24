@@ -150,7 +150,7 @@ export class GoogleMapsAPIWrapper {
       : Observable<google.maps.MapHandlerMap[N]> {
     return new Observable((observer) => {
       this._map.then(m =>
-        m.addListener(eventName, () => this._zone.run(() => observer.next(arguments[0])))
+        m.addListener(eventName, (...evArgs) => this._zone.run(() => observer.next(evArgs)))
       );
     });
   }
