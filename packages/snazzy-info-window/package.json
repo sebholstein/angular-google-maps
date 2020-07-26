@@ -1,6 +1,6 @@
 {
   "name": "@agm/snazzy-info-window",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-beta.1",
   "description": "Angular Google Maps (AGM) package for Snazzy Info Window support",
   "author": "Sebastian Holstein <info@sebastian-holstein.de>",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "snazzy-info-window"
   ],
   "peerDependencies": {
-    "@agm/core": "3.0.0-beta.0",
+    "@agm/core": "3.0.0-beta.1",
     "@angular/common": "^9.1.0 || ^10.0.0",
     "@angular/core": "^9.1.0 || ^10.0.0",
     "snazzy-info-window": "^1.1.0"
@@ -29,6 +29,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@types/googlemaps": "^3.39.8"
+    "@types/googlemaps": "^3.39.8",
+    "@agm/core": "3.0.0-beta.1"
   }
 }

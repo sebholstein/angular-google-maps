@@ -22,7 +22,7 @@ This project is a mono repo and hosts multiple packages:
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | @agm/core                | [![@agm/core](https://img.shields.io/npm/dm/@agm/core.svg)](https://www.npmjs.com/package/@agm/core)                                              |
 | @agm/snazzy-info-window  | [![@agm/snazzy-info-window](https://img.shields.io/npm/dm/@agm/snazzy-info-window.svg)](https://www.npmjs.com/package/@agm/snazzy-info-window)    |
-| @agm/js-marker-clusterer | [![@agm/js-marker-clusterer](https://img.shields.io/npm/dm/@agm/js-marker-clusterer.svg)](https://www.npmjs.com/package/@agm/js-marker-clusterer) |
+| @agm/markerclusterer | [![@agm/markerclusterer](https://img.shields.io/npm/dm/@agm/markerclusterer.svg)](https://www.npmjs.com/package/@agm/markerclusterer) |
 | @agm/drawing | [![@agm/drawing](https://img.shields.io/npm/dm/@agm/drawing.svg)](https://www.npmjs.com/package/@agm/drawing) |
 
 ---
