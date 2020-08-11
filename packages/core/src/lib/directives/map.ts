@@ -681,10 +681,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
       streetViewControl: !this.disableDefaultUI,
       zoomControl: !this.disableDefaultUI,
     };
-
-    this._mapsWrapper.getNativeMap().then(() => {
-      this.mapControls.forEach(control => Object.assign(controlOptions, control.getOptions()));
-      this._mapsWrapper.setMapOptions(controlOptions);
-    });
+    this.mapControls.forEach(control => Object.assign(controlOptions, control.getOptions()));
+    this._mapsWrapper.setMapOptions(controlOptions);
   }
 }

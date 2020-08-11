@@ -13,8 +13,8 @@ export class CircleManager {
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
   addCircle(circle: AgmCircle) {
-    this._apiWrapper.getNativeMap().then( () =>
-      this._circles.set(circle, this._apiWrapper.createCircle({
+    this._circles.set(circle, this._apiWrapper.getNativeMap().then( () =>
+      this._apiWrapper.createCircle({
         center: {lat: circle.latitude, lng: circle.longitude},
         clickable: circle.clickable,
         draggable: circle.draggable,
