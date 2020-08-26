@@ -2,7 +2,7 @@
 
 # AGM - Angular Google Maps
 
-Angular 2+ components for Google Maps. (Previously known as angular2-google-maps)
+Angular components for Google Maps.
 
 ---
 
@@ -29,15 +29,19 @@ This project is a mono repo and hosts multiple packages:
 
 ## Playing with AGM (Angular Google Maps)
 
-If you just want to play with AGM and don't want to set up a full project, you can use the following Plunker. It has all the dependencies to play with Angular, Typescript and of course `AGM`:
+If you just want to play with AGM and don't want to set up a full project, you can use the following stackblitz. It has all the dependencies to play with Angular, Typescript and of course `AGM`:
 
 [&raquo; Play with Angular Google Maps on Stackblitz](https://stackblitz.com/edit/angular-google-maps-demo)
 
 ## Installation
 
-`AGM` gets shipped via the Node Package Manager. So make sure that you have [NodeJS](https://nodejs.org) installed.  
-You can install the package with the following command:
+The new and recommended way to install `AGM` is via ng-cli. You can install the core library like so:
 
+```shell
+ng add @agm/core
+```
+
+alternatively, you can use `npm` or other package managers which support NPM repository. For example:
 ```shell
 npm install @agm/core
 ```

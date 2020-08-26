@@ -22,11 +22,7 @@ There's also a really great video tutorial that follows exactly this guide. So i
 
 ## Setting up a basic project structure
 
-**If you're familiar with setting up Angular 2 projects with Angular CLI & TypeScript, you can skip this part and move on to this part:**
-
-<a href="#setting-up-angular-google-maps" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  Setting up Angular Google Maps
-</a>
+**If you're familiar with setting up Angular projects with Angular CLI & TypeScript, you can skip this part**
 
 
 ### Create an Angular CLI project
@@ -44,20 +40,33 @@ ng new my-maps-project
 cd my-maps-project
 ```
 
+## Create Google API key
+
+To learn how to obtain a google maps api key, visit [google maps docs](https://developers.google.com/maps/documentation/javascript/get-api-key#get-the-api-key).
+
 ## Setting up Angular Google Maps
 
-### Install Angular Google Maps
+`Angular Google Maps (short name: AGM)` gets shipped via the Node Package Manager (NPM), and supports Angular CLI add schematics.
 
-`Angular Google Maps (short name: AGM)` gets shipped via the Node Package Manager (NPM). Run the following command to add it to your new project:
+### Recommended way to install Angular Google Maps
+
+The easy and recommended way to add `AGM` to your library is by using schematics, which will automate some of the setup steps.
+
+```bash
+ng add @agm/core
+```
+
+### Manually installing Angular Google Maps
+
+If the schematic does not fit your use case, you can also do all the steps manually.
 
 ```bash
 npm install @agm/core
 ```
 
-### Setup @NgModule
+**Note, you must install AGM in the root module. Installing AGM in child modules is not currently supported.**
 
-Open `src/app/app.module.ts` and import the `AgmCoreModule`.
-**You neeed to provide a Google Maps API key to be able to see a Map. Get an API key [here](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key).**
+Open `src/app/app.module.ts` and import `AgmCoreModule`.
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
@@ -70,7 +79,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AgmCoreModule.forRoot({
-      apiKey: ''
+      apiKey: '<your google api key here>'
     })
   ],
   providers: [],
@@ -80,7 +89,10 @@ import { AppComponent } from './app.component';
 export class AppModule {}
 ```
 
-### Extending the app component
+## Using Angular Google Maps
+
+### Set up the Component
+
 Angular CLI already created an app component the we'll now use to create our first google map.
 Open the file `src/app/app.component.ts` and modify it like below:
 
