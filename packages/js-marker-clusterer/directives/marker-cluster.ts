@@ -127,7 +127,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     const handlers = [
       {
         name: 'clusterclick',
-        handler: () => this.clusterClick.emit(),
+        handler: (args) => this.clusterClick.emit(args),
       },
     ];
     handlers.forEach((obj) => {
