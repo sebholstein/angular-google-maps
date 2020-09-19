@@ -53,6 +53,13 @@ cd my-maps-project
 ```bash
 npm install @agm/core
 ```
+`To get rid of Typescript errors during compile:
+
+```bash
+npm install @types/googlemaps --save-dev
+```
+and add `googlemaps` to the `types` array in `tsconfig.app.json`
+
 
 ### Setup @NgModule
 
