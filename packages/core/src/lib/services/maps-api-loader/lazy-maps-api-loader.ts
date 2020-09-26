@@ -27,6 +27,11 @@ export interface LazyMapsAPILoaderConfigLiteral {
   apiKey?: string;
 
   /**
+   * Defines which Google Maps Map IDs (map_ids) (see: https://developers.google.com/maps/documentation/javascript/cloud-based-map-styling)
+   */
+  mapIds?: string[];
+  
+  /**
    * The Google Maps client ID (for premium plans).
    * When you have a Google Maps APIs Premium Plan license, you must authenticate
    * your application with either an API key or a client ID.
@@ -158,6 +163,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       v: this._config.apiVersion || 'quarterly',
       callback: callbackName,
       key: this._config.apiKey,
+      'map_ids': this._config.mapIds,
       client: this._config.clientId,
       channel: this._config.channel,
       libraries: this._config.libraries,
