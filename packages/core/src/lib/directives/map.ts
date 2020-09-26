@@ -195,6 +195,11 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
    * The latitude that defines the center of the map.
    */
   @Input() latitude = 0;
+  
+  /**
+   * The mapID to be used for the map.
+   */
+  @Input() mapId = "";
 
   /**
    * The zoom level of the map. The default zoom level is 8.
@@ -434,6 +439,7 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
 
   private _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, {
+      mapId: this.mapId,
       center: {lat: this.latitude || 0, lng: this.longitude || 0},
       zoom: this.zoom,
       minZoom: this.minZoom,
