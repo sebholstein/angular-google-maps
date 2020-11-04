@@ -81,7 +81,9 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
   @Input() imagePath: string;
   @Input() imageExtension: string;
 
-  @Output() clusterClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() clusterClick: EventEmitter<any> = new EventEmitter<any>();
+  @Output() mouseOver: EventEmitter<any> = new EventEmitter<any>();
+  @Output() mouseOut: EventEmitter<any> = new EventEmitter<any>();
 
   private _observableSubscriptions: Subscription[] = [];
   constructor(private _clusterManager: ClusterManager) { }
@@ -127,7 +129,11 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
     const handlers = [
       {
         name: 'clusterclick',
-        handler: () => this.clusterClick.emit(),
+        handler: (args: any) => this.clusterClick.emit(args),
+      },
+      {
+        name: 'mouseover',
+        handler: (args: any) => this.mouseOver.emit(args),
       },
     ];
     handlers.forEach((obj) => {
