@@ -1,12 +1,11 @@
+import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
 import { Injectable, NgZone } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
 
 import 'js-marker-clusterer';
-
-import { AgmMarker, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
-import { Marker } from '@agm/core/services/google-maps-types';
+import { Observable, Observer } from 'rxjs';
 import { AgmMarkerCluster } from '../../directives/marker-cluster';
 import { ClusterOptions, MarkerClustererInstance } from '../google-clusterer-types';
+import { Marker } from '../google-maps-types';
 
 declare var MarkerClusterer: any;
 

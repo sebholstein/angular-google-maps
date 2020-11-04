@@ -1,4 +1,4 @@
-import { GoogleMap, LatLngBounds, Marker, MVCObject } from '@agm/core/services/google-maps-types';
+import { GoogleMap, LatLngBounds, Marker, MVCObject } from './google-maps-types';
 
 export interface CalculatorResult {
   text: string;

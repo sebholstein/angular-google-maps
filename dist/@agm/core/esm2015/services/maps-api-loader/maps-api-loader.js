@@ -1,0 +1,9 @@
+import * as tslib_1 from "tslib";
+import { Injectable } from '@angular/core';
+let MapsAPILoader = class MapsAPILoader {
+};
+MapsAPILoader = tslib_1.__decorate([
+    Injectable()
+], MapsAPILoader);
+export { MapsAPILoader };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFwcy1hcGktbG9hZGVyLmpzIiwic291cmNlUm9vdCI6Im5nOi8vQGFnbS9jb3JlLyIsInNvdXJjZXMiOlsic2VydmljZXMvbWFwcy1hcGktbG9hZGVyL21hcHMtYXBpLWxvYWRlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUEsT0FBTyxFQUFFLFVBQVUsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUczQyxJQUFzQixhQUFhLEdBQW5DLE1BQXNCLGFBQWE7Q0FFbEMsQ0FBQTtBQUZxQixhQUFhO0lBRGxDLFVBQVUsRUFBRTtHQUNTLGFBQWEsQ0FFbEM7U0FGcUIsYUFBYSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEluamVjdGFibGUgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcblxuQEluamVjdGFibGUoKVxuZXhwb3J0IGFic3RyYWN0IGNsYXNzIE1hcHNBUElMb2FkZXIge1xuICBhYnN0cmFjdCBsb2FkKCk6IFByb21pc2U8dm9pZD47XG59XG4iXX0=

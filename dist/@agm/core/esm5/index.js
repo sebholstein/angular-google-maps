@@ -1,0 +1,9 @@
+// main modules
+export * from './directives';
+export * from './services';
+export * from './map-types';
+// core module
+// we explicitly export the module here to prevent this Ionic 2 bug:
+// http://stevemichelotti.com/integrate-angular-2-google-maps-into-ionic-2/
+export { AgmCoreModule } from './core.module';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290Ijoibmc6Ly9AYWdtL2NvcmUvIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxlQUFlO0FBQ2YsY0FBYyxjQUFjLENBQUM7QUFDN0IsY0FBYyxZQUFZLENBQUM7QUFDM0IsY0FBYyxhQUFhLENBQUM7QUFFNUIsY0FBYztBQUNkLG9FQUFvRTtBQUNwRSwyRUFBMkU7QUFDM0UsT0FBTyxFQUFFLGFBQWEsRUFBRSxNQUFNLGVBQWUsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8vIG1haW4gbW9kdWxlc1xuZXhwb3J0ICogZnJvbSAnLi9kaXJlY3RpdmVzJztcbmV4cG9ydCAqIGZyb20gJy4vc2VydmljZXMnO1xuZXhwb3J0ICogZnJvbSAnLi9tYXAtdHlwZXMnO1xuXG4vLyBjb3JlIG1vZHVsZVxuLy8gd2UgZXhwbGljaXRseSBleHBvcnQgdGhlIG1vZHVsZSBoZXJlIHRvIHByZXZlbnQgdGhpcyBJb25pYyAyIGJ1Zzpcbi8vIGh0dHA6Ly9zdGV2ZW1pY2hlbG90dGkuY29tL2ludGVncmF0ZS1hbmd1bGFyLTItZ29vZ2xlLW1hcHMtaW50by1pb25pYy0yL1xuZXhwb3J0IHsgQWdtQ29yZU1vZHVsZSB9IGZyb20gJy4vY29yZS5tb2R1bGUnO1xuIl19

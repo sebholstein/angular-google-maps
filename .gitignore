@@ -1,5 +1,4 @@
 node_modules/
-dist
 docs_generated
 packages/**/*.js
 packages/**/*.map

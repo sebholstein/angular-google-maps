@@ -1,0 +1,41 @@
+{
+  "name": "@agm/core",
+  "description": "Angular components for Google Maps",
+  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
+  "keywords": [
+    "angular",
+    "ng",
+    "google-maps",
+    "maps",
+    "google",
+    "gmaps",
+    "angular2"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/core": "^6.0.0 || ^7.0.0 || ^8.0.0"
+  },
+  "main": "bundles/agm-core.umd.js",
+  "module": "fesm5/agm-core.js",
+  "es2015": "fesm2015/agm-core.js",
+  "esm5": "esm5/agm-core.js",
+  "esm2015": "esm2015/agm-core.js",
+  "fesm5": "fesm5/agm-core.js",
+  "fesm2015": "fesm2015/agm-core.js",
+  "typings": "agm-core.d.ts",
+  "metadata": "agm-core.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  },
+  "version": "1.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastianM/angular-google-maps.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+  },
+  "homepage": "https://angular-maps.com"
+}
