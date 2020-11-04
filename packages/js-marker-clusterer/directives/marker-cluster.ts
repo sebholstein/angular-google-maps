@@ -134,7 +134,7 @@ export class AgmMarkerCluster implements OnDestroy, OnChanges, OnInit, ClusterOp
       {
         name: 'mouseover',
         handler: (args: any) => this.mouseOver.emit(args),
-      }
+      },
     ];
     handlers.forEach((obj) => {
       const os = this._clusterManager.createClusterEventObservable(obj.name).subscribe(obj.handler);
