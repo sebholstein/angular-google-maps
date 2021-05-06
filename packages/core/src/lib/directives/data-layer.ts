@@ -266,8 +266,10 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
       this._manager.updateGeoJson(this, geoJsonChange.currentValue);
     }
 
-    const dataOptions = AgmDataLayer._dataOptionsAttributes.reduce<google.maps.Data.DataOptions>((options, k) =>
-      options[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (this as any)[k], {});
+    const dataOptions = AgmDataLayer._dataOptionsAttributes.reduce<google.maps.Data.DataOptions>((options, k) => {
+      options[k] = changes.hasOwnProperty(k) ? changes[k].currentValue : (this as any)[k];
+      return options;
+    }, {});
 
     this._manager.setDataOptions(this, dataOptions);
   }
