@@ -13,7 +13,7 @@ export class RectangleManager {
   constructor(private _apiWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
   addRectangle(rectangle: AgmRectangle) {
-    this._rectangles.set(rectangle, this._apiWrapper.getNativeMap().then( () =>
+    return this._rectangles.set(rectangle, this._apiWrapper.getNativeMap().then( () =>
       this._apiWrapper.createRectangle({
         bounds: {
           north: rectangle.north,
