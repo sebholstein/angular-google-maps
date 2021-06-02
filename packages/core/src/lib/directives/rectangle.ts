@@ -184,9 +184,11 @@ export class AgmRectangle implements OnInit, OnChanges, OnDestroy {
 
   /** @internal */
   ngOnInit() {
-    this._manager.addRectangle(this);
-    this._rectangleAddedToManager = true;
-    this._registerEventListeners();
+    let rip = this._manager.addRectangle(this);
+    rip.then(() => {
+      this._rectangleAddedToManager = true;
+      this._registerEventListeners();
+    });
   }
 
   /** @internal */
