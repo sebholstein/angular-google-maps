@@ -14,7 +14,7 @@ export class GoogleMapsAPIWrapper {
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
-        new Promise<google.maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });
+        new Promise<google.maps.Map>((resolve: (value: google.maps.Map) => void) => { this._mapResolver = resolve; });
   }
 
   createMap(el: HTMLElement, mapOptions: google.maps.MapOptions): Promise<void> {
