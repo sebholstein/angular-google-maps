@@ -13,7 +13,7 @@
       "prefix": "agm",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "packages/core/tsconfig.lib.json",
             "project": "packages/core/ng-package.json"
@@ -44,7 +44,7 @@
       "prefix": "agm",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "packages/markerclusterer/tsconfig.lib.json",
             "project": "packages/markerclusterer/ng-package.json"
@@ -75,7 +75,7 @@
       "prefix": "agm",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "packages/snazzy-info-window/tsconfig.lib.json",
             "project": "packages/snazzy-info-window/ng-package.json"
@@ -106,7 +106,7 @@
       "prefix": "agm",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "packages/drawing/tsconfig.lib.json",
             "project": "packages/drawing/ng-package.json"
