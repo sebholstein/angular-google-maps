@@ -1,26 +1,42 @@
-/*
-  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
-  It is not intended to be used to perform a compilation.
-
-  To learn more about this file see: https://angular.io/config/solution-tsconfig.
-*/
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./packages/core/tsconfig.lib.json"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2020",
+    "module": "es2020",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@agm/core": [
+        "dist/core/agm-core",
+        "dist/core"
+      ],
+      "@agm/markerclusterer": [
+        "dist/markerclusterer/agm-markerclusterer",
+        "dist/markerclusterer"
+      ],
+      "@agm/snazzy-info-window": [
+        "dist/snazzy-info-window/agm-snazzy-info-window",
+        "dist/snazzy-info-window"
+      ],
+      "@agm/drawing": [
+        "dist/drawing/drawing",
+        "dist/drawing"
+      ]
     },
-    {
-      "path": "./packages/markerclusterer/tsconfig.lib.json"
-    },
-    {
-      "path": "./packages/snazzy-info-window/tsconfig.lib.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/drawing/tsconfig.lib.json"
-    }
-]
+    "types": [
+      "googlemaps"
+    ]
+  }
 }
