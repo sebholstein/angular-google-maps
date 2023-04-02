@@ -2,26 +2,26 @@
 # yarn lockfile v1
 
 
-"@agm/core@3.0.0-beta.1", "@agm/core@file:/workspaces/angular-google-maps/packages/core":
-  version "3.0.0-beta.1"
+"@agm/core@3.0.0-beta.2", "@agm/core@file:/workspaces/angular-google-maps/packages/core":
+  version "3.0.0-beta.2"
   resolved "file:packages/core"
   dependencies:
     tslib "^2.0.0"
 
 "@agm/drawing@file:/workspaces/angular-google-maps/packages/drawing":
-  version "3.0.0-beta.1"
+  version "3.0.0-beta.2"
   resolved "file:packages/drawing"
   dependencies:
     tslib "^2.0.0"
 
 "@agm/markerclusterer@file:/workspaces/angular-google-maps/packages/markerclusterer":
-  version "3.0.0-beta.1"
+  version "3.0.0-beta.2"
   resolved "file:packages/markerclusterer"
   dependencies:
     tslib "^2.0.0"
 
 "@agm/snazzy-info-window@file:/workspaces/angular-google-maps/packages/snazzy-info-window":
-  version "3.0.0-beta.1"
+  version "3.0.0-beta.2"
   resolved "file:packages/snazzy-info-window"
   dependencies:
     tslib "^2.0.0"
