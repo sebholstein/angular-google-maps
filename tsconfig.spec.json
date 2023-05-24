@@ -4,6 +4,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "outDir": "./out-tsc/spec",
+    "module": "CommonJs",
     "types": [
       "jest",
       "googlemaps"

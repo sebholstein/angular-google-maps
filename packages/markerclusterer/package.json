@@ -20,7 +20,7 @@
     "agm"
   ],
   "peerDependencies": {
-    "@agm/core": "3.0.0-beta.1",
+    "@agm/core": "3.0.0-beta.0",
     "@angular/common": "^9.1.0 || ^10.0.0",
     "@angular/core": "^9.1.0 || ^10.0.0",
     "@google/markerclustererplus": "^5.0.4"
@@ -29,9 +29,9 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@agm/core": "3.0.0-beta.1",
+    "@agm/core": "3.0.0-beta.0",
     "@google/markerclustererplus": "^5.0.4",
-    "@types/googlemaps": "^3.39.8",
+    "@types/googlemaps": "3.39.8",
     "@types/jest": "^26.0.3"
   }
 }
