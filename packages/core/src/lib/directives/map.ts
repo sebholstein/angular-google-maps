@@ -187,6 +187,14 @@ export class AgmZoomControl extends AgmMapControl{
 })
 export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
   /**
+   * Map option attributes that can change over time
+   */
+  private static _mapOptionsAttributes: string[] = [
+    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
+    'keyboardShortcuts', 'styles', 'zoom', 'minZoom', 'maxZoom', 'mapTypeId', 'clickableIcons',
+    'gestureHandling', 'tilt', 'restriction',
+  ];
+  /**
    * The longitude that defines the center of the map.
    */
   @Input() longitude = 0;
@@ -342,15 +350,6 @@ export class AgmMap implements OnChanges, AfterContentInit, OnDestroy {
    * User cannot pan or zoom away from restricted area.
    */
   @Input() restriction: google.maps.MapRestriction;
-
-  /**
-   * Map option attributes that can change over time
-   */
-  private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'styles', 'zoom', 'minZoom', 'maxZoom', 'mapTypeId', 'clickableIcons',
-    'gestureHandling', 'tilt', 'restriction',
-  ];
 
   private _observableSubscriptions: Subscription[] = [];
   private _fitBoundsSubscription: Subscription;

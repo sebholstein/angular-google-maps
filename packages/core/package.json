@@ -1,6 +1,6 @@
 {
   "name": "@agm/core",
-  "version": "3.0.0-beta.1",
+  "version": "4.0.0-beta.1",
   "description": "Angular components for Google Maps",
   "author": "Sebastian Holstein <info@sebastian-holstein.de>",
   "license": "MIT",
@@ -21,16 +21,16 @@
     "gmaps"
   ],
   "peerDependencies": {
-    "@angular/common": "^9.1.0 || ^10.0.0",
-    "@angular/core": "^9.1.0 || ^10.0.0"
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/googlemaps": "^3.39.8",
-    "@types/jest": "^26.0.3",
-    "jest": "^26.1.0",
-    "jest-preset-angular": "^8.2.1"
+    "@types/googlemaps": "3.39.8",
+    "@types/jest": "^29.5.1",
+    "jest": "^29.5.0",
+    "jest-preset-angular": "^12.2.6"
   }
 }

@@ -1,4 +1,5 @@
-import 'jest-preset-angular';
+import 'jest-preset-angular/setup-jest';
+
 (window as any).google = {
   maps: {
     Animation: { BOUNCE: 1, DROP: 2 },
@@ -25,5 +26,5 @@ import 'jest-preset-angular';
       FORWARD_CLOSED_ARROW: 1,
       FORWARD_OPEN_ARROW: 2,
     },
-  }
+  },
 };

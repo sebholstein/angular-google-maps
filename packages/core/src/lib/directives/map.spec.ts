@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Injectable, SimpleChange } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Subject } from 'rxjs';
 import { FitBoundsService } from '../services/fit-bounds';
@@ -28,7 +28,7 @@ describe('AgmMap', () => {
   let fixture: ComponentFixture<AgmMap>;
   let component: AgmMap;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AgmMap,

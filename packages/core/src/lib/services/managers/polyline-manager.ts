@@ -14,10 +14,9 @@ export class PolylineManager {
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
   private static _convertPoints(line: AgmPolyline): google.maps.LatLngLiteral[] {
-    const path = line._getPoints().map((point: AgmPolylinePoint) => {
+    return line._getPoints().map((point: AgmPolylinePoint) => {
       return {lat: point.latitude, lng: point.longitude} as google.maps.LatLngLiteral;
     });
-    return path;
   }
 
   private static _convertPath(path: keyof typeof google.maps.SymbolPath | string): google.maps.SymbolPath | string {

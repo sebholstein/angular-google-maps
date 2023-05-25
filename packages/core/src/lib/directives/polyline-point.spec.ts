@@ -12,7 +12,7 @@ describe('AgmPolylinePoint', () => {
       polylinePoint.positionChanged.emit = jest.fn();
 
       const positionChanges:
-          SimpleChanges = {'latitude': new SimpleChange('previousLat', 'newLat', false)};
+          SimpleChanges = {latitude: new SimpleChange('previousLat', 'newLat', false)};
 
       polylinePoint.ngOnChanges(positionChanges);
 
@@ -25,7 +25,7 @@ describe('AgmPolylinePoint', () => {
       polylinePoint.positionChanged.emit = jest.fn();
 
       const positionChanges:
-          SimpleChanges = {'longitude': new SimpleChange('previousLng', 'newLng', false)};
+          SimpleChanges = {longitude: new SimpleChange('previousLng', 'newLng', false)};
 
       polylinePoint.ngOnChanges(positionChanges);
 
@@ -38,8 +38,8 @@ describe('AgmPolylinePoint', () => {
       polylinePoint.positionChanged.emit = jest.fn();
 
       const positionChanges: SimpleChanges = {
-        'latitude': new SimpleChange('previousLat', 'newLat', false),
-        'longitude': new SimpleChange('previousLng', 'newLng', false),
+        latitude: new SimpleChange('previousLat', 'newLat', false),
+        longitude: new SimpleChange('previousLng', 'newLng', false),
       };
 
       polylinePoint.ngOnChanges(positionChanges);
@@ -58,8 +58,8 @@ describe('AgmPolylinePoint', () => {
       expect(value).toEqual({ latLng: {lat: 50, lng: -50} });
 
       const positionChanges: SimpleChanges = {
-        'latitude': new SimpleChange(50, 100, false),
-        'longitude': new SimpleChange(-50, -100, false),
+        latitude: new SimpleChange(50, 100, false),
+        longitude: new SimpleChange(-50, -100, false),
       };
       polylinePoint.ngOnChanges(positionChanges);
 
