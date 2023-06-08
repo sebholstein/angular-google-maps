@@ -85,5 +85,26 @@
           }
         }
       }
-    }},
+    },
+    "direction": {
+      "projectType": "library",
+      "root": "packages/direction",
+      "sourceRoot": "packages/direction/src",
+      "prefix": "agm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "packages/direction/tsconfig.lib.json",
+            "project": "packages/direction/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/direction/tsconfig.lib.prod.json"
+            }
+          }
+        }
+      }
+    }
+  }
 }

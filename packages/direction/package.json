@@ -1,0 +1,36 @@
+{
+  "name": "@agm/direction",
+  "version": "0.8.11",
+  "description": "Angular Google Maps direction",
+  "license": "MIT",
+  "author": {
+    "name": "Robby",
+    "email": "ta7382@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/explooosion/agm-direction.git"
+  },
+  "bugs": {
+    "url": "https://github.com/explooosion/agm-direction/issues"
+  },
+  "homepage": "https://github.com/explooosion/agm-direction",
+  "keywords": [
+    "angular-google-maps",
+    "angular",
+    "google-maps-direction",
+    "agm-direction",
+    "direction",
+    "angular-14.2"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "@types/googlemaps": "^3.39.8"
+  }
+}
