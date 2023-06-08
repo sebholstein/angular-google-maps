@@ -33,6 +33,10 @@
       "@agm/drawing": [
         "dist/drawing/drawing",
         "dist/drawing"
+      ],
+      "@agm/direction": [
+        "dist/direction/agm-directive",
+        "dist/direction"
       ]
     },
     "types": [
