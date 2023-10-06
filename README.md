@@ -1,3 +1,13 @@
+# **WARNING:** This project is not compatible with Angular 15 and 16 and never will be.
+
+Due to a fundamental architecture conflict with newer versions of Angular, this project is no longer maintained. If you're using Angular 15 or 16, you should look for alternatives like [@angular/google-maps](https://www.npmjs.com/package/@angular/google-maps) or [@ng-maps/google](https://www.npmjs.com/package/@ng-maps/google).
+
+The last known Angular version that is compatible with this project is Angular 14. Feel free to fork the repository if you wish to continue its development.
+
+---
+
+
+
 [![AGM - Angular Google Maps](assets/images/angular-google-maps-logo.png)](https://angular-maps.com/)
 
 # AGM - Angular Google Maps
