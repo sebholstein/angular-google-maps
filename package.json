@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.10",
-    "@angular/cli": "^16.2.10",
+    "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^16.2.12",
     "@compodoc/compodoc": "^1.1.10",
     "@types/jest": "^26.0.4",
