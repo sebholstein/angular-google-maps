@@ -26,7 +26,7 @@
     "@google/markerclustererplus": "^5.0.4"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@agm/core": "3.0.0-beta.1",
