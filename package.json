@@ -59,6 +59,7 @@
     "@angular/cli": "^17.0.6",
     "@angular/compiler-cli": "^17.0.6",
     "@compodoc/compodoc": "^1.1.23",
+    "@types/googlemaps": "^3.39.13",
     "@types/jest": "^29.5.11",
     "@types/node": "^18.19.3",
     "codelyzer": "^6.0.2",

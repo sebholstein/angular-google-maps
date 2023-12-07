@@ -146,8 +146,8 @@ export class GoogleMapsAPIWrapper {
     return this._map.then(() => google.maps.geometry.poly.containsLocation(latLng, polygon));
   }
 
-  subscribeToMapEvent<N extends keyof google.maps.MapHandlerMap<any>>(eventName: N)
-      : Observable<google.maps.MapHandlerMap<any>[N]> {
+  subscribeToMapEvent<N extends keyof google.maps.MapHandlerMap>(eventName: N)
+      : Observable<google.maps.MapHandlerMap[N]> {
     return new Observable((observer) => {
       this._map.then(m =>
         m.addListener(eventName, (...evArgs) => this._zone.run(() => observer.next(evArgs)))
