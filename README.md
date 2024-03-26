@@ -3,6 +3,7 @@
 # AGM - Angular Google Maps
 
 Angular components for Google Maps. (Previously known as angular2-google-maps)
+Forked from https://github.com/sebholstein/angular-google-maps to continue updating
 
 ---
 

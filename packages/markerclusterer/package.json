@@ -20,9 +20,9 @@
     "agm"
   ],
   "peerDependencies": {
-    "@agm/core": "3.0.0-beta.1",
-    "@angular/common": "^9.1.0 || ^10.0.0",
-    "@angular/core": "^9.1.0 || ^10.0.0",
+    "@agm/core": "3.0.0-beta.2",
+    "@angular/common": "^15.2.10 || ^16.0.0",
+    "@angular/core": "^15.2.10 || ^16.0.0",
     "@google/markerclustererplus": "^5.0.4"
   },
   "dependencies": {

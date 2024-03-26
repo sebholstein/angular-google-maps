@@ -1,6 +1,6 @@
 {
   "name": "@agm/core",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "Angular components for Google Maps",
   "author": "Sebastian Holstein <info@sebastian-holstein.de>",
   "license": "MIT",
@@ -21,8 +21,8 @@
     "gmaps"
   ],
   "peerDependencies": {
-    "@angular/common": "^9.1.0 || ^10.0.0",
-    "@angular/core": "^9.1.0 || ^10.0.0"
+    "@angular/common": "^15.2.10 || ^16.0.0",
+    "@angular/core": "^15.2.10 || ^16.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
